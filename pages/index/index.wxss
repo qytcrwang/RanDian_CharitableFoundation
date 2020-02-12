@@ -1,0 +1,45 @@
+.product {
+  width: 96%;
+  height: auto;
+  margin-left: 2%;
+  padding-top: 10rpx;
+}
+
+.product .pro {
+  width: 100%;
+  height: 200rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  float: left;
+}
+
+.product .item {
+  width: 200rpx;
+  height: 200rpx;
+  display:inline-block;
+  margin-left: 10rpx;
+}
+
+.product .item image {
+  width: 200rpx;
+  height: 160rpx;
+  display: block;
+}
+
+.product .item .name {
+  width: 200rpx;
+  height: 40rpx;
+  text-align: center;
+  line-height: 40rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display:inline-block;
+}
+
+
+.news .item .riqi {
+  float: right;
+  margin-right: 10rpx;
+  color: #666;
+}

@@ -1,0 +1,23 @@
+<view class="page">
+
+  <view class="title bdbt">发布新版本了........</view>
+  <view class="duanluo">
+    <image src="/img/p1.jpg"></image>
+    <text class="content">
+            海天应用，海天应用，海天应用，海天应用海天应用，海天应用海天应用，海天应用
+          </text>
+  </view>
+  <view class="riqi">2017-08-24</view>
+
+</view>
+<view class="jszc">技术支持：海天应用(www.xmdeal.com)</view>
+<view style="height:100rpx;"></view>
+
+<view class="footer">
+  <navigator url="/pages/contact/liuyan">
+    <view class="lt">
+      <image src="/img/yj.png"></image><text>在线咨询</text></view>
+  </navigator>
+  <view class="rt" style="background:{{color}}">
+    <image src="/img/tel.png"></image><text>拨打电话</text></view>
+</view>

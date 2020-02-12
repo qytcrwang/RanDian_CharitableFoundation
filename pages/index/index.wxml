@@ -1,0 +1,135 @@
+<view class="app">
+  <swiper style='height:360rpx;' indicator-dots="true" autoplay="true" interval="5000" duration="true">
+    <swiper-item wx:for="{{datas.banner}}">
+      <image src="{{item.photo}}" class="slide-image" />
+    </swiper-item>
+  </swiper>
+  <view class="menu">
+    <navigator open-type="redirect" url="/pages/index/index">
+      <view class="item">
+        <view class="icon menu_bg_01">
+          <image src="/img/home.png"></image>
+        </view>
+        <text>首页</text>
+      </view>
+    </navigator>
+    <navigator url="/pages/product/index">
+      <view class="item">
+        <view class="icon menu_bg_02">
+          <image src="/img/icon_activity.png"></image>
+        </view>
+        <text>公益活动</text>
+      </view>
+    </navigator>
+    <navigator url="/pages/case/index">
+      <view class="item">
+        <view class="icon menu_bg_03">
+          <image src="/img/icon_donation.png"></image>
+        </view>
+        <text>捐助</text>
+      </view>
+    </navigator>
+    <navigator url="/pages/news/index">
+      <view class="item">
+        <view class="icon menu_bg_04">
+          <image src="/img/icon_sfund.png"></image>
+        </view>
+        <text>大学生基金</text>
+      </view>
+    </navigator>
+    <navigator url="/pages/contact/index">
+      <view class="item">
+        <view class="icon menu_bg_05">
+          <image src="/img/icon_kfund.png"></image>
+        </view>
+        <text>儿童基金</text>
+      </view>
+    </navigator>
+  </view>
+
+  <!--<view class="block">
+    <view class="title">
+      <text>产品中心</text>
+    </view>
+    <view class="product">
+      <scroll-view scroll-x="true" class="pro">
+        <view class="item" wx:for="{{datas.product}}">
+          <navigator url="/pages/product/detail?id={{item.id}}">
+            <image src="{{item.photo}}" mode='aspectFit'></image>
+            <view class='name'>{{item.product_name}}</view>
+          </navigator>
+        </view>
+      </scroll-view>
+    </view>
+  </view>-->
+
+  <view class="block">
+    <view class="title">
+      <text>解决方案</text>
+    </view>
+    <view class="case" wx:for="{{datas.plan}}">
+      <navigator url="/pages/case/detail?id={{item.id}}">
+        <view class="item bdbt">
+          <view class="lt">
+            <image src="{{item.photo}}" mode='aspectFit'></image>
+          </view>
+          <view class="rt">
+            <view class="tit">
+              {{item.title}}
+            </view>
+            <view class="info">
+              {{item.content}}
+            </view>
+          </view>
+        </view>
+      </navigator>
+    </view>
+  </view>
+  <view class="block">
+    <view class="title">
+      <text>企业动态</text>
+    </view>
+    <view class="news" wx:for="{{datas.news}}">
+      <navigator url="/pages/case/detail?id={{item.id}}">
+        <view class="item bdbt">
+          <view class="tit">{{item.title}}</view>
+          <view class="riqi">{{item.add_time}}</view>
+        </view>
+      </navigator>
+    </view>
+  </view>
+  <view style="height:100rpx;"></view>
+
+  <!--<view class="footer">
+    <navigator url="/pages/contact/liuyan">
+      <view class="lt">
+        <image src="/img/yj.png"></image>
+        <text>首页</text>
+      </view>
+    </navigator>
+    <navigator url="/pages/contact/liuyan">
+      <view class="lt">
+        <image src="/img/yj.png"></image>
+        <text>通知</text>
+      </view>
+    </navigator>
+    <navigator url="/pages/contact/liuyan">
+      <view class="lt">
+        <image src="/img/yj.png"></image>
+        <text>申请房租</text>
+      </view>
+    </navigator>
+    <navigator url="/pages/contact/liuyan">
+      <view class="lt">
+        <image src="/img/yj.png"></image>
+        <text>我的</text>
+      </view>
+    </navigator>
+    <view class="rt" style="background:{{color}}" bindtap="calling">
+      <image src="/img/tel.png"></image>
+      <text>拨打电话</text>
+    </view>
+  </view>-->
+
+
+</view>
