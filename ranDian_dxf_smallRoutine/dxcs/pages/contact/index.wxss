@@ -1,0 +1,30 @@
+.guanyu {
+  width: 96%;
+  margin-left: 2%;
+  margin-top: 20rpx;
+  background: #fff;
+  border-radius: 10rpx;
+}
+.guanyu .title{
+  height: 80rpx; 
+  line-height: 80rpx;
+  font-size: 30rpx;
+  margin-left: 20rpx;
+  border-bottom:  1rpx #f2f2f2  solid;
+}
+.guanyu .col{
+  margin-left: 20rpx;
+  height: auto;
+  line-height: 50rpx;
+  font-size: 26rpx;
+}
+.guanyu .content{
+   padding: 20rpx;
+   font-size: 26rpx;
+   line-height: 40rpx;
+}
+.ditu{
+  height: 400rpx;
+  width: 98%;
+  margin: 0 auto;
+}

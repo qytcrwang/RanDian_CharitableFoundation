@@ -1,0 +1,451 @@
+page {
+  background: #f2f2f2;
+  font-size: 24rpx;
+}
+
+.menu_bg_01{ background: #F57D5B}
+.menu_bg_02{ background: #4AC6EA}
+.menu_bg_03{ background: #B2DE27}
+.menu_bg_04{ background: #F97BA0}
+.menu_bg_05{ background: #6495ED}
+/* .menu_bg_06{ background: #A8D322}
+.menu_bg_07{ background: #F5B82C}
+.menu_bg_08{ background: #6495ED} */
+
+.more, .nomore {
+  height: 60rpx;
+  text-align: center;
+  line-height: 60rpx;
+  font-size: 26rpx;
+  background: #fff;
+  width: 96%;
+  margin: 0 auto;
+  margin-top: 10rpx;
+  border-top: 1rpx solid #f2f2f2;
+}
+
+.nomore {
+  color: #ccc;
+}
+
+.jszc {
+  height: 80rpx;
+  width: 100%;
+  text-align: center;
+  line-height: 80rpx;
+  overflow: hidden;
+  color: #ccc;
+}
+
+.footer {
+  height: 80rpx;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: #fff;
+  width: 100%;
+  border-top: 1rpx solid #e2e2e2;
+  z-index: 10000;
+}
+
+.footer .lt, .footer .rt {
+  width: 50%;
+  float: left;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 26rpx;
+}
+
+.footer .rt {
+  color: #fff;
+}
+
+.footer image {
+  height: 40rpx;
+  width: 40rpx;
+  float: left;
+  margin-top: 20rpx;
+  margin-left: 100rpx;
+}
+
+.footer text {
+  float: left;
+  margin-left: 10rpx;
+}
+
+.menu {
+  height: 150rpx;
+  width: 96%;
+  margin-left: 2%;
+  background: #fff;
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+}
+
+.menu .item {
+  height: 150rpx;
+  float: left;
+  text-align: center;
+  width: 20%;
+}
+
+.menu .item image {
+  height: 40rpx;
+  width: 40rpx;
+  display: block;
+  float: left;
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+}
+
+.menu .item .icon {
+  height: 80rpx;
+  width: 80rpx;
+  margin: 0 auto;
+  border-radius: 40rpx;
+}
+
+.menu .item  text {
+  height: 40rpx;
+  line-height: 40rpx;
+  margin-top: 10rpx;
+  display: block;
+  font-size: 26rpx;
+}
+
+.block {
+  width: 96%;
+  margin-left: 2%;
+  margin-top: 20rpx;
+  background: #fff;
+  height: auto;
+  overflow: hidden;
+  padding-top: 10rpx;
+  padding-bottom: 20rpx;
+}
+
+.block .title {
+  height: 70rpx;
+  line-height: 70rpx;
+  width: 96%;
+  font-size: 28rpx;
+  text-align: center;
+  margin-left: 3%;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.slide-image {
+  width: 100%;
+  height: 360rpx;
+}
+
+.about {
+  width: 96%;
+  margin-left: 2%;
+  font-size: 24rpx;
+  line-height: 36rpx;
+  margin-top: 20rpx;
+}
+
+.block .title .more1 {
+  float: right;
+  margin-right: 10rpx;
+  font-size: 22rpx;
+  color: #8a8a8a;
+}
+
+.case {
+  width: 96%;
+  margin-left: 2%;
+  font-size: 24rpx;
+  margin-top: 20rpx;
+}
+
+.bdbt {
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.case .item {
+  height: 200rpx;
+  width: 100%;
+  margin-top: 20rpx;
+}
+
+.case .item .lt {
+  float: left;
+  width: 200rpx;
+}
+
+.case .item .lt image {
+  height: 160rpx;
+  width: 200rpx;
+  padding: 20rpx 0;
+}
+
+.case .item  .rt {
+  width: 480rpx;
+  float: left;
+  margin-left: 10rpx;
+}
+
+.case .item  .rt .tit {
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 26rpx;
+  padding: 15rpx 0;
+}
+
+.case .item  .rt .info {
+  height: auto;
+  line-height: 30rpx;
+  overflow: hidden;
+  width: 100%;
+  color: #666;
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.news {
+  width: 96%;
+  margin-left: 2%;
+}
+
+.news .item {
+  height: 60rpx;
+  line-height: 60rpx;
+  margin-top: 10rpx;
+}
+
+.news .item .tit {
+  float: left;
+  font-size: 24rpx;
+  width: 78%;
+  overflow: hidden;
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.page {
+  width: 96%;
+  height: auto;
+  background: #fff;
+  margin-left: 2%;
+  margin-top: 20rpx;
+}
+
+.table_form {
+  height: auto;
+  overflow: hidden;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  background: #fff;
+  margin-top: 20rpx;
+}
+
+.table_form .input {
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 26rpx;
+}
+
+.table_form .input text {
+  float: left;
+  width: 20%;
+  margin-left: 2%;
+}
+
+.table_form .input input {
+  float: left;
+  width: 70%;
+  margin-left: 5rpx;
+  height: 80rpx;
+  font-size: 24rpx;
+}
+
+.table_form .input radio-group {
+  float: left;
+  margin-left: 5rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.table_form .input radio {
+  transform: scale(0.8);
+}
+
+.table_form .photolist {
+  height: auto;
+  overflow: hidden;
+  width: 96%;
+  margin-left: 2%;
+}
+
+.table_form .photolist .title {
+  width: 20%;
+  float: left;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 26rpx;
+}
+
+.table_form .photolist .action {
+  width: 70%;
+  float: left;
+  margin-left: 10rpx;
+  height: 100rpx;
+}
+
+.table_form .photolist .action image {
+  height: 100rpx;
+  width: 100rpx;
+}
+
+.table_form .photolist .photos {
+  float: left;
+  margin-top: 20rpx;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.table_form .photolist .photos .item {
+  float: left;
+  width: 150rpx;
+  height: 150rpx;
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+}
+
+.table_form .photolist image {
+  float: left;
+  width: 120rpx;
+  height: 120rpx;
+  margin-right: 10rpx;
+}
+
+.table_form .picker {
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 26rpx;
+}
+
+.table_form .map {
+  height: 80rpx;
+  line-height: 80rpx;
+  overflow: hidden;
+}
+
+.table_form .map .lt {
+  float: left;
+  width: 20%;
+  margin-left: 2%;
+  font-size: 26rpx;
+}
+
+.table_form .map .ct {
+  width: 60%;
+  height: 80rpx;
+  overflow: hidden;
+  float: left;
+  margin-left: 5rpx;
+}
+
+.table_form .map image {
+  width: 40rpx;
+  height: 40rpx;
+  float: right;
+  margin-right: 10rpx;
+  margin-top: 20rpx;
+}
+
+.table_form .picker .lt {
+  float: left;
+  width: 20%;
+  margin-left: 2%;
+}
+
+.table_form .picker .ct {
+  float: left;
+  width: 60%;
+  margin-left: 5rpx;
+  font-size: 24rpx;
+  color: #666;
+  text-align: right;
+}
+
+.table_form .picker .rt {
+  float: right;
+  margin-right: 10rpx;
+  height: 40rpx;
+  width: 40rpx;
+  margin-top: 20rpx;
+}
+
+.table_form .textarea {
+  height: 200rpx;
+  width: 96%;
+  margin-left: 2%;
+  font-size: 26rpx;
+}
+
+.table_form .textarea text {
+  line-height: 200rpx;
+  width: 20%;
+  float: left;
+}
+
+.table_form .textarea textarea {
+  width: 70%;
+  margin-left: 5rpx;
+  height: 150rpx;
+  margin-top: 25rpx;
+  float: left;
+  border: 1rpx dotted #f2f2f2;
+  font-size: 24rpx;
+  padding: 10rpx;
+}
+
+.table_form .logo {
+  height: 100rpx;
+  font-size: 26rpx;
+}
+
+.table_form .logo .lt {
+  float: left;
+  width: 20%;
+  margin-left: 2%;
+  height: 100rpx;
+  line-height: 100rpx;
+}
+
+.table_form .logo image {
+  float: left;
+  margin-left: 5rpx;
+  margin-right: 25rpx;
+  height: 100rpx;
+  width: 100rpx;
+}
+
+.table_btn {
+  width: 500rpx;
+  height: 80rpx;
+  margin-top: 20rpx;
+  color: #fff;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 26rpx;
+}
+
+/** 小程序去除滚动条 **/
+::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+  color: transparent;
+}
