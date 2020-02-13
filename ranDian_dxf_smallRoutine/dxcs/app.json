@@ -19,7 +19,7 @@
   },
   "tabBar": {
     "color":"#cdcdcd",
-    "selectedColor": "#ff520f",
+    "selectedColor": "#7FFFAA",
     "list": [{
       "pagePath": "pages/index/index",
       "text": "首页",
@@ -35,8 +35,8 @@
     {
       "pagePath": "pages/mine/mine",
       "text": "我的",
-      "iconPath": "img/tabbar_info.png",
-      "selectedIconPath": "img/tabbar_info_checked.png"
+      "iconPath": "img/tabbar_my.png",
+      "selectedIconPath": "img/tabbar_my_checked.png"
     }]
   },
   "debug":true,
