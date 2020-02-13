@@ -8,7 +8,8 @@
     "pages/news/detail",
     "pages/case/detail",
     "pages/contact/liuyan",
-    "pages/product/detail"
+    "pages/product/detail",
+    "pages/mine/mine"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -32,7 +33,7 @@
       "selectedIconPath": "img/tabbar_msg_checked.png"
     },
     {
-      "pagePath": "pages/index/index",
+      "pagePath": "pages/mine/mine",
       "text": "我的",
       "iconPath": "img/tabbar_info.png",
       "selectedIconPath": "img/tabbar_info_checked.png"
