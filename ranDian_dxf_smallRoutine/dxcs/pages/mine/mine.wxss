@@ -137,9 +137,9 @@ page{
   color: #404040;
 }
 .jiantou{
-  width: 16rpx;
-  height: 28rpx;
-  margin-top: 30rpx;
+  width: 30rpx;
+  height: 30rpx;
+  margin-top: 38rpx;
 }
 .list_right{
   width: 84rpx;
@@ -161,5 +161,5 @@ page{
   color: #ffffff;
   border-radius: 39rpx;
   background: #3e4663;
-  margin-top: 240rpx;
+  margin-top: 270rpx;
 }
