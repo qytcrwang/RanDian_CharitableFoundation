@@ -18,8 +18,8 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color":"#cdcdcd",
-    "selectedColor": "#7FFFAA",
+    "color":"#2c2c2c",
+    "selectedColor": "#1afa29",
     "list": [{
       "pagePath": "pages/index/index",
       "text": "首页",
@@ -29,8 +29,8 @@
     {
       "pagePath": "pages/index/index",
       "text": "活动通知",
-      "iconPath": "img/tabbar_msg.png",
-      "selectedIconPath": "img/tabbar_msg_checked.png"
+      "iconPath": "img/tabbar_message.png",
+      "selectedIconPath": "img/tabbar_message_checked.png"
     },
     {
       "pagePath": "pages/mine/mine",
