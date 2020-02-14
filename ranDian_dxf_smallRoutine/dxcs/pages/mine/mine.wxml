@@ -1,7 +1,7 @@
 <!--pages/mine/mine.wxml-->
 <!-- 头部 -->
 <view class='mine_info'>
-  <image class='mine_banner' src='/img/mine_earth.png'></image>
+  <image class='mine_banner' src='/img/mine_funding.jpg'></image>
   <view class='mine_info_head'>
     <view class='mine_head_left' bindtap='info'>
       <image class='mine_head_leftPic' src='/img/mine_signin.png'></image>
@@ -64,6 +64,3 @@
   </view>
   <button class='signOut' bindtap='signOut'>退出登录</button>
 </view>
-<!-- 热线 -->
-<import src="../template/template.wxml"/>
-<template is="rexian"/>
