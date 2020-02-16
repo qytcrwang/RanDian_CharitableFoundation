@@ -128,12 +128,12 @@ page{
   margin: 36rpx 0 0 10rpx;
 }
 .listIcon{
-  width: 34rpx;
-  height: 34rpx;
+  width: 40rpx;
+  height: 40rpx;
 }
 .listName{
-  line-height: 34rpx;
-  font-size: 26rpx;
+  line-height: 40rpx;
+  font-size: 30rpx;
   color: #404040;
 }
 .jiantou{

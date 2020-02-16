@@ -15,12 +15,12 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "企业网站1",
+    "navigationBarTitleText": "滴信慈善",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color":"#2c2c2c",
-    "selectedColor": "#1afa29",
+    "selectedColor": "#04BE02",
     "list": [{
       "pagePath": "pages/index/index",
       "text": "首页",

@@ -12,6 +12,7 @@
       <view class='headBorder'><open-data type="userAvatarUrl" class="Head"></open-data> </view>
       <view class='dian'></view>
       <view class='nameBox'><open-data type="userNickName" lang="zh_CN" class="name"></open-data> </view>
+      <button wx:if="{{canIUse}}" class ='lv' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登陆</button>
       <!--<view class='lv'>LV1地球</view>-->
     </view>
     <view class='jiange'></view>

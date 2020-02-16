@@ -15,7 +15,7 @@
         <textarea id="views"  class="textview" placeholder='请留下您的意见'></textarea>
       </view>
       <view class='upload'>
-        <image class='upload_pic' src='/img/mine_pic.png'></image>
+        <image class='upload_pic' src='/img/view_pic_add.png'></image>
         <view class='describe'>添加照片</view>
       </view>
     </view>
