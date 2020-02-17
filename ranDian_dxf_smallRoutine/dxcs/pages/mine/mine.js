@@ -1,7 +1,6 @@
 // pages/mine/mine.js
 Page({
   data: {
-    canIUse:wx.canIUse('button.open-type.getUserInfo'),
     isLogin:false
   },
   //页面加载时查看用户是否授权，未授权用户不显示部分信息。
@@ -43,8 +42,10 @@ Page({
       }
     })*/
   },
-  bindGetUserInfo(e){
-    console.log(e.detail.userInfo)
+  gotoLogin(){
+    wx.navigateTo({
+      url:'../login/login',
+    })
   },
   info(){
     wx.navigateTo({

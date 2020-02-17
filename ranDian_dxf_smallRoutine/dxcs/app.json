@@ -10,7 +10,8 @@
     "pages/contact/liuyan",
     "pages/product/detail",
     "pages/mine/mine",
-    "pages/view/view"
+    "pages/view/view",
+    "pages/login/login"
   ],
   "window": {
     "backgroundTextStyle": "light",
