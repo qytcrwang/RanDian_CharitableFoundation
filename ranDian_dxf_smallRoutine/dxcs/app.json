@@ -9,17 +9,18 @@
     "pages/case/detail",
     "pages/contact/liuyan",
     "pages/product/detail",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/view/view"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "企业网站1",
+    "navigationBarTitleText": "滴信慈善",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color":"#cdcdcd",
-    "selectedColor": "#7FFFAA",
+    "color":"#2c2c2c",
+    "selectedColor": "#04BE02",
     "list": [{
       "pagePath": "pages/index/index",
       "text": "首页",
@@ -29,8 +30,8 @@
     {
       "pagePath": "pages/index/index",
       "text": "活动通知",
-      "iconPath": "img/tabbar_msg.png",
-      "selectedIconPath": "img/tabbar_msg_checked.png"
+      "iconPath": "img/tabbar_message.png",
+      "selectedIconPath": "img/tabbar_message_checked.png"
     },
     {
       "pagePath": "pages/mine/mine",

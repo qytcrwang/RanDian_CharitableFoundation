@@ -1,7 +1,7 @@
 <!--pages/mine/mine.wxml-->
 <!-- 头部 -->
 <view class='mine_info'>
-  <image class='mine_banner' src='/img/mine_earth.png'></image>
+  <image class='mine_banner' src='/img/mine_funding.jpg'></image>
   <view class='mine_info_head'>
     <view class='mine_head_left' bindtap='info'>
       <image class='mine_head_leftPic' src='/img/mine_signin.png'></image>
@@ -12,6 +12,7 @@
       <view class='headBorder'><open-data type="userAvatarUrl" class="Head"></open-data> </view>
       <view class='dian'></view>
       <view class='nameBox'><open-data type="userNickName" lang="zh_CN" class="name"></open-data> </view>
+      <button wx:if="{{canIUse}}" class ='lv' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登陆</button>
       <!--<view class='lv'>LV1地球</view>-->
     </view>
     <view class='jiange'></view>
@@ -64,6 +65,3 @@
   </view>
   <button class='signOut' bindtap='signOut'>退出登录</button>
 </view>
-<!-- 热线 -->
-<import src="../template/template.wxml"/>
-<template is="rexian"/>

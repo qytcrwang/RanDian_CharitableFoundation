@@ -1,9 +1,26 @@
 // pages/mine/mine.js
 Page({
   data: {
-
+    canIUse:wx.canIUse('button.open-type.getUserInfo')
   },
   //个人中心的消息,点击跳转到我的消息
+  onLoad:function(){
+    wx.getSetting({
+      success(res){
+        if(res.authSetting['scope.userInfo']){
+          wx.getUserInfo({
+            success:function(res){
+              console.log("123");
+              console.log(res.userInfo);
+            }
+          })
+        }
+      }
+    })
+  },
+  bindGetUserInfo(e){
+    console.log(e.detail.userInfo)
+  },
   info(){
     wx.navigateTo({
       url: '../info/info',

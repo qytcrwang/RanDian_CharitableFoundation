@@ -20,7 +20,7 @@ page{
   margin: auto;
   background: #ffffff;
   position: absolute;
-  top:170rpx;
+  top:220rpx;
   left:0;
   right: 0;
   border-radius: 8rpx;
@@ -128,12 +128,12 @@ page{
   margin: 36rpx 0 0 10rpx;
 }
 .listIcon{
-  width: 34rpx;
-  height: 34rpx;
+  width: 40rpx;
+  height: 40rpx;
 }
 .listName{
-  line-height: 34rpx;
-  font-size: 26rpx;
+  line-height: 40rpx;
+  font-size: 30rpx;
   color: #404040;
 }
 .jiantou{
