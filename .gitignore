@@ -21,3 +21,21 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+dixin_back/.classpath
+dixin_back/.project
+dixin_back/.settings/.jsdtscope
+dixin_back/.settings/org.eclipse.core.resources.prefs
+dixin_back/.settings/org.eclipse.jdt.core.prefs
+dixin_back/.settings/org.eclipse.m2e.core.prefs
+dixin_back/.settings/org.eclipse.wst.common.component
+dixin_back/.settings/org.eclipse.wst.common.project.facet.core.xml
+dixin_back/.settings/org.eclipse.wst.jsdt.ui.superType.container
+dixin_back/.settings/org.eclipse.wst.jsdt.ui.superType.name
+dixin_back/.settings/org.eclipse.wst.validation.prefs
+dixin_back/target/classes/application.properties
+dixin_back/target/classes/logback-myconfig.xml
+dixin_back/target/classes/logback.xml
+dixin_back/target/classes/templates/index.html
+dixin_back/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+dixin_back/target/m2e-wtp/web-resources/META-INF/maven/com.fire/dixin/pom.properties
+dixin_back/target/m2e-wtp/web-resources/META-INF/maven/com.fire/dixin/pom.xml
