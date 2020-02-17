@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hisense.dao.OrderTbMapper" >
+  <resultMap id="BaseResultMap" type="com.hisense.entity.OrderTb" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="comid" property="comid" jdbcType="BIGINT" />
+    <result column="uin" property="uin" jdbcType="BIGINT" />
+    <result column="berthsec_id" property="berthsecId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="end_time" property="endTime" jdbcType="BIGINT" />
+    <result column="receivable" property="receivable" jdbcType="DECIMAL" />
+    <result column="receipts" property="receipts" jdbcType="DECIMAL" />
+    <result column="coupon_type" property="couponType" jdbcType="INTEGER" />
+    <result column="coupon_code" property="couponCode" jdbcType="VARCHAR" />
+    <result column="coupon_amount" property="couponAmount" jdbcType="DECIMAL" />
+    <result column="payment_time" property="paymentTime" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="pay_type" property="payType" jdbcType="INTEGER" />
+    <result column="charge_id" property="chargeId" jdbcType="BIGINT" />
+    <result column="car_number" property="carNumber" jdbcType="VARCHAR" />
+    <result column="in_passid" property="inPassid" jdbcType="BIGINT" />
+    <result column="out_passid" property="outPassid" jdbcType="BIGINT" />
+    <result column="order_uuid" property="orderUuid" jdbcType="VARCHAR" />
+    <result column="prepaid" property="prepaid" jdbcType="DECIMAL" />
+    <result column="berthnumber" property="berthnumber" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+    <result column="car_inType" property="carIntype" jdbcType="INTEGER" />
+    <result column="repeat_flag" property="repeatFlag" jdbcType="INTEGER" />
+    <result column="invoicecode" property="invoicecode" jdbcType="VARCHAR" />
+    <result column="carinimageurl" property="carinimageurl" jdbcType="VARCHAR" />
+    <result column="caroutimageurl" property="caroutimageurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, comid, uin, berthsec_id, create_time, end_time, receivable, receipts, coupon_type, 
+    coupon_code, coupon_amount, payment_time, state, pay_type, charge_id, car_number, 
+    in_passid, out_passid, order_uuid, prepaid, berthnumber, flag, car_inType, repeat_flag, 
+    invoicecode, carinimageurl, caroutimageurl
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hisense.entity.OrderTbExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order_tb
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_tb
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from order_tb
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hisense.entity.OrderTbExample" >
+    delete from order_tb
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hisense.entity.OrderTb" >
+    insert into order_tb (id, comid, uin, 
+      berthsec_id, create_time, end_time, 
+      receivable, receipts, coupon_type, 
+      coupon_code, coupon_amount, payment_time, 
+      state, pay_type, charge_id, 
+      car_number, in_passid, out_passid, 
+      order_uuid, prepaid, berthnumber, 
+      flag, car_inType, repeat_flag, 
+      invoicecode, carinimageurl, caroutimageurl
+      )
+    values (#{id,jdbcType=BIGINT}, #{comid,jdbcType=BIGINT}, #{uin,jdbcType=BIGINT}, 
+      #{berthsecId,jdbcType=BIGINT}, #{createTime,jdbcType=BIGINT}, #{endTime,jdbcType=BIGINT}, 
+      #{receivable,jdbcType=DECIMAL}, #{receipts,jdbcType=DECIMAL}, #{couponType,jdbcType=INTEGER}, 
+      #{couponCode,jdbcType=VARCHAR}, #{couponAmount,jdbcType=DECIMAL}, #{paymentTime,jdbcType=BIGINT}, 
+      #{state,jdbcType=INTEGER}, #{payType,jdbcType=INTEGER}, #{chargeId,jdbcType=BIGINT}, 
+      #{carNumber,jdbcType=VARCHAR}, #{inPassid,jdbcType=BIGINT}, #{outPassid,jdbcType=BIGINT}, 
+      #{orderUuid,jdbcType=VARCHAR}, #{prepaid,jdbcType=DECIMAL}, #{berthnumber,jdbcType=VARCHAR}, 
+      #{flag,jdbcType=INTEGER}, #{carIntype,jdbcType=INTEGER}, #{repeatFlag,jdbcType=INTEGER}, 
+      #{invoicecode,jdbcType=VARCHAR}, #{carinimageurl,jdbcType=VARCHAR}, #{caroutimageurl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hisense.entity.OrderTb" >
+    insert into order_tb
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="comid != null" >
+        comid,
+      </if>
+      <if test="uin != null" >
+        uin,
+      </if>
+      <if test="berthsecId != null" >
+        berthsec_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="receivable != null" >
+        receivable,
+      </if>
+      <if test="receipts != null" >
+        receipts,
+      </if>
+      <if test="couponType != null" >
+        coupon_type,
+      </if>
+      <if test="couponCode != null" >
+        coupon_code,
+      </if>
+      <if test="couponAmount != null" >
+        coupon_amount,
+      </if>
+      <if test="paymentTime != null" >
+        payment_time,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="chargeId != null" >
+        charge_id,
+      </if>
+      <if test="carNumber != null" >
+        car_number,
+      </if>
+      <if test="inPassid != null" >
+        in_passid,
+      </if>
+      <if test="outPassid != null" >
+        out_passid,
+      </if>
+      <if test="orderUuid != null" >
+        order_uuid,
+      </if>
+      <if test="prepaid != null" >
+        prepaid,
+      </if>
+      <if test="berthnumber != null" >
+        berthnumber,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="carIntype != null" >
+        car_inType,
+      </if>
+      <if test="repeatFlag != null" >
+        repeat_flag,
+      </if>
+      <if test="invoicecode != null" >
+        invoicecode,
+      </if>
+      <if test="carinimageurl != null" >
+        carinimageurl,
+      </if>
+      <if test="caroutimageurl != null" >
+        caroutimageurl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="comid != null" >
+        #{comid,jdbcType=BIGINT},
+      </if>
+      <if test="uin != null" >
+        #{uin,jdbcType=BIGINT},
+      </if>
+      <if test="berthsecId != null" >
+        #{berthsecId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="receivable != null" >
+        #{receivable,jdbcType=DECIMAL},
+      </if>
+      <if test="receipts != null" >
+        #{receipts,jdbcType=DECIMAL},
+      </if>
+      <if test="couponType != null" >
+        #{couponType,jdbcType=INTEGER},
+      </if>
+      <if test="couponCode != null" >
+        #{couponCode,jdbcType=VARCHAR},
+      </if>
+      <if test="couponAmount != null" >
+        #{couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentTime != null" >
+        #{paymentTime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="chargeId != null" >
+        #{chargeId,jdbcType=BIGINT},
+      </if>
+      <if test="carNumber != null" >
+        #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="inPassid != null" >
+        #{inPassid,jdbcType=BIGINT},
+      </if>
+      <if test="outPassid != null" >
+        #{outPassid,jdbcType=BIGINT},
+      </if>
+      <if test="orderUuid != null" >
+        #{orderUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="prepaid != null" >
+        #{prepaid,jdbcType=DECIMAL},
+      </if>
+      <if test="berthnumber != null" >
+        #{berthnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="carIntype != null" >
+        #{carIntype,jdbcType=INTEGER},
+      </if>
+      <if test="repeatFlag != null" >
+        #{repeatFlag,jdbcType=INTEGER},
+      </if>
+      <if test="invoicecode != null" >
+        #{invoicecode,jdbcType=VARCHAR},
+      </if>
+      <if test="carinimageurl != null" >
+        #{carinimageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="caroutimageurl != null" >
+        #{caroutimageurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hisense.entity.OrderTbExample" resultType="java.lang.Integer" >
+    select count(*) from order_tb
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update order_tb
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.comid != null" >
+        comid = #{record.comid,jdbcType=BIGINT},
+      </if>
+      <if test="record.uin != null" >
+        uin = #{record.uin,jdbcType=BIGINT},
+      </if>
+      <if test="record.berthsecId != null" >
+        berthsec_id = #{record.berthsecId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.endTime != null" >
+        end_time = #{record.endTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.receivable != null" >
+        receivable = #{record.receivable,jdbcType=DECIMAL},
+      </if>
+      <if test="record.receipts != null" >
+        receipts = #{record.receipts,jdbcType=DECIMAL},
+      </if>
+      <if test="record.couponType != null" >
+        coupon_type = #{record.couponType,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponCode != null" >
+        coupon_code = #{record.couponCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponAmount != null" >
+        coupon_amount = #{record.couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.paymentTime != null" >
+        payment_time = #{record.paymentTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.payType != null" >
+        pay_type = #{record.payType,jdbcType=INTEGER},
+      </if>
+      <if test="record.chargeId != null" >
+        charge_id = #{record.chargeId,jdbcType=BIGINT},
+      </if>
+      <if test="record.carNumber != null" >
+        car_number = #{record.carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inPassid != null" >
+        in_passid = #{record.inPassid,jdbcType=BIGINT},
+      </if>
+      <if test="record.outPassid != null" >
+        out_passid = #{record.outPassid,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderUuid != null" >
+        order_uuid = #{record.orderUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prepaid != null" >
+        prepaid = #{record.prepaid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.berthnumber != null" >
+        berthnumber = #{record.berthnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null" >
+        flag = #{record.flag,jdbcType=INTEGER},
+      </if>
+      <if test="record.carIntype != null" >
+        car_inType = #{record.carIntype,jdbcType=INTEGER},
+      </if>
+      <if test="record.repeatFlag != null" >
+        repeat_flag = #{record.repeatFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.invoicecode != null" >
+        invoicecode = #{record.invoicecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carinimageurl != null" >
+        carinimageurl = #{record.carinimageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caroutimageurl != null" >
+        caroutimageurl = #{record.caroutimageurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update order_tb
+    set id = #{record.id,jdbcType=BIGINT},
+      comid = #{record.comid,jdbcType=BIGINT},
+      uin = #{record.uin,jdbcType=BIGINT},
+      berthsec_id = #{record.berthsecId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      end_time = #{record.endTime,jdbcType=BIGINT},
+      receivable = #{record.receivable,jdbcType=DECIMAL},
+      receipts = #{record.receipts,jdbcType=DECIMAL},
+      coupon_type = #{record.couponType,jdbcType=INTEGER},
+      coupon_code = #{record.couponCode,jdbcType=VARCHAR},
+      coupon_amount = #{record.couponAmount,jdbcType=DECIMAL},
+      payment_time = #{record.paymentTime,jdbcType=BIGINT},
+      state = #{record.state,jdbcType=INTEGER},
+      pay_type = #{record.payType,jdbcType=INTEGER},
+      charge_id = #{record.chargeId,jdbcType=BIGINT},
+      car_number = #{record.carNumber,jdbcType=VARCHAR},
+      in_passid = #{record.inPassid,jdbcType=BIGINT},
+      out_passid = #{record.outPassid,jdbcType=BIGINT},
+      order_uuid = #{record.orderUuid,jdbcType=VARCHAR},
+      prepaid = #{record.prepaid,jdbcType=DECIMAL},
+      berthnumber = #{record.berthnumber,jdbcType=VARCHAR},
+      flag = #{record.flag,jdbcType=INTEGER},
+      car_inType = #{record.carIntype,jdbcType=INTEGER},
+      repeat_flag = #{record.repeatFlag,jdbcType=INTEGER},
+      invoicecode = #{record.invoicecode,jdbcType=VARCHAR},
+      carinimageurl = #{record.carinimageurl,jdbcType=VARCHAR},
+      caroutimageurl = #{record.caroutimageurl,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hisense.entity.OrderTb" >
+    update order_tb
+    <set >
+      <if test="comid != null" >
+        comid = #{comid,jdbcType=BIGINT},
+      </if>
+      <if test="uin != null" >
+        uin = #{uin,jdbcType=BIGINT},
+      </if>
+      <if test="berthsecId != null" >
+        berthsec_id = #{berthsecId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="receivable != null" >
+        receivable = #{receivable,jdbcType=DECIMAL},
+      </if>
+      <if test="receipts != null" >
+        receipts = #{receipts,jdbcType=DECIMAL},
+      </if>
+      <if test="couponType != null" >
+        coupon_type = #{couponType,jdbcType=INTEGER},
+      </if>
+      <if test="couponCode != null" >
+        coupon_code = #{couponCode,jdbcType=VARCHAR},
+      </if>
+      <if test="couponAmount != null" >
+        coupon_amount = #{couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentTime != null" >
+        payment_time = #{paymentTime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="chargeId != null" >
+        charge_id = #{chargeId,jdbcType=BIGINT},
+      </if>
+      <if test="carNumber != null" >
+        car_number = #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="inPassid != null" >
+        in_passid = #{inPassid,jdbcType=BIGINT},
+      </if>
+      <if test="outPassid != null" >
+        out_passid = #{outPassid,jdbcType=BIGINT},
+      </if>
+      <if test="orderUuid != null" >
+        order_uuid = #{orderUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="prepaid != null" >
+        prepaid = #{prepaid,jdbcType=DECIMAL},
+      </if>
+      <if test="berthnumber != null" >
+        berthnumber = #{berthnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="carIntype != null" >
+        car_inType = #{carIntype,jdbcType=INTEGER},
+      </if>
+      <if test="repeatFlag != null" >
+        repeat_flag = #{repeatFlag,jdbcType=INTEGER},
+      </if>
+      <if test="invoicecode != null" >
+        invoicecode = #{invoicecode,jdbcType=VARCHAR},
+      </if>
+      <if test="carinimageurl != null" >
+        carinimageurl = #{carinimageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="caroutimageurl != null" >
+        caroutimageurl = #{caroutimageurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hisense.entity.OrderTb" >
+    update order_tb
+    set comid = #{comid,jdbcType=BIGINT},
+      uin = #{uin,jdbcType=BIGINT},
+      berthsec_id = #{berthsecId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      end_time = #{endTime,jdbcType=BIGINT},
+      receivable = #{receivable,jdbcType=DECIMAL},
+      receipts = #{receipts,jdbcType=DECIMAL},
+      coupon_type = #{couponType,jdbcType=INTEGER},
+      coupon_code = #{couponCode,jdbcType=VARCHAR},
+      coupon_amount = #{couponAmount,jdbcType=DECIMAL},
+      payment_time = #{paymentTime,jdbcType=BIGINT},
+      state = #{state,jdbcType=INTEGER},
+      pay_type = #{payType,jdbcType=INTEGER},
+      charge_id = #{chargeId,jdbcType=BIGINT},
+      car_number = #{carNumber,jdbcType=VARCHAR},
+      in_passid = #{inPassid,jdbcType=BIGINT},
+      out_passid = #{outPassid,jdbcType=BIGINT},
+      order_uuid = #{orderUuid,jdbcType=VARCHAR},
+      prepaid = #{prepaid,jdbcType=DECIMAL},
+      berthnumber = #{berthnumber,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=INTEGER},
+      car_inType = #{carIntype,jdbcType=INTEGER},
+      repeat_flag = #{repeatFlag,jdbcType=INTEGER},
+      invoicecode = #{invoicecode,jdbcType=VARCHAR},
+      carinimageurl = #{carinimageurl,jdbcType=VARCHAR},
+      caroutimageurl = #{caroutimageurl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
