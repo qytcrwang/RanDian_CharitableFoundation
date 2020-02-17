@@ -12,40 +12,41 @@
       <view class='headBorder'><open-data type="userAvatarUrl" class="Head"></open-data> </view>
       <view class='dian'></view>
       <view class='nameBox'><open-data type="userNickName" lang="zh_CN" class="name"></open-data> </view>
-      <button wx:if="{{canIUse}}" class ='lv' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登陆</button>
+      <!--<button wx:if="{{canIUse}}" class ='lv' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登陆</button>-->
       <!--<view class='lv'>LV1地球</view>-->
     </view>
     <view class='jiange'></view>
     <view class='mine_head_right' bindtap='addr'>
-      <view class="mine_head_rightPic">20</view>
+      <view wx:if="{{isLogin}}" class="mine_head_rightPic">20</view>
+      <view wx:if="{{isLogin == false}}" class="mine_head_rightPic">**</view>
       <view class='mine_head_rightDes'>爱心积分</view>
     </view>
   </view>
 </view>
 <!-- 内容 -->
 <view class='list_content'>
-  <view class='list' bindtap='restMoney'>
+  <view wx:if="{{isLogin}}" class='list' bindtap='restMoney'>
     <view class='list_left'>
       <image class='listIcon' src='/img/mine_carefund.png'></image>
       <view class='listName'>爱心基金</view>
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
   </view>
-  <view class='list' bindtap='view'>
+  <view wx:if="{{isLogin}}" class='list' bindtap='view'>
     <view class='list_left'>
       <image class='listIcon' src='/img/mine_donation.png'></image>
       <view class='listName'>我要捐助</view>
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
   </view>
-  <view class='list'>
+  <view wx:if="{{isLogin}}" class='list'>
     <view class='list_left'>
       <image class='listIcon' src='/img/mine_activity.png'></image>
       <view class='listName'>公益活动</view>
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
   </view>
-  <view class='list' bindtap='realName'>
+  <view wx:if="{{isLogin}}" class='list' bindtap='realName'>
     <view class='list_left'>
       <image class='listIcon' src='/img/mine_profile.png'></image>
       <view class='listName'>账户信息</view>
@@ -56,12 +57,15 @@
       <image src='../image/jiantou.png' class='jiantou'></image>
     </view>  -->
   </view>
-  <view class='list' bindtap='view'>
+  <view wx:if="{{isLogin}}" class='list' bindtap='view'>
     <view class='list_left'>
       <image class='listIcon' src='/img/mine_service.png'></image>
       <view class='listName'>意见反馈</view>
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
   </view>
-  <button class='signOut' bindtap='signOut'>退出登录</button>
+  <view wx:if="{{isLogin == false}}" class="gotoLogin">
+    <text class="text_left">您还没有登陆，<text class="login_url">点击登陆</text></text>
+  </view>
+  <!--<button class='signOut' bindtap='signOut'>退出登录</button>-->
 </view>

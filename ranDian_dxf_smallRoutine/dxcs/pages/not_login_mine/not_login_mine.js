@@ -1,47 +1,27 @@
 // pages/mine/mine.js
 Page({
   data: {
-    canIUse:wx.canIUse('button.open-type.getUserInfo'),
-    isLogin:false
+    canIUse:wx.canIUse('button.open-type.getUserInfo')
   },
-  //页面加载时查看用户是否授权，未授权用户不显示部分信息。
+  //个人中心的消息,点击跳转到我的消息
   onLoad:function(){
-    var _this = this;
-    //查看是否已经登陆
-    wx.checkSession({
-      success:function(res){
-        console.log(res,"登陆未过期");
-        _this.setData({
-          isLogin:true
-        })
-      },
-      fail:function(res){
-        console.log(res,"登陆过期了")
-      }
-    })
-    //查看是否授权
-    /*wx.getSetting({
+    wx.getSetting({
       success(res){
         if(res.authSetting['scope.userInfo']){
-          
           wx.getUserInfo({
-            //用户已经授权，不需要再显示授权页面，所以不需要改变isHide的值
             success:function(res){
-              //调用微信的登陆接口
+              console.log("123");
+              console.log(res.userInfo);
             }
           })
-          wx.switchTab({
+        }else{
+          console.log("未授权");
+          wx.navigateTo({
             url:'page/index/index'
           })
-        }else{
-          //用户没有授权
-          that.setData({
-            isHide:true
-          })
-          console.log(that.isHide)
         }
       }
-    })*/
+    })
   },
   bindGetUserInfo(e){
     console.log(e.detail.userInfo)

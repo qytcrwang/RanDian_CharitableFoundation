@@ -1,0 +1,26 @@
+<!--pages/mine/mine.wxml-->
+<!-- 头部 -->
+<view class='mine_info'>
+  <image class='mine_banner' src='/img/mine_funding.jpg'></image>
+  <view class='mine_info_head'>
+    <view class='mine_head_left' bindtap='info'>
+      <image class='mine_head_leftPic' src='/img/mine_signin.png'></image>
+      <view class='mine_head_leftDes'>签到</view>
+    </view>
+    <view class='jiange'></view>
+    <view class='mine_head_center'>
+      <view class='headBorder'><open-data type="userAvatarUrl" class="Head"></open-data> </view>
+      <view class='dian'></view>
+      <view class='nameBox'><open-data type="userNickName" lang="zh_CN" class="name"></open-data> </view>
+    </view>
+    <view class='jiange'></view>
+    <view class='mine_head_right' bindtap='addr'>
+      <view class="mine_head_rightPic">--</view>
+      <view class='mine_head_rightDes'>爱心积分</view>
+    </view>
+  </view>
+</view>
+<!-- 内容 -->
+<view class='list_content'>
+  <view >您还未登录，点击登录</view>
+</view>

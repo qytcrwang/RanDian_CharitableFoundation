@@ -163,21 +163,3 @@ page{
   background: #3e4663;
   margin-top: 270rpx;
 }
-.gotoLogin{
-  width: 100%;
-  margin:auto;
-  height: 60rpx;
-  display: flex;
-}
-.text_left{
-  margin: auto;
-  font-size: 30rpx;
-  margin-top: 30rpx;
-  line-height: 40rpx;
-  color: #404040;
-  margin-top: 30%;
-}
-.login_url{
-  color: #09bb07;
-  border-bottom: 2rpx solid #09bb07;
-}
