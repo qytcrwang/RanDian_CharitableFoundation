@@ -19,7 +19,7 @@
       </view>
       <view class='inputList'>
         <label class='input_lable'>真实姓名</label>
-        <label class="user_info_blank">未填写</label>
+        <label class="user_info_blank" bindtap="gotoRealName">未填写</label>
         <image src='/img/right_jt.png' class='right_jt'></image>
       </view>
       <view class='inputList'>

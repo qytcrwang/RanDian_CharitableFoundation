@@ -1,0 +1,13 @@
+<!--pages/view/view.wxml-->
+<view class='main'>
+  <view class='title'>
+    <label class="title_lable">2-6个字符,一个月只能申请改一次</label>
+  </view>
+  <form class="info_form">
+    <view class='form_view'>
+      <input class="info_input" />
+    </view>
+    <button class='submit' form-type='submit'>确认提交</button>
+  </form>
+</view>
+

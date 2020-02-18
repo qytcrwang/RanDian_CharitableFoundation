@@ -38,10 +38,5 @@ Page({
         })
       }
     })
-  },
-  gotoRealName(){
-    wx.navigateTo({
-      url:'../account_name/account_name'
-    })
   }
 })

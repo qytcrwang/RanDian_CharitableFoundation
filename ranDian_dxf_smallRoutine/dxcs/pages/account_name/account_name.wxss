@@ -1,0 +1,47 @@
+/* pages/view/view.wxss */
+page{
+  background: #ededed;
+}
+.info_form{
+  width: 100%;
+  height: 832rpx;
+  margin-top: 16rpx;
+}
+.form_view{
+  width: 100%;
+  height: 90rpx;
+  margin-top: 16rpx;
+  background-color:#ffffff;
+}
+.info_input{
+  width: 90%;
+  height: 90rpx;
+  margin-left: 22rpx;
+  background-color:#ffffff;
+}
+.title{
+  width: 100%;
+  height: 50rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.title_lable{
+  font-size: 30rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  width: 100%;
+  margin-left: 22rpx;
+  color:#888888;
+}
+.submit{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 98rpx;
+  background: #04BE02;
+  font-size: 40rpx;
+  line-height: 98rpx;
+  color: #ffffff;
+  border-radius:0;
+}
