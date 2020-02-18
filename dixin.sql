@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : LOCAL_CONNECTION
-Source Server Version : 50722
-Source Host           : localhost:3306
-Source Database       : dixin
+Source Server         : randian
+Source Server Version : 50724
+Source Host           : 106.12.194.99:3306
+Source Database       : dixin_test
 
 Target Server Type    : MYSQL
-Target Server Version : 50722
+Target Server Version : 50724
 File Encoding         : 65001
 
-Date: 2020-02-17 16:37:20
+Date: 2020-02-18 09:13:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -51,10 +51,12 @@ CREATE TABLE `activity_tb` (
   `state` int(2) DEFAULT NULL COMMENT '活动状态',
   `type` int(2) DEFAULT NULL COMMENT '活动类型',
   `if_send` int(1) DEFAULT NULL COMMENT '是否推送',
-  `activity_time` int(6) DEFAULT NULL COMMENT '活动花费时间 秒',
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `activity_time` int(6) DEFAULT NULL COMMENT '活动花费时间 小时',
+  `apply_names` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci COMMENT '活动报名人员名称字符串',
   `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `is_delete` int(1) DEFAULT NULL COMMENT '是否删除',
+  `apply_nums` int(8) DEFAULT NULL COMMENT '申请人数',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=gbk COMMENT='活动信息表';
 
@@ -70,7 +72,7 @@ CREATE TABLE `activity_user_tb` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '活动用户关联表id',
   `activity_id` bigint(20) DEFAULT NULL COMMENT '活动id',
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `state` bigint(20) DEFAULT NULL COMMENT '关联状态',
+  `state` int(1) DEFAULT NULL COMMENT '关联状态',
   `org_name` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '非用户组织或公司名称',
   `org_mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '非用户组织或公司联系方式',
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
@@ -112,21 +114,45 @@ DROP TABLE IF EXISTS `contri_info_tb`;
 CREATE TABLE `contri_info_tb` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `contri_amount` double(10,2) DEFAULT NULL COMMENT '捐赠金额',
+  `contri_amount` decimal(10,2) DEFAULT NULL COMMENT '捐赠金额',
   `contri_things` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '捐赠物品',
   `contri_time` bigint(10) DEFAULT NULL COMMENT '捐赠时间',
   `mobile` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '联系方式',
   `org_name` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '非用户组织或公司名称',
   `org_r_name` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '非用户组织或公司代表人 或个人 联系方式',
   `contri_proof` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '捐赠凭证',
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `contri_type` int(1) DEFAULT NULL COMMENT '捐赠类型 物品 钱 两者都有',
   `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `is_delete` int(1) DEFAULT NULL COMMENT '是否删除',
+  `contri_state` int(1) DEFAULT NULL COMMENT '捐赠状态',
+  `if_stamp` int(1) DEFAULT NULL COMMENT '是否打印',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='捐赠信息表';
 
 -- ----------------------------
 -- Records of contri_info_tb
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `honour_tb`
+-- ----------------------------
+DROP TABLE IF EXISTS `honour_tb`;
+CREATE TABLE `honour_tb` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '荣誉id',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '关联用户id',
+  `honour_name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '荣誉名称',
+  `honour_proof` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '荣誉凭证',
+  `honour_time` bigint(10) DEFAULT NULL COMMENT '获奖时间',
+  `honour_state` int(1) DEFAULT NULL COMMENT '荣誉审核状态',
+  `create_time` bigint(10) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(10) DEFAULT NULL COMMENT '更新时间',
+  `is_delete` int(1) DEFAULT NULL COMMENT '是否删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='个人荣誉表';
+
+-- ----------------------------
+-- Records of honour_tb
 -- ----------------------------
 
 -- ----------------------------
@@ -140,6 +166,7 @@ CREATE TABLE `msg_tb` (
   `time` bigint(10) DEFAULT NULL COMMENT '通知时间',
   `state` int(1) DEFAULT NULL COMMENT '显示/删除',
   `if_read` int(1) DEFAULT NULL COMMENT '已读/未读',
+  `msg_type` int(1) DEFAULT NULL COMMENT '通知类型',
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `is_delete` int(1) DEFAULT NULL COMMENT '是否删除',
@@ -166,9 +193,14 @@ CREATE TABLE `rent_apply_tb` (
   `sent_time` bigint(10) DEFAULT NULL COMMENT '发放时间',
   `sent_amount` double(8,2) DEFAULT NULL COMMENT '发放金额',
   `sent_proof` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '发放凭证',
+  `job_state` int(1) DEFAULT NULL COMMENT '是否在职',
+  `company_name` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '公司名称',
+  `is_delete` int(1) DEFAULT NULL COMMENT '是否删除',
+  `company_address` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '公司地址',
+  `position` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '当前职位',
+  `reject_reason` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '驳回原因',
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
-  `is_delete` int(1) DEFAULT NULL COMMENT '是否删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=gbk COMMENT='房租申请表';
 
@@ -185,8 +217,9 @@ CREATE TABLE `sign_tb` (
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
   `sign_year` int(5) DEFAULT NULL COMMENT '签到年份',
   `sign_month` int(2) DEFAULT NULL COMMENT '签到月份',
-  `sign_days` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '签到日 二进制字符串',
+  `sign_days` bigint(11) DEFAULT NULL COMMENT '签到日 二进制',
   `type` int(1) DEFAULT NULL COMMENT '签到类型',
+  `sign_nums` int(2) DEFAULT NULL COMMENT '本月签到天数',
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `is_delete` int(1) DEFAULT NULL COMMENT '是否删除',
@@ -228,7 +261,7 @@ CREATE TABLE `user_tb` (
   `reg_time` bigint(10) DEFAULT NULL COMMENT '注册时间',
   `state` int(2) DEFAULT '0' COMMENT '用户状态 ',
   `type` int(2) DEFAULT '0' COMMENT '用户类型',
-  `love_point` bigint(20) DEFAULT NULL COMMENT '爱心公益积分',
+  `love_point` int(6) DEFAULT NULL COMMENT '爱心公益积分  每小时1点',
   `love_fund` double(20,2) DEFAULT NULL COMMENT '捐赠金额',
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
   `open_id` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '微信openid',
@@ -239,6 +272,7 @@ CREATE TABLE `user_tb` (
   `org_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '代表组织or公司名称',
   `old_name` varchar(60) DEFAULT NULL COMMENT '若类型为儿童基金 该字段为监护人名称',
   `old_mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '若类型为儿童基金 该字段为监护人联系方式',
+  `school` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '毕业院校',
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   `is_delete` int(1) DEFAULT NULL COMMENT '是否删除',
