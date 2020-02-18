@@ -22,7 +22,7 @@
 		</javaTypeResolver>
 
 		<!-- targetProject:生成PO类的位置 -->
-		<javaModelGenerator targetPackage="com.fire.entity"
+		<javaModelGenerator targetPackage="com.fire.back.entity"
 			targetProject=".\src">
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
@@ -37,7 +37,7 @@
 		</sqlMapGenerator>
 		<!-- targetPackage：mapper接口生成的位置 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.fire.dao" 
+			targetPackage="com.fire.back.dao" 
 			targetProject=".\src">
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
