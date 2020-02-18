@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fire.back.dao.ContriInfoTbMapper" >
+  <resultMap id="BaseResultMap" type="com.fire.back.entity.ContriInfoTb" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="contri_amount" property="contriAmount" jdbcType="DECIMAL" />
+    <result column="contri_things" property="contriThings" jdbcType="VARCHAR" />
+    <result column="contri_time" property="contriTime" jdbcType="BIGINT" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="org_r_name" property="orgRName" jdbcType="VARCHAR" />
+    <result column="contri_proof" property="contriProof" jdbcType="VARCHAR" />
+    <result column="contri_type" property="contriType" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="contri_state" property="contriState" jdbcType="INTEGER" />
+    <result column="if_stamp" property="ifStamp" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, contri_amount, contri_things, contri_time, mobile, org_name, org_r_name, 
+    contri_proof, contri_type, update_time, is_delete, contri_state, if_stamp, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fire.back.entity.ContriInfoTbExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from contri_info_tb
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from contri_info_tb
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from contri_info_tb
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fire.back.entity.ContriInfoTbExample" >
+    delete from contri_info_tb
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fire.back.entity.ContriInfoTb" >
+    insert into contri_info_tb (id, user_id, contri_amount, 
+      contri_things, contri_time, mobile, 
+      org_name, org_r_name, contri_proof, 
+      contri_type, update_time, is_delete, 
+      contri_state, if_stamp, create_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{contriAmount,jdbcType=DECIMAL}, 
+      #{contriThings,jdbcType=VARCHAR}, #{contriTime,jdbcType=BIGINT}, #{mobile,jdbcType=VARCHAR}, 
+      #{orgName,jdbcType=VARCHAR}, #{orgRName,jdbcType=VARCHAR}, #{contriProof,jdbcType=VARCHAR}, 
+      #{contriType,jdbcType=INTEGER}, #{updateTime,jdbcType=BIGINT}, #{isDelete,jdbcType=INTEGER}, 
+      #{contriState,jdbcType=INTEGER}, #{ifStamp,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fire.back.entity.ContriInfoTb" >
+    insert into contri_info_tb
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="contriAmount != null" >
+        contri_amount,
+      </if>
+      <if test="contriThings != null" >
+        contri_things,
+      </if>
+      <if test="contriTime != null" >
+        contri_time,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="orgRName != null" >
+        org_r_name,
+      </if>
+      <if test="contriProof != null" >
+        contri_proof,
+      </if>
+      <if test="contriType != null" >
+        contri_type,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="contriState != null" >
+        contri_state,
+      </if>
+      <if test="ifStamp != null" >
+        if_stamp,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="contriAmount != null" >
+        #{contriAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="contriThings != null" >
+        #{contriThings,jdbcType=VARCHAR},
+      </if>
+      <if test="contriTime != null" >
+        #{contriTime,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgRName != null" >
+        #{orgRName,jdbcType=VARCHAR},
+      </if>
+      <if test="contriProof != null" >
+        #{contriProof,jdbcType=VARCHAR},
+      </if>
+      <if test="contriType != null" >
+        #{contriType,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="contriState != null" >
+        #{contriState,jdbcType=INTEGER},
+      </if>
+      <if test="ifStamp != null" >
+        #{ifStamp,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fire.back.entity.ContriInfoTbExample" resultType="java.lang.Integer" >
+    select count(*) from contri_info_tb
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update contri_info_tb
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.contriAmount != null" >
+        contri_amount = #{record.contriAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.contriThings != null" >
+        contri_things = #{record.contriThings,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contriTime != null" >
+        contri_time = #{record.contriTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgName != null" >
+        org_name = #{record.orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgRName != null" >
+        org_r_name = #{record.orgRName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contriProof != null" >
+        contri_proof = #{record.contriProof,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contriType != null" >
+        contri_type = #{record.contriType,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.isDelete != null" >
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.contriState != null" >
+        contri_state = #{record.contriState,jdbcType=INTEGER},
+      </if>
+      <if test="record.ifStamp != null" >
+        if_stamp = #{record.ifStamp,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update contri_info_tb
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      contri_amount = #{record.contriAmount,jdbcType=DECIMAL},
+      contri_things = #{record.contriThings,jdbcType=VARCHAR},
+      contri_time = #{record.contriTime,jdbcType=BIGINT},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      org_name = #{record.orgName,jdbcType=VARCHAR},
+      org_r_name = #{record.orgRName,jdbcType=VARCHAR},
+      contri_proof = #{record.contriProof,jdbcType=VARCHAR},
+      contri_type = #{record.contriType,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=BIGINT},
+      is_delete = #{record.isDelete,jdbcType=INTEGER},
+      contri_state = #{record.contriState,jdbcType=INTEGER},
+      if_stamp = #{record.ifStamp,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fire.back.entity.ContriInfoTb" >
+    update contri_info_tb
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="contriAmount != null" >
+        contri_amount = #{contriAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="contriThings != null" >
+        contri_things = #{contriThings,jdbcType=VARCHAR},
+      </if>
+      <if test="contriTime != null" >
+        contri_time = #{contriTime,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgRName != null" >
+        org_r_name = #{orgRName,jdbcType=VARCHAR},
+      </if>
+      <if test="contriProof != null" >
+        contri_proof = #{contriProof,jdbcType=VARCHAR},
+      </if>
+      <if test="contriType != null" >
+        contri_type = #{contriType,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="contriState != null" >
+        contri_state = #{contriState,jdbcType=INTEGER},
+      </if>
+      <if test="ifStamp != null" >
+        if_stamp = #{ifStamp,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fire.back.entity.ContriInfoTb" >
+    update contri_info_tb
+    set user_id = #{userId,jdbcType=BIGINT},
+      contri_amount = #{contriAmount,jdbcType=DECIMAL},
+      contri_things = #{contriThings,jdbcType=VARCHAR},
+      contri_time = #{contriTime,jdbcType=BIGINT},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      org_r_name = #{orgRName,jdbcType=VARCHAR},
+      contri_proof = #{contriProof,jdbcType=VARCHAR},
+      contri_type = #{contriType,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      contri_state = #{contriState,jdbcType=INTEGER},
+      if_stamp = #{ifStamp,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
