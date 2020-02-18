@@ -46,7 +46,7 @@
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
   </view>
-  <view wx:if="{{isLogin}}" class='list' bindtap='realName'>
+  <view wx:if="{{isLogin}}" class='list' bindtap='accountInfo'>
     <view class='list_left'>
       <image class='listIcon' src='/img/mine_profile.png'></image>
       <view class='listName'>账户信息</view>

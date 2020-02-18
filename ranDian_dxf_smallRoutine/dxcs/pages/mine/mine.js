@@ -15,6 +15,10 @@ Page({
         })
       },
       fail:function(res){
+        //暂时先不搞登陆
+        _this.setData({
+          isLogin:true
+        })
         console.log(res,"登陆过期了")
       }
     })
@@ -62,6 +66,11 @@ Page({
   restMoney() {
     wx.navigateTo({
       url: '../restMoney/restMoney',
+    })
+  },
+  accountInfo(){
+    wx.navigateTo({
+      url:'../account/account'
     })
   },
   //个人中心的意见反馈,点击跳转到意见反馈

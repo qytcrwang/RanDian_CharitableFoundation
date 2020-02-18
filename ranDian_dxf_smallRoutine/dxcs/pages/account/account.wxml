@@ -1,0 +1,52 @@
+<!--pages/view/view.wxml-->
+<view class='main'>
+  <view class='title'>
+    <label class="title_lable">个人资料</label>
+  </view>
+  <form>
+    <view class='view'>
+      <view class="inputList_headBorder">
+        <view class="headBorder">
+          <open-data type="userAvatarUrl" class="head"></open-data>
+        </view>
+        <label class="user_info_blank">暂时不能修改头像</label>
+        <image src='/img/right_jt.png' class='right_jt'></image>
+      </view>
+      <view class='inputList'>
+        <label class='input_lable'>昵称</label>
+        <open-data type="userNickName" class="user_info"></open-data>
+        <image src='/img/right_jt.png' class='right_jt'></image>
+      </view>
+      <view class='inputList'>
+        <label class='input_lable'>真实姓名</label>
+        <label class="user_info_blank">未填写</label>
+        <image src='/img/right_jt.png' class='right_jt'></image>
+      </view>
+      <view class='inputList'>
+        <label class='input_lable'>身份证号</label>
+        <label class="user_info_blank">未填写</label>
+        <image src='/img/right_jt.png' class='right_jt'></image>
+      </view>
+      <!--<view class='inputList'>
+        <label class='input_lable'>性别</label>
+        <open-data type="userGender" class="user_info"></open-data>
+        <image src='/img/right_jt.png' class='right_jt'></image>
+      </view>-->
+      <view class='inputList'>
+        <label class='input_lable'>联系方式</label>
+        <label class="user_info_blank">未填写</label>
+        <image src='/img/right_jt.png' class='right_jt'></image>
+      </view>
+      <view class='inputList'>
+        <label class='input_lable'>注册日期</label>
+        <label class="user_info">2020-2-18</label>
+      </view>
+      <view class='textList'>
+        <label class='text_lable'>个性签名</label>
+        <label class="user_info_blank">未填写</label>
+        <image src='/img/right_jt.png' class='right_jt'></image>
+      </view>
+    </view>
+  </form>
+</view>
+
