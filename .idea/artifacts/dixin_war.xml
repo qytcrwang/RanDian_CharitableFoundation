@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="dixin:war">
+    <output-path>$PROJECT_DIR$/dixin_back/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>dixin</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="dixin.war">
+      <element id="artifact" artifact-name="dixin:war exploded" />
+    </root>
+  </artifact>
+</component>

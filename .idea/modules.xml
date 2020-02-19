@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/RanDian_CharitableFoundation.iml" filepath="$PROJECT_DIR$/.idea/RanDian_CharitableFoundation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dixin_back/dixin.iml" filepath="$PROJECT_DIR$/dixin_back/dixin.iml" />
+    </modules>
+  </component>
+</project>
