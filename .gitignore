@@ -39,3 +39,12 @@ dixin_back/target/classes/templates/index.html
 dixin_back/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
 dixin_back/target/m2e-wtp/web-resources/META-INF/maven/com.fire/dixin/pom.properties
 dixin_back/target/m2e-wtp/web-resources/META-INF/maven/com.fire/dixin/pom.xml
+
+# 忽略target的更新
+dixin_back/target
+
+# 忽略.idea的更新
+.idea
+
+# 忽略 工程配置文件信息
+RanDian_CharitableFoundation.iml
