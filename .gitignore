@@ -47,7 +47,7 @@ dixin_back/target/
 .idea
 
 # 忽略工程配置文件信息
-RanDian_CharitableFoundation.iml
+*.iml
 
 # 忽略application.properties文件的更新
 dixin_back/src/main/resources/application.properties
