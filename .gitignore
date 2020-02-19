@@ -41,7 +41,7 @@ dixin_back/target/m2e-wtp/web-resources/META-INF/maven/com.fire/dixin/pom.proper
 dixin_back/target/m2e-wtp/web-resources/META-INF/maven/com.fire/dixin/pom.xml
 
 # 忽略target的更新
-dixin_back/target
+dixin_back/target/
 
 # 忽略.idea的更新
 .idea
