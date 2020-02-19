@@ -5,11 +5,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    realName:''
+    phone:''
   },
   onLoad:function(options){
     this.setData({
-      realName:options.realName
+      realName:options.phone
     });
   }
 })

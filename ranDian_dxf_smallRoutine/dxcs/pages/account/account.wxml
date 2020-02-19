@@ -17,12 +17,12 @@
         <open-data type="userNickName" class="user_info"></open-data>
         <image src='/img/right_jt.png' class='right_jt'></image>
       </view>
-      <view class='inputList'>
+      <view class='inputList' bindtap="gotoRealName">
         <label class='input_lable'>真实姓名</label>
-        <label class="user_info_blank" bindtap="gotoRealName">未填写</label>
+        <label class="user_info_blank">未填写</label>
         <image src='/img/right_jt.png' class='right_jt'></image>
       </view>
-      <view class='inputList'>
+      <view class='inputList' bindtap="gotoIdCard">
         <label class='input_lable'>身份证号</label>
         <label class="user_info_blank">未填写</label>
         <image src='/img/right_jt.png' class='right_jt'></image>
@@ -32,7 +32,7 @@
         <open-data type="userGender" class="user_info"></open-data>
         <image src='/img/right_jt.png' class='right_jt'></image>
       </view>-->
-      <view class='inputList'>
+      <view class='inputList' bindtap="gotoPhone">
         <label class='input_lable'>联系方式</label>
         <label class="user_info_blank">未填写</label>
         <image src='/img/right_jt.png' class='right_jt'></image>
@@ -41,7 +41,7 @@
         <label class='input_lable'>注册日期</label>
         <label class="user_info">2020-2-18</label>
       </view>
-      <view class='textList'>
+      <view class='textList' bindtap="gotoSignature">
         <label class='text_lable'>个性签名</label>
         <label class="user_info_blank">未填写</label>
         <image src='/img/right_jt.png' class='right_jt'></image>
