@@ -1054,6 +1054,66 @@ public class ContriInfoTbExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andContriValueIsNull() {
+            addCriterion("contri_value is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContriValueIsNotNull() {
+            addCriterion("contri_value is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContriValueEqualTo(Integer value) {
+            addCriterion("contri_value =", value, "contriValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContriValueNotEqualTo(Integer value) {
+            addCriterion("contri_value <>", value, "contriValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContriValueGreaterThan(Integer value) {
+            addCriterion("contri_value >", value, "contriValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContriValueGreaterThanOrEqualTo(Integer value) {
+            addCriterion("contri_value >=", value, "contriValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContriValueLessThan(Integer value) {
+            addCriterion("contri_value <", value, "contriValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContriValueLessThanOrEqualTo(Integer value) {
+            addCriterion("contri_value <=", value, "contriValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContriValueIn(List<Integer> values) {
+            addCriterion("contri_value in", values, "contriValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContriValueNotIn(List<Integer> values) {
+            addCriterion("contri_value not in", values, "contriValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContriValueBetween(Integer value1, Integer value2) {
+            addCriterion("contri_value between", value1, value2, "contriValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andContriValueNotBetween(Integer value1, Integer value2) {
+            addCriterion("contri_value not between", value1, value2, "contriValue");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

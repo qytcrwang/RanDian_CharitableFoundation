@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : randian
+Source Server         : dixin
 Source Server Version : 50724
 Source Host           : 106.12.194.99:3306
 Source Database       : dixin_test
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50724
 File Encoding         : 65001
 
-Date: 2020-02-18 09:13:52
+Date: 2020-02-19 23:15:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,7 +44,10 @@ CREATE TABLE `activity_tb` (
   `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '活动标题',
   `body` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci COMMENT '活动正文',
   `address` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '活动地址',
-  `time` bigint(10) DEFAULT NULL COMMENT '活动时间',
+  `activity_start_time` bigint(10) DEFAULT NULL COMMENT '活动时间',
+  `activity_end_time` bigint(10) DEFAULT NULL COMMENT '活动结束时间',
+  `sign_start_time` bigint(10) DEFAULT NULL COMMENT '报名起始时间',
+  `sign_end_time` bigint(10) DEFAULT NULL COMMENT '报名结束时间',
   `read_num` bigint(20) DEFAULT NULL COMMENT '文章阅读量',
   `good_num` bigint(20) DEFAULT NULL COMMENT '文章点赞量',
   `pic_url` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '封面图片地址',
@@ -53,10 +56,10 @@ CREATE TABLE `activity_tb` (
   `if_send` int(1) DEFAULT NULL COMMENT '是否推送',
   `activity_time` int(6) DEFAULT NULL COMMENT '活动花费时间 小时',
   `apply_names` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci COMMENT '活动报名人员名称字符串',
-  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
-  `is_delete` int(1) DEFAULT NULL COMMENT '是否删除',
   `apply_nums` int(8) DEFAULT NULL COMMENT '申请人数',
+  `is_delete` int(1) DEFAULT NULL COMMENT '是否删除',
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=gbk COMMENT='活动信息表';
 
@@ -127,6 +130,7 @@ CREATE TABLE `contri_info_tb` (
   `contri_state` int(1) DEFAULT NULL COMMENT '捐赠状态',
   `if_stamp` int(1) DEFAULT NULL COMMENT '是否打印',
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `contri_value` int(8) DEFAULT NULL COMMENT '捐助物品估价',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='捐赠信息表';
 

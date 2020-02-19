@@ -304,63 +304,243 @@ public class ActivityTbExample {
             return (Criteria) this;
         }
 
-        public Criteria andTimeIsNull() {
-            addCriterion("time is null");
+        public Criteria andActivityStartTimeIsNull() {
+            addCriterion("activity_start_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andTimeIsNotNull() {
-            addCriterion("time is not null");
+        public Criteria andActivityStartTimeIsNotNull() {
+            addCriterion("activity_start_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTimeEqualTo(Long value) {
-            addCriterion("time =", value, "time");
+        public Criteria andActivityStartTimeEqualTo(Long value) {
+            addCriterion("activity_start_time =", value, "activityStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andTimeNotEqualTo(Long value) {
-            addCriterion("time <>", value, "time");
+        public Criteria andActivityStartTimeNotEqualTo(Long value) {
+            addCriterion("activity_start_time <>", value, "activityStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andTimeGreaterThan(Long value) {
-            addCriterion("time >", value, "time");
+        public Criteria andActivityStartTimeGreaterThan(Long value) {
+            addCriterion("activity_start_time >", value, "activityStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andTimeGreaterThanOrEqualTo(Long value) {
-            addCriterion("time >=", value, "time");
+        public Criteria andActivityStartTimeGreaterThanOrEqualTo(Long value) {
+            addCriterion("activity_start_time >=", value, "activityStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andTimeLessThan(Long value) {
-            addCriterion("time <", value, "time");
+        public Criteria andActivityStartTimeLessThan(Long value) {
+            addCriterion("activity_start_time <", value, "activityStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andTimeLessThanOrEqualTo(Long value) {
-            addCriterion("time <=", value, "time");
+        public Criteria andActivityStartTimeLessThanOrEqualTo(Long value) {
+            addCriterion("activity_start_time <=", value, "activityStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andTimeIn(List<Long> values) {
-            addCriterion("time in", values, "time");
+        public Criteria andActivityStartTimeIn(List<Long> values) {
+            addCriterion("activity_start_time in", values, "activityStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andTimeNotIn(List<Long> values) {
-            addCriterion("time not in", values, "time");
+        public Criteria andActivityStartTimeNotIn(List<Long> values) {
+            addCriterion("activity_start_time not in", values, "activityStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andTimeBetween(Long value1, Long value2) {
-            addCriterion("time between", value1, value2, "time");
+        public Criteria andActivityStartTimeBetween(Long value1, Long value2) {
+            addCriterion("activity_start_time between", value1, value2, "activityStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andTimeNotBetween(Long value1, Long value2) {
-            addCriterion("time not between", value1, value2, "time");
+        public Criteria andActivityStartTimeNotBetween(Long value1, Long value2) {
+            addCriterion("activity_start_time not between", value1, value2, "activityStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityEndTimeIsNull() {
+            addCriterion("activity_end_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityEndTimeIsNotNull() {
+            addCriterion("activity_end_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityEndTimeEqualTo(Long value) {
+            addCriterion("activity_end_time =", value, "activityEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityEndTimeNotEqualTo(Long value) {
+            addCriterion("activity_end_time <>", value, "activityEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityEndTimeGreaterThan(Long value) {
+            addCriterion("activity_end_time >", value, "activityEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityEndTimeGreaterThanOrEqualTo(Long value) {
+            addCriterion("activity_end_time >=", value, "activityEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityEndTimeLessThan(Long value) {
+            addCriterion("activity_end_time <", value, "activityEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityEndTimeLessThanOrEqualTo(Long value) {
+            addCriterion("activity_end_time <=", value, "activityEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityEndTimeIn(List<Long> values) {
+            addCriterion("activity_end_time in", values, "activityEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityEndTimeNotIn(List<Long> values) {
+            addCriterion("activity_end_time not in", values, "activityEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityEndTimeBetween(Long value1, Long value2) {
+            addCriterion("activity_end_time between", value1, value2, "activityEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityEndTimeNotBetween(Long value1, Long value2) {
+            addCriterion("activity_end_time not between", value1, value2, "activityEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignStartTimeIsNull() {
+            addCriterion("sign_start_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignStartTimeIsNotNull() {
+            addCriterion("sign_start_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignStartTimeEqualTo(Long value) {
+            addCriterion("sign_start_time =", value, "signStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignStartTimeNotEqualTo(Long value) {
+            addCriterion("sign_start_time <>", value, "signStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignStartTimeGreaterThan(Long value) {
+            addCriterion("sign_start_time >", value, "signStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignStartTimeGreaterThanOrEqualTo(Long value) {
+            addCriterion("sign_start_time >=", value, "signStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignStartTimeLessThan(Long value) {
+            addCriterion("sign_start_time <", value, "signStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignStartTimeLessThanOrEqualTo(Long value) {
+            addCriterion("sign_start_time <=", value, "signStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignStartTimeIn(List<Long> values) {
+            addCriterion("sign_start_time in", values, "signStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignStartTimeNotIn(List<Long> values) {
+            addCriterion("sign_start_time not in", values, "signStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignStartTimeBetween(Long value1, Long value2) {
+            addCriterion("sign_start_time between", value1, value2, "signStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignStartTimeNotBetween(Long value1, Long value2) {
+            addCriterion("sign_start_time not between", value1, value2, "signStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignEndTimeIsNull() {
+            addCriterion("sign_end_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignEndTimeIsNotNull() {
+            addCriterion("sign_end_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignEndTimeEqualTo(Long value) {
+            addCriterion("sign_end_time =", value, "signEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignEndTimeNotEqualTo(Long value) {
+            addCriterion("sign_end_time <>", value, "signEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignEndTimeGreaterThan(Long value) {
+            addCriterion("sign_end_time >", value, "signEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignEndTimeGreaterThanOrEqualTo(Long value) {
+            addCriterion("sign_end_time >=", value, "signEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignEndTimeLessThan(Long value) {
+            addCriterion("sign_end_time <", value, "signEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignEndTimeLessThanOrEqualTo(Long value) {
+            addCriterion("sign_end_time <=", value, "signEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignEndTimeIn(List<Long> values) {
+            addCriterion("sign_end_time in", values, "signEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignEndTimeNotIn(List<Long> values) {
+            addCriterion("sign_end_time not in", values, "signEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignEndTimeBetween(Long value1, Long value2) {
+            addCriterion("sign_end_time between", value1, value2, "signEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignEndTimeNotBetween(Long value1, Long value2) {
+            addCriterion("sign_end_time not between", value1, value2, "signEndTime");
             return (Criteria) this;
         }
 
@@ -794,63 +974,63 @@ public class ActivityTbExample {
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeIsNull() {
-            addCriterion("update_time is null");
+        public Criteria andApplyNumsIsNull() {
+            addCriterion("apply_nums is null");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeIsNotNull() {
-            addCriterion("update_time is not null");
+        public Criteria andApplyNumsIsNotNull() {
+            addCriterion("apply_nums is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeEqualTo(Long value) {
-            addCriterion("update_time =", value, "updateTime");
+        public Criteria andApplyNumsEqualTo(Integer value) {
+            addCriterion("apply_nums =", value, "applyNums");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeNotEqualTo(Long value) {
-            addCriterion("update_time <>", value, "updateTime");
+        public Criteria andApplyNumsNotEqualTo(Integer value) {
+            addCriterion("apply_nums <>", value, "applyNums");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeGreaterThan(Long value) {
-            addCriterion("update_time >", value, "updateTime");
+        public Criteria andApplyNumsGreaterThan(Integer value) {
+            addCriterion("apply_nums >", value, "applyNums");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeGreaterThanOrEqualTo(Long value) {
-            addCriterion("update_time >=", value, "updateTime");
+        public Criteria andApplyNumsGreaterThanOrEqualTo(Integer value) {
+            addCriterion("apply_nums >=", value, "applyNums");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeLessThan(Long value) {
-            addCriterion("update_time <", value, "updateTime");
+        public Criteria andApplyNumsLessThan(Integer value) {
+            addCriterion("apply_nums <", value, "applyNums");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeLessThanOrEqualTo(Long value) {
-            addCriterion("update_time <=", value, "updateTime");
+        public Criteria andApplyNumsLessThanOrEqualTo(Integer value) {
+            addCriterion("apply_nums <=", value, "applyNums");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeIn(List<Long> values) {
-            addCriterion("update_time in", values, "updateTime");
+        public Criteria andApplyNumsIn(List<Integer> values) {
+            addCriterion("apply_nums in", values, "applyNums");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeNotIn(List<Long> values) {
-            addCriterion("update_time not in", values, "updateTime");
+        public Criteria andApplyNumsNotIn(List<Integer> values) {
+            addCriterion("apply_nums not in", values, "applyNums");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeBetween(Long value1, Long value2) {
-            addCriterion("update_time between", value1, value2, "updateTime");
+        public Criteria andApplyNumsBetween(Integer value1, Integer value2) {
+            addCriterion("apply_nums between", value1, value2, "applyNums");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeNotBetween(Long value1, Long value2) {
-            addCriterion("update_time not between", value1, value2, "updateTime");
+        public Criteria andApplyNumsNotBetween(Integer value1, Integer value2) {
+            addCriterion("apply_nums not between", value1, value2, "applyNums");
             return (Criteria) this;
         }
 
@@ -914,66 +1094,6 @@ public class ActivityTbExample {
             return (Criteria) this;
         }
 
-        public Criteria andApplyNumsIsNull() {
-            addCriterion("apply_nums is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyNumsIsNotNull() {
-            addCriterion("apply_nums is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyNumsEqualTo(Integer value) {
-            addCriterion("apply_nums =", value, "applyNums");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyNumsNotEqualTo(Integer value) {
-            addCriterion("apply_nums <>", value, "applyNums");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyNumsGreaterThan(Integer value) {
-            addCriterion("apply_nums >", value, "applyNums");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyNumsGreaterThanOrEqualTo(Integer value) {
-            addCriterion("apply_nums >=", value, "applyNums");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyNumsLessThan(Integer value) {
-            addCriterion("apply_nums <", value, "applyNums");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyNumsLessThanOrEqualTo(Integer value) {
-            addCriterion("apply_nums <=", value, "applyNums");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyNumsIn(List<Integer> values) {
-            addCriterion("apply_nums in", values, "applyNums");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyNumsNotIn(List<Integer> values) {
-            addCriterion("apply_nums not in", values, "applyNums");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyNumsBetween(Integer value1, Integer value2) {
-            addCriterion("apply_nums between", value1, value2, "applyNums");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyNumsNotBetween(Integer value1, Integer value2) {
-            addCriterion("apply_nums not between", value1, value2, "applyNums");
-            return (Criteria) this;
-        }
-
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -1031,6 +1151,66 @@ public class ActivityTbExample {
 
         public Criteria andCreateTimeNotBetween(Long value1, Long value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIsNull() {
+            addCriterion("update_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIsNotNull() {
+            addCriterion("update_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeEqualTo(Long value) {
+            addCriterion("update_time =", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotEqualTo(Long value) {
+            addCriterion("update_time <>", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeGreaterThan(Long value) {
+            addCriterion("update_time >", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeGreaterThanOrEqualTo(Long value) {
+            addCriterion("update_time >=", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeLessThan(Long value) {
+            addCriterion("update_time <", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeLessThanOrEqualTo(Long value) {
+            addCriterion("update_time <=", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIn(List<Long> values) {
+            addCriterion("update_time in", values, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotIn(List<Long> values) {
+            addCriterion("update_time not in", values, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeBetween(Long value1, Long value2) {
+            addCriterion("update_time between", value1, value2, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotBetween(Long value1, Long value2) {
+            addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
     }

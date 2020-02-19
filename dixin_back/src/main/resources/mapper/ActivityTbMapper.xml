@@ -5,7 +5,10 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="time" property="time" jdbcType="BIGINT" />
+    <result column="activity_start_time" property="activityStartTime" jdbcType="BIGINT" />
+    <result column="activity_end_time" property="activityEndTime" jdbcType="BIGINT" />
+    <result column="sign_start_time" property="signStartTime" jdbcType="BIGINT" />
+    <result column="sign_end_time" property="signEndTime" jdbcType="BIGINT" />
     <result column="read_num" property="readNum" jdbcType="BIGINT" />
     <result column="good_num" property="goodNum" jdbcType="BIGINT" />
     <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
@@ -13,10 +16,10 @@
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="if_send" property="ifSend" jdbcType="INTEGER" />
     <result column="activity_time" property="activityTime" jdbcType="INTEGER" />
-    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
-    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     <result column="apply_nums" property="applyNums" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.fire.back.entity.ActivityTbWithBLOBs" extends="BaseResultMap" >
     <result column="body" property="body" jdbcType="LONGVARCHAR" />
@@ -81,8 +84,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, title, address, time, read_num, good_num, pic_url, state, type, if_send, activity_time, 
-    update_time, is_delete, apply_nums, create_time
+    id, title, address, activity_start_time, activity_end_time, sign_start_time, sign_end_time, 
+    read_num, good_num, pic_url, state, type, if_send, activity_time, apply_nums, is_delete, 
+    create_time, update_time
   </sql>
   <sql id="Blob_Column_List" >
     body, apply_names
@@ -137,16 +141,18 @@
   </delete>
   <insert id="insert" parameterType="com.fire.back.entity.ActivityTbWithBLOBs" >
     insert into activity_tb (id, title, address, 
-      time, read_num, good_num, 
+      activity_start_time, activity_end_time, sign_start_time, 
+      sign_end_time, read_num, good_num, 
       pic_url, state, type, 
-      if_send, activity_time, update_time, 
-      is_delete, apply_nums, create_time, 
+      if_send, activity_time, apply_nums, 
+      is_delete, create_time, update_time, 
       body, apply_names)
     values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{time,jdbcType=BIGINT}, #{readNum,jdbcType=BIGINT}, #{goodNum,jdbcType=BIGINT}, 
+      #{activityStartTime,jdbcType=BIGINT}, #{activityEndTime,jdbcType=BIGINT}, #{signStartTime,jdbcType=BIGINT}, 
+      #{signEndTime,jdbcType=BIGINT}, #{readNum,jdbcType=BIGINT}, #{goodNum,jdbcType=BIGINT}, 
       #{picUrl,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{ifSend,jdbcType=INTEGER}, #{activityTime,jdbcType=INTEGER}, #{updateTime,jdbcType=BIGINT}, 
-      #{isDelete,jdbcType=INTEGER}, #{applyNums,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
+      #{ifSend,jdbcType=INTEGER}, #{activityTime,jdbcType=INTEGER}, #{applyNums,jdbcType=INTEGER}, 
+      #{isDelete,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, 
       #{body,jdbcType=LONGVARCHAR}, #{applyNames,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.fire.back.entity.ActivityTbWithBLOBs" >
@@ -161,8 +167,17 @@
       <if test="address != null" >
         address,
       </if>
-      <if test="time != null" >
-        time,
+      <if test="activityStartTime != null" >
+        activity_start_time,
+      </if>
+      <if test="activityEndTime != null" >
+        activity_end_time,
+      </if>
+      <if test="signStartTime != null" >
+        sign_start_time,
+      </if>
+      <if test="signEndTime != null" >
+        sign_end_time,
       </if>
       <if test="readNum != null" >
         read_num,
@@ -185,17 +200,17 @@
       <if test="activityTime != null" >
         activity_time,
       </if>
-      <if test="updateTime != null" >
-        update_time,
+      <if test="applyNums != null" >
+        apply_nums,
       </if>
       <if test="isDelete != null" >
         is_delete,
       </if>
-      <if test="applyNums != null" >
-        apply_nums,
-      </if>
       <if test="createTime != null" >
         create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
       </if>
       <if test="body != null" >
         body,
@@ -214,8 +229,17 @@
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="time != null" >
-        #{time,jdbcType=BIGINT},
+      <if test="activityStartTime != null" >
+        #{activityStartTime,jdbcType=BIGINT},
+      </if>
+      <if test="activityEndTime != null" >
+        #{activityEndTime,jdbcType=BIGINT},
+      </if>
+      <if test="signStartTime != null" >
+        #{signStartTime,jdbcType=BIGINT},
+      </if>
+      <if test="signEndTime != null" >
+        #{signEndTime,jdbcType=BIGINT},
       </if>
       <if test="readNum != null" >
         #{readNum,jdbcType=BIGINT},
@@ -238,17 +262,17 @@
       <if test="activityTime != null" >
         #{activityTime,jdbcType=INTEGER},
       </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=BIGINT},
+      <if test="applyNums != null" >
+        #{applyNums,jdbcType=INTEGER},
       </if>
       <if test="isDelete != null" >
         #{isDelete,jdbcType=INTEGER},
       </if>
-      <if test="applyNums != null" >
-        #{applyNums,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
       </if>
       <if test="body != null" >
         #{body,jdbcType=LONGVARCHAR},
@@ -276,8 +300,17 @@
       <if test="record.address != null" >
         address = #{record.address,jdbcType=VARCHAR},
       </if>
-      <if test="record.time != null" >
-        time = #{record.time,jdbcType=BIGINT},
+      <if test="record.activityStartTime != null" >
+        activity_start_time = #{record.activityStartTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.activityEndTime != null" >
+        activity_end_time = #{record.activityEndTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.signStartTime != null" >
+        sign_start_time = #{record.signStartTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.signEndTime != null" >
+        sign_end_time = #{record.signEndTime,jdbcType=BIGINT},
       </if>
       <if test="record.readNum != null" >
         read_num = #{record.readNum,jdbcType=BIGINT},
@@ -300,17 +333,17 @@
       <if test="record.activityTime != null" >
         activity_time = #{record.activityTime,jdbcType=INTEGER},
       </if>
-      <if test="record.updateTime != null" >
-        update_time = #{record.updateTime,jdbcType=BIGINT},
+      <if test="record.applyNums != null" >
+        apply_nums = #{record.applyNums,jdbcType=INTEGER},
       </if>
       <if test="record.isDelete != null" >
         is_delete = #{record.isDelete,jdbcType=INTEGER},
       </if>
-      <if test="record.applyNums != null" >
-        apply_nums = #{record.applyNums,jdbcType=INTEGER},
-      </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=BIGINT},
       </if>
       <if test="record.body != null" >
         body = #{record.body,jdbcType=LONGVARCHAR},
@@ -328,7 +361,10 @@
     set id = #{record.id,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
-      time = #{record.time,jdbcType=BIGINT},
+      activity_start_time = #{record.activityStartTime,jdbcType=BIGINT},
+      activity_end_time = #{record.activityEndTime,jdbcType=BIGINT},
+      sign_start_time = #{record.signStartTime,jdbcType=BIGINT},
+      sign_end_time = #{record.signEndTime,jdbcType=BIGINT},
       read_num = #{record.readNum,jdbcType=BIGINT},
       good_num = #{record.goodNum,jdbcType=BIGINT},
       pic_url = #{record.picUrl,jdbcType=VARCHAR},
@@ -336,10 +372,10 @@
       type = #{record.type,jdbcType=INTEGER},
       if_send = #{record.ifSend,jdbcType=INTEGER},
       activity_time = #{record.activityTime,jdbcType=INTEGER},
-      update_time = #{record.updateTime,jdbcType=BIGINT},
-      is_delete = #{record.isDelete,jdbcType=INTEGER},
       apply_nums = #{record.applyNums,jdbcType=INTEGER},
+      is_delete = #{record.isDelete,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=BIGINT},
       body = #{record.body,jdbcType=LONGVARCHAR},
       apply_names = #{record.applyNames,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
@@ -351,7 +387,10 @@
     set id = #{record.id,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
-      time = #{record.time,jdbcType=BIGINT},
+      activity_start_time = #{record.activityStartTime,jdbcType=BIGINT},
+      activity_end_time = #{record.activityEndTime,jdbcType=BIGINT},
+      sign_start_time = #{record.signStartTime,jdbcType=BIGINT},
+      sign_end_time = #{record.signEndTime,jdbcType=BIGINT},
       read_num = #{record.readNum,jdbcType=BIGINT},
       good_num = #{record.goodNum,jdbcType=BIGINT},
       pic_url = #{record.picUrl,jdbcType=VARCHAR},
@@ -359,10 +398,10 @@
       type = #{record.type,jdbcType=INTEGER},
       if_send = #{record.ifSend,jdbcType=INTEGER},
       activity_time = #{record.activityTime,jdbcType=INTEGER},
-      update_time = #{record.updateTime,jdbcType=BIGINT},
-      is_delete = #{record.isDelete,jdbcType=INTEGER},
       apply_nums = #{record.applyNums,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=BIGINT}
+      is_delete = #{record.isDelete,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=BIGINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -376,8 +415,17 @@
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="time != null" >
-        time = #{time,jdbcType=BIGINT},
+      <if test="activityStartTime != null" >
+        activity_start_time = #{activityStartTime,jdbcType=BIGINT},
+      </if>
+      <if test="activityEndTime != null" >
+        activity_end_time = #{activityEndTime,jdbcType=BIGINT},
+      </if>
+      <if test="signStartTime != null" >
+        sign_start_time = #{signStartTime,jdbcType=BIGINT},
+      </if>
+      <if test="signEndTime != null" >
+        sign_end_time = #{signEndTime,jdbcType=BIGINT},
       </if>
       <if test="readNum != null" >
         read_num = #{readNum,jdbcType=BIGINT},
@@ -400,17 +448,17 @@
       <if test="activityTime != null" >
         activity_time = #{activityTime,jdbcType=INTEGER},
       </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=BIGINT},
+      <if test="applyNums != null" >
+        apply_nums = #{applyNums,jdbcType=INTEGER},
       </if>
       <if test="isDelete != null" >
         is_delete = #{isDelete,jdbcType=INTEGER},
       </if>
-      <if test="applyNums != null" >
-        apply_nums = #{applyNums,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
       </if>
       <if test="body != null" >
         body = #{body,jdbcType=LONGVARCHAR},
@@ -425,7 +473,10 @@
     update activity_tb
     set title = #{title,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      time = #{time,jdbcType=BIGINT},
+      activity_start_time = #{activityStartTime,jdbcType=BIGINT},
+      activity_end_time = #{activityEndTime,jdbcType=BIGINT},
+      sign_start_time = #{signStartTime,jdbcType=BIGINT},
+      sign_end_time = #{signEndTime,jdbcType=BIGINT},
       read_num = #{readNum,jdbcType=BIGINT},
       good_num = #{goodNum,jdbcType=BIGINT},
       pic_url = #{picUrl,jdbcType=VARCHAR},
@@ -433,10 +484,10 @@
       type = #{type,jdbcType=INTEGER},
       if_send = #{ifSend,jdbcType=INTEGER},
       activity_time = #{activityTime,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=BIGINT},
-      is_delete = #{isDelete,jdbcType=INTEGER},
       apply_nums = #{applyNums,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
       body = #{body,jdbcType=LONGVARCHAR},
       apply_names = #{applyNames,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
@@ -445,7 +496,10 @@
     update activity_tb
     set title = #{title,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      time = #{time,jdbcType=BIGINT},
+      activity_start_time = #{activityStartTime,jdbcType=BIGINT},
+      activity_end_time = #{activityEndTime,jdbcType=BIGINT},
+      sign_start_time = #{signStartTime,jdbcType=BIGINT},
+      sign_end_time = #{signEndTime,jdbcType=BIGINT},
       read_num = #{readNum,jdbcType=BIGINT},
       good_num = #{goodNum,jdbcType=BIGINT},
       pic_url = #{picUrl,jdbcType=VARCHAR},
@@ -453,10 +507,10 @@
       type = #{type,jdbcType=INTEGER},
       if_send = #{ifSend,jdbcType=INTEGER},
       activity_time = #{activityTime,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=BIGINT},
-      is_delete = #{isDelete,jdbcType=INTEGER},
       apply_nums = #{applyNums,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=BIGINT}
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

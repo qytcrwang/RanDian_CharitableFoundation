@@ -7,7 +7,13 @@ public class ActivityTb {
 
     private String address;
 
-    private Long time;
+    private Long activityStartTime;
+
+    private Long activityEndTime;
+
+    private Long signStartTime;
+
+    private Long signEndTime;
 
     private Long readNum;
 
@@ -23,13 +29,13 @@ public class ActivityTb {
 
     private Integer activityTime;
 
-    private Long updateTime;
+    private Integer applyNums;
 
     private Integer isDelete;
 
-    private Integer applyNums;
-
     private Long createTime;
+
+    private Long updateTime;
 
     public Long getId() {
         return id;
@@ -55,12 +61,36 @@ public class ActivityTb {
         this.address = address == null ? null : address.trim();
     }
 
-    public Long getTime() {
-        return time;
+    public Long getActivityStartTime() {
+        return activityStartTime;
     }
 
-    public void setTime(Long time) {
-        this.time = time;
+    public void setActivityStartTime(Long activityStartTime) {
+        this.activityStartTime = activityStartTime;
+    }
+
+    public Long getActivityEndTime() {
+        return activityEndTime;
+    }
+
+    public void setActivityEndTime(Long activityEndTime) {
+        this.activityEndTime = activityEndTime;
+    }
+
+    public Long getSignStartTime() {
+        return signStartTime;
+    }
+
+    public void setSignStartTime(Long signStartTime) {
+        this.signStartTime = signStartTime;
+    }
+
+    public Long getSignEndTime() {
+        return signEndTime;
+    }
+
+    public void setSignEndTime(Long signEndTime) {
+        this.signEndTime = signEndTime;
     }
 
     public Long getReadNum() {
@@ -119,12 +149,12 @@ public class ActivityTb {
         this.activityTime = activityTime;
     }
 
-    public Long getUpdateTime() {
-        return updateTime;
+    public Integer getApplyNums() {
+        return applyNums;
     }
 
-    public void setUpdateTime(Long updateTime) {
-        this.updateTime = updateTime;
+    public void setApplyNums(Integer applyNums) {
+        this.applyNums = applyNums;
     }
 
     public Integer getIsDelete() {
@@ -135,19 +165,19 @@ public class ActivityTb {
         this.isDelete = isDelete;
     }
 
-    public Integer getApplyNums() {
-        return applyNums;
-    }
-
-    public void setApplyNums(Integer applyNums) {
-        this.applyNums = applyNums;
-    }
-
     public Long getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Long createTime) {
         this.createTime = createTime;
+    }
+
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
     }
 }

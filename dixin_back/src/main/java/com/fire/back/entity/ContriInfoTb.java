@@ -33,6 +33,8 @@ public class ContriInfoTb {
 
     private Long createTime;
 
+    private Integer contriValue;
+
     public Long getId() {
         return id;
     }
@@ -151,5 +153,13 @@ public class ContriInfoTb {
 
     public void setCreateTime(Long createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getContriValue() {
+        return contriValue;
+    }
+
+    public void setContriValue(Integer contriValue) {
+        this.contriValue = contriValue;
     }
 }
