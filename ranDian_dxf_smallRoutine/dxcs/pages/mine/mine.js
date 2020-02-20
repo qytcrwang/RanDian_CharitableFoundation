@@ -68,6 +68,13 @@ Page({
       url: '../restMoney/restMoney',
     })
   },
+  //跳转到我的公益活动页面
+  activities(){
+    wx.navigateTo({
+      url:'../my_activities/my_activities'
+    })
+  },
+  //跳转到账户信息页面
   accountInfo(){
     wx.navigateTo({
       url:'../account/account'
@@ -77,18 +84,6 @@ Page({
   view() {
     wx.navigateTo({
       url: '../view/view',
-    })
-  },
-  //我的地址
-  addr(){
-    wx.navigateTo({
-      url: '../myAddr/myAddr',
-    })
-  },
-  //退出登录
-  signOut(){
-    wx.navigateTo({
-      url: '../logs/log',
     })
   }
 })

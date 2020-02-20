@@ -39,7 +39,7 @@
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
   </view>
-  <view wx:if="{{isLogin}}" class='list'>
+  <view wx:if="{{isLogin}}" class='list' bindtap='activities'>
     <view class='list_left'>
       <image class='listIcon' src='/img/mine_activity.png'></image>
       <view class='listName'>公益活动</view>
