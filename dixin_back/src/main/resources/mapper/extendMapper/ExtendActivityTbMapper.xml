@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fire.back.dao.extend.ExtendActivityTbMapper" >
+
+ <select id="getIdAndNameByPage" resultType="Map" parameterType="map" >
+ 	select id,title from activity_tb ${param} 
+ </select>
+ 
+ <select id="getInfoById" resultType="Map" parameterType="map" >
+ 	select a.id,a.title,a.body,a.address,
+	from_unixtime(a.activity_start_time) activity_stime,
+	from_unixtime(a.activity_end_time) activity_etime,
+	from_unixtime(a.sign_start_time) sign_stime,
+	from_unixtime(a.sign_end_time) sign_etime,
+	a.read_num,a.good_num,a.pic_url,a.activity_time,
+	a.apply_names,a.apply_nums,
+	s1.value state,s2.value type,s3.value if_send 
+	from activity_tb a left join 
+	(select code,value from syscode_tb where name='activity_state') s1 
+	on a.state = s1.code left join 
+	(select code,value from syscode_tb where name='activity_type') s2 
+	on a.state = s2.code left join 
+	(select code,value from syscode_tb where name='activity_if_send') s3 
+	on a.state = s3.code 
+	where a.id=#{id,jdbcType=BIGINT}
+ </select>
+ <select id="getNamesAndNumsById" resultType="Map" parameterType="map" >
+ 	select a.id,ifnull(a.apply_names,'') apply_names,
+ 	ifnull(a.apply_nums,0) apply_nums  
+ 	from activity_tb a 
+	where a.id=#{id,jdbcType=BIGINT} for update
+ </select>
+</mapper>

@@ -19,7 +19,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 @SpringBootApplication
 @Configuration
 @ComponentScan("com.fire")
-@MapperScan({"com.fire.back.dao"})
+@MapperScan({"com.fire.back.dao","com.fire.back.dao.extend"})
 @ServletComponentScan
 public class Application {
 
