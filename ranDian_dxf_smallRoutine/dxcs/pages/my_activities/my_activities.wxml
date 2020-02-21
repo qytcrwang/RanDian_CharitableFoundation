@@ -13,7 +13,7 @@
           <view class='numAndTime'>
             <image class='numPic' src='/img/moren.png'></image>
             <view  class='numInfo'>
-              <view class='num'>{{item.num}}</view>
+              <view class='num'>{{item.title}}</view>
               <view class='time'>{{item.time}}</view>
             </view>
           </view>
@@ -32,8 +32,8 @@
           <view class='numAndTime'>
             <image class='numPic' src='/img/moren.png'></image>
             <view  class='numInfo'>
-              <view class='num'>物品编号:{{item.num}}</view>
-              <view class='time'>创建时间:{{item.time}}</view>
+              <view class='num'>{{item.title}}</view>
+              <view class='time'>{{item.time}}</view>
             </view>
           </view>
           <view class='state'>进行中</view>
@@ -51,8 +51,8 @@
           <view class='numAndTime'>
             <image class='numPic' src='/img/moren.png'></image>
             <view  class='numInfo'>
-              <view class='num'>物品编号:{{item.num}}</view>
-              <view class='time'>创建时间:{{item.time}}</view>
+              <view class='num'>{{item.title}}</view>
+              <view class='time'>{{item.time}}</view>
             </view>
           </view>
           <view class='state'>已完成</view>

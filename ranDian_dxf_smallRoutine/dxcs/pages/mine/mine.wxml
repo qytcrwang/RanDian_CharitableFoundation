@@ -32,10 +32,10 @@
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
   </view>
-  <view wx:if="{{isLogin}}" class='list' bindtap='view'>
+  <view wx:if="{{isLogin}}" class='list' bindtap='donations'>
     <view class='list_left'>
       <image class='listIcon' src='/img/mine_donation.png'></image>
-      <view class='listName'>我要捐助</view>
+      <view class='listName'>我的捐助</view>
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
   </view>

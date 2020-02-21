@@ -1,0 +1,46 @@
+<!--pages/goods/goods.wxml-->
+<view class="swiper-tab">  
+    <view class="tab-item {{ongoingTab?'active':''}} "  bindtap="toOngoingTab">进行中({{ongoingNum}})</view>
+    <view class="tab-item {{completedTab?'active':''}}"  bindtap="toCompletedTab">已完成({{completedNum}})</view>
+</view>
+<view class='tab-items'>
+    <view class='tab_item_blank'></view>  
+    <!-- 进行中 -->  
+    <view class='{{ongoingTab?"show":"hidden"}}'>
+      <view class='list' wx:for="{{ongoingList}}" wx:for-item="item" wx:key='id'>
+        <view class='list_top'>
+          <view class='numAndTime'>
+            <image class='numPic' src='/img/donations_money.png'></image>
+            <view  class='numInfo'>
+              <view class='num'>{{item.title}}</view>
+              <view class='time'>{{item.time}}</view>
+            </view>
+          </view>
+          <view class='state'>进行中</view>
+        </view>
+        <view class='list_bottom'>
+          <view class="integral"><text class="integral_text">爱心积分：</text><text class="integral_num">+ 0</text></view>
+          <view class='detail_btn' bindtap='detailsLook'>查看详情</view>
+        </view>
+      </view>
+    </view>
+    <!-- 已入库 -->  
+    <view class='{{completedTab?"show":"hidden"}}'>
+      <view class='list' wx:for="{{completedList}}" wx:key='id' wx:for-item="item">
+        <view class='list_top'>
+          <view class='numAndTime'>
+            <image class='numPic' src='/img/donations_goods.png'></image>
+            <view  class='numInfo'>
+              <view class='num'>{{item.title}}</view>
+              <view class='time'>{{item.time}}</view>
+            </view>
+          </view>
+          <view class='state'>已入库</view>
+        </view>
+        <view class='list_bottom'>
+          <view class="integral"><text class="integral_text">爱心积分：</text><text class="integral_num">+ 0</text></view>
+          <view class='detail_btn' catchtap='detailsLook'>查看详情</view>
+        </view>
+      </view>
+    </view>
+</view>

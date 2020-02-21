@@ -63,9 +63,9 @@ Page({
     })
   },
   //个人中心的我的余额,点击跳转到我的余额
-  restMoney() {
+  donations() {
     wx.navigateTo({
-      url: '../restMoney/restMoney',
+      url: '../my_donations/my_donations',
     })
   },
   //跳转到我的公益活动页面
