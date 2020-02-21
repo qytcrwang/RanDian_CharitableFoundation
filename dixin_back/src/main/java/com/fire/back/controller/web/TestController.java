@@ -8,8 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fire.back.common.FireResult;
@@ -24,12 +25,12 @@ import com.fire.back.util.ParamUtil;
 public class TestController {
 	private Logger logger = LoggerFactory.getLogger(TestController.class);
 
-	@RequestMapping("/test1")
+	@GetMapping("/test1")
 	public String test1() {
 		return "index";
 	}
 
-	@RequestMapping("/getInfo")
+	@PostMapping("/getInfo")
 	@ResponseBody
 	public FireResult getInfo(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {
 		try {
