@@ -51,3 +51,4 @@ dixin_back/target/
 
 # 忽略application.properties文件的更新
 dixin_back/src/main/resources/application.properties
+generatorSqlmapCustom/.classpath

@@ -16,4 +16,5 @@ public interface ActivityService {
 			throws FileNotFoundException;
 	public Map<String, Object> getInfoById(Long activityId,Long userId);
 	public Map<String, Object> applyActivity(Long activityId,Long userId);
+	public List<Map<String, Object>> getUserList(Long userId,int flag);
 }

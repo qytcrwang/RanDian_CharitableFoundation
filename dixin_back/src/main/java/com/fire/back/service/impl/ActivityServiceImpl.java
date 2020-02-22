@@ -103,6 +103,16 @@ public class ActivityServiceImpl implements ActivityService {
 		returnMap.put("nums", newNums);
 		return returnMap;
 	}
+	
+	//flag 0已报名未结束 1已到场
+	@Override
+	public List<Map<String, Object>> getUserList(Long userId,int flag){
+		Map<String,Object> params = new HashMap<>();
+		params.put("activityUserState", flag);
+		params.put("extend", " and a.state not in ("+(flag==0?"3,4":"4")+")");
+		List<Map<String, Object>> list = activityMapper.getUserList(params);
+		return list;
+	}
 }
 
 

@@ -6,6 +6,7 @@
  */
 package com.fire.back.controller.app;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,6 +83,22 @@ public class ActivityController {
 			Long userId = ParamUtil.getLong(paramMap, "userId", -1L);
 			Map<String, Object> info = service.applyActivity(id, userId);
 			return FireResult.build(1, "报名成功",info);
+		} catch (Exception e) {
+			logger.error("",e);
+			return FireResult.build(0, "获取信息失败，请稍后再试");
+		}
+	}
+	
+	//已报名  已到场
+	@PostMapping("wx/activity/getUserList")
+	@ResponseBody
+	public FireResult getUserList(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {
+		try {
+			Long userId = ParamUtil.getLong(paramMap, "userId", -1L);
+			Map<String, List<Map<String,Object>>> info = new HashMap<>();
+			info.put("0", service.getUserList(userId, 0));
+			info.put("1", service.getUserList(userId, 1));
+			return FireResult.build(1, "数据获取成功",info);
 		} catch (Exception e) {
 			logger.error("",e);
 			return FireResult.build(0, "获取信息失败，请稍后再试");

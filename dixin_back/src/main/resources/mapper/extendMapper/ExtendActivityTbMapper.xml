@@ -30,4 +30,14 @@
  	from activity_tb a 
 	where a.id=#{id,jdbcType=BIGINT} for update
  </select>
+ 
+ <select id="getUserList" resultType="Map" parameterType="map" >
+ 	select a.id,a.title,a.activity_time,
+ 	from_unixtime(activity_start_time) stime,
+ 	from_unixtime(activity_end_time) etime 
+ 	from activity_tb a ,activity_user_tb au ,user_tb u 
+ 	where a.id = au.activity_id and au.user_id = u.id 
+ 	and au.state = #{activityUserState,jdbcType=INTEGER} 
+ 	${extend}
+ </select>
 </mapper>
