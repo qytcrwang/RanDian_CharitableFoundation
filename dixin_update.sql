@@ -2,7 +2,7 @@
 -- 规范：
 -- 提交人 提交时间 描述 start end
 
--- 李汶龙 2020-02-22 添加字典表值 add start
+-- 李汶龙 2020-02-22 添加字典表值 创建菜单表 角色表 权限表 add start
 delete from syscode_tb;
 -- activity_tb
 insert into syscode_tb (name,code,value) values ('activity_state',0,'未发布');
@@ -109,4 +109,53 @@ ALTER TABLE `user_tb`
 MODIFY COLUMN `state`  int(2) NULL DEFAULT 0 COMMENT '用户状态 0正常1封禁 2注销' AFTER `reg_time`,
 MODIFY COLUMN `type`  int(2) NULL DEFAULT 0 COMMENT '用户类型 0普通 1儿童 2大学生' AFTER `state`,
 MODIFY COLUMN `sex`  int(1) NULL DEFAULT NULL COMMENT '性别 0女1男' AFTER `open_id`;
--- 李汶龙 2020-02-22 添加字典表值 add end
+
+-- 菜单表
+DROP TABLE IF EXISTS `menu_tb`;
+CREATE TABLE `menu_tb` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '菜单id',
+  `name` varchar(90) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '菜单名称',
+  `buttons` varchar(90) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '按钮功能字符串',
+  `url` varchar(90) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '菜单url',
+  `state` int(2) DEFAULT NULL COMMENT '菜单状态 0正常 1禁用',
+  `fid` int(10) DEFAULT NULL COMMENT '父级菜单id',
+  `sort` int(2) DEFAULT NULL COMMENT '同级菜单顺序',
+  `create_time` bigint(10) DEFAULT NULL,
+  `update_time` bigint(10) DEFAULT NULL,
+  `is_delete` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='菜单表';
+
+-- 角色表
+DROP TABLE IF EXISTS `role_tb`;
+CREATE TABLE `role_tb` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '角色id',
+  `name` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '角色名称',
+  `state` int(2) DEFAULT NULL COMMENT '角色状态 0正常1禁用',
+  `create_time` bigint(10) DEFAULT NULL,
+  `update_time` bigint(10) DEFAULT NULL,
+  `is_delete` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='角色表';
+
+-- 菜单角色表
+DROP TABLE IF EXISTS `menu_role_tb`;
+CREATE TABLE `menu_role_tb` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '菜单角色关联id',
+  `menu_id` int(10) DEFAULT NULL COMMENT '菜单id',
+  `role_id` int(10) DEFAULT NULL COMMENT '角色id',
+  `buttons` varchar(90) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '角色-菜单的按钮权限字符串',
+  `create_time` bigint(10) DEFAULT NULL,
+  `update_time` bigint(10) DEFAULT NULL,
+  `is_delete` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='菜单角色关联表';
+
+-- menu_tb
+insert into syscode_tb (name,code,value) values ('menu_state',0,'正常');
+insert into syscode_tb (name,code,value) values ('menu_state',1,'禁用');
+-- role_tb
+insert into syscode_tb (name,code,value) values ('role_state',0,'正常');
+insert into syscode_tb (name,code,value) values ('role_state',1,'禁用');
+
+-- 李汶龙 2020-02-22 添加字典表值 创建菜单表 角色表 权限表 add end
