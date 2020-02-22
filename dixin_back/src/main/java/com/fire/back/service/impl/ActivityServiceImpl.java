@@ -37,10 +37,12 @@ public class ActivityServiceImpl implements ActivityService {
 	 * @return
 	 */
 	@Override
-	public List<Map<String, Object>> getIdAndNameByPage(int page,int size,String field,String sort) 
+	public List<Map<String, Object>> getIdAndNameByPage(int page,int size,String field,String sort,int type) 
 			throws FileNotFoundException{
 		Map<String,Object> params = new HashMap<>();
-		String param = "order by "+field+" "+sort+" limit "+(page-1)+","+size;
+		String param = " where state in (1,2,3) ";
+		if(type>-1) param += " and type = "+type;
+		param += " order by "+field+" "+sort+" limit "+(page-1)+","+size;
 		params.put("param", param);
 		List<Map<String, Object>> list = activityMapper.getIdAndNameByPage(params);
 		for(Map<String, Object> map : list) {

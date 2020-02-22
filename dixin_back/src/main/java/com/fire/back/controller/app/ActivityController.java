@@ -51,7 +51,8 @@ public class ActivityController {
 			Integer size = ParamUtil.getInteger(paramMap, "size", 10);
 			String field = ParamUtil.getString(paramMap, "field", "id");
 			String sort = ParamUtil.getString(paramMap, "param4", "asc");
-			List<Map<String,Object>> list = service.getIdAndNameByPage(page, size, field, sort);
+			Integer type = ParamUtil.getInteger(paramMap, "param4", -1);
+			List<Map<String,Object>> list = service.getIdAndNameByPage(page, size, field, sort, type);
 			return FireResult.build(1, "数据获取成功", list);
 		} catch (Exception e) {
 			logger.error("",e);
