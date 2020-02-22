@@ -9,6 +9,42 @@ Page({
     // service_tel: "0551-12345678", 服务电话
     // complaint_tel: "0551-12345678" 投诉电话
     setting: [],
+    //推荐视频
+    othersList:[],
+    //轮播图数据
+    swiperList:[]
+  },
+
+  //获取首页轮播图
+  getSwiperList(){
+    let that = this;
+    wx.request({
+      url:"http://mock-api.com/VKyv1Gzw.mock/swiperList",
+      success(res){
+        if(res.data.code===0){
+          that.setData({
+            swiperList:res.data.data.swiperList,
+          })
+        }
+      }
+    })
+  },
+
+  /**
+   * 视频推荐列表
+   */
+  getOthersList(){
+    let that = this;
+    wx.request({
+      url:"http://mock-api.com/VKyv1Gzw.mock/othersList",
+      success(res){
+        if(res.data.code===0){
+          that.setData({
+            othersList:res.data.data.othersList
+          })
+        }
+      }
+    })
   },
 
   onShow: function () {
@@ -21,6 +57,8 @@ Page({
     wxb.that = this;
     wxb.style();
     this.getHome();
+    this.getSwiperList();
+    this.getOthersList();
   },
 
   getHome: function (e) {
