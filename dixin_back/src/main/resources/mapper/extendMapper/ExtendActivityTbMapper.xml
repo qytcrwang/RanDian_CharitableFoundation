@@ -8,10 +8,10 @@
  
  <select id="getInfoById" resultType="Map" parameterType="map" >
  	select a.id,a.title,a.body,a.address,
-	from_unixtime(a.activity_start_time) activity_stime,
-	from_unixtime(a.activity_end_time) activity_etime,
-	from_unixtime(a.sign_start_time) sign_stime,
-	from_unixtime(a.sign_end_time) sign_etime,
+	from_unixtime(a.activity_start_time,'%Y-%m-%d %H:%i:%S') activity_stime,
+	from_unixtime(a.activity_end_time,'%Y-%m-%d %H:%i:%S') activity_etime,
+	from_unixtime(a.sign_start_time,'%Y-%m-%d %H:%i:%S') sign_stime,
+	from_unixtime(a.sign_end_time,'%Y-%m-%d %H:%i:%S') sign_etime,
 	a.read_num,a.good_num,a.pic_url,a.activity_time,
 	a.apply_names,a.apply_nums,
 	s1.value state,s2.value type,s3.value if_send 
@@ -30,4 +30,20 @@
  	from activity_tb a 
 	where a.id=#{id,jdbcType=BIGINT} for update
  </select>
+ 
+ <select id="getUserList" resultType="Map" parameterType="map" >
+ 	select a.id,a.title,a.activity_time,
+ 	from_unixtime(activity_start_time,'%Y-%m-%d %H:%i:%S') stime,
+ 	from_unixtime(activity_end_time,'%Y-%m-%d %H:%i:%S') etime 
+ 	from activity_tb a ,activity_user_tb au ,user_tb u 
+ 	where a.id = au.activity_id and au.user_id = u.id 
+ 	and au.state = #{activityUserState,jdbcType=INTEGER} 
+ 	${extend}
+ </select>
+ <update id="addReadNum" parameterType="Long" >
+ 	update activity_tb set read_num = read_num+1 where id=#{id,jdbcType=BIGINT}
+ </update>
+ <update id="addGoodNum" parameterType="Long" >
+ 	update activity_tb set good_num = good_num+1 where id=#{id,jdbcType=BIGINT}
+ </update>
 </mapper>

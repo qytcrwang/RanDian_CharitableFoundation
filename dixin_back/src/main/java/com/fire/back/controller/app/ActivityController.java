@@ -6,6 +6,7 @@
  */
 package com.fire.back.controller.app;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,8 @@ public class ActivityController {
 			Integer size = ParamUtil.getInteger(paramMap, "size", 10);
 			String field = ParamUtil.getString(paramMap, "field", "id");
 			String sort = ParamUtil.getString(paramMap, "param4", "asc");
-			List<Map<String,Object>> list = service.getIdAndNameByPage(page, size, field, sort);
+			Integer type = ParamUtil.getInteger(paramMap, "param4", -1);
+			List<Map<String,Object>> list = service.getIdAndNameByPage(page, size, field, sort, type);
 			return FireResult.build(1, "数据获取成功", list);
 		} catch (Exception e) {
 			logger.error("",e);
@@ -84,7 +86,37 @@ public class ActivityController {
 			return FireResult.build(1, "报名成功",info);
 		} catch (Exception e) {
 			logger.error("",e);
+			return FireResult.build(0, "操作失败，请稍后再试");
+		}
+	}
+	
+	//已报名  已到场
+	@PostMapping("wx/activity/getUserList")
+	@ResponseBody
+	public FireResult getUserList(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {
+		try {
+			Long userId = ParamUtil.getLong(paramMap, "userId", -1L);
+			Map<String, List<Map<String,Object>>> info = new HashMap<>();
+			info.put("0", service.getUserList(userId, 0));
+			info.put("1", service.getUserList(userId, 1));
+			return FireResult.build(1, "数据获取成功",info);
+		} catch (Exception e) {
+			logger.error("",e);
 			return FireResult.build(0, "获取信息失败，请稍后再试");
+		}
+	}
+	
+
+	@PostMapping("wx/activity/addGood")
+	@ResponseBody
+	public FireResult addGood(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {
+		try {
+			Long activityId = ParamUtil.getLong(paramMap, "id", -1L);
+			service.addGood(activityId);
+			return FireResult.build(1, "点赞成功");
+		} catch (Exception e) {
+			logger.error("",e);
+			return FireResult.build(0, "操作失败，请稍后再试");
 		}
 	}
 }

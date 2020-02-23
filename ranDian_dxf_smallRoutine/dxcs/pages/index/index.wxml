@@ -1,9 +1,19 @@
 <view class="app">
-  <swiper style='height:360rpx;' indicator-dots="true" autoplay="true" interval="5000" duration="true">
+  <!-- <swiper style='height:360rpx;' indicator-dots="true" autoplay="true" interval="5000" duration="true">
     <swiper-item wx:for="{{datas.banner}}">
       <image src="{{item.photo}}" class="slide-image" />
     </swiper-item>
-  </swiper>
+  </swiper> -->
+  <!-- 轮播图 -->
+    <view class="slides">
+        <swiper autoplay indicator-dots circular>
+            <swiper-item wx:for="{{swiperList}}" wx:key="index">
+                <navigator >
+                    <image src="{{item.imgSrc}}" />
+                </navigator>
+            </swiper-item>
+        </swiper>
+    </view>
   <view class="menu">
     <navigator open-type="redirect" url="/pages/index/index">
       <view class="item">
@@ -63,11 +73,11 @@
     </view>
   </view>-->
 
-  <view class="block">
-    <view class="title">
+  <!-- <view class="block"> -->
+    <!-- <view class="title">
       <text>解决方案</text>
-    </view>
-    <view class="case" wx:for="{{datas.plan}}">
+    </view> -->
+    <!-- <view class="case" wx:for="{{datas.plan}}">
       <navigator url="/pages/case/detail?id={{item.id}}">
         <view class="item bdbt">
           <view class="lt">
@@ -83,22 +93,22 @@
           </view>
         </view>
       </navigator>
-    </view>
-  </view>
-  <view class="block">
-    <view class="title">
+    </view> -->
+  <!-- </view> -->
+  <!-- <view class="block"> -->
+    <!-- <view class="title">
       <text>企业动态</text>
-    </view>
-    <view class="news" wx:for="{{datas.news}}">
+    </view> -->
+    <!-- <view class="news" wx:for="{{datas.news}}">
       <navigator url="/pages/case/detail?id={{item.id}}">
         <view class="item bdbt">
           <view class="tit">{{item.title}}</view>
           <view class="riqi">{{item.add_time}}</view>
         </view>
       </navigator>
-    </view>
-  </view>
-  <view style="height:100rpx;"></view>
+    </view> -->
+  <!-- </view> -->
+  <!-- <view style="height:100rpx;"></view> -->
 
   <!--<view class="footer">
     <navigator url="/pages/contact/liuyan">
@@ -130,6 +140,28 @@
       <text>拨打电话</text>
     </view>
   </view>-->
+
+  <!-- 推荐视频 -->
+    <view class="other_list">
+        <navigator wx:for="{{othersList}}" wx:key="index" class="item_other">
+            <!-- 图片容器 -->
+            <view class="other_img_wrap">
+                <image src="{{item.imgSrc}}" mode="widthFix"/>
+            </view>
+            <!-- 推荐详情 -->
+            <view class="other_info">
+                <!-- 标题 -->
+                <view class="other_title">{{item.title}}</view>
+                <!-- 播放量 -->
+                <view class="other_detail">
+                    <!-- 观看数 -->
+                    <text class="play_count">{{item.playMsg}}万次观看</text>
+                    <!-- 评论量 -->
+                    <text class="comment_count">{{item.commentCount}}弹幕</text>
+                </view>
+            </view>
+        </navigator>
+    </view>
 
 
 </view>

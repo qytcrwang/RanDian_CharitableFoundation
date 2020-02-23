@@ -37,10 +37,12 @@ public class ActivityServiceImpl implements ActivityService {
 	 * @return
 	 */
 	@Override
-	public List<Map<String, Object>> getIdAndNameByPage(int page,int size,String field,String sort) 
+	public List<Map<String, Object>> getIdAndNameByPage(int page,int size,String field,String sort,int type) 
 			throws FileNotFoundException{
 		Map<String,Object> params = new HashMap<>();
-		String param = "order by "+field+" "+sort+" limit "+(page-1)+","+size;
+		String param = " where state in (1,2,3) ";
+		if(type>-1) param += " and type = "+type;
+		param += " order by "+field+" "+sort+" limit "+(page-1)+","+size;
 		params.put("param", param);
 		List<Map<String, Object>> list = activityMapper.getIdAndNameByPage(params);
 		for(Map<String, Object> map : list) {
@@ -61,6 +63,7 @@ public class ActivityServiceImpl implements ActivityService {
 	 */
 	@Override
 	public Map<String, Object> getInfoById(Long activityId,Long userId){
+		activityMapper.addReadNum(activityId);
 		ActivityUserTbExample example = new ActivityUserTbExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andUserIdEqualTo(userId);
@@ -102,6 +105,22 @@ public class ActivityServiceImpl implements ActivityService {
 		returnMap.put("names", newNames);
 		returnMap.put("nums", newNums);
 		return returnMap;
+	}
+	
+	//flag 0已报名未结束 1已到场
+	@Override
+	public List<Map<String, Object>> getUserList(Long userId,int flag){
+		Map<String,Object> params = new HashMap<>();
+		params.put("activityUserState", flag);
+		params.put("extend", " and a.state not in ("+(flag==0?"3,4":"4")+")");
+		List<Map<String, Object>> list = activityMapper.getUserList(params);
+		return list;
+	}
+	
+	//给活动点赞
+	@Override
+	public void addGood(Long activityId) {
+		activityMapper.addGoodNum(activityId);
 	}
 }
 
