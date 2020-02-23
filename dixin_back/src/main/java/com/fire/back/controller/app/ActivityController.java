@@ -86,7 +86,7 @@ public class ActivityController {
 			return FireResult.build(1, "报名成功",info);
 		} catch (Exception e) {
 			logger.error("",e);
-			return FireResult.build(0, "获取信息失败，请稍后再试");
+			return FireResult.build(0, "操作失败，请稍后再试");
 		}
 	}
 	
@@ -103,6 +103,20 @@ public class ActivityController {
 		} catch (Exception e) {
 			logger.error("",e);
 			return FireResult.build(0, "获取信息失败，请稍后再试");
+		}
+	}
+	
+
+	@PostMapping("wx/activity/addGood")
+	@ResponseBody
+	public FireResult addGood(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {
+		try {
+			Long activityId = ParamUtil.getLong(paramMap, "id", -1L);
+			service.addGood(activityId);
+			return FireResult.build(1, "点赞成功");
+		} catch (Exception e) {
+			logger.error("",e);
+			return FireResult.build(0, "操作失败，请稍后再试");
 		}
 	}
 }

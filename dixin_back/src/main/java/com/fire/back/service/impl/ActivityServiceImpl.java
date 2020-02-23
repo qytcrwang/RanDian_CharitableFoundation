@@ -63,6 +63,7 @@ public class ActivityServiceImpl implements ActivityService {
 	 */
 	@Override
 	public Map<String, Object> getInfoById(Long activityId,Long userId){
+		activityMapper.addReadNum(activityId);
 		ActivityUserTbExample example = new ActivityUserTbExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andUserIdEqualTo(userId);
@@ -114,6 +115,12 @@ public class ActivityServiceImpl implements ActivityService {
 		params.put("extend", " and a.state not in ("+(flag==0?"3,4":"4")+")");
 		List<Map<String, Object>> list = activityMapper.getUserList(params);
 		return list;
+	}
+	
+	//给活动点赞
+	@Override
+	public void addGood(Long activityId) {
+		activityMapper.addGoodNum(activityId);
 	}
 }
 
