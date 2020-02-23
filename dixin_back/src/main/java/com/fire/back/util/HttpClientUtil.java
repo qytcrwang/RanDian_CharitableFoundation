@@ -24,10 +24,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
- * Description: httpClient工具类
+ * description   :  工具类
  *
- * @author JourWon
- * @date Created on 2018年4月19日
+ * @return       :
+ * @exception    :
+ * @date         : 2020/2/23 4:21 PM
+ * @author       : Shy
  */
 public class HttpClientUtil {
 
