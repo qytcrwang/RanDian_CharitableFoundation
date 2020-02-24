@@ -94,7 +94,7 @@ public class ActivityServiceImpl implements ActivityService {
 		int newNums = Integer.parseInt(activityMap.get("apply_nums")+"")+1;
 		activity.setApplyNums(newNums);
 		activity.setUpdateTime(System.currentTimeMillis()/1000);
-		activityMapper.updateByPrimaryKeyWithBLOBs(activity);
+		activityMapper.updateByPrimaryKey(activity);
 		ActivityUserTb activityUser = new ActivityUserTb();
 		activityUser.setActivityId(activityId);
 		activityUser.setUserId(userId);
