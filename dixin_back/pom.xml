@@ -42,6 +42,12 @@
 			<artifactId>druid-spring-boot-starter</artifactId>
 			<version>${druid-spring-boot-starter.version}</version>
 		</dependency>
+		<!-- lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -102,7 +108,7 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<!-- 最终打包的名称 -->
 		<finalName>dixin</finalName>
@@ -110,8 +116,8 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<!-- <configuration> <mainClass>com.fire.Application</mainClass> <layout>ZIP</layout> 
-					</configuration> <executions> <execution> <goals> <goal>repackage</goal> 
+				<!-- <configuration> <mainClass>com.fire.Application</mainClass> <layout>ZIP</layout>
+					</configuration> <executions> <execution> <goals> <goal>repackage</goal>
 					</goals> </execution> </executions> -->
 				<configuration>
 					<fork>true</fork>
