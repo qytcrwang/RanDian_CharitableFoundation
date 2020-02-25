@@ -11,7 +11,8 @@
     "pages/product/detail",
     "pages/mine/mine",
     "pages/view/view",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/university_auth/university_auth"
   ],
   "window": {
     "backgroundTextStyle": "light",

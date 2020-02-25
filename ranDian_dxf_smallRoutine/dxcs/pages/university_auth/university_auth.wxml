@@ -1,0 +1,50 @@
+<!--pages/view/view.wxml-->
+<view class='main'>
+  <view class='title'>
+    <view class="title_hr_left">
+      <view class="hr"></view>
+    </view>
+    <view class="title_center">
+      <view class="title_lable">大学生认证</view>
+    </view>
+    <view class="title_hr_right">
+      <view class="hr"></view>
+    </view>
+  </view>
+  <view class="form_view">  
+    <view class='view'>
+      <form class="form">
+        <view class='input_list'>
+          <label class='input_lable' for="real_name">真实姓名</label>
+          <input id='real_name' placeholder='请输入您的真实姓名' placeholder-class='real_name'></input>
+        </view>
+        <view class='input_list'>
+          <label class='input_lable' for="university">在读院校</label>
+          <input id='university' placeholder='请输入您的所在院校' placeholder-class='university'></input>
+        </view>
+        <view class='input_list'>
+          <label class='input_lable' for="academy">学院</label>
+          <input id='academy' placeholder='请输入您所在的学院' placeholder-class='academy'></input>
+        </view>
+        <view class='input_list'>
+          <label class='input_lable' for="subject">专业</label>
+          <input id='subject' placeholder='请输入您的专业' placeholder-class='subject'></input>
+        </view>
+        <view class='input_list'>
+          <label class='input_lable' for="snm">学号</label>
+          <input id='sno' placeholder='请输入您的学号' placeholder-class='sno'></input>
+        </view>
+      </form>
+      <view class="kindly_reminder">
+        <view class="kindly_reminder_title_view">
+          <text class="kindly_reminder_title">温馨提示</text>
+        </view>
+        <view class="kindly_reminder_content_view">
+          <text class="kindly_reminder_content">为加强大学生捐赠信息管理，维护大学生的合法权益，需要您进行大学生身份认证，申请提交后24小时内会有专人审核。</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <button class='submit' form-type='submit'>确认提交</button>
+</view>
+

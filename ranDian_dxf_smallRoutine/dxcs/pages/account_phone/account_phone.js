@@ -9,7 +9,7 @@ Page({
   },
   onLoad:function(options){
     this.setData({
-      realName:options.phone
+      phone:options.phone
     });
   }
 })

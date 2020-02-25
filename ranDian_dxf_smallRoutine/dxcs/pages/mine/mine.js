@@ -57,9 +57,9 @@ Page({
     })
   },
   //个人中心的实名认证,点击跳转到实名认证
-  realName() {
+  university_auth() {
     wx.navigateTo({
-      url: '../realName/realName',
+      url: '../university_auth/university_auth',
     })
   },
   //个人中心的我的余额,点击跳转到我的余额
