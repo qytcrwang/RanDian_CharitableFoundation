@@ -6,8 +6,6 @@ import java.util.List;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,7 +55,7 @@ public class Application {
 	 * 设置Session超时时间。
 	 * @return
 	 */
-	@Bean
+	/*@Bean
 	public EmbeddedServletContainerCustomizer containerCustomizer(){
 		return new EmbeddedServletContainerCustomizer() {
 			@Override
@@ -65,5 +63,5 @@ public class Application {
 				container.setSessionTimeout(1800);	//单位：秒，根据需要进行修改
 			}
 		};
-	}
+	}*/
 }
