@@ -22,6 +22,13 @@ public class SignInServiceImpl implements SignInService {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH)+1;
         long day = cal.get(Calendar.DATE);
+        SignTb sign = signMapper.selectByParams(record.getUserId(),year,month);
+        if(sign!=null){
+            long signDays = sign.getSignDays();
+            if((signDays&(1<<31-day))>0){
+                return 0;
+            }
+        }
         record.setSignYear(year);
         record.setSignMonth(month);
         record.setSignDays(day);
@@ -63,4 +70,5 @@ public class SignInServiceImpl implements SignInService {
         }
        return Arrays.asList(daysString.split(""));
        }
+
 }

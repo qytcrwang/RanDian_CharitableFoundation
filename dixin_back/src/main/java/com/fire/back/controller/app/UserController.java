@@ -102,7 +102,7 @@ public class UserController {
             //以上为测试信息
 
            int result = ss.signIn(s);
-            return result>0?FireResult.build(1,"签到成功"):FireResult.build(0,"签到失败失败");
+            return result>0?FireResult.build(1,"签到成功"):FireResult.build(0,"请勿重复签到");
 
         }catch(Exception e){
             logger.error("签到异常",e);
