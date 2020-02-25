@@ -25,4 +25,12 @@ public interface ContriInfoService {
    * @return
    */
   Boolean updateContriStatus(ContriInfoTb contriInfoTb);
+
+  /**
+   * 我的捐赠信息查询.
+   *
+   * @param userId 入参
+   * @return
+   */
+  ContriInfoTb getSelfContriInfo(Long userId);
 }

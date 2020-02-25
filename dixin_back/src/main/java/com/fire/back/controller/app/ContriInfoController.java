@@ -7,9 +7,11 @@ import com.fire.back.common.CheckEmptyUtil;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -35,11 +37,15 @@ public class ContriInfoController {
       return FireResult.build(0, "入参不能为空");
     }
     try {
-      contriInfoService.saveContriInfo(contriInfoTb);
-      return FireResult.build(1, "数据获取成功", null);
+      Boolean b = contriInfoService.saveContriInfo(contriInfoTb);
+      if (b) {
+        return FireResult.build(1, "保存成功", null);
+      } else {
+        return FireResult.build(0, "保存失败，请稍后再试");
+      }
     } catch (Exception e) {
       logger.error("", e);
-      return FireResult.build(0, "获取信息失败，请稍后再试");
+      return FireResult.build(0, "保存失败，请稍后再试");
     }
   }
 
@@ -54,8 +60,31 @@ public class ContriInfoController {
       return FireResult.build(0, "入参不能为空");
     }
     try {
-      contriInfoService.updateContriStatus(contriInfoTb);
-      return FireResult.build(1, "数据获取成功", null);
+      Boolean b = contriInfoService.updateContriStatus(contriInfoTb);
+      if (b) {
+        return FireResult.build(1, "更新成功", null);
+      } else {
+        return FireResult.build(0, "更新失败，请稍后再试");
+      }
+    } catch (Exception e) {
+      logger.error("", e);
+      return FireResult.build(0, "更新失败，请稍后再试");
+    }
+  }
+
+  /**
+   * 我的捐赠信息查询.
+   *
+   * @return null
+   */
+  @GetMapping(value = "/get-self-contri-info")
+  public FireResult getSelfContriInfo(@RequestParam Long userId) {
+    if (CheckEmptyUtil.isEmpty(userId)) {
+      return FireResult.build(0, "入参不能为空");
+    }
+    try {
+      ContriInfoTb contriInfoTb = contriInfoService.getSelfContriInfo(userId);
+      return FireResult.build(1, "数据获取成功", contriInfoTb);
     } catch (Exception e) {
       logger.error("", e);
       return FireResult.build(0, "获取信息失败，请稍后再试");

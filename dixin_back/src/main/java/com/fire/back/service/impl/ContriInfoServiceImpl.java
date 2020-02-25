@@ -29,4 +29,9 @@ public class ContriInfoServiceImpl implements ContriInfoService {
     int i = contriInfoTbMapper.updateByPrimaryKeySelective(contriInfoTb);
     return i == 1;
   }
+
+  @Override
+  public ContriInfoTb getSelfContriInfo(Long userId) {
+    return contriInfoTbMapper.selectByPrimaryKey(userId);
+  }
 }
