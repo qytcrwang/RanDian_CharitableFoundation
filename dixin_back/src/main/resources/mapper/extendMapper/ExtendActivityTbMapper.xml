@@ -37,8 +37,8 @@
  	from_unixtime(activity_end_time,'%Y-%m-%d %H:%i:%S') etime 
  	from activity_tb a ,activity_user_tb au ,user_tb u 
  	where a.id = au.activity_id and au.user_id = u.id 
- 	and au.state = #{activityUserState,jdbcType=INTEGER} 
- 	${extend}
+ 	<!-- and au.state = #{activityUserState,jdbcType=INTEGER}  -->
+ 	${extend} order by a.activity_time desc
  </select>
  <update id="addReadNum" parameterType="Long" >
  	update activity_tb set read_num = read_num+1 where id=#{id,jdbcType=BIGINT}

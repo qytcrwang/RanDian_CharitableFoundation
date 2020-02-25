@@ -111,8 +111,8 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	public List<Map<String, Object>> getUserList(Long userId,int flag){
 		Map<String,Object> params = new HashMap<>();
-		params.put("activityUserState", flag);
-		params.put("extend", " and a.state not in ("+(flag==0?"3,4":"4")+")");
+//		params.put("activityUserState", flag);
+		params.put("extend", " and a.state not in ("+(flag==0?"0,3,4":"0,1,2,4")+")");
 		List<Map<String, Object>> list = activityMapper.getUserList(params);
 		return list;
 	}
