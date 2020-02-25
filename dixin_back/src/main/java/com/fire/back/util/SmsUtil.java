@@ -1,7 +1,7 @@
 package com.fire.back.util;
 
 
-import com.sap.conn.jco.util.Codecs;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class SmsUtil {
 
-   /* @Test
+    @Test
     public void test() throws Exception{
         String account = "15865524830";
         String mobile = "15865524830";
@@ -26,10 +26,10 @@ public class SmsUtil {
         String time = System.currentTimeMillis()+"";
         String order_id = time;
         String tpl_id = "TP2002234";
-        String params = "code:1232";
+        String params = "code:666888";
         String key = "e252769db0664acc90d0e8dbd2a55567";
         String sign = (mobile + "|" + account + "|" + time + "|" + tpl_id + "#" + key);
-        String md5HashAsString = Codecs.MD5.getMD5HashAsString(sign).toUpperCase();
+        String md5HashAsString = DigestUtils.md5Hex(sign).toUpperCase();
 
 
         String url = "http://api.yunzhixin.com:11140/txp/sms/send";
@@ -43,7 +43,7 @@ public class SmsUtil {
         param.put("sign",md5HashAsString);
         HttpClientResult httpClientResult = HttpClientUtil.doPost(url, param);
         int a = 1;
-    }*/
+    }
 
     /**
      * description   :  send sms
@@ -65,7 +65,8 @@ public class SmsUtil {
         String params = "code:"+code+"";
         String key = "e252769db0664acc90d0e8dbd2a55567";
         String sign = (mobile + "|" + account + "|" + time + "|" + tpl_id + "#" + key);
-        String md5HashAsString = Codecs.MD5.getMD5HashAsString(sign).toUpperCase();
+        //String resultString = DigestUtils.md5Hex(text + key);
+        String md5HashAsString = DigestUtils.md5Hex(sign).toUpperCase();
 
         String url = "http://api.yunzhixin.com:11140/txp/sms/send";
         Map<String, String> param = new HashMap<>();

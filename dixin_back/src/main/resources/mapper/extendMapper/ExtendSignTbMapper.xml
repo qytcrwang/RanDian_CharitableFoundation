@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fire.back.dao.extend.ExtendSignTbMapper" >
+    <sql id="Base_Column_List" >
+    id, user_id, sign_year, sign_month, sign_days, type, sign_nums, create_time, update_time,
+    is_delete
+  </sql>
+  <insert id="signIn" parameterType="com.fire.back.entity.SignTb" >
+     insert into sign_tb (user_id, sign_year,
+      sign_month, sign_days, type,
+      sign_nums, create_time, update_time,
+      is_delete)
+    values (#{userId,jdbcType=BIGINT}, #{signYear,jdbcType=INTEGER},
+      #{signMonth,jdbcType=INTEGER}, 1&lt;&lt;31-#{signDays,jdbcType=BIGINT}, #{type,jdbcType=INTEGER},
+      #{signNums,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT},
+      #{isDelete,jdbcType=INTEGER})
+      on duplicate key update
+      sign_nums=sign_nums+if(sign_days=sign_days|1&lt;&lt;31-#{signDays,jdbcType=BIGINT},0,1),
+      sign_days = sign_days|1&lt;&lt;31-#{signDays,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT};
+  </insert>
+
+    <select id="selectByParams" resultType="com.fire.back.entity.SignTb">
+        select
+        <include refid="Base_Column_List" />
+        from sign_tb
+        where user_id=#{userId,jdbcType=BIGINT} and sign_year = #{signYear,jdbcType=INTEGER}
+        and sign_month = #{signMonth,jdbcType=INTEGER}
+    </select>
+
+
+</mapper>
