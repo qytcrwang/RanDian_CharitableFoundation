@@ -26,10 +26,10 @@ public class SwaggerConfig {
 
     private ApiInfo buildApiInfo(){
         return  new ApiInfoBuilder()
-                .title("api接口文档")
-                .version("2.2.2")
-                .description("框架基础接口文档")
-                .contact(new Contact("test","www.baidu.com","he.zhao@chwang.ai"))
+                .title("济南慈善机构接口测试页")
+                .version("1.0")
+                .description("微信小程序后台接口 和 慈善基金会后台管理接口<br>json参数无描述，自行组装")
+                .contact(new Contact("Fire","swagger-ui.html","@画圈吃大蛇"))
                 .build();
     }
 
