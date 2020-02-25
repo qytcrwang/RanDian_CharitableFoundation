@@ -37,12 +37,12 @@ public class ActivityServiceImpl implements ActivityService {
 	 * @return
 	 */
 	@Override
-	public List<Map<String, Object>> getIdAndNameByPage(int page,int size,String field,String sort,int type) 
+	public List<Map<String, Object>> getIdAndNameByPage(int page,int size,String field,String sort,int type)
 			throws FileNotFoundException{
 		Map<String,Object> params = new HashMap<>();
 		String param = " where state in (1,2,3) ";
 		if(type>-1) param += " and type = "+type;
-		param += " order by "+field+" "+sort+" limit "+(page-1)+","+size;
+		param += " order by "+field+" "+sort+" limit "+(page-1)*size+","+size;
 		params.put("param", param);
 		List<Map<String, Object>> list = activityMapper.getIdAndNameByPage(params);
 		for(Map<String, Object> map : list) {
@@ -55,7 +55,7 @@ public class ActivityServiceImpl implements ActivityService {
 		}
 		return list;
 	}
-	
+
 	/**
 	 * 获取活动详情
 	 * @param id
@@ -74,7 +74,7 @@ public class ActivityServiceImpl implements ActivityService {
 		Map<String,Object> info = activityMapper.getInfoById(params);
 		if(activityUser != null && activityUser.size() > 0)
 			info.put("applyState", 1);//已经报过名
-		else 
+		else
 			info.put("applyState", 0);
 		return info;
 	}
@@ -106,7 +106,7 @@ public class ActivityServiceImpl implements ActivityService {
 		returnMap.put("nums", newNums);
 		return returnMap;
 	}
-	
+
 	//flag 0已报名未结束 1已到场
 	@Override
 	public List<Map<String, Object>> getUserList(Long userId,int flag){
@@ -116,7 +116,7 @@ public class ActivityServiceImpl implements ActivityService {
 		List<Map<String, Object>> list = activityMapper.getUserList(params);
 		return list;
 	}
-	
+
 	//给活动点赞
 	@Override
 	public void addGood(Long activityId) {
@@ -128,17 +128,17 @@ public class ActivityServiceImpl implements ActivityService {
 class MyFilenameFilter implements FilenameFilter {
 	// type为需要过滤的条件，比如如果type=".jpg"，则只能返回后缀为jpg的文件
 	private String type;
- 
+
 	public MyFilenameFilter(String type) {
 		this.type = type;
 	}
-	
+
 	@Override
 	// 返回true的文件则合格
 	public boolean accept(File dir, String name) {
 		// 这里如果需要使用文件的功能，则需要先进行封装
 		File file = new File(dir,name);
-		
+
 		return name.startsWith(type) && file.isFile();
 	}
 }
