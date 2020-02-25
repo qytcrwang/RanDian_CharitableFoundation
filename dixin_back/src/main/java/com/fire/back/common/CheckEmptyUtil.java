@@ -1,4 +1,4 @@
-package com.fire.back.util;
+package com.fire.back.common;
 
 import java.util.List;
 import java.util.Map;

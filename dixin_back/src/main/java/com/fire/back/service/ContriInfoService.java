@@ -17,4 +17,12 @@ public interface ContriInfoService {
    * @return
    */
   Boolean saveContriInfo(ContriInfoTb contriInfoTb);
+
+  /**
+   * 捐赠状态更新.
+   *
+   * @param contriInfoTb 入参
+   * @return
+   */
+  Boolean updateContriStatus(ContriInfoTb contriInfoTb);
 }

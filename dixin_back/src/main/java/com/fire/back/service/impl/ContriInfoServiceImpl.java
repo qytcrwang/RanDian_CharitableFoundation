@@ -18,15 +18,15 @@ public class ContriInfoServiceImpl implements ContriInfoService {
 
   @Resource ContriInfoTbMapper contriInfoTbMapper;
 
-  /**
-   * 捐赠信息提交.
-   *
-   * @param contriInfoTb 入参
-   * @return
-   */
   @Override
   public Boolean saveContriInfo(ContriInfoTb contriInfoTb) {
-    int i = contriInfoTbMapper.insert(contriInfoTb);
+    int i = contriInfoTbMapper.insertSelective(contriInfoTb);
+    return i == 1;
+  }
+
+  @Override
+  public Boolean updateContriStatus(ContriInfoTb contriInfoTb) {
+    int i = contriInfoTbMapper.updateByPrimaryKeySelective(contriInfoTb);
     return i == 1;
   }
 }
