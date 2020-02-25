@@ -61,9 +61,9 @@ public class UserController {
         try {
             //后期将改为session拿取id
             Long id = ParamUtil.getLong(paramMap,"id");
-            String idCardNumber = ParamUtil.getString(paramMap,"idCardNumber");
-            String mobile = ParamUtil.getString(paramMap,"mobile");
-            String name = ParamUtil.getString(paramMap,"name");
+            String idCardNumber = ParamUtil.getString(paramMap,"idCardNumber",null);
+            String mobile = ParamUtil.getString(paramMap,"mobile",null);
+            String name = ParamUtil.getString(paramMap,"name",null);
             UserTb u = new UserTb();
             u.setId(id);
             u.setIdCardNumber(idCardNumber);
