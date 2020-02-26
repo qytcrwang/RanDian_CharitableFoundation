@@ -159,3 +159,10 @@ insert into syscode_tb (name,code,value) values ('role_state',0,'正常');
 insert into syscode_tb (name,code,value) values ('role_state',1,'禁用');
 
 -- 李汶龙 2020-02-22 添加字典表值 创建菜单表 角色表 权限表 add end
+
+-- 李汶龙 2020-02-26 添加用户字段 企业统一代码 学号 add start
+ALTER TABLE `user_tb`
+ADD COLUMN `org_num`  varchar(90) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '企业统一代码' AFTER `org_name`,
+ADD COLUMN `school_num`  varchar(90) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '学号' AFTER `school`;
+-- 李汶龙 2020-02-26 添加用户字段 企业统一代码 学号 add end
+
