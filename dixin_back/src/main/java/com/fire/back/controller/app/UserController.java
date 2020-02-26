@@ -9,6 +9,7 @@ import com.fire.back.util.ParamUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,7 +39,7 @@ public class UserController {
      * @param  session
      * @return data{UserTb}
      */
-    @PostMapping("/getUserInfo")
+    @GetMapping("/getUserInfo")
     public FireResult getUserInfo(HttpSession session){
         try {
             UserTb u  = (UserTb)session.getAttribute("user");
@@ -69,7 +70,6 @@ public class UserController {
             u.setIdCardNumber(idCardNumber);
             u.setMobile(mobile);
             u.setName(name);
-            u.setUpdateTime(System.currentTimeMillis());
             int result = us.UpdateUserInfo(u);
             UserTb user =us.getUserInfobByPrimaryKey(u.getId());
             session.setAttribute("user",user);
@@ -85,7 +85,7 @@ public class UserController {
      * @param session
      * @return data{null}
      */
-    @PostMapping("/userSingIn")
+    @GetMapping("/userSingIn")
     public FireResult signIn(HttpSession session){
         try {
             UserTb u = (UserTb) session.getAttribute("user");
@@ -115,7 +115,7 @@ public class UserController {
      * @param session
      * @return data{List<String>}
      */
-    @PostMapping("/getSignDaysList")
+    @GetMapping("/getSignDaysList")
     public FireResult getSignDaysList(HttpSession session){
         try {
             UserTb u = (UserTb) session.getAttribute("user");
@@ -138,7 +138,7 @@ public class UserController {
      * @param session
      * @return data{Integer}
      */
-    @PostMapping("/getConsecutiveSign")
+    @GetMapping("/getConsecutiveSign")
     public FireResult getConsecutiveSign(HttpSession session){
         try {
             UserTb u = (UserTb) session.getAttribute("user");
@@ -148,6 +148,20 @@ public class UserController {
             return FireResult.build(1, "连续签到天数查询成功", daysCount);
         }catch(Exception e){
             return FireResult.build(0, "签连续签到天数查询失败", null);
+        }
+
+    }
+
+    @PostMapping("/getUserInfoByOpenid")
+    public FireResult getUserInfoByOpenid(@RequestBody Map<String,Object> paramMap){
+
+        try {
+            String openid = ParamUtil.getString(paramMap,"openid");
+            UserTb user = us.getUserInfoByOpenId(openid);
+            return FireResult.build(1,"用户信息获取成功",user);
+        }catch(Exception e){
+            logger.error("获取用户信息失败",e);
+            return FireResult.build(0, "获取用户信息失败，请稍后再试");
         }
 
     }

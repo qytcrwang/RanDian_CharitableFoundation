@@ -1,7 +1,9 @@
 package com.fire.back.service.impl;
 
+import com.fire.back.common.CheckEmptyUtil;
 import com.fire.back.dao.extend.ExtendSignTbMapper;
 import com.fire.back.entity.SignTb;
+import com.fire.back.entity.SignTbExample;
 import com.fire.back.service.SignInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +35,8 @@ public class SignInServiceImpl implements SignInService {
         record.setSignMonth(month);
         record.setSignDays(day);
         record.setSignNums(1);
-        record.setCreateTime(System.currentTimeMillis());
-        record.setUpdateTime(System.currentTimeMillis());
+        record.setCreateTime(System.currentTimeMillis()/1000);
+        record.setUpdateTime(System.currentTimeMillis()/1000);
         record.setIsDelete(0);
         return signMapper.signIn(record);
     }
@@ -46,7 +48,16 @@ public class SignInServiceImpl implements SignInService {
         int signYear = c.get(Calendar.YEAR);
         int signMonth = c.get(Calendar.MONTH)+1;
         int d = c.get(Calendar.DATE);
-        SignTb sign = signMapper.selectByParams(userId,signYear,signMonth);
+
+        SignTbExample signTbExample = new SignTbExample();
+        signTbExample.createCriteria().andUserIdEqualTo(userId).andSignYearEqualTo(signYear)
+                .andSignMonthEqualTo(signMonth);
+        List<SignTb> list = signMapper.selectByExample(signTbExample);
+        if(CheckEmptyUtil.isEmpty(list)){
+            return 0;
+        }
+        SignTb sign = list.get(0);
+        //SignTb sign = signMapper.selectByParams(userId,signYear,signMonth);
         long signDays = sign.getSignDays();
         int count = 0;
         for(int i = d;i>0;i--){
