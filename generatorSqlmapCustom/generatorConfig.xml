@@ -48,5 +48,14 @@
 		<!-- 指定数据库表 -->
 		<table schema="" tableName="activity_tb"></table>
 		<table schema="" tableName="contri_info_tb"></table>
+		<!-- <table schema="" tableName="com_info_tb"></table> -->
+		 <!--<table schema="" tableName="kq_coupon_order_tb"></table>
+		<table schema="" tableName="kq_coupon_tb"></table>
+		<table schema="" tableName="kq_coupon_type_tb"></table>
+		<table schema="" tableName="kq_manager_user_tb"></table>
+		<table schema="" tableName="kq_merchant_account_tb"></table>
+		<table schema="" tableName="kq_merchant_info_tb"></table>
+		<table schema="" tableName="kq_merchant_user_tb"></table>
+		<table schema="" tableName="kq_park_user_tb"></table>-->
 	</context>
 </generatorConfiguration>
