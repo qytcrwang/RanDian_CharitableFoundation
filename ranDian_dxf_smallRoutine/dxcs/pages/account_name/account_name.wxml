@@ -5,9 +5,9 @@
   </view>
   <form class="info_form">
     <view class='form_view'>
-      <input class="info_input" type="text" value="{{realName}}"/>
+      <input class="info_input" type="text" value="{{realName}}" bindblur="bindRealNameInput"/>
     </view>
-    <button class='submit' form-type='submit'>确认提交</button>
+    <button class='submit' form-type='submit' bindtap='updateRealName'>确认提交</button>
   </form>
 </view>
 
