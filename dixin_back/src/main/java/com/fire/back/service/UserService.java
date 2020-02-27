@@ -17,4 +17,19 @@ public interface UserService {
      * @return
      */
     int UpdateUserInfo(UserTb u);
+
+    /**
+     * 添加新用户
+     * 所有参数可为空，id自动生成
+     * @param u
+     * @return
+     */
+    int insertUser(UserTb u);
+
+    /**
+     * 根据微信openid获取用户信息
+     * @param openid
+     * @return
+     */
+    UserTb getUserInfoByOpenId(String openid);
 }

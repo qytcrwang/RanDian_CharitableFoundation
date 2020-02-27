@@ -9,6 +9,7 @@ Page({
   },
   onLoad(){
     //加载用户账户数据
+    console.log('页面加载了')
 
   },
   gotoRealName(){
