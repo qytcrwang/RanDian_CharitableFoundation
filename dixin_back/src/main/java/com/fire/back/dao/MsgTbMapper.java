@@ -4,7 +4,9 @@ import com.fire.back.entity.MsgTb;
 import com.fire.back.entity.MsgTbExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface MsgTbMapper {
     int countByExample(MsgTbExample example);
 

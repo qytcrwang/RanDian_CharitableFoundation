@@ -3,8 +3,13 @@ package com.fire.back.dao;
 import com.fire.back.entity.RentApplyTb;
 import com.fire.back.entity.RentApplyTbExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface RentApplyTbMapper {
     int countByExample(RentApplyTbExample example);
 
@@ -12,7 +17,7 @@ public interface RentApplyTbMapper {
 
     int deleteByPrimaryKey(Long id);
 
-    int insert(RentApplyTb record);
+    int insert(RentApplyTb record) throws DataAccessException;
 
     int insertSelective(RentApplyTb record);
 
