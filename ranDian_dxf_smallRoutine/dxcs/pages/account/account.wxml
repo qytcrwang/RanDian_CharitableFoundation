@@ -36,15 +36,24 @@
         <label class="user_info_blank">未填写</label>
         <image src='/img/right_jt.png' class='right_jt'></image>
       </view>
+      <view class='inputList' bindtap="gotoUserType">
+        <label class='input_lable'>我的身份</label>
+        <picker class="user_info_blank" value="{{userTypeIndex}}" range="{{userTypeArray}}" bindchange="bindUserTypePickerChange">
+          <view class="usertype_picker">
+            {{userTypeArray[userTypeIndex]}}
+          </view>
+        </picker>
+        <image src='/img/right_jt.png' class='right_jt'></image>
+      </view>
       <view class='inputList'>
         <label class='input_lable'>注册日期</label>
         <label class="user_info">2020-2-18</label>
       </view>
-      <view class='textList' bindtap="gotoSignature">
+      <!--<view class='textList' bindtap="gotoSignature">
         <label class='text_lable'>个性签名</label>
         <label class="user_info_blank">未填写</label>
         <image src='/img/right_jt.png' class='right_jt'></image>
-      </view>
+      </view> -->
     </view>
   </form>
 </view>

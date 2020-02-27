@@ -5,11 +5,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-    realName:''
+    userTypeArray:['普通','儿童','大学生','企业'],
+    userTypeIndex:'',
+    realName:'',
+    idCard:'',
+    phone:'',
+
     
   },
   onLoad(){
     //加载用户账户数据
+    wx.request({
+      url:'http://localhost:8081/wx'
+    })
     console.log('页面加载了')
 
   },
@@ -32,5 +40,12 @@ Page({
     wx.navigateTo({
       url:'../account_signature/account_signature?signature=高俊'
     })
+  },
+  bindUserTypePickerChange(e){
+    this.setData({
+      userTypeIndex:e.detail.value
+    })
+    //更新用户信息
+
   }
 })
