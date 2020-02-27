@@ -123,6 +123,17 @@
 		<!-- 最终打包的名称 -->
 		<finalName>dixin</finalName>
 		<plugins>
+			<!-- mybatis generator 自动生成代码插件 -->
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.6</version>
+				<configuration>
+					<configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
+					<overwrite>true</overwrite>
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -138,7 +149,7 @@
 			<!-- 打包时将页面文件拷贝到META-INF目录下 -->
 			<resource>
 				<!-- 指定resources插件处理哪个目录下的资源文件 -->
-				<directory>src/main/webapp</directory>
+				<directory>src/main/resources</directory>
 				<!--注意此次必须要放在此目录下才能被访问到 -->
 				<targetPath>META-INF/resources</targetPath>
 				<includes>
