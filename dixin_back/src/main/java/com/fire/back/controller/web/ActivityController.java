@@ -4,7 +4,7 @@
  * @author Dragon
  * @date 2020-02-21 10:35:14 
  */
-package com.fire.back.controller.app;
+package com.fire.back.controller.web;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,11 +26,11 @@ import com.fire.back.util.ParamUtil;
 
 /**  
  * @Title: ActivityController.java
- * @Description: 小程序公益活动
+ * @Description: 后端公益活动
  * @author Dragon
  * @date 2020-02-21 10:35:14 
  */
-@RequestMapping("wx/activity/")
+@RequestMapping("back/activity/")
 @RestController
 public class ActivityController {
 	
