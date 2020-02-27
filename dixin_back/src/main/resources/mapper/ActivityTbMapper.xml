@@ -11,6 +11,7 @@
     <result column="sign_end_time" property="signEndTime" jdbcType="BIGINT" />
     <result column="read_num" property="readNum" jdbcType="BIGINT" />
     <result column="good_num" property="goodNum" jdbcType="BIGINT" />
+    <result column="cover_url" property="coverUrl" jdbcType="VARCHAR" />
     <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="INTEGER" />
@@ -85,8 +86,8 @@
   </sql>
   <sql id="Base_Column_List" >
     id, title, address, activity_start_time, activity_end_time, sign_start_time, sign_end_time, 
-    read_num, good_num, pic_url, state, type, if_send, activity_time, apply_nums, is_delete, 
-    create_time, update_time
+    read_num, good_num, cover_url, pic_url, state, type, if_send, activity_time, apply_nums, 
+    is_delete, create_time, update_time
   </sql>
   <sql id="Blob_Column_List" >
     body, apply_names
@@ -143,17 +144,19 @@
     insert into activity_tb (id, title, address, 
       activity_start_time, activity_end_time, sign_start_time, 
       sign_end_time, read_num, good_num, 
-      pic_url, state, type, 
-      if_send, activity_time, apply_nums, 
-      is_delete, create_time, update_time, 
-      body, apply_names)
+      cover_url, pic_url, state, 
+      type, if_send, activity_time, 
+      apply_nums, is_delete, create_time, 
+      update_time, body, apply_names
+      )
     values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{activityStartTime,jdbcType=BIGINT}, #{activityEndTime,jdbcType=BIGINT}, #{signStartTime,jdbcType=BIGINT}, 
       #{signEndTime,jdbcType=BIGINT}, #{readNum,jdbcType=BIGINT}, #{goodNum,jdbcType=BIGINT}, 
-      #{picUrl,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{ifSend,jdbcType=INTEGER}, #{activityTime,jdbcType=INTEGER}, #{applyNums,jdbcType=INTEGER}, 
-      #{isDelete,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, 
-      #{body,jdbcType=LONGVARCHAR}, #{applyNames,jdbcType=LONGVARCHAR})
+      #{coverUrl,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{ifSend,jdbcType=INTEGER}, #{activityTime,jdbcType=INTEGER}, 
+      #{applyNums,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=BIGINT}, #{body,jdbcType=LONGVARCHAR}, #{applyNames,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.fire.back.entity.ActivityTbWithBLOBs" >
     insert into activity_tb
@@ -184,6 +187,9 @@
       </if>
       <if test="goodNum != null" >
         good_num,
+      </if>
+      <if test="coverUrl != null" >
+        cover_url,
       </if>
       <if test="picUrl != null" >
         pic_url,
@@ -246,6 +252,9 @@
       </if>
       <if test="goodNum != null" >
         #{goodNum,jdbcType=BIGINT},
+      </if>
+      <if test="coverUrl != null" >
+        #{coverUrl,jdbcType=VARCHAR},
       </if>
       <if test="picUrl != null" >
         #{picUrl,jdbcType=VARCHAR},
@@ -318,6 +327,9 @@
       <if test="record.goodNum != null" >
         good_num = #{record.goodNum,jdbcType=BIGINT},
       </if>
+      <if test="record.coverUrl != null" >
+        cover_url = #{record.coverUrl,jdbcType=VARCHAR},
+      </if>
       <if test="record.picUrl != null" >
         pic_url = #{record.picUrl,jdbcType=VARCHAR},
       </if>
@@ -367,6 +379,7 @@
       sign_end_time = #{record.signEndTime,jdbcType=BIGINT},
       read_num = #{record.readNum,jdbcType=BIGINT},
       good_num = #{record.goodNum,jdbcType=BIGINT},
+      cover_url = #{record.coverUrl,jdbcType=VARCHAR},
       pic_url = #{record.picUrl,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER},
       type = #{record.type,jdbcType=INTEGER},
@@ -393,6 +406,7 @@
       sign_end_time = #{record.signEndTime,jdbcType=BIGINT},
       read_num = #{record.readNum,jdbcType=BIGINT},
       good_num = #{record.goodNum,jdbcType=BIGINT},
+      cover_url = #{record.coverUrl,jdbcType=VARCHAR},
       pic_url = #{record.picUrl,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER},
       type = #{record.type,jdbcType=INTEGER},
@@ -432,6 +446,9 @@
       </if>
       <if test="goodNum != null" >
         good_num = #{goodNum,jdbcType=BIGINT},
+      </if>
+      <if test="coverUrl != null" >
+        cover_url = #{coverUrl,jdbcType=VARCHAR},
       </if>
       <if test="picUrl != null" >
         pic_url = #{picUrl,jdbcType=VARCHAR},
@@ -479,6 +496,7 @@
       sign_end_time = #{signEndTime,jdbcType=BIGINT},
       read_num = #{readNum,jdbcType=BIGINT},
       good_num = #{goodNum,jdbcType=BIGINT},
+      cover_url = #{coverUrl,jdbcType=VARCHAR},
       pic_url = #{picUrl,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
@@ -502,6 +520,7 @@
       sign_end_time = #{signEndTime,jdbcType=BIGINT},
       read_num = #{readNum,jdbcType=BIGINT},
       good_num = #{goodNum,jdbcType=BIGINT},
+      cover_url = #{coverUrl,jdbcType=VARCHAR},
       pic_url = #{picUrl,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},

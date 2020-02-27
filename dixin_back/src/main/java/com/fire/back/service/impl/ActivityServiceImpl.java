@@ -33,32 +33,24 @@ public class ActivityServiceImpl implements ActivityService {
 
 	/**
 	 * 分页获取活动id name
-	 * @param page,size,field,sort
+	 * @param page,size,field,sort,type
 	 * @return
 	 */
 	@Override
 	public List<Map<String, Object>> getIdAndNameByPage(int page,int size,String field,String sort,int type)
 			throws FileNotFoundException{
 		Map<String,Object> params = new HashMap<>();
-		String param = " where state in (1,2,3) ";
+		String param = " where is_delete=0 and state in (1,2,3) ";
 		if(type>-1) param += " and type = "+type;
 		param += " order by "+field+" "+sort+" limit "+(page-1)*size+","+size;
 		params.put("param", param);
 		List<Map<String, Object>> list = activityMapper.getIdAndNameByPage(params);
-		for(Map<String, Object> map : list) {
-			Long id = Long.parseLong(map.get("id")+"");
-			File cover= ResourceUtils.getFile("classpath:static/images/cover");
-			File[] files = cover.listFiles(new MyFilenameFilter(id+"."));
-			if(files != null && files.length > 0)
-			map.put("url", "http://127.0.0.1:"+CommonUtil.getValue("server.port")
-			+CommonUtil.getValue("server.servlet-path")+"/images/cover/"+files[0].getName());
-		}
 		return list;
 	}
 
 	/**
 	 * 获取活动详情
-	 * @param id
+	 * @param activityId,userId
 	 * @return
 	 */
 	@Override
@@ -78,6 +70,12 @@ public class ActivityServiceImpl implements ActivityService {
 			info.put("applyState", 0);
 		return info;
 	}
+	
+	/**
+	 * 用户活动报名
+	 * @param activityId,userId
+	 * @return
+	 */
 	@Transactional
 	@Override
 	public Map<String, Object> applyActivity(Long activityId,Long userId) {
@@ -94,7 +92,7 @@ public class ActivityServiceImpl implements ActivityService {
 		int newNums = Integer.parseInt(activityMap.get("apply_nums")+"")+1;
 		activity.setApplyNums(newNums);
 		activity.setUpdateTime(System.currentTimeMillis()/1000);
-		activityMapper.updateByPrimaryKey(activity);
+		activityMapper.updateByPrimaryKeySelective(activity);
 		ActivityUserTb activityUser = new ActivityUserTb();
 		activityUser.setActivityId(activityId);
 		activityUser.setUserId(userId);
@@ -107,7 +105,11 @@ public class ActivityServiceImpl implements ActivityService {
 		return returnMap;
 	}
 
-	//flag 0已报名未结束 1已到场
+	/**
+	 * 获取用户报名过的活动
+	 * @param userId,flag 0已报名未结束 1已到场
+	 * @return
+	 */
 	@Override
 	public List<Map<String, Object>> getUserList(Long userId,int flag){
 		Map<String,Object> params = new HashMap<>();
@@ -117,11 +119,70 @@ public class ActivityServiceImpl implements ActivityService {
 		return list;
 	}
 
-	//给活动点赞
+	/**
+	 * 活动点赞
+	 * @param activityId
+	 * @return
+	 */
 	@Override
 	public void addGood(Long activityId) {
 		activityMapper.addGoodNum(activityId);
 	}
+	
+	/**
+	 * 分页获取活动id name
+	 * @param page,size,field,sort,type,stime,etime,state
+	 * @return
+	 */
+	@Override
+	public List<Map<String, Object>> getListByPage(int page,int size,String field,String sort,
+			int type,String stime,String etime,int state){
+		Map<String,Object> params = new HashMap<>();
+		String param = " where is_delete=0 ";
+		if(type>-1) param += " and type = "+type;
+		if(stime.length()>0) param += " and activity_start_time >="+stime;
+		if(etime.length()>0) param += " and activity_start_time <"+etime;
+		if(state>-1) param += " and state = "+state;
+		param += " order by "+field+" "+sort+" limit "+(page-1)*size+","+size;
+		params.put("param", param);
+		List<Map<String, Object>> list = activityMapper.getListByPage(params);
+		return list;
+	}
+
+	/**
+	 * 获取活动详情
+	 * @param activityId
+	 * @return
+	 */
+	@Override
+	public Map<String, Object> getInfoById(Long activityId){
+		Map<String,Object> params = new HashMap<>();
+		params.put("id", activityId);
+		Map<String,Object> info = activityMapper.getBackInfoById(params);
+		return info;
+	}
+
+	@Override
+	public int insertOrUpdate(ActivityTbWithBLOBs activeTb){
+		//新增：先插入 获取id 然后跟更新一样处理 处理封面图片&文本图片&文本内容 拿取图片路径 入库
+		if(activeTb.getId()==null) activityMapper.insertSelective(activeTb);
+		//处理封面图片&文本图片&文本内容start
+		/*for(Map<String, Object> map : list) {
+		Long id = Long.parseLong(map.get("id")+"");
+		File cover= ResourceUtils.getFile("classpath:static/images/cover");
+		File[] files = cover.listFiles(new MyFilenameFilter(id+"."));
+		if(files != null && files.length > 0)
+		map.put("url", "http://127.0.0.1:"+CommonUtil.getValue("server.port")
+		+CommonUtil.getValue("server.servlet-path")+"/images/cover/"+files[0].getName());
+		}*/
+		
+
+		//处理封面图片&文本图片&文本内容end
+		int result = 0;
+		result = activityMapper.updateByPrimaryKeySelective(activeTb);
+		return result;
+	}
+
 }
 
 

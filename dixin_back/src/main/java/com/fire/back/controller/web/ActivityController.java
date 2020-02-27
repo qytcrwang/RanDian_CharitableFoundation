@@ -6,7 +6,6 @@
  */
 package com.fire.back.controller.web;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fire.back.common.FireResult;
-import com.fire.back.controller.web.TestController;
+import com.fire.back.entity.ActivityTbWithBLOBs;
 import com.fire.back.service.ActivityService;
 import com.fire.back.util.ParamUtil;
 
@@ -39,10 +38,6 @@ public class ActivityController {
 	@Autowired
 	private ActivityService service;
 	
-	/*
-	 * 公益活动列表
-	 * 当前页码page 每页大小size 排序字段field 正序or反序sort
-	 */
 	@PostMapping("getList")
 	@ResponseBody
 	public FireResult getList(@RequestBody Map<String, Object> paramMap) {
@@ -52,7 +47,10 @@ public class ActivityController {
 			String field = ParamUtil.getString(paramMap, "field", "id");
 			String sort = ParamUtil.getString(paramMap, "param4", "asc");
 			Integer type = ParamUtil.getInteger(paramMap, "param4", -1);
-			List<Map<String,Object>> list = service.getIdAndNameByPage(page, size, field, sort, type);
+			String stime = ParamUtil.getString(paramMap, "stime", "");
+			String etime = ParamUtil.getString(paramMap, "etime", "");
+			int state = ParamUtil.getInteger(paramMap, "state", -1);
+			List<Map<String,Object>> list = service.getListByPage(page, size, field, sort, type, stime, etime, state);
 			return FireResult.build(1, "数据获取成功", list);
 		} catch (Exception e) {
 			logger.error("",e);
@@ -66,8 +64,7 @@ public class ActivityController {
 	public FireResult getInfo(@RequestBody Map<String, Object> paramMap) {
 		try {
 			Long id = ParamUtil.getLong(paramMap, "id", -1L);
-			Long userId = ParamUtil.getLong(paramMap, "userId", -1L);
-			Map<String, Object> info = service.getInfoById(id,userId);
+			Map<String, Object> info = service.getInfoById(id);
 			return FireResult.build(1, "数据获取成功", info);
 		} catch (Exception e) {
 			logger.error("",e);
@@ -76,47 +73,16 @@ public class ActivityController {
 	}
 	
 
-	@PostMapping("applyActivity")
+	@PostMapping("insertOrUpdate")
 	@ResponseBody
-	public FireResult applyActivity(@RequestBody Map<String, Object> paramMap) {
+	public FireResult insertOrUpdate(ActivityTbWithBLOBs activeTb) {
 		try {
-			Long id = ParamUtil.getLong(paramMap, "id", -1L);
-			Long userId = ParamUtil.getLong(paramMap, "userId", -1L);
-			Map<String, Object> info = service.applyActivity(id, userId);
-			return FireResult.build(1, "报名成功",info);
-		} catch (Exception e) {
-			logger.error("",e);
-			return FireResult.build(0, "操作失败，请稍后再试");
-		}
-	}
-	
-	//已报名  已到场
-	@PostMapping("getUserList")
-	@ResponseBody
-	public FireResult getUserList(@RequestBody Map<String, Object> paramMap) {
-		try {
-			Long userId = ParamUtil.getLong(paramMap, "userId", -1L);
-			Map<String, List<Map<String,Object>>> info = new HashMap<>();
-			info.put("0", service.getUserList(userId, 0));
-			info.put("1", service.getUserList(userId, 1));
-			return FireResult.build(1, "数据获取成功",info);
-		} catch (Exception e) {
-			logger.error("",e);
-			return FireResult.build(0, "获取信息失败，请稍后再试");
-		}
-	}
-	
-
-	@PostMapping("addGood")
-	@ResponseBody
-	public FireResult addGood(@RequestBody Map<String, Object> paramMap) {
-		try {
-			Long activityId = ParamUtil.getLong(paramMap, "id", -1L);
-			service.addGood(activityId);
+			
 			return FireResult.build(1, "点赞成功");
 		} catch (Exception e) {
 			logger.error("",e);
 			return FireResult.build(0, "操作失败，请稍后再试");
 		}
 	}
+	
 }

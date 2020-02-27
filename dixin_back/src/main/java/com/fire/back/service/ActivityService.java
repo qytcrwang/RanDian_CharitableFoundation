@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 
+import com.fire.back.entity.ActivityTbWithBLOBs;
+
 /**
  * 
  * @Title: ActivityService.java
@@ -12,10 +14,14 @@ import java.util.Map;
  * @date 2020-02-21 10:40:12
  */
 public interface ActivityService {
-	public List<Map<String, Object>> getIdAndNameByPage(int page,int size,String field,String sort,int type) 
+	List<Map<String, Object>> getIdAndNameByPage(int page,int size,String field,String sort,int type) 
 			throws FileNotFoundException;
-	public Map<String, Object> getInfoById(Long activityId,Long userId);
-	public Map<String, Object> applyActivity(Long activityId,Long userId);
-	public List<Map<String, Object>> getUserList(Long userId,int flag);
-	public void addGood(Long activityId);
+	Map<String, Object> getInfoById(Long activityId,Long userId);
+	Map<String, Object> applyActivity(Long activityId,Long userId);
+	List<Map<String, Object>> getUserList(Long userId,int flag);
+	void addGood(Long activityId);
+	List<Map<String, Object>> getListByPage(int page,int size,String field,String sort,
+			int type,String stime,String etime,int state);
+	Map<String, Object> getInfoById(Long activityId);
+	int insertOrUpdate(ActivityTbWithBLOBs activeTb);
 }

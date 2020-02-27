@@ -664,6 +664,76 @@ public class ActivityTbExample {
             return (Criteria) this;
         }
 
+        public Criteria andCoverUrlIsNull() {
+            addCriterion("cover_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlIsNotNull() {
+            addCriterion("cover_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlEqualTo(String value) {
+            addCriterion("cover_url =", value, "coverUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlNotEqualTo(String value) {
+            addCriterion("cover_url <>", value, "coverUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlGreaterThan(String value) {
+            addCriterion("cover_url >", value, "coverUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("cover_url >=", value, "coverUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlLessThan(String value) {
+            addCriterion("cover_url <", value, "coverUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlLessThanOrEqualTo(String value) {
+            addCriterion("cover_url <=", value, "coverUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlLike(String value) {
+            addCriterion("cover_url like", value, "coverUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlNotLike(String value) {
+            addCriterion("cover_url not like", value, "coverUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlIn(List<String> values) {
+            addCriterion("cover_url in", values, "coverUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlNotIn(List<String> values) {
+            addCriterion("cover_url not in", values, "coverUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlBetween(String value1, String value2) {
+            addCriterion("cover_url between", value1, value2, "coverUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverUrlNotBetween(String value1, String value2) {
+            addCriterion("cover_url not between", value1, value2, "coverUrl");
+            return (Criteria) this;
+        }
+
         public Criteria andPicUrlIsNull() {
             addCriterion("pic_url is null");
             return (Criteria) this;

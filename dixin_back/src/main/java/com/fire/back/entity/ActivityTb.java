@@ -19,6 +19,8 @@ public class ActivityTb {
 
     private Long goodNum;
 
+    private String coverUrl;
+
     private String picUrl;
 
     private Integer state;
@@ -107,6 +109,14 @@ public class ActivityTb {
 
     public void setGoodNum(Long goodNum) {
         this.goodNum = goodNum;
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl == null ? null : coverUrl.trim();
     }
 
     public String getPicUrl() {

@@ -36,7 +36,7 @@
  	from_unixtime(activity_start_time,'%Y-%m-%d %H:%i:%S') stime,
  	from_unixtime(activity_end_time,'%Y-%m-%d %H:%i:%S') etime 
  	from activity_tb a ,activity_user_tb au ,user_tb u 
- 	where a.id = au.activity_id and au.user_id = u.id 
+ 	where a.id = au.activity_id and au.user_id = u.id  and a.is_delete=0 
  	<!-- and au.state = #{activityUserState,jdbcType=INTEGER}  -->
  	${extend} order by a.activity_time desc
  </select>
@@ -46,4 +46,175 @@
  <update id="addGoodNum" parameterType="Long" >
  	update activity_tb set good_num = good_num+1 where id=#{id,jdbcType=BIGINT}
  </update>
+ 
+ 
+ 
+ 
+ <select id="getListByPage" resultType="Map" parameterType="map" >
+ 	select a.id,a.title,a.address,
+	from_unixtime(a.activity_start_time,'%Y-%m-%d %H:%i:%S') activity_stime,
+	from_unixtime(a.activity_end_time,'%Y-%m-%d %H:%i:%S') activity_etime,
+	from_unixtime(a.sign_start_time,'%Y-%m-%d %H:%i:%S') sign_stime,
+	from_unixtime(a.sign_end_time,'%Y-%m-%d %H:%i:%S') sign_etime,
+	s1.value state,s2.value type,s3.value if_send 
+	from activity_tb a left join 
+	(select code,value from syscode_tb where name='activity_state') s1 
+	on a.state = s1.code left join 
+	(select code,value from syscode_tb where name='activity_type') s2 
+	on a.state = s2.code left join 
+	(select code,value from syscode_tb where name='activity_if_send') s3 
+	on a.state = s3.code  ${param}
+ </select>
+ <select id="getBackInfoById" resultType="Map" parameterType="map" >
+ 	select a.id,a.title,a.body,a.address,
+	from_unixtime(a.activity_start_time,'%Y-%m-%d %H:%i:%S') activity_stime,
+	from_unixtime(a.activity_end_time,'%Y-%m-%d %H:%i:%S') activity_etime,
+	from_unixtime(a.sign_start_time,'%Y-%m-%d %H:%i:%S') sign_stime,
+	from_unixtime(a.sign_end_time,'%Y-%m-%d %H:%i:%S') sign_etime,
+	a.read_num,a.good_num,a.cover_url,a.pic_url,a.activity_time,
+	a.apply_names,a.apply_nums,
+	s1.value state,s2.value type,s3.value if_send 
+	from activity_tb a left join 
+	(select code,value from syscode_tb where name='activity_state') s1 
+	on a.state = s1.code left join 
+	(select code,value from syscode_tb where name='activity_type') s2 
+	on a.state = s2.code left join 
+	(select code,value from syscode_tb where name='activity_if_send') s3 
+	on a.state = s3.code 
+	where a.id=#{id,jdbcType=BIGINT}
+ </select>
+ 
+ <insert id="insertSelective" parameterType="com.fire.back.entity.ActivityTbWithBLOBs" keyProperty="id" useGeneratedKeys="true">
+    insert into activity_tb
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="activityStartTime != null" >
+        activity_start_time,
+      </if>
+      <if test="activityEndTime != null" >
+        activity_end_time,
+      </if>
+      <if test="signStartTime != null" >
+        sign_start_time,
+      </if>
+      <if test="signEndTime != null" >
+        sign_end_time,
+      </if>
+      <if test="readNum != null" >
+        read_num,
+      </if>
+      <if test="goodNum != null" >
+        good_num,
+      </if>
+      <if test="coverUrl != null" >
+        cover_url,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="ifSend != null" >
+        if_send,
+      </if>
+      <if test="activityTime != null" >
+        activity_time,
+      </if>
+      <if test="applyNums != null" >
+        apply_nums,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="body != null" >
+        body,
+      </if>
+      <if test="applyNames != null" >
+        apply_names,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="activityStartTime != null" >
+        #{activityStartTime,jdbcType=BIGINT},
+      </if>
+      <if test="activityEndTime != null" >
+        #{activityEndTime,jdbcType=BIGINT},
+      </if>
+      <if test="signStartTime != null" >
+        #{signStartTime,jdbcType=BIGINT},
+      </if>
+      <if test="signEndTime != null" >
+        #{signEndTime,jdbcType=BIGINT},
+      </if>
+      <if test="readNum != null" >
+        #{readNum,jdbcType=BIGINT},
+      </if>
+      <if test="goodNum != null" >
+        #{goodNum,jdbcType=BIGINT},
+      </if>
+      <if test="coverUrl != null" >
+        #{coverUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="ifSend != null" >
+        #{ifSend,jdbcType=INTEGER},
+      </if>
+      <if test="activityTime != null" >
+        #{activityTime,jdbcType=INTEGER},
+      </if>
+      <if test="applyNums != null" >
+        #{applyNums,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="body != null" >
+        #{body,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="applyNames != null" >
+        #{applyNames,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
 </mapper>
