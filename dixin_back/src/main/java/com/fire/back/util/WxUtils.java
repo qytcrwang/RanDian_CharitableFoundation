@@ -18,10 +18,11 @@ import java.util.Map;
 public class WxUtils {
 
     //appid
-    private final static String appid = "wxff90e7e036f52868";
+    private String appid = "wxff90e7e036f52868";
     //appsecret
-    private final static String appSecret = "03bc5adc632d40feb9f74280e0ff8f93";
-    private static String loginUrl = "https://api.weixin.qq.com/sns/jscode2session?appid="+appid+"&secret="+appSecret+"&grant_type=authorization_code&js_code=";
+    private String appSecret = "03bc5adc632d40feb9f74280e0ff8f93";
+
+    private String loginUrl = "https://api.weixin.qq.com/sns/jscode2session?appid="+appid+"&secret="+appSecret+"&grant_type=authorization_code&js_code=";
 
     /**
      * 使用用户code从微信换取sessionKey和openid
@@ -29,8 +30,8 @@ public class WxUtils {
      * @param code
      * @return
      */
-    public static Map<String,Object> getSessionKey(String code){
-        if(StringUtils.isNullOrEmpty(code)){
+    public Map<String,Object> getSessionKey(String code){
+        if(!StringUtils.isNullOrEmpty(code)){
             loginUrl = loginUrl + code;
             //返回结果map
             Map<String,Object> resultMap = null;

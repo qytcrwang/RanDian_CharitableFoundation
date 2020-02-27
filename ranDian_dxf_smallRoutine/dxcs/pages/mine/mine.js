@@ -17,7 +17,7 @@ Page({
       fail:function(res){
         //暂时先不搞登陆
         _this.setData({
-          isLogin:true
+          isLogin:false
         })
         console.log(res,"登陆过期了")
       }

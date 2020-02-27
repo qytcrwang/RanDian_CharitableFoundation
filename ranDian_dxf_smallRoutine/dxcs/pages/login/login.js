@@ -24,7 +24,21 @@ Page({
                                     console.log("用户的code:" + res.code);
                                     if(res.code){
                                         wx.request({
-                                            url:'http://localhost:8081/'
+                                            url:'http://localhost:8081/wx/login',
+                                            data:{
+                                                code:res.code
+                                            },
+                                            method:'POST',
+                                            dataType:'json',
+                                            success:function(res){
+                                                //成功
+                                                wx.showToast({
+                                                    title:'登陆成功',
+                                                    icon:'success',
+                                                    duration:2000
+                                                  })
+                                                console.log(res);
+                                            }
                                         })
                                     }
                                     // 可以传给后台，再经过解析获取用户的 openid
@@ -51,8 +65,44 @@ Page({
     bindGetUserInfo: function(e) {
         if (e.detail.userInfo) {
             //用户按了允许授权按钮
-            wx.switchTab({
-                url:'../mine/mine'
+            wx.getSetting({
+                success: function(res) {
+                    if (res.authSetting['scope.userInfo']) {
+                        wx.login({
+                            success: res => {
+                                // 获取到用户的 code 之后：res.code
+                                console.log("用户的code:" + res.code);
+                                if(res.code){
+                                    wx.request({
+                                        url:'http://localhost:8081/wx/login',
+                                        data:{
+                                            code:res.code
+                                        },
+                                        method:'POST',
+                                        dataType:'json',
+                                        success:function(res){
+                                            console.log(res);
+                                            if(res.data.status == 1){
+                                                //成功
+                                                wx.showToast({
+                                                    title:'登陆成功',
+                                                    icon:'success',
+                                                    duration:2000
+                                                });
+                                                wx.reLaunch({
+                                                    url:'/pages/index/index'
+                                                })
+                                            }
+                                            
+                                        }
+                                    })
+                                }
+                            }
+                        });
+                    } else {
+                        
+                    }
+                }
             });
         } else {
             //用户按了拒绝按钮
