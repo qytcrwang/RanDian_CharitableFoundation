@@ -166,3 +166,11 @@ ADD COLUMN `org_num`  varchar(90) CHARACTER SET utf8 COLLATE utf8_unicode_ci NUL
 ADD COLUMN `school_num`  varchar(90) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '学号' AFTER `school`;
 -- 李汶龙 2020-02-26 添加用户字段 企业统一代码 学号 add end
 
+-- 李汶龙 2020-02-27 添加活动字段 封面图片地址 add start
+ALTER TABLE `activity_tb`
+ADD COLUMN `cover_url`  varchar(200) NULL AFTER `good_num`,
+MODIFY COLUMN `pic_url`  varchar(600) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '封面图片地址' AFTER `cover_url`;
+-- 李汶龙 2020-02-27 添加活动字段 封面图片地址 add end
+
+
+
