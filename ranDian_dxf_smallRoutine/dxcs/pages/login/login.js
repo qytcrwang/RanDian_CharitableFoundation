@@ -81,17 +81,27 @@ Page({
                                         method:'POST',
                                         dataType:'json',
                                         success:function(res){
-                                            console.log(res);
                                             if(res.data.status == 1){
+                                                //储存用户id信息
+                                                wx.setStorage({
+                                                    key:'userid',
+                                                    data:res.data.data.id
+                                                });
                                                 //成功
                                                 wx.showToast({
-                                                    title:'登陆成功',
+                                                    title:res.data.msg,
                                                     icon:'success',
                                                     duration:2000
                                                 });
                                                 wx.reLaunch({
                                                     url:'/pages/index/index'
                                                 })
+                                            }else{
+                                                wx.showToast({
+                                                    title:res.data.msg,
+                                                    icon:'none',
+                                                    duration:2000
+                                                });
                                             }
                                             
                                         }

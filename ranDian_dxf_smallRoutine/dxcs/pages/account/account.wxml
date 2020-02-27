@@ -13,13 +13,12 @@
         <image src='/img/right_jt.png' class='right_jt'></image>
       </view>
       <view class='inputList'>
-        <label class='input_lable'>昵称</label>
+        <label class='input_lable'>微信昵称</label>
         <open-data type="userNickName" class="user_info"></open-data>
-        <image src='/img/right_jt.png' class='right_jt'></image>
       </view>
       <view class='inputList' bindtap="gotoRealName">
         <label class='input_lable'>真实姓名</label>
-        <label class="user_info_blank">未填写</label>
+        <label class="user_info_blank">{{realName}}</label>
         <image src='/img/right_jt.png' class='right_jt'></image>
       </view>
       <view class='inputList' bindtap="gotoIdCard">

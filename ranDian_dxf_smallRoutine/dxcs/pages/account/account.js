@@ -5,7 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    realName:'高俊'
+    realName:''
+    
   },
   onLoad(){
     //加载用户账户数据
