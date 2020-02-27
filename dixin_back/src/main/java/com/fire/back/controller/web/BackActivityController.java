@@ -31,7 +31,7 @@ import com.fire.back.util.ParamUtil;
  */
 @RequestMapping("back/activity/")
 @RestController
-public class ActivityController {
+public class BackActivityController {
 	
 	private Logger logger = LoggerFactory.getLogger(TestController.class);
 	
