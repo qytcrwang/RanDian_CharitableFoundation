@@ -2,6 +2,8 @@ package com.fire.back.service;
 
 import com.fire.back.entity.UserTb;
 
+import java.util.List;
+
 public interface UserService {
 
     /**
@@ -32,4 +34,6 @@ public interface UserService {
      * @return
      */
     UserTb getUserInfoByOpenId(String openid);
+
+    List<UserTb>selectUsersByPage(UserTb user,Object field,String sort,Integer page,Integer pageSize);
 }

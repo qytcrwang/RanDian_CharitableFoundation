@@ -13,7 +13,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/student_union?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true&amp;useSSL=false&amp;allowMultiQueries=true"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/dixin?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true&amp;useSSL=false&amp;allowMultiQueries=true"
                         userId="root"
                         password=""/>
 
@@ -36,8 +36,13 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="love_points_tb" domainObjectName="LovePointsTb"
-               enableCountByExample="false" enableUpdateByExample="false"
+        <!--<table tableName="love_points_tb" domainObjectName="LovePointsTb"
+               enableCountByExample="true" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>-->
+        <table tableName="user_tb" domainObjectName="UserTb"
+               enableCountByExample="true" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="true">
         </table>

@@ -172,5 +172,27 @@ ADD COLUMN `cover_url`  varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci 
 MODIFY COLUMN `pic_url`  varchar(600) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '文本图片url字符串' AFTER `cover_url`;
 -- 李汶龙 2020-02-27 添加活动字段 封面图片地址 add end
 
+--刘云龙 2020-02-28 爱心积分表 start
+DROP TABLE IF EXISTS `love_points_tb`;
+CREATE TABLE `love_points_tb`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL COMMENT '用户id',
+  `love_points` int(10) NOT NULL COMMENT '爱心积分数',
+  `type` int(2) NOT NULL COMMENT '获取积分类型 0活动 1其他',
+  `activity_id` bigint(20) DEFAULT NULL COMMENT '活动id',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '积分描述',
+  `operator_id` bigint(20) DEFAULT NULL COMMENT '操作员id',
+  `status` int(2) NOT NULL COMMENT '积分状态 0正常',
+  `create_time` bigint(20) NOT NULL COMMENT '创建时间',
+  `update_time` bigint(20) NOT NULL COMMENT '更新时间',
+  `is_delete` int(2) NOT NULL COMMENT '是否删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB  CHARACTER SET = utf8 COMMENT='菜单角色关联表';;
+--刘云龙 2020-02-28 爱心积分表 end
+
+--刘云龙 2020-02-28 签到表添加索引 start
+alter table signtb add unique index SIGN_UNIQUE_INDEX(user_id,year,month);
+--刘云龙 2020-02-28 签到表添加索引 end
+
 
 

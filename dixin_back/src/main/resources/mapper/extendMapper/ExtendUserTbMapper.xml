@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fire.back.dao.extend.ExtendUserTbMapper" >
+  <resultMap id="BaseResultMap" type="com.fire.back.entity.UserTb" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="id_card_number" property="idCardNumber" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="reg_time" property="regTime" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="love_point" property="lovePoint" jdbcType="INTEGER" />
+    <result column="love_fund" property="loveFund" jdbcType="DOUBLE" />
+    <result column="role_id" property="roleId" jdbcType="BIGINT" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="old_name" property="oldName" jdbcType="VARCHAR" />
+    <result column="old_mobile" property="oldMobile" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, id_card_number, mobile, reg_time, state, type, love_point, love_fund, role_id, 
+    open_id, sex, address, email, comment, org_name, old_name, old_mobile, school, create_time, 
+    update_time, is_delete
+  </sql>
+  <select id="selectUsersByPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_tb
+    <where>
+      <if test="user.name != null" >
+        name like "%"#{user.name,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="user.idCardNumber != null" >
+        and id_card_number like "%"#{user.idCardNumber,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="user.mobile != null" >
+        and mobile like "%"#{user.mobile,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="user.state != null" >
+        and state = #{user.state,jdbcType=INTEGER}
+      </if>
+      <if test="user.type != null" >
+        and type = #{user.type,jdbcType=INTEGER}
+      </if>
+      <if test="user.roleId != null" >
+        and role_id = #{user.roleId,jdbcType=BIGINT}
+      </if>
+      <if test="user.sex != null" >
+        and sex = #{user.sex,jdbcType=INTEGER}
+      </if>
+      <if test="user.address != null" >
+        and address like "%"#{user.address,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="user.orgName != null" >
+        and org_name like "%"#{user.orgName,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="user.oldName != null" >
+        and old_name like  "%"#{user.oldName,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="user.oldMobile != null" >
+        and old_mobile like "%"#{user.oldMobile,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="user.school != null" >
+        and school like "%"#{user.school,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="user.isDelete != null" >
+        and is_delete = #{user.isDelete,jdbcType=INTEGER}
+      </if>
+    </where>
+    order by ${field} ${sort}
+    limit #{start} , #{pageSize}
+  </select>
+
+  <update id="updateLovePointsByUser" parameterType="long">
+    update user_tb set love_point=
+    (select sum(love_points) from love_points_tb where user_id=#{userId,jdbcType=BIGINT} and is_delete=0)
+    where id= #{userId,jdbcType=BIGINT}
+
+  </update>
+</mapper>

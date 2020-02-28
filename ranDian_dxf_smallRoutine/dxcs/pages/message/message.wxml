@@ -1,0 +1,23 @@
+<!-- 评论列表 -->
+    <view class="comment_wrap">
+        <!-- <view class="comment_title">
+            评论（{{commentData.commentTotalCount}}）
+        </view> -->
+        <navigator class="comment_item" wx:for="{{commentData.commentList}}" wx:key="index" url="../message_detail/message_detail">
+            <!-- 左侧 -->
+            <view class="comment_user">
+                <!-- <image src="{{item.userIconSrc}}" /> -->
+                <image src="../../img/message_list_icon.png" />
+            </view>
+            <!-- 右侧 -->
+                <view class="comment_info">
+                    <view class="comment_detail">
+                        <view class="author">{{item.username}}</view>
+                        <view class="date">{{item.commentDate}}</view>
+                    </view>
+                    <view class="comment_conent">
+                        {{item.commentInfo}}
+                    </view>
+                </view>
+        </navigator>
+    </view>

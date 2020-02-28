@@ -1,49 +1,51 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fire.back.dao.UserTbMapper" >
-  <resultMap id="BaseResultMap" type="com.fire.back.entity.UserTb" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="id_card_number" property="idCardNumber" jdbcType="VARCHAR" />
-    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
-    <result column="reg_time" property="regTime" jdbcType="BIGINT" />
-    <result column="state" property="state" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="love_point" property="lovePoint" jdbcType="INTEGER" />
-    <result column="love_fund" property="loveFund" jdbcType="DOUBLE" />
-    <result column="role_id" property="roleId" jdbcType="BIGINT" />
-    <result column="open_id" property="openId" jdbcType="VARCHAR" />
-    <result column="sex" property="sex" jdbcType="INTEGER" />
-    <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="comment" property="comment" jdbcType="VARCHAR" />
-    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
-    <result column="old_name" property="oldName" jdbcType="VARCHAR" />
-    <result column="old_mobile" property="oldMobile" jdbcType="VARCHAR" />
-    <result column="school" property="school" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="BIGINT" />
-    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
-    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fire.back.dao.UserTbMapper">
+  <resultMap id="BaseResultMap" type="com.fire.back.entity.UserTb">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="id_card_number" jdbcType="VARCHAR" property="idCardNumber" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="reg_time" jdbcType="BIGINT" property="regTime" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="love_point" jdbcType="INTEGER" property="lovePoint" />
+    <result column="love_fund" jdbcType="DOUBLE" property="loveFund" />
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+    <result column="org_num" jdbcType="VARCHAR" property="orgNum" />
+    <result column="old_name" jdbcType="VARCHAR" property="oldName" />
+    <result column="old_mobile" jdbcType="VARCHAR" property="oldMobile" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="school_num" jdbcType="VARCHAR" property="schoolNum" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -54,405 +56,289 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     id, name, id_card_number, mobile, reg_time, state, type, love_point, love_fund, role_id, 
-    open_id, sex, address, email, comment, org_name, old_name, old_mobile, school, create_time, 
-    update_time, is_delete
+    open_id, sex, address, email, comment, org_name, org_num, old_name, old_mobile, school, 
+    school_num, create_time, update_time, is_delete
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fire.back.entity.UserTbExample" >
+  <select id="selectByExample" parameterType="com.fire.back.entity.UserTbExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from user_tb
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from user_tb
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from user_tb
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.fire.back.entity.UserTbExample" >
-    delete from user_tb
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.fire.back.entity.UserTb" >
+  <insert id="insert" parameterType="com.fire.back.entity.UserTb">
     insert into user_tb (id, name, id_card_number, 
       mobile, reg_time, state, 
       type, love_point, love_fund, 
       role_id, open_id, sex, 
       address, email, comment, 
-      org_name, old_name, old_mobile, 
-      school, create_time, update_time, 
-      is_delete)
+      org_name, org_num, old_name, 
+      old_mobile, school, school_num, 
+      create_time, update_time, is_delete
+      )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{idCardNumber,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{regTime,jdbcType=BIGINT}, #{state,jdbcType=INTEGER}, 
       #{type,jdbcType=INTEGER}, #{lovePoint,jdbcType=INTEGER}, #{loveFund,jdbcType=DOUBLE}, 
       #{roleId,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
       #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, 
-      #{orgName,jdbcType=VARCHAR}, #{oldName,jdbcType=VARCHAR}, #{oldMobile,jdbcType=VARCHAR}, 
-      #{school,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, 
-      #{isDelete,jdbcType=INTEGER})
+      #{orgName,jdbcType=VARCHAR}, #{orgNum,jdbcType=VARCHAR}, #{oldName,jdbcType=VARCHAR}, 
+      #{oldMobile,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{schoolNum,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{isDelete,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.fire.back.entity.UserTb" >
+  <insert id="insertSelective" parameterType="com.fire.back.entity.UserTb">
     insert into user_tb
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         name,
       </if>
-      <if test="idCardNumber != null" >
+      <if test="idCardNumber != null">
         id_card_number,
       </if>
-      <if test="mobile != null" >
+      <if test="mobile != null">
         mobile,
       </if>
-      <if test="regTime != null" >
+      <if test="regTime != null">
         reg_time,
       </if>
-      <if test="state != null" >
+      <if test="state != null">
         state,
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         type,
       </if>
-      <if test="lovePoint != null" >
+      <if test="lovePoint != null">
         love_point,
       </if>
-      <if test="loveFund != null" >
+      <if test="loveFund != null">
         love_fund,
       </if>
-      <if test="roleId != null" >
+      <if test="roleId != null">
         role_id,
       </if>
-      <if test="openId != null" >
+      <if test="openId != null">
         open_id,
       </if>
-      <if test="sex != null" >
+      <if test="sex != null">
         sex,
       </if>
-      <if test="address != null" >
+      <if test="address != null">
         address,
       </if>
-      <if test="email != null" >
+      <if test="email != null">
         email,
       </if>
-      <if test="comment != null" >
+      <if test="comment != null">
         comment,
       </if>
-      <if test="orgName != null" >
+      <if test="orgName != null">
         org_name,
       </if>
-      <if test="oldName != null" >
+      <if test="orgNum != null">
+        org_num,
+      </if>
+      <if test="oldName != null">
         old_name,
       </if>
-      <if test="oldMobile != null" >
+      <if test="oldMobile != null">
         old_mobile,
       </if>
-      <if test="school != null" >
+      <if test="school != null">
         school,
       </if>
-      <if test="createTime != null" >
+      <if test="schoolNum != null">
+        school_num,
+      </if>
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         update_time,
       </if>
-      <if test="isDelete != null" >
+      <if test="isDelete != null">
         is_delete,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="idCardNumber != null" >
+      <if test="idCardNumber != null">
         #{idCardNumber,jdbcType=VARCHAR},
       </if>
-      <if test="mobile != null" >
+      <if test="mobile != null">
         #{mobile,jdbcType=VARCHAR},
       </if>
-      <if test="regTime != null" >
+      <if test="regTime != null">
         #{regTime,jdbcType=BIGINT},
       </if>
-      <if test="state != null" >
+      <if test="state != null">
         #{state,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="lovePoint != null" >
+      <if test="lovePoint != null">
         #{lovePoint,jdbcType=INTEGER},
       </if>
-      <if test="loveFund != null" >
+      <if test="loveFund != null">
         #{loveFund,jdbcType=DOUBLE},
       </if>
-      <if test="roleId != null" >
+      <if test="roleId != null">
         #{roleId,jdbcType=BIGINT},
       </if>
-      <if test="openId != null" >
+      <if test="openId != null">
         #{openId,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null" >
+      <if test="sex != null">
         #{sex,jdbcType=INTEGER},
       </if>
-      <if test="address != null" >
+      <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
+      <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="comment != null" >
+      <if test="comment != null">
         #{comment,jdbcType=VARCHAR},
       </if>
-      <if test="orgName != null" >
+      <if test="orgName != null">
         #{orgName,jdbcType=VARCHAR},
       </if>
-      <if test="oldName != null" >
+      <if test="orgNum != null">
+        #{orgNum,jdbcType=VARCHAR},
+      </if>
+      <if test="oldName != null">
         #{oldName,jdbcType=VARCHAR},
       </if>
-      <if test="oldMobile != null" >
+      <if test="oldMobile != null">
         #{oldMobile,jdbcType=VARCHAR},
       </if>
-      <if test="school != null" >
+      <if test="school != null">
         #{school,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="schoolNum != null">
+        #{schoolNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
         #{createTime,jdbcType=BIGINT},
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         #{updateTime,jdbcType=BIGINT},
       </if>
-      <if test="isDelete != null" >
+      <if test="isDelete != null">
         #{isDelete,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.fire.back.entity.UserTbExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.fire.back.entity.UserTbExample" resultType="java.lang.Long">
     select count(*) from user_tb
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.fire.back.entity.UserTb">
     update user_tb
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.idCardNumber != null" >
-        id_card_number = #{record.idCardNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="record.mobile != null" >
-        mobile = #{record.mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="record.regTime != null" >
-        reg_time = #{record.regTime,jdbcType=BIGINT},
-      </if>
-      <if test="record.state != null" >
-        state = #{record.state,jdbcType=INTEGER},
-      </if>
-      <if test="record.type != null" >
-        type = #{record.type,jdbcType=INTEGER},
-      </if>
-      <if test="record.lovePoint != null" >
-        love_point = #{record.lovePoint,jdbcType=INTEGER},
-      </if>
-      <if test="record.loveFund != null" >
-        love_fund = #{record.loveFund,jdbcType=DOUBLE},
-      </if>
-      <if test="record.roleId != null" >
-        role_id = #{record.roleId,jdbcType=BIGINT},
-      </if>
-      <if test="record.openId != null" >
-        open_id = #{record.openId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.sex != null" >
-        sex = #{record.sex,jdbcType=INTEGER},
-      </if>
-      <if test="record.address != null" >
-        address = #{record.address,jdbcType=VARCHAR},
-      </if>
-      <if test="record.email != null" >
-        email = #{record.email,jdbcType=VARCHAR},
-      </if>
-      <if test="record.comment != null" >
-        comment = #{record.comment,jdbcType=VARCHAR},
-      </if>
-      <if test="record.orgName != null" >
-        org_name = #{record.orgName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.oldName != null" >
-        old_name = #{record.oldName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.oldMobile != null" >
-        old_mobile = #{record.oldMobile,jdbcType=VARCHAR},
-      </if>
-      <if test="record.school != null" >
-        school = #{record.school,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null" >
-        create_time = #{record.createTime,jdbcType=BIGINT},
-      </if>
-      <if test="record.updateTime != null" >
-        update_time = #{record.updateTime,jdbcType=BIGINT},
-      </if>
-      <if test="record.isDelete != null" >
-        is_delete = #{record.isDelete,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update user_tb
-    set id = #{record.id,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=VARCHAR},
-      id_card_number = #{record.idCardNumber,jdbcType=VARCHAR},
-      mobile = #{record.mobile,jdbcType=VARCHAR},
-      reg_time = #{record.regTime,jdbcType=BIGINT},
-      state = #{record.state,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER},
-      love_point = #{record.lovePoint,jdbcType=INTEGER},
-      love_fund = #{record.loveFund,jdbcType=DOUBLE},
-      role_id = #{record.roleId,jdbcType=BIGINT},
-      open_id = #{record.openId,jdbcType=VARCHAR},
-      sex = #{record.sex,jdbcType=INTEGER},
-      address = #{record.address,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
-      comment = #{record.comment,jdbcType=VARCHAR},
-      org_name = #{record.orgName,jdbcType=VARCHAR},
-      old_name = #{record.oldName,jdbcType=VARCHAR},
-      old_mobile = #{record.oldMobile,jdbcType=VARCHAR},
-      school = #{record.school,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=BIGINT},
-      update_time = #{record.updateTime,jdbcType=BIGINT},
-      is_delete = #{record.isDelete,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fire.back.entity.UserTb" >
-    update user_tb
-    <set >
-      <if test="name != null" >
+    <set>
+      <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="idCardNumber != null" >
+      <if test="idCardNumber != null">
         id_card_number = #{idCardNumber,jdbcType=VARCHAR},
       </if>
-      <if test="mobile != null" >
+      <if test="mobile != null">
         mobile = #{mobile,jdbcType=VARCHAR},
       </if>
-      <if test="regTime != null" >
+      <if test="regTime != null">
         reg_time = #{regTime,jdbcType=BIGINT},
       </if>
-      <if test="state != null" >
+      <if test="state != null">
         state = #{state,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="lovePoint != null" >
+      <if test="lovePoint != null">
         love_point = #{lovePoint,jdbcType=INTEGER},
       </if>
-      <if test="loveFund != null" >
+      <if test="loveFund != null">
         love_fund = #{loveFund,jdbcType=DOUBLE},
       </if>
-      <if test="roleId != null" >
+      <if test="roleId != null">
         role_id = #{roleId,jdbcType=BIGINT},
       </if>
-      <if test="openId != null" >
+      <if test="openId != null">
         open_id = #{openId,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null" >
+      <if test="sex != null">
         sex = #{sex,jdbcType=INTEGER},
       </if>
-      <if test="address != null" >
+      <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
+      <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="comment != null" >
+      <if test="comment != null">
         comment = #{comment,jdbcType=VARCHAR},
       </if>
-      <if test="orgName != null" >
+      <if test="orgName != null">
         org_name = #{orgName,jdbcType=VARCHAR},
       </if>
-      <if test="oldName != null" >
+      <if test="orgNum != null">
+        org_num = #{orgNum,jdbcType=VARCHAR},
+      </if>
+      <if test="oldName != null">
         old_name = #{oldName,jdbcType=VARCHAR},
       </if>
-      <if test="oldMobile != null" >
+      <if test="oldMobile != null">
         old_mobile = #{oldMobile,jdbcType=VARCHAR},
       </if>
-      <if test="school != null" >
+      <if test="school != null">
         school = #{school,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="schoolNum != null">
+        school_num = #{schoolNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=BIGINT},
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=BIGINT},
       </if>
-      <if test="isDelete != null" >
+      <if test="isDelete != null">
         is_delete = #{isDelete,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fire.back.entity.UserTb" >
+  <update id="updateByPrimaryKey" parameterType="com.fire.back.entity.UserTb">
     update user_tb
     set name = #{name,jdbcType=VARCHAR},
       id_card_number = #{idCardNumber,jdbcType=VARCHAR},
@@ -469,9 +355,11 @@
       email = #{email,jdbcType=VARCHAR},
       comment = #{comment,jdbcType=VARCHAR},
       org_name = #{orgName,jdbcType=VARCHAR},
+      org_num = #{orgNum,jdbcType=VARCHAR},
       old_name = #{oldName,jdbcType=VARCHAR},
       old_mobile = #{oldMobile,jdbcType=VARCHAR},
       school = #{school,jdbcType=VARCHAR},
+      school_num = #{schoolNum,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=BIGINT},
       is_delete = #{isDelete,jdbcType=INTEGER}

@@ -13,7 +13,9 @@
     "pages/mine/mine",
     "pages/view/view",
     "pages/login/login",
-    "pages/university_auth/university_auth"
+    "pages/university_auth/university_auth",
+    "pages/message/message",
+    "pages/message_detail/message_detail"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -31,7 +33,7 @@
       "selectedIconPath": "img/tabbar_index_checked.png"
     },
     {
-      "pagePath": "pages/index/index",
+      "pagePath": "pages/message/message",
       "text": "活动通知",
       "iconPath": "img/tabbar_message.png",
       "selectedIconPath": "img/tabbar_message_checked.png"

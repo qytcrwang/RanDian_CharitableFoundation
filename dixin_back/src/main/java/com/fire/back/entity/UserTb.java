@@ -33,11 +33,15 @@ public class UserTb {
 
     private String orgName;
 
+    private String orgNum;
+
     private String oldName;
 
     private String oldMobile;
 
     private String school;
+
+    private String schoolNum;
 
     private Long createTime;
 
@@ -173,6 +177,14 @@ public class UserTb {
         this.orgName = orgName == null ? null : orgName.trim();
     }
 
+    public String getOrgNum() {
+        return orgNum;
+    }
+
+    public void setOrgNum(String orgNum) {
+        this.orgNum = orgNum == null ? null : orgNum.trim();
+    }
+
     public String getOldName() {
         return oldName;
     }
@@ -195,6 +207,14 @@ public class UserTb {
 
     public void setSchool(String school) {
         this.school = school == null ? null : school.trim();
+    }
+
+    public String getSchoolNum() {
+        return schoolNum;
+    }
+
+    public void setSchoolNum(String schoolNum) {
+        this.schoolNum = schoolNum == null ? null : schoolNum.trim();
     }
 
     public Long getCreateTime() {
