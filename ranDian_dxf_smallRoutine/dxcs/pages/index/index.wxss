@@ -75,6 +75,7 @@
 .other_title{
   font-size: 30rpx;
   color: #e06f93;
+  margin-right: 20rpx;
 }
 .other_detail{
   font-size: 26rpx;
