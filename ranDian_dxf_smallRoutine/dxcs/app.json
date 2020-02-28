@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/donation/donation",
     "pages/index/index",
     "pages/case/index",
     "pages/product/index",
