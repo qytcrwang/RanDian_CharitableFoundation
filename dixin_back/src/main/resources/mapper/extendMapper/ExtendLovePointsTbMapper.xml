@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fire.back.dao.extend.ExtendLovePointsTbMapper">
+  <resultMap id="BaseResultMap" type="com.fire.back.entity.LovePointsTb">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="activity_id" jdbcType="BIGINT" property="activityId" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="operator_id" jdbcType="BIGINT" property="operatorId" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, user_id, love_points, type, status, activity_id, description, operator_id, create_time, update_time,
+    is_delete
+  </sql>
+
+  <select id="selectLovePointsByPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from love_points_tb
+    where user_id = #{lovePoint.userId,jdbcType=BIGINT}
+    <if test="lovePoint.type != null" >
+      and type = #{lovePoint.type,jdbcType=INTEGER}
+    </if>
+    <if test="lovePoint.status != null" >
+      and status = #{lovePoint.status,jdbcType=INTEGER}
+    </if>
+    <if test="lovePoint.operatorId != null" >
+      and operator_id = #{lovePoint.operatorId,jdbcType=BIGINT}
+    </if>
+    <if test="lovePoint.isDelete != null" >
+      and is_delete = #{lovePoint.isDelete,jdbcType=INTEGER}
+    </if>
+    order by create_time desc
+    limit #{start} , #{pageSize}
+  </select>
+
+</mapper>

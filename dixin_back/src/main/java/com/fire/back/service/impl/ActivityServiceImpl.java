@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fire.back.dao.extend.ExtendUserTbMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class ActivityServiceImpl implements ActivityService {
 	@Autowired
 	private ExtendActivityTbMapper activityMapper;
 	@Autowired
-	private UserTbMapper userMapper;
+	private ExtendUserTbMapper userMapper;
 	@Autowired
 	private ActivityUserTbMapper activityUserMapper;
 

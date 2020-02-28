@@ -1,7 +1,7 @@
 package com.fire.back.service.impl;
 
 import com.fire.back.common.CheckEmptyUtil;
-import com.fire.back.dao.UserTbMapper;
+import com.fire.back.dao.extend.ExtendUserTbMapper;
 import com.fire.back.entity.UserTb;
 import com.fire.back.entity.UserTbExample;
 import com.fire.back.service.UserService;
@@ -14,7 +14,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserTbMapper um;
+    ExtendUserTbMapper um;
 
     @Override
     public UserTb getUserInfobByPrimaryKey(Long id) {
@@ -40,6 +40,12 @@ public class UserServiceImpl implements UserService {
         if(CheckEmptyUtil.isEmpty(list))return null;
         return list.get(0);
     }
+
+    @Override
+    public List<UserTb> selectUsersByPage(UserTb user, Object field, String sort, Integer page, Integer pageSize) {
+        return um.selectUsersByPage(user,field,sort,(page-1)*pageSize,pageSize);
+    }
+
 
     private UserTb UserDefaultParamUtil(UserTb u){
         u.setUpdateTime(System.currentTimeMillis()/1000);

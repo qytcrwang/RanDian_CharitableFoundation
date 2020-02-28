@@ -19,7 +19,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(buildApiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.fire.back.controller.app"))
+                .apis(RequestHandlerSelectors.basePackage("com.fire.back.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

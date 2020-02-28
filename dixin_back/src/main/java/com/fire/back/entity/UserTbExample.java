@@ -1144,6 +1144,76 @@ public class UserTbExample {
             return (Criteria) this;
         }
 
+        public Criteria andOrgNumIsNull() {
+            addCriterion("org_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumIsNotNull() {
+            addCriterion("org_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumEqualTo(String value) {
+            addCriterion("org_num =", value, "orgNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumNotEqualTo(String value) {
+            addCriterion("org_num <>", value, "orgNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumGreaterThan(String value) {
+            addCriterion("org_num >", value, "orgNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumGreaterThanOrEqualTo(String value) {
+            addCriterion("org_num >=", value, "orgNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumLessThan(String value) {
+            addCriterion("org_num <", value, "orgNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumLessThanOrEqualTo(String value) {
+            addCriterion("org_num <=", value, "orgNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumLike(String value) {
+            addCriterion("org_num like", value, "orgNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumNotLike(String value) {
+            addCriterion("org_num not like", value, "orgNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumIn(List<String> values) {
+            addCriterion("org_num in", values, "orgNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumNotIn(List<String> values) {
+            addCriterion("org_num not in", values, "orgNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumBetween(String value1, String value2) {
+            addCriterion("org_num between", value1, value2, "orgNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrgNumNotBetween(String value1, String value2) {
+            addCriterion("org_num not between", value1, value2, "orgNum");
+            return (Criteria) this;
+        }
+
         public Criteria andOldNameIsNull() {
             addCriterion("old_name is null");
             return (Criteria) this;
@@ -1351,6 +1421,76 @@ public class UserTbExample {
 
         public Criteria andSchoolNotBetween(String value1, String value2) {
             addCriterion("school not between", value1, value2, "school");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumIsNull() {
+            addCriterion("school_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumIsNotNull() {
+            addCriterion("school_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumEqualTo(String value) {
+            addCriterion("school_num =", value, "schoolNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumNotEqualTo(String value) {
+            addCriterion("school_num <>", value, "schoolNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumGreaterThan(String value) {
+            addCriterion("school_num >", value, "schoolNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumGreaterThanOrEqualTo(String value) {
+            addCriterion("school_num >=", value, "schoolNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumLessThan(String value) {
+            addCriterion("school_num <", value, "schoolNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumLessThanOrEqualTo(String value) {
+            addCriterion("school_num <=", value, "schoolNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumLike(String value) {
+            addCriterion("school_num like", value, "schoolNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumNotLike(String value) {
+            addCriterion("school_num not like", value, "schoolNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumIn(List<String> values) {
+            addCriterion("school_num in", values, "schoolNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumNotIn(List<String> values) {
+            addCriterion("school_num not in", values, "schoolNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumBetween(String value1, String value2) {
+            addCriterion("school_num between", value1, value2, "schoolNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolNumNotBetween(String value1, String value2) {
+            addCriterion("school_num not between", value1, value2, "schoolNum");
             return (Criteria) this;
         }
 
