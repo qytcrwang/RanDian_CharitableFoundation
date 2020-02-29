@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020/2/22 18:33
  */
 @RestController
-@RequestMapping("wx/contri-info")
+@RequestMapping("wx/contriInfo")
 public class ContriInfoController {
   @Resource ContriInfoService contriInfoService;
   private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -31,7 +31,7 @@ public class ContriInfoController {
    *
    * @return null
    */
-  @PostMapping(value = "/save-contri-info")
+  @PostMapping(value = "/saveContriInfo")
   public FireResult saveContriInfo(@RequestBody ContriInfoTb contriInfoTb) {
     if (CheckEmptyUtil.isEmpty(contriInfoTb)) {
       return FireResult.build(0, "入参不能为空");
@@ -54,7 +54,7 @@ public class ContriInfoController {
    *
    * @return null
    */
-  @PostMapping(value = "/update-contri-status")
+  @PostMapping(value = "/updateContriStatus")
   public FireResult updateContriStatus(@RequestBody ContriInfoTb contriInfoTb) {
     if (CheckEmptyUtil.isEmpty(contriInfoTb)) {
       return FireResult.build(0, "入参不能为空");
@@ -77,7 +77,7 @@ public class ContriInfoController {
    *
    * @return null
    */
-  @GetMapping(value = "/get-self-contri-info")
+  @GetMapping(value = "/getSelfContriInfo")
   public FireResult getSelfContriInfo(@RequestParam Long userId) {
     if (CheckEmptyUtil.isEmpty(userId)) {
       return FireResult.build(0, "入参不能为空");
