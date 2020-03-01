@@ -1,9 +1,9 @@
-package com.fire.back.controller.app;
+package com.fire.back.controller.web;
 
+import com.fire.back.common.CheckEmptyUtil;
 import com.fire.back.common.FireResult;
 import com.fire.back.entity.ContriInfoTb;
 import com.fire.back.service.ContriInfoService;
-import com.fire.back.common.CheckEmptyUtil;
 import java.util.List;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
@@ -22,33 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020/2/22 18:33
  */
 @RestController
-@RequestMapping("wx/contriInfo")
-public class ContriInfoController {
+@RequestMapping("back/contriInfo")
+public class BackContriInfoController {
   @Resource ContriInfoService contriInfoService;
   private Logger logger = LoggerFactory.getLogger(this.getClass());
-
-  /**
-   * 捐赠信息提交.
-   *
-   * @return null
-   */
-  @PostMapping(value = "/saveContriInfo")
-  public FireResult saveContriInfo(@RequestBody ContriInfoTb contriInfoTb) {
-    if (CheckEmptyUtil.isEmpty(contriInfoTb)) {
-      return FireResult.build(0, "入参不能为空");
-    }
-    try {
-      Boolean b = contriInfoService.saveContriInfo(contriInfoTb);
-      if (b) {
-        return FireResult.build(1, "保存成功", null);
-      } else {
-        return FireResult.build(0, "保存失败，请稍后再试");
-      }
-    } catch (Exception e) {
-      logger.error("", e);
-      return FireResult.build(0, "保存失败，请稍后再试");
-    }
-  }
 
   /**
    * 捐赠状态更新.
@@ -86,6 +63,25 @@ public class ContriInfoController {
     try {
       List<ContriInfoTb> resultList = contriInfoService.getSelfContriInfo(userId);
       return FireResult.build(1, "数据获取成功", resultList);
+    } catch (Exception e) {
+      logger.error("", e);
+      return FireResult.build(0, "获取信息失败，请稍后再试");
+    }
+  }
+
+  /**
+   * 获取捐赠详情.
+   *
+   * @return null
+   */
+  @GetMapping(value = "/getContriInfoDetail")
+  public FireResult getContriInfoDetail(@RequestParam Long contriInfo) {
+    if (CheckEmptyUtil.isEmpty(contriInfo)) {
+      return FireResult.build(0, "入参不能为空");
+    }
+    try {
+      ContriInfoTb result = contriInfoService.getContriInfoDetail(contriInfo);
+      return FireResult.build(1, "数据获取成功", result);
     } catch (Exception e) {
       logger.error("", e);
       return FireResult.build(0, "获取信息失败，请稍后再试");
