@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/donation/donation",
     "pages/index/index",
     "pages/case/index",
     "pages/product/index",
@@ -15,7 +14,8 @@
     "pages/login/login",
     "pages/university_auth/university_auth",
     "pages/message/message",
-    "pages/message_detail/message_detail"
+    "pages/message_detail/message_detail",
+    "pages/donation/donation"
   ],
   "window": {
     "backgroundTextStyle": "light",
