@@ -19,7 +19,7 @@ public class LovePointController {
     private final
     LovePointsService lovePointsService;
 
-    private org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class);
+    private org.slf4j.Logger logger = LoggerFactory.getLogger(LovePointController.class);
 
 
     @Autowired
