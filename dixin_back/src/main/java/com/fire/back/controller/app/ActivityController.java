@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fire.back.common.FireResult;
-import com.fire.back.controller.web.TestController;
 import com.fire.back.service.ActivityService;
 import com.fire.back.util.ParamUtil;
 
@@ -34,7 +33,7 @@ import com.fire.back.util.ParamUtil;
 @RestController
 public class ActivityController {
 	
-	private Logger logger = LoggerFactory.getLogger(TestController.class);
+	private Logger logger = LoggerFactory.getLogger(ActivityController.class);
 	
 	@Autowired
 	private ActivityService service;

@@ -33,7 +33,7 @@ import com.fire.back.util.ParamUtil;
 @RestController
 public class BackActivityController {
 	
-	private Logger logger = LoggerFactory.getLogger(TestController.class);
+	private Logger logger = LoggerFactory.getLogger(BackActivityController.class);
 	
 	@Autowired
 	private ActivityService service;
