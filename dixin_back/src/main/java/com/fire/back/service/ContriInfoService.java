@@ -1,6 +1,7 @@
 package com.fire.back.service;
 
 import com.fire.back.entity.ContriInfoTb;
+import java.util.List;
 
 /**
  * 捐赠信息相关Service.
@@ -32,5 +33,13 @@ public interface ContriInfoService {
    * @param userId 入参
    * @return
    */
-  ContriInfoTb getSelfContriInfo(Long userId);
+  List<ContriInfoTb> getSelfContriInfo(Long userId);
+
+  /**
+   * 获取捐赠详情.
+   *
+   * @param contriInfoId 入参
+   * @return
+   */
+  ContriInfoTb getContriInfoDetail(Long contriInfoId);
 }

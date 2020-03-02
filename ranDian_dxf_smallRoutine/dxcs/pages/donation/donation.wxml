@@ -1,0 +1,137 @@
+<!--pages/order/donation.wxml-->
+<view class="swiper-tab">  
+    <view class="tab-item {{donateMoneyTab?'active':''}} "  bindtap="toDonateMoney">捐款</view>
+    <view class="tab-item {{donateGoodsTab?'active':''}}"  bindtap="toDonateGoods">捐物资</view>
+</view>
+<view class='tab-items'>
+  <view class='tab_item_blank'></view>  
+  <form class='{{donateMoneyTab?"show":"hidden"}}'>
+    <!-- 第一步 -->
+    <view class='step'>
+      <view class='step_top'>
+        <view class='flag'>STEP1</view>
+        <view class='stepMain'>
+          <view class='dian'></view> 
+          <view class='describe'>捐款金额</view>
+          <view class='sum'>预估爱心积分: <text class='points'>300</text></view>
+        </view>
+      </view>
+      <view class='size'>
+        <view class='size_money'>(根据捐助金额获得捐助积分,1元=1点爱心积分)</view>
+      </view>
+      <view class='money_view'>
+        <input class="money_input" placeholder="请输入金额（单位：元）" placeholder-class="input"/>
+      </view>
+    </view>
+    <!-- 第二步 -->
+    <view class='step2'>
+      <view class='step_top' bindtap='checkAddr'>
+        <view class='flag'>STEP2</view>
+        <view class='stepMains'>
+          <view class='dians'></view> 
+          <view class='describe'>微信支付</view>
+          <view class='tips'></view>
+        </view>
+      </view>
+      <view class='info'>
+        <view class='info_left'>
+          <view class='addrAndTel'>
+            <image class='pos' src='../image/pos.png'></image>
+            <view class='addr'>使用微信支付后，管理员会尽快核实</view>
+          </view>
+          <view class='tel'>如果您有疑问请移步联系客服咨询</view>
+        </view>
+      </view>
+    </view>
+    <!-- 同意协议 -->
+    <view class='agree'>
+      <radio value='1'>同意</radio>
+      <view class='protocol'>《用户捐赠协议协议》</view>
+    </view>
+    <!-- 温馨提示 -->
+    <view class='tip'>
+      <view class='title'>温馨提示:</view>
+      <view class='content'>01 / 支付成功后管理员会尽快核实积分，稍后可在我的积分中查看。</view>
+      <view class='content'>02 / 支付成功后如果有疑问请联系客服。</view>
+      <view class='content'>03 / 为了您的账户安全，请确认捐赠后再支付。</view>
+    </view>
+    <button class='submit'>提交订单</button>
+  </form>
+  <form class='{{donateGoodsTab?"show":"hidden"}}'>
+    <!-- 第一步 -->
+    <view class='step'>
+      <view class='step_top'>
+        <view class='flag'>STEP1</view>
+        <view class='stepMain'>
+          <view class='dian'></view> 
+          <view class='describe'>捐赠物资简述</view>
+          <view class='sum'>预估积分: <text class='points'>待入库</text></view>
+        </view>
+      </view>
+      <view class='money_view'>
+        <textarea class="goods_textarea"></textarea>
+      </view>
+    </view>
+    <!-- 第二步 -->
+    <view class='step2'>
+      <view class='step_top' bindtap='checkAddr'>
+        <view class='flag'>STEP2</view>
+        <view class='stepMains'>
+          <view class='dians'></view> 
+          <view class='describe'>邮寄地址</view>
+          <view class='tips'>请将捐赠物品邮寄至指定地址</view>
+        </view>
+      </view>
+      <view class='info'>
+        <view class='info_left'>
+          <view class='addrAndTel'>
+            <image class='pos' src='../image/pos.png'></image>
+            <view class='addr'>浙江省杭州市东旱门南路95号</view>
+          </view>
+          <view class='tel'>收货员 1385781996</view>
+        </view>
+      </view>
+    </view>
+    <!-- 第三步 -->
+    <view class='step3'>
+      <view class='step_top'>
+        <view class='flag'>STEP3</view>
+        <view class='stepMains'>
+          <view class='dians'></view> 
+          <view class='describe'>快递信息</view>
+          <view class='tips'>请填写您寄出的快递信息</view>
+        </view>
+      </view>
+      <view class='list'>
+        <image class='listPic' src='../image/car.png'></image>
+        <!-- <view class='list_name'>快递公司</view> -->
+        <input class='list_name' placeholder='快递公司' placeholder-class='input'></input>
+      </view>
+      <view class='list'>
+        <image class='listPic' src='../image/danhao.png'></image>
+        <input class='list_name' placeholder='快递单号' placeholder-class='input'></input>
+      </view>
+      <view class='list'>
+        <image class='listPic' src='../image/people.png'></image>
+        <input class='list_name' placeholder='寄件人姓名' placeholder-class='input'></input>
+      </view>
+      <view class='lists'>
+        <image class='listPic' src='../image/camera.png'></image>
+        <input class='list_name' placeholder='物品信息备注/照片(选填)' placeholder-class='input'></input>
+      </view>
+    </view>
+    <!-- 同意协议 -->
+    <view class='agree'>
+      <radio value='1'>同意</radio>
+      <view class='protocol'>《用户捐赠协议》</view>
+    </view>
+    <!-- 温馨提示 -->
+    <view class='tip'>
+      <view class='title'>温馨提示:</view>
+      <view class='content'>01 / 捐赠物品以基金会实际收到为主，用户填写简略物品信息即可。</view>
+      <view class='content'>02 / 捐赠物品收到后，收货员会及时入库，确定用户积分。</view>
+      <view class='content'>03 / 为保障运输安全，请将物品打包牢靠。</view>
+    </view>
+    <button class='submit'>提交订单</button>
+  </form>
+</view>

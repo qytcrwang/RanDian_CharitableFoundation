@@ -18,12 +18,14 @@
       </view>
       <view class='inputList' bindtap="gotoRealName">
         <label class='input_lable'>真实姓名</label>
-        <label class="user_info_blank">{{realName}}</label>
+        <label class="user_info" wx:if="{{realName != ''&&realName != null}}">{{realName}}</label>
+        <label class="user_info_blank" wx:if="{{realName == ''||realName == null}}">未填写</label>
         <image src='/img/right_jt.png' class='right_jt'></image>
       </view>
       <view class='inputList' bindtap="gotoIdCard">
         <label class='input_lable'>身份证号</label>
-        <label class="user_info_blank">未填写</label>
+        <label class="user_info" wx:if="{{idCard != ''&&idCard != null}}">{{idCard}}</label>
+        <label class="user_info_blank" wx:if="{{idCard == ''||idCard == null}}">未填写</label>
         <image src='/img/right_jt.png' class='right_jt'></image>
       </view>
       <!--<view class='inputList'>
@@ -33,7 +35,8 @@
       </view>-->
       <view class='inputList' bindtap="gotoPhone">
         <label class='input_lable'>联系方式</label>
-        <label class="user_info_blank">未填写</label>
+        <label class="user_info" wx:if="{{phone != ''&&phone != null}}">{{phone}}</label>
+        <label class="user_info_blank" wx:if="{{phone == ''||phone == null}}">未填写</label>
         <image src='/img/right_jt.png' class='right_jt'></image>
       </view>
       <view class='inputList' bindtap="gotoUserType">
