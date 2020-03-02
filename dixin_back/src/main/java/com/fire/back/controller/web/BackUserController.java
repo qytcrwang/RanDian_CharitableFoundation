@@ -25,7 +25,7 @@ public class BackUserController {
     UserService us;
     @Autowired
     SignInService ss;
-    private Logger logger = LoggerFactory.getLogger(UserController.class);
+    private Logger logger = LoggerFactory.getLogger(BackUserController.class);
     /**
      *
      * @param paramMap ->userId

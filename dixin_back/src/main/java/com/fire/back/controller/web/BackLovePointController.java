@@ -28,7 +28,7 @@ public class BackLovePointController {
     }
 
 
-    private org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class);
+    private org.slf4j.Logger logger = LoggerFactory.getLogger(BackLovePointController.class);
 
     /**
      * 获取用户的爱心积分变更列表
