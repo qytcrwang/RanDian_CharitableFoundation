@@ -54,11 +54,13 @@ public class BackUserController {
             String idCardNumber = ParamUtil.getString(paramMap,"idCardNumber",null);
             String mobile = ParamUtil.getString(paramMap,"mobile",null);
             String name = ParamUtil.getString(paramMap,"name",null);
+            Integer type = ParamUtil.getInteger(paramMap,"userType",null);
             UserTb u = new UserTb();
             u.setId(id);
             u.setIdCardNumber(idCardNumber);
             u.setMobile(mobile);
             u.setName(name);
+            u.setType(type);
             int result = us.UpdateUserInfo(u);
             return result>0?FireResult.build(1,"用户信息更新成功"):FireResult.build(0,"用户信息更新失败");
         }catch(Exception e){
