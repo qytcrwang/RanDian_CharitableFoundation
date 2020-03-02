@@ -1,9 +1,3 @@
-/**  
- * @Title: ActivityController.java
- * @Description: TODO(描述)
- * @author Dragon
- * @date 2020-02-21 10:35:14 
- */
 package com.fire.back.controller.web;
 
 import java.util.List;
