@@ -27,8 +27,8 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, id_card_number, mobile, reg_time, state, type, love_point, love_fund, role_id, 
-    open_id, sex, address, email, comment, org_name, old_name, old_mobile, school, create_time, 
-    update_time, is_delete
+    open_id, sex, address, email, comment, org_name, org_num, old_name, old_mobile, school,
+    school_num, create_time, update_time, is_delete
   </sql>
   <select id="selectUsersByPage" resultMap="BaseResultMap">
     select
