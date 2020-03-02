@@ -56,7 +56,7 @@ public class UserController {
     @PostMapping("/updateUserInfo")
     public FireResult updateUserInfo(@RequestBody  Map<String, Object> paramMap){
         try {
-            Long id = ParamUtil.getLong(paramMap,"id");
+            Long id = ParamUtil.getLong(paramMap,"userId");
             String idCardNumber = ParamUtil.getString(paramMap,"idCardNumber",null);
             String mobile = ParamUtil.getString(paramMap,"mobile",null);
             String name = ParamUtil.getString(paramMap,"name",null);

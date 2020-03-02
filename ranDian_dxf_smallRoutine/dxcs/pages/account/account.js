@@ -1,6 +1,4 @@
-// pages/view/view.js
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -12,7 +10,8 @@ Page({
     phone:'',
     userid:''   
   },
-  onLoad(){
+  onShow(){
+    console.log('触发onshow');
     //获取储存区的userid
     var that = this;
     wx.getStorage({
@@ -47,35 +46,31 @@ Page({
         })
       }
     })
-   
-    console.log('页面加载了')
-
   },
   gotoRealName(){
+    var realName = this.data.realName;
     wx.navigateTo({
-      url:'../account_name/account_name?realName=高俊'
+      url:'../account_name/account_name?realName='+realName
     })
   },
   gotoIdCard(){
+    var idCard = this.data.idCard;
     wx.navigateTo({
-      url:'../account_idCard/account_idCard?idCard=1234567'
+      url:'../account_idCard/account_idCard?idCard='+idCard
     })
   },
   gotoPhone(){
+    var phone = this.data.phone;
     wx.navigateTo({
-      url:'../account_phone/account_phone?phone=17621378282'
+      url:'../account_phone/account_phone?phone='+phone
     })
   },
-  gotoSignature(){
-    wx.navigateTo({
-      url:'../account_signature/account_signature?signature=高俊'
-    })
-  },
+  //修改用户类型
   bindUserTypePickerChange(e){
     this.setData({
       userTypeIndex:e.detail.value
     })
     //更新用户信息
-
+    
   }
 })
