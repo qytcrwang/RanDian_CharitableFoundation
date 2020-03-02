@@ -1,5 +1,6 @@
 {
   "pages": [
+    
     "pages/index/index",
     "pages/case/index",
     "pages/product/index",
@@ -15,6 +16,7 @@
     "pages/university_auth/university_auth",
     "pages/message/message",
     "pages/message_detail/message_detail",
+    "pages/activity_detail/activity_detail",
     "pages/donation/donation"
   ],
   "window": {

@@ -143,7 +143,7 @@
 
   <!-- 推荐视频 -->
     <view class="other_list">
-        <navigator wx:for="{{othersList}}" wx:key="index" class="item_other">
+        <navigator url="../activity_detail/activity_detail?id={{item.commentCount}}" wx:for="{{othersList}}" wx:key="index" class="item_other">
             <!-- 图片容器 -->
             <view class="other_img_wrap">
                 <image src="{{item.imgSrc}}" mode="widthFix"/>
