@@ -172,7 +172,7 @@ ADD COLUMN `cover_url`  varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci 
 MODIFY COLUMN `pic_url`  varchar(600) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '文本图片url字符串' AFTER `cover_url`;
 -- 李汶龙 2020-02-27 添加活动字段 封面图片地址 add end
 
---刘云龙 2020-02-28 爱心积分表 start
+-- 刘云龙 2020-02-28 爱心积分表 start
 DROP TABLE IF EXISTS `love_points_tb`;
 CREATE TABLE `love_points_tb`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -188,11 +188,11 @@ CREATE TABLE `love_points_tb`  (
   `is_delete` int(2) NOT NULL COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  CHARACTER SET = utf8 COMMENT='菜单角色关联表';;
---刘云龙 2020-02-28 爱心积分表 end
+-- 刘云龙 2020-02-28 爱心积分表 end
 
---刘云龙 2020-02-28 签到表添加索引 start
+-- 刘云龙 2020-02-28 签到表添加索引 start
 alter table signtb add unique index SIGN_UNIQUE_INDEX(user_id,year,month);
---刘云龙 2020-02-28 签到表添加索引 end
+-- 刘云龙 2020-02-28 签到表添加索引 end
 
 
 
