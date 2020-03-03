@@ -1,2 +1,6 @@
-<!--pages/message_detail/message_detail.wxml-->
-<text>pages/message_detail/message_detail.wxml</text>
+<view class="container">
+    <text class="title">{{activityDetails.title}}</text>
+    <view class="tool-line"></view>
+    <view class="gen_date">{{activityDetails.sign_stime}}</view>
+    <view class="message_body" >{{activityDetails.body}}</view>
+</view>

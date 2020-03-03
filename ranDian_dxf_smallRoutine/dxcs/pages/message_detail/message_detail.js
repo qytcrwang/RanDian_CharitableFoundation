@@ -5,14 +5,39 @@ Page({
    * 页面的初始数据
    */
   data: {
+    //活动详情
+    activityDetails:null
 
+  },
+
+  getActivityDetails(activityId){
+    let that = this;
+    wx.request({
+      method:'POST',
+      // data: {
+      //   id: activityId
+      // },
+      url:"http://mock-api.com/VKyv1Gzw.mock/activity/getInfo",
+      success(res){
+        if(res.data.status===1){
+          var a = res.data.data.pic_url.split(",");
+          console.log(a);
+          that.setData({
+            activityDetails:res.data.data,
+            imgs:[a]
+          });
+          // console.log(imgs);
+        }
+      }
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let activityId = options.id;
+    this.getActivityDetails(activityId);
   },
 
   /**

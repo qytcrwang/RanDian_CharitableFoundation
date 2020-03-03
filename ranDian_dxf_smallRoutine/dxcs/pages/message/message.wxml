@@ -1,8 +1,5 @@
-<!-- 评论列表 -->
+<!-- 通知列表 -->
     <view class="comment_wrap">
-        <!-- <view class="comment_title">
-            评论（{{commentData.commentTotalCount}}）
-        </view> -->
         <navigator class="comment_item" wx:for="{{commentData.commentList}}" wx:key="index" url="../message_detail/message_detail">
             <!-- 左侧 -->
             <view class="comment_user">

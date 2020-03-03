@@ -1,3 +1,4 @@
 {
-  "usingComponents": {}
+  "navigationBarTitleText":"通知详情",
+  "backgroundColor": "#FFF"
 }
