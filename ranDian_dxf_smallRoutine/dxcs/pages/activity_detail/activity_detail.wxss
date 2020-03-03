@@ -52,12 +52,17 @@
 .good_num{
     float: right;
 }
-.good_num_icon{
+.read_count_icon{
+    width: 45rpx;
+    height: 26rpx;
+}
+.read_good .good_count_icon{
     width: 40rpx;
     height: 40rpx;
     float: right;
 }
-.read_count_icon{
-    width: 50rpx;
-    height: 30rpx;
+.read_good .good_count_icon_activity{
+    width: 40rpx;
+    height: 40rpx;
+    float: right;
 }
