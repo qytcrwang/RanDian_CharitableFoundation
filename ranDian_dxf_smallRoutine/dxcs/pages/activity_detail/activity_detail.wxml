@@ -5,8 +5,9 @@
     </view>
 
     <view class="answer-content">
-        <image src="../../img/activity_details1.jpg"></image>
-        <image src="../../img/activity_details2.jpg"></image>
+        <view wx:for="{{imgs}}" wx:key="index">
+            <image src="{{item}}"/>
+        </view>
         <text>{{activityDetails.body}}</text>
     </view>
         <view class="message_other">

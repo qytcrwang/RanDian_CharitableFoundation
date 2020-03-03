@@ -8,7 +8,7 @@ Page({
     //活动详情
     activityDetails:null,
     //图片
-    imgs:[],
+    imgs:null,
     currentPostId: ''
 
   },
@@ -74,7 +74,7 @@ Page({
           console.log(a);
           that.setData({
             activityDetails:res.data.data,
-            imgs:[a]
+            imgs:a
           });
           // console.log(imgs);
         }
