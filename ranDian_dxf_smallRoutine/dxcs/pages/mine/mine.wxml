@@ -53,13 +53,13 @@
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
   </view>
-  <view wx:if="{{isLogin}}" class='list' bindtap='university_auth'>
+  <!--<view wx:if="{{isLogin}}" class='list' bindtap='university_auth'>
     <view class='list_left'>
       <image class='listIcon' src='/img/mine_university.png'></image>
       <view class='listName'>学生认证</view>
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
-  </view>
+  </view>-->
   <view wx:if="{{isLogin}}" class='list' bindtap='view'>
     <view class='list_left'>
       <image class='listIcon' src='/img/mine_service.png'></image>

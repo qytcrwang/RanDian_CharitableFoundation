@@ -10,30 +10,49 @@ Page({
     ongoingTab: false,//进行中
     completedTab: false,//已完成
 
-    enrolmentNum: 2,//已报名个数
-    ongoingNum: 4,//进行中个数
-    completedNum: 4,//已完成个数
+    enrolmentNum: '',//已报名个数
+    ongoingNum: '',//进行中个数
+    completedNum: '',//已完成个数
 
     //已报名数据
     enrolmentList:[
-      {id:1,title:"新型冠状病毒志愿者活动",time:"2019-03-02"},
-      {id:2,title:"新型冠状病毒志愿者活动",time:"2019-03-02"}
     ],
     //进行中数据
     ongoingList: [
-      { id: 1, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-      { id: 2, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-      { id: 3, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-      { id: 4, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
+     
     ],
     //已完成数据
     completedList: [
-      { id: 1, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-      { id: 2, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-      { id: 3, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-      { id: 4, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
     ],
 
+  },
+  onShow(){
+    var _this = this;
+    //获取userid
+    wx.getStorage({
+      key:'userid',
+      success:function(res){
+        //获取userid
+        wx.request({
+          url:'http://localhost:8081/wx/activity/getUserList',
+          data:{
+            userId:res.data,
+          },
+          method:'POST',
+          dataType:'json',
+          success:function(backResult){
+            _this.setData({
+              ongoingList:backResult.data.data[0],
+              completedList:backResult.data.data[1],
+              enrolmentList:backResult.data.data[0].concat(backResult.data.data[1]),
+              ongoingNum:backResult.data.data[0].length,
+              completedNum:backResult.data.data[1].length,
+              enrolmentNum:backResult.data.data[0].length+backResult.data.data[1].length,
+            })
+          }
+        })
+      }
+    }) 
   },
   //tab切换 - 已报名
   toEnrolmentTab: function (e) {

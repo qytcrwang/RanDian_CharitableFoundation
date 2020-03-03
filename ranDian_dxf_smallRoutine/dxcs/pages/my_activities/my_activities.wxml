@@ -8,13 +8,18 @@
     <view class='tab_item_blank'></view>  
     <!-- 已报名 -->  
     <view class='{{enrolmentTab?"show":"hidden"}}'>
+      <view class="none_activity" wx:if="{{enrolmentList.length<=0}}">
+        <view class="none_activity_text">
+          暂时没有活动哦，赶快去参加吧
+        </view>
+      </view>
       <view class='list' wx:for="{{enrolmentList}}" wx:for-item="item" wx:key='id'>
         <view class='list_top'>
           <view class='numAndTime'>
             <image class='numPic' src='/img/moren.png'></image>
             <view  class='numInfo'>
               <view class='num'>{{item.title}}</view>
-              <view class='time'>{{item.time}}</view>
+              <view class='time'>{{item.stime}}</view>
             </view>
           </view>
           <view class='state'>已报名</view>
@@ -27,13 +32,18 @@
     </view>
     <!-- 进行中 -->  
     <view class='{{ongoingTab?"show":"hidden"}}'>
+      <view class="none_activity" wx:if="{{ongoingList.length<=0}}">
+        <view class="none_activity_text">
+          暂时没有活动哦，赶快去参加吧
+        </view>
+      </view>
       <view class='list' wx:for="{{ongoingList}}" wx:key='id' wx:for-item="item">
         <view class='list_top'>
           <view class='numAndTime'>
             <image class='numPic' src='/img/moren.png'></image>
             <view  class='numInfo'>
               <view class='num'>{{item.title}}</view>
-              <view class='time'>{{item.time}}</view>
+              <view class='time'>{{item.stime}}</view>
             </view>
           </view>
           <view class='state'>进行中</view>
@@ -46,13 +56,18 @@
     </view>
     <!-- 已结束 -->  
     <view class='{{completedTab?"show":"hidden"}}'>
-      <view class='list' wx:for="{{completedList}}" wx:key='{{item.id}}' wx:for-item="item">
+      <view class="none_activity" wx:if="{{completedList.length<=0}}">
+        <view class="none_activity_text">
+          暂时没有活动哦，赶快去参加吧
+        </view>
+      </view>
+      <view class='list' wx:for="{{completedList}}" wx:key='{{item.id}}' wx:for-item="item" wx:if="{{completedList.length>0}}">
         <view class='list_top'>
           <view class='numAndTime'>
             <image class='numPic' src='/img/moren.png'></image>
             <view  class='numInfo'>
               <view class='num'>{{item.title}}</view>
-              <view class='time'>{{item.time}}</view>
+              <view class='time'>{{item.stime}}</view>
             </view>
           </view>
           <view class='state'>已完成</view>
