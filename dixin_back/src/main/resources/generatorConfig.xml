@@ -41,7 +41,7 @@
                enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="true">
         </table>-->
-        <table tableName="user_tb" domainObjectName="UserTb"
+        <table schema="catalog" tableName="rent_apply_tb" domainObjectName="RentApplyTb"
                enableCountByExample="true" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="true">

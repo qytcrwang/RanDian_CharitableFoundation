@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fire.back.dao.extend.ExtendRentApplyTbMapper">
+  <resultMap id="BaseResultMap" type="com.fire.back.entity.RentApplyTb">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="job_intension" jdbcType="VARCHAR" property="jobIntension" />
+    <result column="hope_salary" jdbcType="INTEGER" property="hopeSalary" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="apply_time" jdbcType="BIGINT" property="applyTime" />
+    <result column="sent_time" jdbcType="BIGINT" property="sentTime" />
+    <result column="sent_amount" jdbcType="DOUBLE" property="sentAmount" />
+    <result column="sent_proof" jdbcType="VARCHAR" property="sentProof" />
+    <result column="job_state" jdbcType="INTEGER" property="jobState" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="company_address" jdbcType="VARCHAR" property="companyAddress" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="reject_reason" jdbcType="VARCHAR" property="rejectReason" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, school, major, job_intension, hope_salary, state, apply_time, sent_time,
+    sent_amount, sent_proof, job_state, company_name, is_delete, company_address, position,
+    reject_reason, create_time, update_time
+  </sql>
+
+  <select id="getRentApplyByPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+     from rent_apply_tb
+    <where>
+      <if test="rent.userId != null">
+        user_id = #{rent.userId,jdbcType=BIGINT}
+      </if>
+      <if test="rent.school != null">
+        and school like "%"#{rent.school,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="rent.major != null">
+        and  major like "%"#{rent.major,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="rent.jobIntension != null">
+        and job_intension like "%"#{rent.jobIntension,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="rent.hopeSalary != null">
+        and hope_salary = #{rent.hopeSalary,jdbcType=INTEGER}
+      </if>
+      <if test="rent.state != null">
+        and state = #{rent.state,jdbcType=INTEGER}
+      </if>
+      <if test="rent.jobState != null">
+        and job_state = #{rent.jobState,jdbcType=INTEGER}
+      </if>
+      <if test="rent.isDelete != null">
+        and is_delete = #{rent.isDelete,jdbcType=INTEGER}
+      </if>
+    </where>
+    order by ${field} ${sort}
+    limit #{start} , #{pageSize}
+  </select>
+</mapper>
