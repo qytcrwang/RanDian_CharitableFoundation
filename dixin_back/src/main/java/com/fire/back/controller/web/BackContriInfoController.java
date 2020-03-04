@@ -75,12 +75,12 @@ public class BackContriInfoController {
    * @return null
    */
   @GetMapping(value = "/getContriInfoDetail")
-  public FireResult getContriInfoDetail(@RequestParam Long contriInfo) {
-    if (CheckEmptyUtil.isEmpty(contriInfo)) {
+  public FireResult getContriInfoDetail(@RequestParam Long contriInfoId) {
+    if (CheckEmptyUtil.isEmpty(contriInfoId)) {
       return FireResult.build(0, "入参不能为空");
     }
     try {
-      ContriInfoTb result = contriInfoService.getContriInfoDetail(contriInfo);
+      ContriInfoTb result = contriInfoService.getContriInfoDetail(contriInfoId);
       return FireResult.build(1, "数据获取成功", result);
     } catch (Exception e) {
       logger.error("", e);

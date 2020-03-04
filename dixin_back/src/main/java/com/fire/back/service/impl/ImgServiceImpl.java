@@ -18,11 +18,12 @@ public class ImgServiceImpl implements ImgService {
   private static final String URL_HTTP = "http://";
   private static final String SERVICE_PORT = "server.port";
   private static final String IMG_DIR = "/images/first/";
+  private static final String CLASS_PATH = "classpath:static/images/first";
 
   @Override
   public List<String> getImgList() {
     try {
-      File cover = ResourceUtils.getFile("classpath:static/images/first");
+      File cover = ResourceUtils.getFile(CLASS_PATH);
       File[] files = cover.listFiles();
       List<String> imgList = new ArrayList<>();
       if (CheckEmptyUtil.isNotEmpty(files)) {

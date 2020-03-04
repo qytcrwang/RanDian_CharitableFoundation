@@ -79,7 +79,7 @@ public class ContriInfoController {
    * @return null
    */
   @GetMapping(value = "/getSelfContriInfo")
-  public FireResult getSelfContriInfo(@RequestParam Long userId) {
+  public FireResult getSelfContriInfo(@RequestParam("userId") Long userId) {
     if (CheckEmptyUtil.isEmpty(userId)) {
       return FireResult.build(0, "入参不能为空");
     }

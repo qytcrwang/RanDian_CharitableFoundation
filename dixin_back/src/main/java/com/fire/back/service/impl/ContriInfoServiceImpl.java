@@ -58,6 +58,7 @@ public class ContriInfoServiceImpl implements ContriInfoService {
    */
   private void contriDefaultParamUtil(ContriInfoTb contriInfoTb){
     contriInfoTb.setIsDelete(0);
+    contriInfoTb.setContriTime(System.currentTimeMillis()/1000);
     contriInfoTb.setCreateTime(System.currentTimeMillis()/1000);
   }
 }
