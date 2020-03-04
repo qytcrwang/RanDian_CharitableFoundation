@@ -54,7 +54,51 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     public MsgTb getMsgDetailById(Long id) {
-        MsgTb msgTb = msgTbMapper.selectByPrimaryKey(id);
-        return msgTb;
+        return msgTbMapper.selectByPrimaryKey(id);
     }
+
+    /**
+     * create by: 王一悦
+     * description: 添加公告通知
+     * create time: 2020/2/29 13:59
+     *
+     [msgTb]
+     * @return java.lang.Boolean
+     */
+    @Override
+    public Boolean addMsg(MsgTb msgTb) {
+        //添加默认配置数据
+        msgDefaultParamUtil(msgTb);
+        return msgTbMapper.insert(msgTb)>0;
+    }
+
+    /**
+     * create by: 王一悦
+     * description: 根据id选择性的进行修改属性
+     * create time: 2020/2/29 15:14
+     *
+     [msgTb]
+     * @return java.lang.Boolean
+     */
+    @Override
+    public Boolean updateMsgById(MsgTb msgTb) {
+        return msgTbMapper.updateByPrimaryKeySelective(msgTb)>0;
+    }
+
+
+    /**
+     * create by: 王一悦
+     * description: 添加通知时数据库默认字段补全方法
+     * create time: 2020/2/29 14:25
+     *
+     [msgTb]
+     * @return void
+     */
+    public void msgDefaultParamUtil(MsgTb msgTb){
+        msgTb.setState(1);//公告创建成功后默认是未发布的
+        msgTb.setIsDelete(0);//未删除
+        msgTb.setIfRead(0);//未读
+        msgTb.setCreateTime(System.currentTimeMillis()/1000);//创建时间
+    }
+
 }

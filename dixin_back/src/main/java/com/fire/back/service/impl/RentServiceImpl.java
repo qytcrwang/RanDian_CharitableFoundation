@@ -33,8 +33,7 @@ public class RentServiceImpl implements RentService {
     @Override
     public Boolean addRentApply(RentApplyTb rentApplyTb) throws DataAccessException {
         rentDefaultParamUtil(rentApplyTb);
-        int insert = rentApplyTbMapper.insert(rentApplyTb);
-        return insert>0?true:false;
+        return rentApplyTbMapper.insert(rentApplyTb)>0;
     }
 
     /**

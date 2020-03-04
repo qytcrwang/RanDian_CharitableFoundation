@@ -44,10 +44,10 @@ public class NoticeController {
         try {
             Integer page = ParamUtil.getInteger(paramMap, "page", 1);
             Integer size = ParamUtil.getInteger(paramMap, "size", 10);
-            Integer stats = ParamUtil.getInteger(paramMap, "stats", 0);
+            Integer state = ParamUtil.getInteger(paramMap, "state", 0);
             Integer msgType = ParamUtil.getInteger(paramMap, "msgType", 0);
             Integer isDelete = ParamUtil.getInteger(paramMap, "isDelete", 0);
-            List<MsgTb> list = noticeServiceImpl.getMsgsWithOutContent(page, size, stats, msgType, isDelete);
+            List<MsgTb> list = noticeServiceImpl.getMsgsWithOutContent(page, size, state, msgType, isDelete);
             return FireResult.build(1, "数据获取成功", list);
         } catch (Exception e) {
             logger.error("通知列表获取失败",e);

@@ -4,6 +4,7 @@ import com.fire.back.dao.MsgTbMapper;
 import com.fire.back.entity.MsgTb;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -34,4 +35,23 @@ public interface NoticeService {
      */
     MsgTb getMsgDetailById(Long id);
 
+    /**
+     * create by: 王一悦
+     * description: 添加公告通知
+     * create time: 2020/2/29 13:59
+     *
+     [msgTb]
+     * @return java.lang.Boolean
+     */
+    Boolean addMsg(MsgTb msgTb) throws ParseException;
+
+    /**
+     * create by: 王一悦
+     * description: 修改公告通知
+     * create time: 2020/2/29 14:27
+     *
+     [msgTb]
+     * @return java.lang.Boolean
+     */
+    Boolean updateMsgById(MsgTb msgTb);
 }

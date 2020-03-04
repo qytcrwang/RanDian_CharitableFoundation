@@ -168,7 +168,7 @@ CREATE TABLE `msg_tb` (
   `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '通知标题',
   `body` varchar(300) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '通知内容',
   `time` bigint(10) DEFAULT NULL COMMENT '通知时间',
-  `state` int(1) DEFAULT NULL COMMENT '显示/删除',
+  `state` int(1) DEFAULT NULL COMMENT '显示/隐藏',
   `if_read` int(1) DEFAULT NULL COMMENT '已读/未读',
   `msg_type` int(1) DEFAULT NULL COMMENT '通知类型',
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
