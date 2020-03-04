@@ -67,11 +67,11 @@
             <view class="canlendarView">
                 <view class="canlendarTopView">
                     <view class="leftBgView" bindtap="handleCalendar" data-handle="prev">
-                        <view class="leftView"><image src='../../image/leftward.png'></image></view>
+                        <view class="leftView"><image src='/img/left.png'></image></view>
                     </view>
                     <view class="centerView">{{cur_year || "--"}} 年 {{cur_month || "--"}} 月</view>
                     <view class="rightBgView" bindtap="handleCalendar" data-handle="next">
-                        <view class="rightView"><image src='../../image/rightward.png'></image></view>
+                        <view class="rightView"><image src='/img/right.png'></image></view>
                     </view>
                 </view>
                 <view class="weekBgView">
@@ -88,7 +88,7 @@
             </view>
         </view>
         <view class='del' bindtap='onhide'>
-            <image src='../../image/del.png'></image>
+            <image src='/img/close.png'></image>
         </view>
     </view>
 </view>

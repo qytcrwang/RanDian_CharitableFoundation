@@ -35,7 +35,7 @@ Page({
         day:[
             {
                 wook: '',
-                src:"../../image/newspaper.png",
+                src:"/img/signed.png",
             }, {
                 wook: ''
             }, {
@@ -52,7 +52,7 @@ Page({
         ],
         days:[
             {
-                src:"../../image/newspaper.png"
+                src:"/img/signed.png"
             }
         ]
     },

@@ -3,9 +3,10 @@
 <view class='mine_info'>
   <image class='mine_banner' src='/img/mine_funding.jpg'></image>
   <view class='mine_info_head'>
-    <view class='mine_head_left' bindtap='info'>
-      <image class='mine_head_leftPic' src='/img/mine_signin.png'></image>
-      <view class='mine_head_leftDes'>签到</view>
+    <view class='mine_head_left'>
+      <view wx:if="{{isLogin}}" class="mine_head_leftPic">{{loveFund}}</view>
+      <view wx:if="{{isLogin == false}}" class="mine_head_rightPic">**</view>
+      <view class='mine_head_leftDes'>捐赠积分</view>
     </view>
     <view class='jiange'></view>
     <view class='mine_head_center'>
@@ -17,7 +18,7 @@
     </view>
     <view class='jiange'></view>
     <view class='mine_head_right' bindtap='addr'>
-      <view wx:if="{{isLogin}}" class="mine_head_rightPic">20</view>
+      <view wx:if="{{isLogin}}" class="mine_head_rightPic">{{lovePoint}}</view>
       <view wx:if="{{isLogin == false}}" class="mine_head_rightPic">**</view>
       <view class='mine_head_rightDes'>爱心积分</view>
     </view>
@@ -27,8 +28,8 @@
 <view class='list_content'>
   <view wx:if="{{isLogin}}" class='list' bindtap='restMoney'>
     <view class='list_left'>
-      <image class='listIcon' src='/img/mine_carefund.png'></image>
-      <view class='listName'>爱心基金</view>
+      <image class='listIcon' src='/img/mine_signin.png'></image>
+      <view class='listName'>我的签到</view>
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
   </view>

@@ -1,7 +1,11 @@
 // pages/mine/mine.js
 Page({
   data: {
-    isLogin:false
+    isLogin:false,
+    //捐赠积分
+    loveFund:'',
+    //公益活动积分
+    lovePoint:'',
   },
   //页面加载时查看用户是否授权，未授权用户不显示部分信息。
   onLoad:function(){
@@ -22,38 +26,44 @@ Page({
         console.log(res,"登陆过期了")
       }
     })
-    //查看是否授权
-    /*wx.getSetting({
-      success(res){
-        if(res.authSetting['scope.userInfo']){
-          
-          wx.getUserInfo({
-            //用户已经授权，不需要再显示授权页面，所以不需要改变isHide的值
-            success:function(res){
-              //调用微信的登陆接口
+  },
+  onShow:function(){
+    var _this = this;
+    wx.getStorage({
+      key:'userid',
+      success:function(res){
+        wx.request({
+          url:'http://localhost:8081/wx/user/getUserInfo',
+          data:{
+            userId:res.data
+          },
+          method:'POST',
+          dataType:'json',
+          success:function(backResult){
+            if(backResult.data.status == 1){
+              //查询用户信息成功
+              var userLovePoint = backResult.data.data.lovePoint;
+              var userLoveFund = backResult.data.data.loveFund;
+              if(userLovePoint == null || userLovePoint == ''){
+                userLovePoint = 0;
+              };
+              if(userLoveFund == null || userLoveFund == ''){
+                userLoveFund = 0;
+              }
+              _this.setData({
+                lovePoint:userLovePoint,
+                loveFund:userLoveFund,
+              });
             }
-          })
-          wx.switchTab({
-            url:'page/index/index'
-          })
-        }else{
-          //用户没有授权
-          that.setData({
-            isHide:true
-          })
-          console.log(that.isHide)
-        }
+          }
+        });
       }
-    })*/
+    })
+    
   },
   gotoLogin(){
     wx.navigateTo({
       url:'../login/login',
-    })
-  },
-  info(){
-    wx.navigateTo({
-      url: '../info/info',
     })
   },
   //个人中心的实名认证,点击跳转到实名认证
