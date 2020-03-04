@@ -1,39 +1,21 @@
 <view class="app">
-  <!-- <swiper style='height:360rpx;' indicator-dots="true" autoplay="true" interval="5000" duration="true">
-    <swiper-item wx:for="{{datas.banner}}">
-      <image src="{{item.photo}}" class="slide-image" />
+  <swiper style='height:360rpx;' indicator-dots="true" autoplay="true" interval="5000" duration="true">
+    <swiper-item wx:for="{{bannerList}}">
+      <image src="{{item.imgSrc}}" class="slide-image" />
     </swiper-item>
-  </swiper> -->
-  <!-- 轮播图 -->
-    <view class="slides">
-        <swiper autoplay indicator-dots circular>
-            <swiper-item wx:for="{{swiperList}}" wx:key="index">
-                <navigator >
-                    <image src="{{item.imgSrc}}" />
-                </navigator>
-            </swiper-item>
-        </swiper>
-    </view>
+  </swiper>
   <view class="menu">
-    <navigator open-type="redirect" url="/pages/index/index">
-      <view class="item">
-        <view class="icon menu_bg_01">
-          <image src="/img/home.png"></image>
-        </view>
-        <text>首页</text>
-      </view>
-    </navigator>
     <navigator url="/pages/product/index">
       <view class="item">
-        <view class="icon menu_bg_02">
+        <view class="icon menu_bg_01">
           <image src="/img/icon_activity.png"></image>
         </view>
         <text>公益活动</text>
       </view>
     </navigator>
-    <navigator url="/pages/case/index">
+    <navigator url="/pages/donation/donation">
       <view class="item">
-        <view class="icon menu_bg_03">
+        <view class="icon menu_bg_02">
           <image src="/img/icon_donation.png"></image>
         </view>
         <text>捐助</text>
@@ -41,7 +23,7 @@
     </navigator>
     <navigator url="/pages/news/index">
       <view class="item">
-        <view class="icon menu_bg_04">
+        <view class="icon menu_bg_03">
           <image src="/img/icon_sfund.png"></image>
         </view>
         <text>大学生基金</text>
@@ -49,7 +31,7 @@
     </navigator>
     <navigator url="/pages/contact/index">
       <view class="item">
-        <view class="icon menu_bg_05">
+        <view class="icon menu_bg_04">
           <image src="/img/icon_kfund.png"></image>
         </view>
         <text>儿童基金</text>
@@ -57,31 +39,31 @@
     </navigator>
   </view>
 
-  <!--<view class="block">
+  <view class="block">
     <view class="title">
-      <text>产品中心</text>
+      <text>近期活动</text>
     </view>
     <view class="product">
       <scroll-view scroll-x="true" class="pro">
-        <view class="item" wx:for="{{datas.product}}">
+        <view class="item" wx:for="{{recommendActivityList}}">
           <navigator url="/pages/product/detail?id={{item.id}}">
-            <image src="{{item.photo}}" mode='aspectFit'></image>
-            <view class='name'>{{item.product_name}}</view>
+            <image src="{{item.imgSrc}}" mode='aspectFit'></image>
+            <view class='name'>{{item.title}}</view>
           </navigator>
         </view>
       </scroll-view>
     </view>
-  </view>-->
+  </view>
 
-  <!-- <view class="block"> -->
-    <!-- <view class="title">
-      <text>解决方案</text>
-    </view> -->
-    <!-- <view class="case" wx:for="{{datas.plan}}">
+  <view class="block">
+    <view class="title">
+      <text>热门活动</text>
+    </view>
+    <view class="case" wx:for="{{list}}">
       <navigator url="/pages/case/detail?id={{item.id}}">
         <view class="item bdbt">
           <view class="lt">
-            <image src="{{item.photo}}" mode='aspectFit'></image>
+            <image src="{{item.imgSrc}}" mode='aspectFit'></image>
           </view>
           <view class="rt">
             <view class="tit">
@@ -93,8 +75,8 @@
           </view>
         </view>
       </navigator>
-    </view> -->
-  <!-- </view> -->
+    </view>
+  </view>
   <!-- <view class="block"> -->
     <!-- <view class="title">
       <text>企业动态</text>
@@ -140,28 +122,4 @@
       <text>拨打电话</text>
     </view>
   </view>-->
-
-  <!-- 推荐视频 -->
-    <view class="other_list">
-        <navigator url="../activity_detail/activity_detail?id={{item.commentCount}}" wx:for="{{othersList}}" wx:key="index" class="item_other">
-            <!-- 图片容器 -->
-            <view class="other_img_wrap">
-                <image src="{{item.imgSrc}}" mode="widthFix"/>
-            </view>
-            <!-- 推荐详情 -->
-            <view class="other_info">
-                <!-- 标题 -->
-                <view class="other_title">{{item.title}}</view>
-                <!-- 播放量 -->
-                <view class="other_detail">
-                    <!-- 观看数 -->
-                    <text class="play_count">{{item.playMsg}}万次观看</text>
-                    <!-- 评论量 -->
-                    <text class="comment_count">{{item.commentCount}}弹幕</text>
-                </view>
-            </view>
-        </navigator>
-    </view>
-
-
 </view>

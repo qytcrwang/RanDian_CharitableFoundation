@@ -3,9 +3,9 @@ page {
   font-size: 24rpx;
 }
 
-.menu_bg_01{ background: #F57D5B}
-.menu_bg_02{ background: #4AC6EA}
-.menu_bg_03{ background: #B2DE27}
+.menu_bg_01{ background: #04BE02}
+.menu_bg_02{ background: rgb(233, 22, 14)}
+.menu_bg_03{ background: rgb(245, 209, 4)}
 .menu_bg_04{ background: #F97BA0}
 .menu_bg_05{ background: #6495ED}
 /* .menu_bg_06{ background: #A8D322}
@@ -87,16 +87,16 @@ page {
   height: 150rpx;
   float: left;
   text-align: center;
-  width: 20%;
+  width: 25%;
 }
 
 .menu .item image {
-  height: 40rpx;
-  width: 40rpx;
+  height: 60rpx;
+  width: 60rpx;
   display: block;
   float: left;
-  margin-left: 20rpx;
-  margin-top: 20rpx;
+  margin-left: 10rpx;
+  margin-top: 10rpx;
 }
 
 .menu .item .icon {

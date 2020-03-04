@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/common_sign/common_sign",
     "pages/index/index",
     "pages/case/index",
     "pages/product/index",
@@ -17,12 +16,12 @@
     "pages/message/message",
     "pages/message_detail/message_detail",
     "pages/activity_detail/activity_detail",
-    "pages/donation/donation"
-    
+    "pages/donation/donation",
+    "pages/common_sign/common_sign"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#1AFA29",
+    "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "滴信慈善",
     "navigationBarTextStyle": "black"
   },
