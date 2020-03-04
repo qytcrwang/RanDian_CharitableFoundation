@@ -20,13 +20,17 @@
       update_time = #{updateTime,jdbcType=BIGINT};
   </insert>
 
-    <select id="selectByParams" resultType="com.fire.back.entity.SignTb">
-        select
-        <include refid="Base_Column_List" />
+    <select id="selectYearSigned" resultType="Integer">
+        select IFNULL(sum(sign_nums),0)
         from sign_tb
-        where user_id=#{userId,jdbcType=BIGINT} and sign_year = #{signYear,jdbcType=INTEGER}
-        and sign_month = #{signMonth,jdbcType=INTEGER}
+        where user_id=#{userId,jdbcType=BIGINT} and sign_year = #{year,jdbcType=INTEGER}
+        and sign_month>=#{month,jdbcType=INTEGER}
     </select>
 
-
+    <select id="selectTotalYearSigned" resultType="Integer">
+        select IFNULL(sum(sign_nums),0)
+        from sign_tb
+        where user_id=#{userId,jdbcType=BIGINT} and sign_year >= #{year,jdbcType=INTEGER}
+        and sign_month>=#{month,jdbcType=INTEGER}
+    </select>
 </mapper>

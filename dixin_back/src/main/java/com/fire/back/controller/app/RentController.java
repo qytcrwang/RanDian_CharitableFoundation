@@ -49,7 +49,7 @@ public class RentController {
     }
     /**
      * create by: 刘云龙
-     * description: 后台修改租房申请接口 可用于数据修改，审核
+     * description: 修改申请信息
      * create time: 2020/2/25 2:22
      *
      [request, rentApplyTb]
@@ -61,6 +61,10 @@ public class RentController {
             return FireResult.build(0, "入参不能为空");
         }
         try {
+            rentApplyTb.setCreateTime(null);
+            rentApplyTb.setIsDelete(null);
+            rentApplyTb.setApplyTime(System.currentTimeMillis()/1000);
+            rentApplyTb.setState(0);
             Boolean b = rentServiceImpl.updateRentApplyTb(rentApplyTb);
             return b?FireResult.build(1, "租房申请更新成功"):FireResult.build(0, "租房申请更新失败");
         } catch (Exception e) {

@@ -127,6 +127,35 @@ public class BackUserController {
             return FireResult.build(0,"查询用户列表失败",null);
         }
     }
+
+    /**
+     * 查询指定年份或者指定年份至今的签到总天数
+     * queryType 为 1查询当年签到从天数，为2则查询当年至今签到总天数
+     * @param paramMap userId year month queryType
+     * @return
+     */
+    @PostMapping("/getYearSignedSum")
+    public FireResult getYearSignedSum(@RequestBody Map<String,Object> paramMap){
+        try {
+            Long userId = ParamUtil.getLong(paramMap, "userId");
+            if (userId == null) return FireResult.build(-1, "参数userId为空");
+            Integer year = ParamUtil.getInteger(paramMap,"year");
+            Integer month = ParamUtil.getInteger(paramMap,"month");
+            Integer queryType = ParamUtil.getInteger(paramMap,"queryType");
+            Integer sum = 0;
+            if(queryType==1){
+                sum = ss.getYearSigned(year,month,userId);
+            }
+            if(queryType==2){
+                sum = ss.getTotalYearSigned(year,month,userId);
+            }
+            return FireResult.build(1,"获取年签到天数成功",sum);
+        } catch (Exception e) {
+            logger.error("获取年签到天数异常",e);
+            return FireResult.build(0,"获取年签到天数异常");
+        }
+    }
+
     private  void createUserTbParam(Map<String,Object> paramMap,UserTb user){
         user.setName(ParamUtil.getString(paramMap,"name",null));
         user.setIdCardNumber(ParamUtil.getString(paramMap,"idCardNumber",null));

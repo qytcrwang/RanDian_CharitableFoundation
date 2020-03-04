@@ -66,6 +66,7 @@ public class RentServiceImpl implements RentService {
      */
     @Override
     public Boolean updateRentApplyTb(RentApplyTb rent) {
+        rent.setUpdateTime(System.currentTimeMillis()/1000);
         return rentApplyTbMapper.updateByPrimaryKeySelective(rent)>0;
     }
 

@@ -6,6 +6,7 @@ import com.fire.back.entity.UserTb;
 import com.fire.back.service.SignInService;
 import com.fire.back.service.UserService;
 import com.fire.back.util.ParamUtil;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,7 +120,8 @@ public class UserController {
             List<String> list = ss.getMonthSignList(userId, signYear, signMonth);
             return FireResult.build(1, "签到信息查询成功", list);
         }catch(Exception e){
-            return FireResult.build(0, "签到信息查询失败", null);
+            logger.error("获取月签到信息异常",e);
+            return FireResult.build(0, "签到信息查询异常", null);
         }
 
     }
@@ -138,8 +140,24 @@ public class UserController {
         }catch(Exception e){
             return FireResult.build(0, "签连续签到天数查询失败", null);
         }
-
     }
 
+    /**
+     * 查看当日是否已签到
+     * @param paramMap userId
+     * @return 返回 data true为已签到，返回false为未签到
+     */
+    @PostMapping("/isTodaySigned")
+    public FireResult isTodaySigned(@RequestBody Map<String,Object> paramMap) {
 
+        try {
+            Long userId = ParamUtil.getLong(paramMap, "userId");
+            if (userId == null) return FireResult.build(0, "用户id为为空");
+            Boolean result = ss.isTodaySigned(userId);
+            return result ? FireResult.build(1, "已签到",true) : FireResult.build(1, "未签到",false);
+        } catch (Exception e) {
+            logger.error("查询当日是否签到异常", e);
+            return FireResult.build(0, "查询当日是否签到异常");
+        }
+    }
 }
