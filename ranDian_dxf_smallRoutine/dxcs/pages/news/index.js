@@ -1,46 +1,28 @@
-//index.js
-//获取应用实例
-var app = getApp();
-var wxb = require('../../utils/wxb.js');
 Page({
   data: {
     color: '',
-    datas: [],
+    datas: [
+      {id:'1',title:'测试1',add_time:'2019-09-18'},
+      {id:'2',title:'测试1',add_time:'2019-09-18'},
+      {id:'3',title:'测试1',add_time:'2019-09-18'}
+    ],
     page: 1,
     more: 0,
     type: 0,
   },
 
   onShow: function () {
-    wxb.that = this;   //正确打开海天应用的方式
-    wxb.globalData = app.globalData; //正确打开海天应用的方式
-
-    this.setData({
-      datas: [],
-      page: 1,
-      more: 0,
-    });
-
-    this.getHome();
   },
-
   onLoad: function () {
-    wxb.that = this;
-    wxb.style();
   },
-
-
   more: function (e) {
     this.getHome();
   },
-
   getHome: function (e) {
-    wxb.that = this;   //正确打开海天应用的方式
-    wxb.globalData = app.globalData; //正确打开海天应用的方式
     wx.showLoading({
       title: '加载中...',
     })
-    wxb.Post('/api/companygw.index/news', {
+    /**wxb.Post('/api/companygw.index/news', {
       page: wxb.that.data.page,
     }, function (data) {
       var mLists = wxb.that.data.datas;
@@ -54,13 +36,11 @@ Page({
         page: wxb.that.data.page + 1,
         more: data.more,
       })
-    });
+    });**/
   },
 
   //转发
   onShareAppMessage: function (res) {
-    wxb.that = this;   //正确打开海天应用的方式
-    wxb.globalData = app.globalData; //正确打开海天应用的方式
     return {
       title: '企业官网',
       path: '/pages/news/index',

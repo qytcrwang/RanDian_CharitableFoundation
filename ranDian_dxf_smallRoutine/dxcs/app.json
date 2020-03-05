@@ -3,8 +3,8 @@
     "pages/index/index",
     "pages/case/index",
     "pages/product/index",
-    "pages/news/index",
     "pages/contact/index",
+    "pages/news/index",
     "pages/news/detail",
     "pages/case/detail",
     "pages/contact/liuyan",
@@ -35,7 +35,7 @@
       "selectedIconPath": "img/tabbar_index_checked.png"
     },
     {
-      "pagePath": "pages/message/message",
+      "pagePath": "pages/news/index",
       "text": "活动通知",
       "iconPath": "img/tabbar_message.png",
       "selectedIconPath": "img/tabbar_message_checked.png"
