@@ -36,6 +36,16 @@ public interface ContriInfoService {
   List<ContriInfoTb> getSelfContriInfo(Long userId);
 
   /**
+   * 我的捐赠信息查询.
+   * status 0 待核实
+   * status 1 已完成
+   * @param userId
+   * @param status
+   * @return
+   */
+  List<ContriInfoTb> getSelfContriInfoByStatus(Long userId,int status);
+
+  /**
    * 获取捐赠详情.
    *
    * @param contriInfoId 入参

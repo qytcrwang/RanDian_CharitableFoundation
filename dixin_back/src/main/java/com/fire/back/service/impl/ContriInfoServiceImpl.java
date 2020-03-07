@@ -40,6 +40,13 @@ public class ContriInfoServiceImpl implements ContriInfoService {
     return contriInfoTbMapper.selectByExample(contriInfoTbExample);
   }
 
+  @Override
+  public List<ContriInfoTb> getSelfContriInfoByStatus(Long userId,int status) {
+    ContriInfoTbExample contriInfoTbExample = new ContriInfoTbExample();
+    contriInfoTbExample.createCriteria().andUserIdEqualTo(userId).andContriTypeEqualTo(status);
+    return contriInfoTbMapper.selectByExample(contriInfoTbExample);
+  }
+
   /**
    * 获取捐赠详情.
    *

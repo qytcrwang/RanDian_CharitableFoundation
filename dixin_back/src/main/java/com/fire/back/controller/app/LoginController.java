@@ -57,6 +57,8 @@ public class LoginController {
             UserTb newUser = new UserTb();
             newUser.setOpenId(wxResult.get("openid").toString());
             newUser.setRegTime(new Date().getTime());
+            newUser.setLoveFund(new Double(0));
+            newUser.setLovePoint(0);
             userService.insertUser(newUser);
             result.setStatus(1);
             result.setMsg("登陆成功");

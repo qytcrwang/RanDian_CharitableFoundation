@@ -1,4 +1,3 @@
-// pages/goods/goods.js
 Page({
 
   /**
@@ -8,24 +7,40 @@ Page({
     //页面切换
     ongoingTab: true,//进行中
     completedTab: false,//已完成
-    ongoingNum: 4,//进行中个数
-    completedNum: 4,//已完成个数
+    ongoingNum:'',//进行中个数
+    completedNum:'',//已完成个数
 
     //进行中数据
-    ongoingList: [
-      { id: 1, title: "新型冠状病毒资金捐助", time: "2019-03-02" },
-      { id: 2, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-      { id: 3, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-      { id: 4, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-    ],
+    ongoingList: [],
     //已完成数据
-    completedList: [
-      { id: 1, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-      { id: 2, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-      { id: 3, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-      { id: 4, title: "新型冠状病毒志愿者活动", time: "2019-03-02" },
-    ],
+    completedList: [],
 
+  },
+  onShow(){
+    var _this = this;
+    //获取userid
+    wx.getStorage({
+      key:'userid',
+      success:function(res){
+        //获取userid
+        wx.request({
+          url:'http://localhost:8081/wx/contriInfo/getSelfContriInfo',
+          data:{
+            userId:res.data,
+          },
+          method:'POST',
+          dataType:'json',
+          success:function(backResult){
+            _this.setData({
+              ongoingList:backResult.data.data.ongoingList,
+              ongoingNum:backResult.data.data.ongoingList.length,
+              completedList:backResult.data.data.completedList,
+              completedNum:backResult.data.data.completedList.length,
+            })
+          }
+        })
+      }
+    })
   },
   //tab切换 - 进行中
   toOngoingTab: function (e) {

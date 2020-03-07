@@ -26,7 +26,7 @@
 </view>
 <!-- 内容 -->
 <view class='list_content'>
-  <view wx:if="{{isLogin}}" class='list' bindtap='restMoney'>
+  <view wx:if="{{isLogin}}" class='list' bindtap='common_sign'>
     <view class='list_left'>
       <image class='listIcon' src='/img/mine_signin.png'></image>
       <view class='listName'>我的签到</view>

@@ -66,13 +66,19 @@ Page({
       url:'../login/login',
     })
   },
+  //个人中心的签到页面,点击跳转到签到页面
+  common_sign() {
+    wx.navigateTo({
+      url: '../common_sign/common_sign',
+    })
+  },
   //个人中心的实名认证,点击跳转到实名认证
   university_auth() {
     wx.navigateTo({
       url: '../university_auth/university_auth',
     })
   },
-  //个人中心的我的余额,点击跳转到我的余额
+  //个人中心的我的捐赠，点击跳转到我的捐赠页面
   donations() {
     wx.navigateTo({
       url: '../my_donations/my_donations',

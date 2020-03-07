@@ -7,13 +7,19 @@
     <view class='tab_item_blank'></view>  
     <!-- 进行中 -->  
     <view class='{{ongoingTab?"show":"hidden"}}'>
+      <view class="none_activity" wx:if="{{ongoingList.length<=0}}">
+        <view class="none_activity_text">
+          暂时没有献爱心哦，赶快去参加吧
+        </view>
+      </view>
       <view class='list' wx:for="{{ongoingList}}" wx:for-item="item" wx:key='id'>
         <view class='list_top'>
           <view class='numAndTime'>
             <image class='numPic' src='/img/donations_money.png'></image>
             <view  class='numInfo'>
-              <view class='num'>{{item.title}}</view>
-              <view class='time'>{{item.time}}</view>
+              <view class='num' wx:if="{{item.contriType == 0}}">物品捐赠</view>
+              <view class='num' wx:if="{{item.contriType == 1}}">捐款</view>
+              <view class='time'>{{item.createTime}}</view>
             </view>
           </view>
           <view class='state'>进行中</view>
@@ -26,13 +32,19 @@
     </view>
     <!-- 已入库 -->  
     <view class='{{completedTab?"show":"hidden"}}'>
+      <view class="none_activity" wx:if="{{completedList.length<=0}}">
+        <view class="none_activity_text">
+          暂时没有献爱心哦，赶快去参加吧
+        </view>
+      </view>
       <view class='list' wx:for="{{completedList}}" wx:key='id' wx:for-item="item">
         <view class='list_top'>
           <view class='numAndTime'>
             <image class='numPic' src='/img/donations_goods.png'></image>
             <view  class='numInfo'>
-              <view class='num'>{{item.title}}</view>
-              <view class='time'>{{item.time}}</view>
+              <view class='num' wx:if="{{item.contriType == 0}}">物品捐赠</view>
+              <view class='num' wx:if="{{item.contriType == 1}}">捐款</view>
+              <view class='time'>{{item.createTime}}</view>
             </view>
           </view>
           <view class='state'>已入库</view>

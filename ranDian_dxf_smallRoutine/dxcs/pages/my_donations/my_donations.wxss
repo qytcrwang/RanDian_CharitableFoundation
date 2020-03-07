@@ -137,3 +137,15 @@ page{
   display: block
 }
 .none{display: none}
+
+.none_activity{
+  width: 94%;
+  height: 150rpx;
+  margin: 16rpx auto;
+  display: flex;
+  justify-content: center;
+}
+.none_activity_text{
+  font-size: 32rpx;
+  color: #888888;
+}
