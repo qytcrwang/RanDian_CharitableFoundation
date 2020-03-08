@@ -1,7 +1,0 @@
-<view class="page">
-  <view class="title bdbt">发布新版本了........</view>
-  <view class="duanluo">
-    <image src="/img/p1.jpg"></image>
-  </view>
-  <view class="riqi">2017-08-24</view>
-</view>
