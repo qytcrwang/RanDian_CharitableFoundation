@@ -1,0 +1,12 @@
+<view class="page">
+  <view class="news" wx:for="{{datas}}">
+    <navigator url="/pages/case/detail?id={{item.id}}">
+      <view class="item bdbt">
+        <view class="tit">{{item.title}}</view>
+        <view class="riqi">{{item.add_time}}</view>
+      </view>
+    </navigator>
+  </view>
+</view>
+<view bindtap="more" data-type="{{type}}" wx:if="{{datas!=''&&more==1}}" class="more">查看更多</view>
+<view wx:if="{{datas!=''&&more==0}}" class="nomore">没有数据了</view>

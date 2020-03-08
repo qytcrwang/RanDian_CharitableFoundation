@@ -1,4 +1,4 @@
-<!--pages/view/view.wxml-->
+
 <view class='main'>
   <view class='title'>
     <label class="title_lable">请输入手机号,一个月只能申请改一次</label>

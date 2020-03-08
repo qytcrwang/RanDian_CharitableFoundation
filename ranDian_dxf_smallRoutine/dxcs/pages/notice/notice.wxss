@@ -1,0 +1,37 @@
+.news {
+  width: 96%;
+  margin-left: 2%;
+}
+
+.news .item {
+  height: 60rpx;
+  line-height: 60rpx;
+  margin-top: 10rpx;
+}
+
+.news .item .tit {
+  float: left;
+  font-size: 24rpx;
+  width: 78%;
+  overflow: hidden;
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.more, .nomore {
+  height: 60rpx;
+  text-align: center;
+  line-height: 60rpx;
+  font-size: 26rpx;
+  background: #fff;
+  width: 96%;
+  margin: 0 auto;
+  margin-top: 10rpx;
+  border-top: 1rpx solid #f2f2f2;
+}
+
+.nomore {
+  color: #ccc;
+}

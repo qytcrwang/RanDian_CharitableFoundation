@@ -1,22 +1,18 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/case/index",
-    "pages/product/index",
-    "pages/contact/index",
-    "pages/news/index",
-    "pages/news/detail",
-    "pages/case/detail",
-    "pages/contact/liuyan",
-    "pages/product/detail",
-    "pages/mine/mine",
-    "pages/view/view",
-    "pages/login/login",
-    "pages/university_auth/university_auth",
-    "pages/message/message",
-    "pages/message_detail/message_detail",
-    "pages/activity_detail/activity_detail",
     "pages/donation/donation",
+    "pages/logs/logs",
+    "pages/login/login",
+    "pages/notice/notice",
+    "pages/mine/mine",
+    "pages/feedback/feedback",
+    "pages/account/account",
+    "pages/account_idCard/account_idCard",
+    "pages/account_name/account_name",
+    "pages/account_phone/account_phone",
+    "pages/my_activities/my_activities",
+    "pages/my_donations/my_donations",
     "pages/common_sign/common_sign"
   ],
   "window": {
@@ -35,7 +31,7 @@
       "selectedIconPath": "img/tabbar_index_checked.png"
     },
     {
-      "pagePath": "pages/news/index",
+      "pagePath": "pages/notice/notice",
       "text": "活动通知",
       "iconPath": "img/tabbar_message.png",
       "selectedIconPath": "img/tabbar_message_checked.png"
@@ -48,5 +44,5 @@
     }]
   },
   "debug":true,
-  "sitemapLocation": "sitemap54.json"
+  "sitemapLocation": "sitemap.json"
 }

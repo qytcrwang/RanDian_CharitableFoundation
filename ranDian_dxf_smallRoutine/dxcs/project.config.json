@@ -1,5 +1,8 @@
 {
-	"description": "项目配置文件。",
+	"description": "项目配置文件",
+	"packOptions": {
+		"ignore": []
+	},
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
@@ -20,9 +23,13 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.7.2",
+	"libVersion": "2.10.3",
 	"appid": "wxff90e7e036f52868",
 	"projectname": "dxcs",
+	"debugOptions": {
+		"hidedInDevtools": []
+	},
+	"isGameTourist": false,
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {
@@ -32,6 +39,10 @@
 		},
 		"conversation": {
 			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {

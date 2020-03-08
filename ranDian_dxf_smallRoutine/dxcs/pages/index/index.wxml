@@ -77,49 +77,4 @@
       </navigator>
     </view>
   </view>
-  <!-- <view class="block"> -->
-    <!-- <view class="title">
-      <text>企业动态</text>
-    </view> -->
-    <!-- <view class="news" wx:for="{{datas.news}}">
-      <navigator url="/pages/case/detail?id={{item.id}}">
-        <view class="item bdbt">
-          <view class="tit">{{item.title}}</view>
-          <view class="riqi">{{item.add_time}}</view>
-        </view>
-      </navigator>
-    </view> -->
-  <!-- </view> -->
-  <!-- <view style="height:100rpx;"></view> -->
-
-  <!--<view class="footer">
-    <navigator url="/pages/contact/liuyan">
-      <view class="lt">
-        <image src="/img/yj.png"></image>
-        <text>首页</text>
-      </view>
-    </navigator>
-    <navigator url="/pages/contact/liuyan">
-      <view class="lt">
-        <image src="/img/yj.png"></image>
-        <text>通知</text>
-      </view>
-    </navigator>
-    <navigator url="/pages/contact/liuyan">
-      <view class="lt">
-        <image src="/img/yj.png"></image>
-        <text>申请房租</text>
-      </view>
-    </navigator>
-    <navigator url="/pages/contact/liuyan">
-      <view class="lt">
-        <image src="/img/yj.png"></image>
-        <text>我的</text>
-      </view>
-    </navigator>
-    <view class="rt" style="background:{{color}}" bindtap="calling">
-      <image src="/img/tel.png"></image>
-      <text>拨打电话</text>
-    </view>
-  </view>-->
 </view>

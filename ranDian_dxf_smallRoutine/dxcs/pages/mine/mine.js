@@ -1,7 +1,8 @@
-// pages/mine/mine.js
+var app = getApp();
+var wxb = require('../../utils/wxb')
 Page({
   data: {
-    isLogin:false,
+    isLogin:{},
     //捐赠积分
     loveFund:'',
     //公益活动积分
@@ -10,22 +11,17 @@ Page({
   //页面加载时查看用户是否授权，未授权用户不显示部分信息。
   onLoad:function(){
     var _this = this;
+    console.log(app.globalData.isLogin)
     //查看是否已经登陆
-    wx.checkSession({
-      success:function(res){
-        console.log(res,"登陆未过期");
-        _this.setData({
-          isLogin:true
-        })
-      },
-      fail:function(res){
-        //暂时先不搞登陆
-        _this.setData({
-          isLogin:false
-        })
-        console.log(res,"登陆过期了")
-      }
-    })
+    if(app.globalData.isLogin == true){
+      _this.setData({
+        isLogin:true
+      })
+    }else{
+      _this.setData({
+        isLogin:false
+      })
+    }
   },
   onShow:function(){
     var _this = this;
@@ -66,19 +62,13 @@ Page({
       url:'../login/login',
     })
   },
-  //个人中心的签到页面,点击跳转到签到页面
+  //个人中心的实名认证,点击跳转到实名认证
   common_sign() {
     wx.navigateTo({
       url: '../common_sign/common_sign',
     })
   },
-  //个人中心的实名认证,点击跳转到实名认证
-  university_auth() {
-    wx.navigateTo({
-      url: '../university_auth/university_auth',
-    })
-  },
-  //个人中心的我的捐赠，点击跳转到我的捐赠页面
+  //个人中心的我的余额,点击跳转到我的余额
   donations() {
     wx.navigateTo({
       url: '../my_donations/my_donations',
@@ -99,7 +89,7 @@ Page({
   //个人中心的意见反馈,点击跳转到意见反馈
   view() {
     wx.navigateTo({
-      url: '../view/view',
+      url: '../feedback/feedback',
     })
   }
 })

@@ -1,5 +1,3 @@
-/* pages/mine/mine.wxss */
-@import "../template/template.wxss";
 page{
   background: #ededed;
 }

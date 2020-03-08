@@ -1,3 +1,116 @@
+.slide-image {
+  width: 100%;
+  height: 360rpx;
+}
+.menu {
+  height: 150rpx;
+  width: 96%;
+  margin-left: 2%;
+  background: #fff;
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+}
+
+.menu .item {
+  height: 150rpx;
+  float: left;
+  text-align: center;
+  width: 25%;
+}
+
+.menu .item image {
+  height: 60rpx;
+  width: 60rpx;
+  display: block;
+  float: left;
+  margin-left: 10rpx;
+  margin-top: 10rpx;
+}
+
+.menu .item .icon {
+  height: 80rpx;
+  width: 80rpx;
+  margin: 0 auto;
+  border-radius: 40rpx;
+}
+
+.block {
+  width: 96%;
+  margin-left: 2%;
+  margin-top: 20rpx;
+  background: #fff;
+  height: auto;
+  overflow: hidden;
+  padding-top: 10rpx;
+  padding-bottom: 20rpx;
+}
+
+.menu_bg_01{ background: #04BE02}
+.menu_bg_02{ background: rgb(233, 22, 14)}
+.menu_bg_03{ background: rgb(245, 209, 4)}
+.menu_bg_04{ background: #F97BA0}
+.menu_bg_05{ background: #6495ED}
+
+.block .title {
+  height: 70rpx;
+  line-height: 70rpx;
+  width: 96%;
+  font-size: 28rpx;
+  text-align: center;
+  margin-left: 3%;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.case .item {
+  height: 200rpx;
+  width: 100%;
+  margin-top: 20rpx;
+}
+
+.case .item .lt {
+  float: left;
+  width: 200rpx;
+}
+
+.case .item .lt image {
+  height: 160rpx;
+  width: 200rpx;
+  padding: 20rpx 0;
+}
+
+.case .item  .rt {
+  width: 480rpx;
+  float: left;
+  margin-left: 10rpx;
+}
+
+.case .item  .rt .tit {
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 26rpx;
+  padding: 15rpx 0;
+}
+
+.case .item  .rt .info {
+  height: auto;
+  line-height: 30rpx;
+  overflow: hidden;
+  width: 100%;
+  color: #666;
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.case {
+  width: 96%;
+  margin-left: 2%;
+  font-size: 24rpx;
+  margin-top: 20rpx;
+}
+
 .product {
   width: 96%;
   height: auto;

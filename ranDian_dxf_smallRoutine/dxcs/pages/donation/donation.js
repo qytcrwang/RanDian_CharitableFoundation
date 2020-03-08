@@ -22,19 +22,4 @@ Page({
       donateGoodsTab: true
     })
   },
-  //修改尺寸
-  editSize(){
-    wx.switchTab({
-      url: '../index/index',
-    })
-  },
-  //选择地址
-  checkAddr(){
-    wx.navigateTo({
-      url: '../myAddr/myAddr',
-    })
-  },
-  slider3change(e){
-    console.log(`slider3发生change事件，携带值为`, e.detail.value)
-  }
 })
