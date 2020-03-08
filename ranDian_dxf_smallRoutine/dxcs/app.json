@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/notify/notify",
     "pages/index/index",
     "pages/donation/donation",
     "pages/logs/logs",
