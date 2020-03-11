@@ -1,82 +1,34 @@
-<view class="app">
-  <swiper style='height:360rpx;' indicator-dots="true" autoplay="true" circular>
-    <swiper-item wx:for="{{bannerList}}">
-      <image src="{{item.imgSrc}}" class="slide-image" />
-    </swiper-item>
+<view>
+  <swiper indicator-dots="{{indicatorDots}}" 
+    autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+    <block wx:for="{{imgUrls}}">
+      <swiper-item>
+        <image src="{{item}}" class="slide-image" />
+      </swiper-item>
+    </block>
   </swiper>
-  <view class="menu">
-    <navigator url="/pages/product/index">
-      <view class="item">
-        <view class="icon menu_bg_01">
-          <image src="/img/icon_activity.png"></image>
-        </view>
-        <text>公益活动</text>
+</view>
+<view class="category">
+  <view class="category_item" wx:for="{{iconArray}}">
+    <view class="category_item_wrap">
+      <view class="icon_wrap">
+        <image src="{{item.iconUrl}}" class="index_icon"></image>
       </view>
-    </navigator>
-    <navigator url="/pages/donation/donation">
-      <view class="item">
-        <view class="icon menu_bg_02">
-          <image src="/img/icon_donation.png"></image>
-        </view>
-        <text>捐助</text>
+      <view class="category_item_text">
+        <text>{{item.iconText}}</text>
       </view>
-    </navigator>
-    <navigator url="/pages/news/index">
-      <view class="item">
-        <view class="icon menu_bg_03">
-          <image src="/img/icon_sfund.png"></image>
-        </view>
-        <text>大学生基金</text>
-      </view>
-    </navigator>
-    <navigator url="/pages/contact/index">
-      <view class="item">
-        <view class="icon menu_bg_04">
-          <image src="/img/icon_kfund.png"></image>
-        </view>
-        <text>儿童基金</text>
-      </view>
-    </navigator>
-  </view>
-
-  <view class="block">
-    <view class="title">
-      <text>近期活动</text>
-    </view>
-    <view class="product">
-      <scroll-view scroll-x="true" class="pro">
-        <view class="item" wx:for="{{recommendActivityList}}">
-          <!-- <navigator url="/pages/product/detail?id={{item.id}}"> -->
-          <navigator url="../activity_detail/activity_detail?id={{item.id}}">
-            <image src="{{item.imgSrc}}" mode='aspectFit'></image>
-            <view class='name'>{{item.title}}</view>
-          </navigator>
-        </view>
-      </scroll-view>
     </view>
   </view>
-
-  <view class="block">
-    <view class="title">
-      <text>热门活动</text>
+</view>
+<view>
+  <view class="singal_item" wx:for="{{itemArray}}">
+    <view class="singal_item_title">
+      <text>{{item.itemText}}</text>
     </view>
-    <view class="case" wx:for="{{list}}">
-      <!-- <navigator url="/pages/case/detail?id={{item.id}}"> --> 
-      <navigator url="../activity_detail/activity_detail?id={{item.id}}">
-        <view class="item bdbt">
-          <view class="lt">
-            <image src="{{item.imgSrc}}" mode='aspectFit'></image>
-          </view>
-          <view class="rt">
-            <view class="tit">
-              {{item.title}}
-            </view>
-            <view class="info">
-              {{item.content}}
-            </view>
-          </view>
-        </view>
-      </navigator>
+    <view class="singal_item_image">
+      <image bindload="cusImageLoad" src="{{item.itemUrl}}" style="width: {{imageWidth}};height: {{imageHeight}}"></image>
     </view>
   </view>
+</view>
+<view>
 </view>

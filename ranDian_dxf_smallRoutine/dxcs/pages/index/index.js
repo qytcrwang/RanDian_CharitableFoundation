@@ -1,52 +1,53 @@
-//index.js
-//获取应用实例
+var WxAutoImage = require('../../utils/wxb.js');
 var app = getApp();
-var wxb = require("../../utils/wxb.js");
+
 Page({
-  data: {
-    color: '',
-    datas: [],
-    // service_tel: "0551-12345678", 服务电话
-    // complaint_tel: "0551-12345678" 投诉电话
-    setting: [],
-    //轮播图数据
-    bannerList:[
-      {imgSrc:'/img/activity1.png'},
-      {imgSrc:'/img/activity2.png'},
-      {imgSrc:'/img/activity3.png'}
-    ],
-    //推荐活动列表
-    recommendActivityList:[
-      {id:'1',imgSrc:'/img/activity1.png',title:'老年中心举办了此次活动'},
-      {id:'2',imgSrc:'/img/activity2.png',title:'老年中心举办了此次活动'},
-      {id:'3',imgSrc:'/img/activity3.png',title:'老年中心举办了此次活动'},
-      {id:'4',imgSrc:'/img/activity1.png',title:'老年中心举办了此次活动'}
-    ],
-    list:[
-      {id:'',imgSrc:'/img/activity1.png',title:'标题',content:'老年中心举办了此次活动'},
-      {id:'',imgSrc:'/img/activity2.png',title:'标题',content:'老年中心举办了此次活动'},
-      {id:'',imgSrc:'/img/activity3.png',title:'标题',content:'老年中心举办了此次活动'}
-    ]
-  },
-
-  //获取首页轮播图
-  /*getSwiperList(){
-    let that = this;
-    wx.request({
-      url:"http://mock-api.com/VKyv1Gzw.mock/swiperList",
-      success(res){
-        if(res.data.code===0){
-          that.setData({
-            swiperList:res.data.data.swiperList,
-          })
-        }
-      }
-    })
-  },*/
-
-  onShow: function () {
-  },
-
-  onLoad: function () {
-  },
+    data: {
+        imgUrls: [
+            '/img/activity1.png',
+            '/img/activity2.png',
+            '/img/activity2.png'
+        ],
+        indicatorDots: true,
+        vertical: false,
+        autoplay: true,
+        interval: 3000,
+        duration: 1200,
+        iconArray: [
+            {
+                "iconUrl": '/img/icon_activity.png',
+                "iconText": '活动'
+            },
+            {
+                "iconUrl": '/img/icon_donation.png',
+                "iconText": '募捐'
+            },
+            {
+                "iconUrl": '/img/icon_kfund.png',
+                "iconText": '儿童基金'
+            },
+            {
+                "iconUrl": '/img/icon_sfund.png',
+                "iconText": '大学生计划'
+            },
+        ],
+        itemArray: [
+            {
+                "itemUrl": '/img/activity1.png',
+                "itemText": '11月20日话剧《风声》'
+            },
+            {
+                "itemUrl": '/img/activity2.png',
+                "itemText": '11月20日话剧《原野》'
+            },
+            {
+                "itemUrl": '/img/activity3.png',
+                "itemText": '11月28日“夜店”演唱会'
+            },
+        ]
+    },
+    cusImageLoad: function(e){
+        var that = this;
+        that.setData(WxAutoImage.wxAutoImageCal(e));
+    }
 })
