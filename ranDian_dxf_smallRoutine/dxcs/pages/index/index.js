@@ -1,4 +1,5 @@
-var WxAutoImage = require('../../utils/wxb.js');
+var wxb = require('../../utils/wxb.js');
+var constant = require('../../utils/constant.js')
 var app = getApp();
 
 Page({
@@ -16,11 +17,13 @@ Page({
         iconArray: [
             {
                 "iconUrl": '/img/icon_activity.png',
-                "iconText": '活动'
+                "iconText": '活动',
+                "navigateUrl": constant.PAGE_ACTIVITIES
             },
             {
                 "iconUrl": '/img/icon_donation.png',
-                "iconText": '募捐'
+                "iconText": '募捐',
+                "navigateUrl": constant.PAGE_DONATION
             },
             {
                 "iconUrl": '/img/icon_kfund.png',
@@ -48,6 +51,12 @@ Page({
     },
     cusImageLoad: function(e){
         var that = this;
-        that.setData(WxAutoImage.wxAutoImageCal(e));
+        that.setData(wxb.wxAutoImageCal(e));
+    },
+    onIconClick:function(e){
+        console.log(e.currentTarget);
+        wx.navigateTo({
+            url:e.currentTarget.id
+        })
     }
 })

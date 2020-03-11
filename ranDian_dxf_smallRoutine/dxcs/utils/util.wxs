@@ -14,10 +14,8 @@ var dateFormat = function(timestamp,format){
   //因为后台拿到的时间戳是精确到秒数的，这里需要精确到毫秒数
   var timestamp = parseInt(timestamp)*1000;
   var time = getDate(timestamp);
-  console.log(time);
   //年
   var year = time.getFullYear();
-  console.log(year);
   //月
   var month = timeFormat((time.getMonth()+1));
   //日

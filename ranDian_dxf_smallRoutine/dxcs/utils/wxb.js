@@ -99,5 +99,5 @@ function wxAutoImageCal(e) {
 module.exports = {
     wxPost:wxPost,
     wxLogin:wxLogin,
-  wxAutoImageCal: wxAutoImageCal,
+    wxAutoImageCal: wxAutoImageCal,
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.fire.back.dao.extend.ExtendActivityTbMapper" >
 
  <select id="getIdAndNameByPage" resultType="Map" parameterType="map" >
- 	select id,title from activity_tb ${param} 
+ 	select id,title,activity_start_time,cover_url from activity_tb ${param}
  </select>
  
  <select id="getInfoById" resultType="Map" parameterType="map" >
