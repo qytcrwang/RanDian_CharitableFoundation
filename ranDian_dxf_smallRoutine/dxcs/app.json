@@ -1,11 +1,10 @@
 {
   "pages": [
-    "pages/notify/notify",
     "pages/index/index",
     "pages/donation/donation",
     "pages/logs/logs",
     "pages/login/login",
-    "pages/notice/notice",
+    "pages/notify/notify",
     "pages/mine/mine",
     "pages/feedback/feedback",
     "pages/account/account",
@@ -32,7 +31,7 @@
       "selectedIconPath": "img/tabbar_index_checked.png"
     },
     {
-      "pagePath": "pages/notice/notice",
+      "pagePath": "pages/notify/notify",
       "text": "活动通知",
       "iconPath": "img/tabbar_message.png",
       "selectedIconPath": "img/tabbar_message_checked.png"

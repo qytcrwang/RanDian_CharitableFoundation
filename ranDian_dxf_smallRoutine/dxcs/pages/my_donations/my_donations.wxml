@@ -1,4 +1,5 @@
 <!--pages/goods/goods.wxml-->
+<wxs module="wxUtils" src="../../utils/util.wxs"></wxs>
 <view class="swiper-tab">  
     <view class="tab-item {{ongoingTab?'active':''}} "  bindtap="toOngoingTab">进行中({{ongoingNum}})</view>
     <view class="tab-item {{completedTab?'active':''}}"  bindtap="toCompletedTab">已完成({{completedNum}})</view>
@@ -19,7 +20,7 @@
             <view  class='numInfo'>
               <view class='num' wx:if="{{item.contriType == 0}}">物品捐赠</view>
               <view class='num' wx:if="{{item.contriType == 1}}">捐款</view>
-              <view class='time'>{{item.createTime}}</view>
+              <view class='time'>{{wxUtils.dateFormat(item.createTime,"yyyy-MM-dd")}}</view>
             </view>
           </view>
           <view class='state'>进行中</view>
@@ -44,7 +45,7 @@
             <view  class='numInfo'>
               <view class='num' wx:if="{{item.contriType == 0}}">物品捐赠</view>
               <view class='num' wx:if="{{item.contriType == 1}}">捐款</view>
-              <view class='time'>{{item.createTime}}</view>
+              <view class='time'>{{wxUtils.dateFormat(item.createTime,"yyyy-MM-dd")}}</view>
             </view>
           </view>
           <view class='state'>已入库</view>
