@@ -1,0 +1,42 @@
+
+<view class="container">
+    <view class="activity-title" bindtap="toQuestion">
+        <text >{{activityDetails.title}}</text>
+    </view>
+
+    <view class="activity-content">
+        <view wx:for="{{imgs}}" wx:key="index">
+            <image src="{{item}}"/>
+        </view>
+        <text>{{activityDetails.body}}</text>
+    </view>
+        <view class="message_other">
+            <text >活动时长:{{activityDetails.activity_time}}小时</text>
+            <view >
+               <text >活动地址:{{activityDetails.address}}</text>
+            </view>
+            <view >
+                <text >报名时间:{{activityDetails.sign_stime}}-{{activityDetails.sign_etime}}</text>
+            </view>
+            <view >
+                <text >活动时间:{{activityDetails.activity_stime}}-{{activityDetails.activity_etime}}</text>
+            </view>
+            <view >
+                <text class="join_count">已报名人数:{{activityDetails.apply_nums}}</text>
+            </view>
+            <view >
+                <view class="read_good">
+                    <image class="read_count_icon" src="../../img/read_count.png"></image>
+                    <text >{{activityDetails.read_num}}</text>
+
+                    <image class="good_count_icon" wx:if="{{goodStatus}}" catchtap="ongoodTap" src="../../img/good_count_activity.png"></image>
+                    <image class="good_count_icon_activity" wx:else catchtap="ongoodTap" src="../../img/good_count.png"></image>
+                    <text class="good_num" wx:if="{{goodStatus}}" catchtap="ongoodTap">{{activityDetails.good_num+1}}</text>
+                    <text class="good_num" wx:else catchtap="ongoodTap">{{activityDetails.good_num}}</text>
+                </view>
+            </view>
+        </view>
+</view>
+
+
+

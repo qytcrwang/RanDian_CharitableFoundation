@@ -1,0 +1,59 @@
+.container {
+    padding: 0;
+    font-size: 14rpx;
+    background: #F0F4F3;
+    color: #000;
+}
+
+.activity-title {
+    position: relative;
+    width: 650rpx;
+    padding: 40rpx 50rpx 30rpx;
+    background: #1AFA29;
+    color: #000;
+    font-size: 38rpx;
+    line-height: 48rpx;
+}
+
+.activity-content{
+    padding: 30rpx 40rpx;
+    background: #ffffff;
+}
+.activity-content text{
+    font-size: 32rpx;
+    color: #454545;
+    line-height: 44rpx;
+    text-indent:2em;
+}
+.activity-content image{
+    width: 100%;
+    height: 350rpx;
+    margin: 20rpx 0;
+}
+.message_other{
+    padding-bottom: 30rpx;
+    padding: 30rpx 40rpx;
+    background: #ffffff;
+    font-size: 32rpx;
+    color: #454545;
+    line-height: 44rpx;
+    font-weight:bold
+}
+
+.good_num{
+    float: right;
+}
+.read_count_icon{
+    width: 45rpx;
+    height: 26rpx;
+}
+.read_good .good_count_icon{
+    width: 40rpx;
+    height: 40rpx;
+    float: right;
+}
+.read_good .good_count_icon_activity{
+    width: 40rpx;
+    height: 40rpx;
+    float: right;
+}
