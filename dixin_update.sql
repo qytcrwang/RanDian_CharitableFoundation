@@ -191,7 +191,7 @@ CREATE TABLE `love_points_tb`  (
 -- 刘云龙 2020-02-28 爱心积分表 end
 
 -- 刘云龙 2020-02-28 签到表添加索引 start
-alter table signtb add unique index SIGN_UNIQUE_INDEX(user_id,year,month);
+alter table sign_tb add UNIQUE INDEX `USERID_Y_M_INDEX`(`user_id`, `sign_year`, `sign_month`) USING BTREE COMMENT '基于用户，签到年份，签到月份的唯一索引';
 -- 刘云龙 2020-02-28 签到表添加索引 end
 
 
