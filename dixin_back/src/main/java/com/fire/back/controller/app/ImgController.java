@@ -5,6 +5,7 @@ import com.fire.back.service.ImgService;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ public class ImgController {
    *
    * @return null
    */
-  @GetMapping(value = "/getImgList")
+  @PostMapping(value = "/getImgList")
   public FireResult getImgList() {
     List<String> imgList = imgService.getImgList();
     return FireResult.build(1, "数据获取成功", imgList);

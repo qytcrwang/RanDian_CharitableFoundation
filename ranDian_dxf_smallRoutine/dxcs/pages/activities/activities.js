@@ -49,7 +49,7 @@ function requestData(_this, targetPage) {
             if(backResult == null
                 || backResult.status != 1
                 || backResult.data == null
-                || backResult.data.length == null){
+                || backResult.data.length <= 0){
                 console.log(constant.REQUEST_TIMEOUT);
                 return;
             }

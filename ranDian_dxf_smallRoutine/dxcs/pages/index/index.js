@@ -1,5 +1,5 @@
 var wxb = require('../../utils/wxb.js');
-var constant = require('../../utils/constant.js')
+var constant = require('../../utils/constant.js');
 var app = getApp();
 
 Page({
@@ -35,19 +35,57 @@ Page({
             },
         ],
         itemArray: [
-            {
-                "itemUrl": '/img/activity1.png',
-                "itemText": '11月20日话剧《风声》'
-            },
-            {
-                "itemUrl": '/img/activity2.png',
-                "itemText": '11月20日话剧《原野》'
-            },
-            {
-                "itemUrl": '/img/activity3.png',
-                "itemText": '11月28日“夜店”演唱会'
-            },
         ]
+    },
+    onLoad:function(){
+        var _this = this;
+        //加载轮播图
+        wxb.wxPost(
+            "/img/getImgList",
+            {},function(backResult){
+                if(backResult == null ||
+                    backResult.data == null ||
+                    backResult.data.length <= 0 ||
+                    backResult.status != 1){
+                        wx.showToast({
+                            icon:'/img/close.png',
+                            title:constant.REQUEST_TIMEOUT,
+                            duration:2000
+                        })
+                        return;
+                }
+                _this.setData({
+                    imgUrls:backResult.data
+                })
+            }
+        )
+        //加载近期公益活动列表
+        wxb.wxPost(
+            "/activity/getList",
+            {
+                page:1,
+                size:3,
+            },function(backResult){
+                if(backResult == null ||
+                    backResult.data == null ||
+                    backResult.data.length <= 0 ||
+                    backResult.status != 1){
+                        wx.showToast({
+                            icon:'/img/close.png',
+                            title:constant.REQUEST_TIMEOUT,
+                            duration:2000
+                        });
+                        return;
+                }
+                var itemList = [];
+                for(var i = 0; i < backResult.data.length; i++){
+                    bindData(itemList,backResult.data[i]);
+                }
+                _this.setData({
+                    itemArray:itemList
+                })
+            }
+        )
     },
     cusImageLoad: function(e){
         var that = this;
@@ -60,3 +98,10 @@ Page({
         })
     }
 })
+function bindData(itemList,itemData){
+    itemList.push({
+        itemText:itemData.title,
+        itemUrl:itemData.cover_url
+    })
+
+}

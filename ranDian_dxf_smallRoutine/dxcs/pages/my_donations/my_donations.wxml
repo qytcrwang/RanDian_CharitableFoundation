@@ -16,7 +16,8 @@
       <view class='list' wx:for="{{ongoingList}}" wx:for-item="item" wx:key='id'>
         <view class='list_top'>
           <view class='numAndTime'>
-            <image class='numPic' src='/img/donations_money.png'></image>
+            <image class='numPic' wx:if="{{item.contriType == 1}}" src='/img/donations_money.png'></image>
+            <image class='numPic' wx:if="{{item.contriType == 0}}" src='/img/donations_goods.png'></image>
             <view  class='numInfo'>
               <view class='num' wx:if="{{item.contriType == 0}}">物品捐赠</view>
               <view class='num' wx:if="{{item.contriType == 1}}">捐款</view>
@@ -41,7 +42,8 @@
       <view class='list' wx:for="{{completedList}}" wx:key='id' wx:for-item="item">
         <view class='list_top'>
           <view class='numAndTime'>
-            <image class='numPic' src='/img/donations_goods.png'></image>
+            <image class='numPic' wx:if="{{item.contriType == 1}}" src='/img/donations_money.png'></image>
+            <image class='numPic' wx:if="{{item.contriType == 0}}" src='/img/donations_goods.png'></image>
             <view  class='numInfo'>
               <view class='num' wx:if="{{item.contriType == 0}}">物品捐赠</view>
               <view class='num' wx:if="{{item.contriType == 1}}">捐款</view>

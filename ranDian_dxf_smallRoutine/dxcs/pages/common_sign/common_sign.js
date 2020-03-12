@@ -1,3 +1,4 @@
+var wxb = require("../../utils/wxb");
 Page({
 
     /** 
@@ -52,11 +53,14 @@ Page({
         ],
         days:[
             {
-                src:"/img/signed.png"
+               
             }
         ]
     },
-     getProWeekList:function(){
+    onShow:function(){
+        //加载
+    },
+    getProWeekList:function(){
          let that=this
          let date=new Date()
          let dateTime = date.getTime(); // 获取现在的时间
