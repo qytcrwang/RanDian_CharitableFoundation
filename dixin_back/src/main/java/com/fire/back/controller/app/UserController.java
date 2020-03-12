@@ -6,14 +6,12 @@ import com.fire.back.entity.UserTb;
 import com.fire.back.service.SignInService;
 import com.fire.back.service.UserService;
 import com.fire.back.util.ParamUtil;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -135,8 +133,19 @@ public class UserController {
     public FireResult getConsecutiveSign(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap,"userId");
-            int daysCount = ss.getConsecutiveSign(userId);
-            return FireResult.build(1, "连续签到天数查询成功", daysCount);
+            Calendar c =Calendar.getInstance();
+            int signYear = c.get(Calendar.YEAR);
+            int signMonth = c.get(Calendar.MONTH)+1;
+            int today = c.get(Calendar.DATE);
+            SignTb sign = ss.getSignTbByTime(userId,signYear,signMonth);
+            if(sign==null)return FireResult.build(0, "未查询到连续签到天数", null);
+            Long signDays = sign.getSignDays();
+            int consecutive = getConsecutiveSign(signDays,today);
+            int signSum = sign.getSignNums();
+            Map<String,Integer> map = new HashMap<>();
+            map.put("consecutive",consecutive);
+            map.put("signSum",signSum);
+            return FireResult.build(1, "连续签到天数查询成功", map);
         }catch(Exception e){
             return FireResult.build(0, "签连续签到天数查询失败", null);
         }
@@ -159,5 +168,18 @@ public class UserController {
             logger.error("查询当日是否签到异常", e);
             return FireResult.build(0, "查询当日是否签到异常");
         }
+    }
+
+    public int getConsecutiveSign(long signDays,int today) {
+        int count = 0;
+        for(int i = today;i>0;i--){
+            if((signDays&(1<<31-i))>0){
+                count++;
+                continue;
+            }
+            if(i==today)continue;
+            break;
+        }
+        return count;
     }
 }

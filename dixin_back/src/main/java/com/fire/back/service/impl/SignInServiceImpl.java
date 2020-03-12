@@ -24,18 +24,11 @@ public class SignInServiceImpl implements SignInService {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH)+1;
         long day = cal.get(Calendar.DATE);
-
-        SignTbExample signTbExample = new SignTbExample();
-        signTbExample.createCriteria().andUserIdEqualTo(record.getUserId()).andSignYearEqualTo(year)
-                .andSignMonthEqualTo(month);
-        List<SignTb> list = signMapper.selectByExample(signTbExample);
-        if(CheckEmptyUtil.isNotEmpty(list)){
-            SignTb sign = list.get(0);
-            if(sign!=null){
-                long signDays = sign.getSignDays();
-                if((signDays&(1<<31-day))>0){
-                    return -1;
-                }
+        SignTb sign = getSignTbByTime(record.getUserId(),year,month);
+        if(sign!=null){
+            long signDays = sign.getSignDays();
+            if((signDays&(1<<31-day))>0){
+                return -1;
             }
         }
         record.setSignYear(year);
@@ -48,52 +41,18 @@ public class SignInServiceImpl implements SignInService {
         return signMapper.signIn(record);
     }
 
-    @Override
-    public int getConsecutiveSign(Long userId) {
 
-        Calendar c =Calendar.getInstance();
-        int signYear = c.get(Calendar.YEAR);
-        int signMonth = c.get(Calendar.MONTH)+1;
-        int d = c.get(Calendar.DATE);
-
-        SignTbExample signTbExample = new SignTbExample();
-        signTbExample.createCriteria().andUserIdEqualTo(userId).andSignYearEqualTo(signYear)
-                .andSignMonthEqualTo(signMonth);
-        List<SignTb> list = signMapper.selectByExample(signTbExample);
-        if(CheckEmptyUtil.isEmpty(list)){
-            return 0;
-        }
-        SignTb sign = list.get(0);
-        //SignTb sign = signMapper.selectByParams(userId,signYear,signMonth);
-        long signDays = sign.getSignDays();
-        int count = 0;
-        for(int i = d;i>0;i--){
-            if((signDays&(1<<31-i))>0){
-                count++;
-                continue;
-            }
-            if(i==d)continue;
-            break;
-        }
-        return count;
-    }
 
     @Override
     public List<String> getMonthSignList(Long userId, int signYear, int signMonth) {
-        SignTbExample signTbExample = new SignTbExample();
-        signTbExample.createCriteria().andUserIdEqualTo(userId).andSignYearEqualTo(signYear)
-                .andSignMonthEqualTo(signMonth);
-        List<SignTb> list = signMapper.selectByExample(signTbExample);
-        if(CheckEmptyUtil.isEmpty(list)){
-            return null;
-        }
-        SignTb sign = list.get(0);
+        SignTb sign = getSignTbByTime(userId,signYear,signMonth);
+        if(sign == null)return null;
         long signDays = sign.getSignDays();
         String daysString = Integer.toBinaryString((int)signDays);
         while(daysString.length()<31){
             daysString = "0"+daysString;
         }
-       return Arrays.asList(daysString.split(""));
+       return Arrays.asList( daysString.substring(0,getMaxDayByYearMonth(signYear,signMonth)).split(""));
        }
 
     @Override
@@ -102,12 +61,8 @@ public class SignInServiceImpl implements SignInService {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH)+1;
         long day = cal.get(Calendar.DATE);
-        SignTbExample signTbExample = new SignTbExample();
-        signTbExample.createCriteria().andUserIdEqualTo(userId).andSignYearEqualTo(year)
-                .andSignMonthEqualTo(month);
-        List<SignTb> list = signMapper.selectByExample(signTbExample);
-        if(CheckEmptyUtil.isEmpty(list)) return false;
-        SignTb sign = list.get(0);
+        SignTb sign = getSignTbByTime(userId,year,month);
+        if(sign == null)return false;
         long signDays = sign.getSignDays();
         return (signDays&(1<<31-day))>0;
     }
@@ -120,6 +75,33 @@ public class SignInServiceImpl implements SignInService {
     @Override
     public Integer getTotalYearSigned(int year,int month,Long userId) {
         return signMapper.selectTotalYearSigned(userId,year,month);
+    }
+
+    /**
+     * 获取指定月份最大天数
+     * @param year
+     * @param month
+     * @return
+     */
+    private  int getMaxDayByYearMonth(int year, int month) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DATE, 1);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1);
+        return calendar.getActualMaximum(Calendar.DATE);
+    }
+
+    @Override
+    public SignTb getSignTbByTime(Long userId,int signYear,int signMonth){
+        SignTbExample signTbExample = new SignTbExample();
+        signTbExample.createCriteria().andUserIdEqualTo(userId).andSignYearEqualTo(signYear)
+                .andSignMonthEqualTo(signMonth);
+        List<SignTb> list = signMapper.selectByExample(signTbExample);
+        if(CheckEmptyUtil.isEmpty(list)){
+            return null;
+        }
+        return list.get(0);
+
     }
 
 }

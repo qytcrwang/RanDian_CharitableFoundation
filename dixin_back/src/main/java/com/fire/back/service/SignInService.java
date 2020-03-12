@@ -13,14 +13,6 @@ public interface SignInService {
      */
     int signIn(SignTb record);
 
-
-    /**
-     *得到目前为止连续签到天数(忽略今天未签到情况)
-     * @param userId
-     * @return
-     */
-    int getConsecutiveSign(Long userId);
-
     /**
      *获取指定月份签到情况列表
      * @param userId
@@ -52,4 +44,13 @@ public interface SignInService {
      * @return
      */
     Integer getTotalYearSigned(int year,int month,Long userId);
+
+    /**
+     * 获取指定月份签到详情
+     * @param signYear
+     * @param userId
+     * @Param signMonth
+     * @return
+     */
+    SignTb getSignTbByTime(Long userId,int signYear,int signMonth);
 }
