@@ -1,6 +1,7 @@
-var wxb = require("../../utils/wxb");
+var wxb = require("../../utils/wxb.js");
+var constant = require("../../utils/constant.js");
+var wxUtils = require("../../utils/util.js")
 Page({
-
     /** 
      * 页面的初始数据
      */
@@ -16,6 +17,8 @@ Page({
         getDate:null,
         month:null,
         display:"none",
+        curMonthTotal:'',
+        allTotal:'',
         week:[
             {
                 wook: "一"
@@ -34,32 +37,11 @@ Page({
             },
         ],
         day:[
-            {
-                wook: '',
-                src:"/img/signed.png",
-            }, {
-                wook: ''
-            }, {
-                wook: ''
-            }, {
-                wook: ''
-            }, {
-                wook: ''
-            }, {
-                wook: ''
-            },{
-                wook: ''
-            }
         ],
         days:[
-            {
-               
-            }
         ]
     },
-    onShow:function(){
-        //加载
-    },
+    //计算本周的日期
     getProWeekList:function(){
          let that=this
          let date=new Date()
@@ -72,7 +54,7 @@ Page({
          for (let i = 0; i < 7; i++) {
             let time = dateTime - (dateDay - 1 - i) * oneDayTime;
             proWeekList = new Date(time).getDate(); //date格式转换为yyyy-mm-dd格式的字符串
-            weekday = "day[" + i+"].wook"
+            weekday = "day[" + i + "].wook"
             that.setData({
                 [weekday]: proWeekList,
             })
@@ -141,9 +123,6 @@ Page({
                src:''
            })
         }
-
-       
-        console.log(this.data.days)
     },
     handleCalendar(e) {
         const handle = e.currentTarget.dataset.handle;
@@ -249,13 +228,9 @@ Page({
      */
     onLoad: function (options) {
         var that = this;
-        this.setNowDate();
-        this.getProWeekList()
 
         this.dataTime();
         var res = wx.getSystemInfoSync();
-        console.log(res.windowHeight);
-        console.log(res.windowWidth);
         this.setData({
             sysW: res.windowWidth /8-3,//更具屏幕宽度变化自动设置宽度
             marLet: this.data.firstDay,
@@ -263,11 +238,6 @@ Page({
             judge:1,
             month: this.data.month,
         });
-
-        /**
-         * 获取系统信息
-         */
-        console.log(that.data.month)
     },
     //滑动切换
     swiperTab: function (e) {
@@ -309,7 +279,74 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+        var _this = this;
+        //初始化当前日期
+        this.setNowDate();
+        //初始化当前周日期
+        this.getProWeekList();
+        //初始化全月签到数据
+        this.calculateDays();
+        //加载签到数据
+        wx.getStorage({
+            key:'userid',
+            success:function(res){
+                wxb.wxPost(
+                    "/user/getSignDaysList",
+                    {
+                        userId:res.data
+                    },function(backResult){
+                        if(backResult == null ||
+                            backResult.data == null ||
+                            backResult.data.length <= 0 ||
+                            backResult.status != 1){
+                            wx.showToast({
+                                title:constant.REQUEST_TIMEOUT,
+                                icon:'/img/close.png',
+                                duration:2000
+                            })
+                            return;
+                        }
+                        //获取本周签到数据
+                        var itemDayList = [];
+                        var firstDayOfWeek = _this.data.day[0].wook;
+                        for(var i = firstDayOfWeek-1; i <= firstDayOfWeek+7;i++){
+                            bindDay(itemDayList,backResult.data[i],i+1);
+                        }
+                        _this.setData({
+                            day:itemDayList,
+                        });
+                        //获取本月签到数据
+                        console.log(backResult.data)
+                        var itemMonthDayList = [];
+                        var firstDayOfMonth = _this.data.days[0].item;
+                        for(var i = firstDayOfMonth-1; i < backResult.data.length; i++){
+                            bindMonthDay(itemMonthDayList,backResult.data[i],i+1);
+                        }
+                        console.log(itemMonthDayList)
+                        _this.setData({
+                            days:itemMonthDayList
+                        })
+                    }
+                );
+                wxb.wxPost(
+                    "/user/getConsecutiveSign",
+                    {
+                        userId:res.data
+                    },function(backResult){
+                        if(backResult == null ||
+                            backResult.data == null ||
+                            backResult.data.length <= 0 ||
+                            backResult.status != 1){
+                            return;
+                        }
+                        _this.setData({
+                            allTotal:backResult.data
+                        }) 
+                    }
+                )
+            }
+        })
+        
     },
 
     /**
@@ -346,4 +383,28 @@ Page({
     onShareAppMessage: function () {
 
     }
-})
+});
+function bindDay(itemDayList,itemDay,date){
+    if(itemDay == "0"){
+        itemDayList.push({
+            wook:date,
+        })
+    }else{
+        itemDayList.push({
+            wook:date,
+            src:'/img/signed.png'
+        })
+    }
+}
+function bindMonthDay(itemMonthDayList,itemDay,date){
+    if(itemDay == "0"){
+        itemMonthDayList.push({
+            item:date,
+        })
+    }else{
+        itemMonthDayList.push({
+            item:date,
+            src:'/img/signed.png'
+        })
+    }
+}

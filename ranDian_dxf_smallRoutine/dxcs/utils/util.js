@@ -25,7 +25,6 @@ var dateFormat = function(timestamp,format){
   //因为后台拿到的时间戳是精确到秒数的，这里需要精确到毫秒数
   var timestamp = parseInt(timestamp)*1000;
   var time = new Date(timestamp);
-  console.log(time);
   //年
   var year = time.getFullYear();
   //月
@@ -46,7 +45,21 @@ var dateFormat = function(timestamp,format){
   }
 }
 
+//获取当前的年
+var getCurYear = function(){
+  var curDate = new Date();
+  return curDate.getFullYear();
+}
+
+//获取当前的月份
+var getCurMonth = function(){
+  var curDate = new Date();
+  return curDate.getMonth()+1;
+}
+
 module.exports = {
   formatTime: formatTime,
-  dateFormat: dateFormat
+  dateFormat: dateFormat,
+  getCurYear:getCurYear,
+  getCurMonth:getCurMonth
 }
