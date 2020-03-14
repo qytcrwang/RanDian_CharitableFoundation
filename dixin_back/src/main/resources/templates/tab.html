@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="include :: header"></head>
+<body>
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">网站设置</li>
+            <li>用户管理</li>
+            <li>权限分配</li>
+            <li>商品管理</li>
+            <li>订单管理</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">我是网站设置的内容</div>
+            <div class="layui-tab-item">我是用户管理的内容</div>
+            <div class="layui-tab-item">我是权限分配的内容</div>
+            <div class="layui-tab-item">我是商品管理的内容</div>
+            <div class="layui-tab-item">我是订单管理的内容</div>
+        </div>
+    </div>
+    <div th:replace="include :: assembly_dependency"></div>
+</body>
+</html>

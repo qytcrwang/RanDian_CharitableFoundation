@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="include :: header"></head>
+<body>
+<!--
+    lay-even	无	用于开启 隔行 背景，可与其它属性一起使用
+    lay-skin="属性值"	     line （行边框风格）
+                            row （列边框风格）
+                            nob （无边框风格）	若使用默认风格不设置该属性即可
+    lay-size="属性值"
+                            sm （小尺寸）
+                            lg （大尺寸）	若使用默认尺寸不设置该属性即可
+-->
+<div>
+    <table class="layui-table" lay-even="true">
+        <tbody>
+        <tr>
+            <td>
+                <form class="layui-form" action="/" method="post">
+                    <!--
+                        class="layui-form-label"
+                        表示标签区域
+                    -->
+                    <label class="layui-form-label">搜索框:</label>
+                    <!--
+                        class="layui-input-block"
+                        块元素输入框，占满一行
+                        class="layui-input-inline"
+                        行内元素输入框，不占满一行
+
+                        class="layui-inline"：定义外层行内
+                        class="layui-input-inline"：定义内层行内
+                    -->
+                    <div class="layui-input-inline">
+                        <!--
+                            required:直接书写此属性表示调用H5规范属性，非Layui内置属性
+                                    如果使用Layui内置验证可以省略此属性
+                            lay-verify	required（必填项）
+                                        phone（手机号）
+                                        email（邮箱）
+                                        url（网址）
+                                        number（数字）
+                                        date（日期）
+                                        identity（身份证）
+                                        自定义值	同时支持多条规则的验证，格式：lay-verify="验证A|验证B"
+                                        如：lay-verify="required|phone|number"
+
+                                        另外，除了我们内置的校验规则，你还可以给他设定任意的值，比如lay-verify="randian"
+                                        ，那么你就需要借助form.verify()方法对etoak进行一个校验规则的定义。
+                            autocomplete="off"  是否记录用户输入过的信息，存在on 和 off两个值，
+                            默认值为on，但是为安全性考虑，一般关闭，但是在chrome浏览器中如果出现关闭不能的情况可以填写
+                            autocomplete="new-password"
+
+                        -->
+                        <input type="text" name="name" required lay-verify="chaxun" placeholder="输入要搜索的文本"
+                               autocomplete="off" class="layui-input" >
+                    </div>
+                    <div class="layui-input-inline">
+                        <!--
+                            lay-submit	无需填写值,绑定触发提交的元素，如button
+                        -->
+                        <button class="layui-btn" lay-submit lay-filter="chazhao">查找</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </form>
+            </td>
+            <td>
+                <a class="layui-btn" href="/add" target="main"><i class="layui-icon">&#xe608;</i>添加</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<table class="layui-table" lay-even="true">
+    <!--
+        <colgroup> 标签用于对表格中的列进行组合，以便对其进行格式化。
+        如需对全部列应用样式，<colgroup> 标签很有用，这样就不需要对各个单元和各行重复应用样式了。
+        <colgroup> 标签只能在 table 元素中使用。
+        支持align valign width span（横跨列数）
+
+        所有主流浏览器都支持 <colgroup> 标签。
+        Firefox、Chrome 以及 Safari 仅支持 colgroup 元素的 span 和 width 属性。
+    -->
+    <colgroup>
+        <col width="150">
+        <col width="200">
+        <col width="400">
+    </colgroup>
+    <thead>
+        <tr>
+            <th>用户名</th>
+            <th>时间</th>
+            <th>其他</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>aaa</td>
+            <td>2020-3-4</td>
+            <td>燃点最牛逼</td>
+        </tr>
+        <tr>
+            <td>bbb</td>
+            <td>2020-3-4</td>
+            <td>奥里给！！！</td>
+        </tr>
+        <tr>
+            <td>ccc</td>
+            <td>2020-3-4</td>
+            <td>燃点最牛逼</td>
+        </tr>
+        <tr>
+            <td>ddd</td>
+            <td>2020-3-4</td>
+            <td>奥里给！！！</td>
+        </tr>
+        <tr>
+            <td>eee</td>
+            <td>2020-3-4</td>
+            <td>人生就像是一场修行</td>
+        </tr>
+        <tr>
+            <td>fff</td>
+            <td>2020-3-4</td>
+            <td>奥里给！！！</td>
+        </tr>
+    </tbody>
+</table>
+<div id="page"></div>
+<!-- 分页组件 -->
+<script>
+    layui.use(['laypage'],function(){
+        let laypage = layui.laypage;
+        laypage.render({
+            //分页绑定的容器 对应的页面id
+            elem: 'page'
+            //总记录数
+            ,count: 50
+            ,first: '首页'
+            ,last: '末页'
+            ,prev: '<em>&lt;---</em>'
+            ,next: '<em>---&gt;</em>'
+            //每页记录数
+            ,limit:5
+            //布局排版
+            ,layout:['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            ,theme:'#cccc99'
+            ,jump:function(obj,first){
+                //obj包含了当前分页的所有参数，比如：
+                console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                console.log(obj.limit); //得到每页显示的条数
+
+                //首次不执行
+                if(!first){
+                    console.log('这不是首次触发分页！！');
+                }
+            }
+        });
+    });
+</script>
+<!-- form表单组件 -->
+<script>
+    //Demo
+    /*
+    *   layui.use([],function(){
+    *
+    *   });
+    *
+    * */
+
+    layui.use(['form','layer'], function(){
+        let form = layui.form
+            ,layer = layui.layer;
+
+        //验证规则
+        form.verify({
+            chaxun:function(value,item){
+                if(value<=0){
+                    return "<span style='color:green'>dashabi</span>";
+                }
+            }
+        });
+
+        form.on('submit(chazhao)',function(data){
+            console.log(data.field);
+            /*console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            console.log(data.field) //当前容器的全部表单字段，键值对形式：{name: value}
+            return false; //阻止表单提交，action目的地失效。如果需要表单提交，去掉这段即可。*/
+            /*
+
+                String~~~~>js对象
+            *   JSON.parse()
+            *
+            *   js对象~~~~~>String
+            *   JSON.stringify()
+            *
+            *
+            * */
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

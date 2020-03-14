@@ -1,10 +1,70 @@
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
-  	 <meta content="text/html;charset=UTF-8"/>
-  	 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  </head>
-  <body>
-  泰斯特
-  </body>
- </html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="include :: header"></head>
+    <body class="layui-layout-body">
+            <div class="layui-layout layui-layout-admin">
+                <div class="layui-header">
+                    <div class="layui-logo">滴信慈善平台后台</div>
+                    <!-- 头部区域（可配合layui已有的水平导航） -->
+                    <ul class="layui-nav layui-layout-left">
+                        <li class="layui-nav-item"><a href="">导航一</a></li>
+                        <li class="layui-nav-item"><a href="">导航二</a></li>
+                        <li class="layui-nav-item"><a href="">导航三</a></li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">其它导航</a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="">子导航一</a></dd>
+                                <dd><a href="">子导航二</a></dd>
+                                <dd><a href="">子导航三</a></dd>
+                            </dl>
+                        </li>
+                    </ul>
+                    <ul class="layui-nav layui-layout-right">
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">
+                                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                                qytcrwang
+                            </a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="">个人资料</a></dd>
+                                <dd><a href="">安全设置</a></dd>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item"><a href="">注销登录</a></li>
+                    </ul>
+                </div>
+
+                <div class="layui-side layui-bg-black">
+                    <div class="layui-side-scroll">
+                        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                        <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                            <li class="layui-nav-item layui-nav-itemed">
+                                <a class="" href="javascript:;">列表一</a>
+                                <dl class="layui-nav-child">
+                                    <dd><a href="/table" target="main">表格</a></dd>
+                                    <dd><a href="/tab" target="main">选项卡</a></dd>
+                                    <dd><a href="javascript:;">子列表3</a></dd>
+                                    <dd><a href="">超链接</a></dd>
+                                </dl>
+                            </li>
+                            <li class="layui-nav-item">
+                                <a href="javascript:;">列表二</a>
+                                <dl class="layui-nav-child">
+                                    <dd><a href="javascript:;">列表1</a></dd>
+                                    <dd><a href="javascript:;">列表2</a></dd>
+                                    <dd><a href="">超链接</a></dd>
+                                </dl>
+                            </li>
+                            <li class="layui-nav-item"><a href="">列表三</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="layui-body">
+                    <iframe src="" width="100%" height="100%" name="main"></iframe>
+                </div>
+                <div th:include="include :: footer"  class="layui-footer"></div>
+        </div>
+        <div th:replace="include :: assembly_dependency"></div>
+    </body>
+</html>

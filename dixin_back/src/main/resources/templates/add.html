@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="include :: header"></head>
+<body>
+    <form class="layui-form" action="helloworld1.html" method="post"
+          lay-filter="myForm">
+        <!--
+            class="layui-form-item"
+            每一个表单项使用此属性嵌套在外层表示一个表单项
+        -->
+        <div class="layui-form-item">
+            <!--
+                class="layui-form-label"
+                表示标签区域
+            -->
+            <label class="layui-form-label">用户姓名:</label>
+            <!--
+                class="layui-input-block"
+                块元素输入框，占满一行
+                class="layui-input-inline"
+                行内元素输入框，不占满一行
+
+                class="layui-inline"：定义外层行内
+                class="layui-input-inline"：定义内层行内
+            -->
+            <div class="layui-input-inline">
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~1:单行文本、密码输入框~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <!--
+                    required:直接书写此属性表示调用H5规范属性，非Layui内置属性
+                            如果使用Layui内置验证可以省略此属性
+                    lay-verify	required（必填项）
+                                phone（手机号）
+                                email（邮箱）
+                                url（网址）
+                                number（数字）
+                                date（日期）
+                                identity（身份证）
+                                自定义值	同时支持多条规则的验证，格式：lay-verify="验证A|验证B"
+                                如：lay-verify="required|phone|number"
+
+                                另外，除了我们内置的校验规则，你还可以给他设定任意的值，比如lay-verify="etoak"
+                                ，那么你就需要借助form.verify()方法对etoak进行一个校验规则的定义。
+                    autocomplete="off"  是否记录用户输入过的信息，存在on 和 off两个值，
+                    默认值为on，但是为安全性考虑，一般关闭，但是在chrome浏览器中如果出现关闭不能的情况可以填写
+                    autocomplete="new-password"
+
+                -->
+                <input type="text" name="name" required lay-verify="uname" placeholder="请输入姓名"
+                       autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户密码:</label>
+            <div class="layui-input-inline">
+                <input type="password" name="password" lay-verify="required|upass" placeholder="请输入密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <!--
+                layui-form-mid:设置辅助文字居于输入框中部
+                layui-word-aux:设置提示文字样式
+            -->
+            <div class="layui-form-mid layui-word-aux">（必填）用户密码应该在4到8位之间</div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">范围</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="price_min" placeholder="￥" lay-verify="number" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~2:下拉列表框~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">归属地:</label>
+            <div class="layui-input-inline">
+                <select name="city" lay-verify="required"
+                        lay-filter="et">
+                    <option value=""></option>
+                    <option value="0">北京</option>
+                    <option value="1">上海</option>
+                    <option value="2" disabled >广州</option>
+                    <option value="3">深圳</option>
+                    <option value="4">山东</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">提示问题:</label>
+            <div class="layui-input-inline">
+                <select name="quiz">
+                    <option value="">请选择</option>
+                    <optgroup label="城市记忆">
+                        <option value="你工作的第一个城市">你工作的第一个城市？</option>
+                    </optgroup>
+                    <optgroup label="学生时代">
+                        <option value="你的工号">你的工号？</option>
+                        <option value="你最喜欢的老师">你最喜欢的老师？</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~3:复选框~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">爱好:</label>
+            默认风格:
+            <div class="layui-input-block">
+                <input type="checkbox" name="like" title="写作" value="write">
+                <input type="checkbox" name="like" title="阅读" value="read" checked>
+                <input type="checkbox" name="like" title="发呆" value="fadai">
+            </div>
+        </div>
+        <!--
+            title	任意字符	设定元素名称，一般用于checkbox、radio框
+            lay-skin	switch（开关风格） primary（原始风格）	定义元素的风格，目前只对 checkbox 元素有效，可将其转变为开关样式
+            lay-ignore	任意字符或不设值	是否忽略元素美化处理。设置后，将不会对该元素进行初始化渲染，即保留系统风格
+            lay-filter	任意字符	事件过滤器，主要用于事件的精确匹配，跟选择器是比较类似的。其实它并不私属于form模块，它在 layui 的很多基于事件的接口中都会应用到。
+        -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">爱好2:</label>
+            原始风格:
+            <div class="layui-input-block">
+                <input type="checkbox" name="hobby" title="写作" lay-skin="primary" checked>
+                <input type="checkbox" name="hobby" title="发呆" lay-skin="primary">
+                <input type="checkbox" name="hobby" title="禁用" lay-skin="primary" disabled>
+            </div>
+        </div>
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~4:复选框（特殊）~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">开关:</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="xxx" lay-skin="switch" lay-filter="myswitch" value="iloveetoak">
+                <input type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" value="wocao" checked>
+                <input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭" value="fuck">
+                <input type="checkbox" name="aaa" lay-skin="switch" disabled>
+            </div>
+        </div>
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~5:单选框~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">单选框:</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="男" title="男">
+                <input type="radio" name="sex" value="女" title="女" checked>
+            </div>
+        </div>
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~6:文本域~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">文本域:</label>
+            <div class="layui-input-inline">
+                        <textarea name="weibo" placeholder="请输入内容" class="layui-textarea"
+                                  cols="30" rows="5"></textarea>
+            </div>
+        </div>
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~7:提交~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <!--
+                    lay-submit	无需填写值,绑定触发提交的元素，如button
+                -->
+                <button class="layui-btn" lay-submit lay-filter="myFormSub">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+<div th:replace="include :: assembly_dependency"></div>
+<script>
+    layui.use(['form','layer'], function(){
+        let form = layui.form
+            ,layer = layui.layer;
+
+        /*//监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });*/
+
+        //验证规则
+        form.verify({
+            upass:function(value,item){
+                if(value.length<4||value.length>8){
+                    return "<span style='color:red'>用户密码必须在4到8位之间</span>";
+                }
+            },
+            uname:function(value,item){
+                if(value<=0){
+                    return "<span style='color:red'>dashabi</span>";
+                }
+            }
+        });
+
+        //事件监听
+        //监听下拉列表框
+        form.on("select(et)",function(data){
+            console.log(data.value);
+            /*form.on('select(filter)', function(data){
+                console.log(data.elem); //得到select原始DOM对象
+                console.log(data.value); //得到被选中的值
+                console.log(data.othis); //得到美化后的DOM对象
+            });*/
+        });
+
+        //事件监听
+        //监听多选框
+        /*form.on('checkbox(filter)', function(data){
+            console.log(data.elem); //得到checkbox原始DOM对象
+            console.log(data.elem.checked); //是否被选中，true或者false
+            console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+            console.log(data.othis); //得到美化后的DOM对象
+        });*/
+
+        //事件监听
+        //监听switch特殊复选框
+        form.on("switch(myswitch)",function(data){
+            /*console.log(data.elem); //得到checkbox原始DOM对象
+            console.log(data.elem.checked); //开关是否开启，true或者false
+            console.log(data.value); //开关value值，也可以通过data.elem.value得到
+            console.log(data.othis); //得到美化后的DOM对象*/
+            /*
+            * layer.tips('显示的信息',在哪个对象处显示);
+            * */
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF',data.othis);
+            if(data.elem.checked==true){
+                console.log("开开啦！！");
+                //通过设置value值从而在表单提交时提交value数据
+                data.elem.value="我是switch呀！！！";
+            }else{
+                console.log("关闭啦！！");
+                console.log(data.elem.value);
+            }
+        });
+
+        //事件监听
+        //监听radio单选框
+        /*form.on('radio(filter)', function(data){
+            console.log(data.elem); //得到radio原始DOM对象
+            console.log(data.value); //被点击的radio的value值
+        });*/
+
+        form.on('submit(myFormSub)',function(data){
+            console.log(data.field);
+            /*console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            console.log(data.field) //当前容器的全部表单字段，键值对形式：{name: value}
+            return false; //阻止表单提交，action目的地失效。如果需要表单提交，去掉这段即可。*/
+            /*
+
+                String~~~~>js对象
+            *   JSON.parse()
+            *
+            *   js对象~~~~~>String
+            *   JSON.stringify()
+            *
+            *
+            * */
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

@@ -30,6 +30,20 @@ public class TestController {
 		return "index";
 	}
 
+	@GetMapping("/tab")
+	public String tab() {
+		return "tab";
+	}
+
+	@GetMapping("/table")
+	public String table() {
+		return "table";
+	}
+
+	@GetMapping("/add")
+	public String add() {return "add";
+	}
+
 	@PostMapping("/getInfo")
 	@ResponseBody
 	public FireResult getInfo(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {
