@@ -101,7 +101,8 @@ Page({
 function bindData(itemList,itemData){
     itemList.push({
         itemText:itemData.title,
-        itemUrl:itemData.cover_url
+        itemUrl:itemData.cover_url,
+        itemId:itemData.id
     })
 
 }

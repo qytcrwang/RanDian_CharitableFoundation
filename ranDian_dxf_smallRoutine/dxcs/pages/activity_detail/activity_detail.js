@@ -1,4 +1,3 @@
-// pages/activity_detail/activity_detail.js
 Page({
 
   /**
@@ -68,11 +67,13 @@ Page({
     let that = this;
     wx.request({
       method:'POST',
-      // data: {
-      //   id: activityId
-      // },
-      url:"http://mock-api.com/VKyv1Gzw.mock/activity/getInfo",
+      data: {
+        id: activityId,
+        userId:1
+      },
+      url:"http://localhost:8081/wx/activity/getInfo",
       success(res){
+        console.log(res);
         if(res.data.status===1){
           var a = res.data.data.pic_url.split(",");
           console.log(a);
@@ -90,6 +91,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options);
     let activityId = options.id;
     this.getActivityDetails(activityId);
     this.changeGoodStatus(activityId);

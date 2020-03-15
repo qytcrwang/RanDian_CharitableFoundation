@@ -23,10 +23,14 @@
 <view>
   <view class="singal_item" wx:for="{{itemArray}}">
     <view class="singal_item_title">
+    <navigator url="../activity_detail/activity_detail?id={{item.itemId}}">
       <text>{{item.itemText}}</text>
+    </navigator>
     </view>
-    <view class="singal_item_image">
-      <image bindload="cusImageLoad" src="{{item.itemUrl}}" style="width: {{imageWidth}};height: {{imageHeight}}"></image>
+    <view class="singal_item_image"> 
+      <navigator url="../activity_detail/activity_detail?id={{item.itemId}}">
+        <image bindload="cusImageLoad" src="{{item.itemUrl}}" style="width: {{imageWidth}};height: {{imageHeight}}"></image>
+      </navigator>
     </view>
   </view>
 </view>
