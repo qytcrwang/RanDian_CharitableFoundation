@@ -3,7 +3,7 @@
     <image src='/img/banner.png'></image>
     <view class='cs_continue'>
         <view>每日坚持签到</view>
-        <view>本月签到：<text>{{allTotal}}</text>天</view>
+        <view>本月签到：<text>{{curMonthTotal}}</text>天</view>
     </view>
 </view> 
 <view class='cs_sign'>
@@ -28,7 +28,7 @@
         </view>
         <view class='cs_sign_day'>
             <image bindtap='onshow' src='/img/mine_signin.png'></image>
-            <view>连续签到 <text>{{curMonthTotal}}</text>天</view>
+            <view>连续签到 <text>{{consecutive}}</text>天</view>
         </view>
         <view class='cs_sign_content'>
             <view class='cs_week'>
@@ -49,7 +49,12 @@
             <view class='cs_circle'>
                 <view class='cs_incircle'>
                     <view class='cs_excircle'>
-                        <view class='cs_innercircle'>
+                        <view class='cs_innercircle' wx:if="{{isTodaySigned}}">
+                            <view class='cs_btn'>
+                                <text>已打卡</text>
+                            </view>
+                        </view>
+                        <view class='cs_innercircle' wx:if="{{!isTodaySigned}}" bindTap="bindSign">
                             <view class='cs_btn'>
                                 <text>打卡</text>
                             </view>
