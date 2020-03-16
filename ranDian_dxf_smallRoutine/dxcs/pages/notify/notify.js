@@ -42,8 +42,12 @@ Page({
           },function(backResult){
             console.log(backResult)
             if(backResult.status == 1){
+              var _trendsList = [];
+              for(var i = 0; i < backResult.data.length; i++){
+                bindTrendsData(_trendsList,backResult.data[i]);
+              }
               _this.setData({
-                trendsList:backResult.data
+                trendsList:_trendsList
               })
             }else{
               wx.showToast({
@@ -103,4 +107,13 @@ Page({
     })
   }
 })
+function bindTrendsData(_trendsList,trendsObj){
+  _trendsList.push({
+    id:trendsObj.id,
+    title:trendsObj.title.length>6? trendsObj.title.substring(0,5):trendsObj.title,
+    time:trendsObj.time,
+    state:trendsObj.state,
+    ifRead:trendsObj.ifRead
+  })
+}
 

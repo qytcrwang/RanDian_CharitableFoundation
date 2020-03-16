@@ -90,6 +90,7 @@
 .wx-text_kGXxsa3{
   font-size: 13px; 
   color: #a1a1a1; 
+  margin-left: 50rpx;
   line-height: 1.5em; 
 }
 .nav_commoditylink{
