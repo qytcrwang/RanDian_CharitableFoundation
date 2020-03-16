@@ -1,4 +1,7 @@
 
+var wxb = require("../../utils/wxb.js");
+var wxUtils = require("../../utils/util.js");
+var constant = require("../../utils/constant.js");
 Page({
 
   /**
@@ -33,24 +36,32 @@ Page({
       key:'userid',
       success:function(res){
         //获取userid
-        wx.request({
-          url:'http://localhost:8081/wx/activity/getUserList',
-          data:{
+        wxb.wxPost(
+          "/activity/getUserList",
+          {
             userId:res.data,
-          },
-          method:'POST',
-          dataType:'json',
-          success:function(backResult){
+          },function(backResult){
+            if(backResult == null ||
+              backResult.data == null ||
+              backResult.data.length <= 0 ||
+              backResult.status != 1){
+              wx.showToast({
+                  title:constant.REQUEST_TIMEOUT,
+                  duration:2000,
+                  icon:'/img/close.png'
+              })
+              return;
+            }
             _this.setData({
-              ongoingList:backResult.data.data[0],
-              completedList:backResult.data.data[1],
-              enrolmentList:backResult.data.data[0].concat(backResult.data.data[1]),
-              ongoingNum:backResult.data.data[0].length,
-              completedNum:backResult.data.data[1].length,
-              enrolmentNum:backResult.data.data[0].length+backResult.data.data[1].length,
+              ongoingList:backResult.data[0],
+              completedList:backResult.data[1],
+              enrolmentList:backResult.data[0].concat(backResult.data[1]),
+              ongoingNum:backResult.data[0].length,
+              completedNum:backResult.data[1].length,
+              enrolmentNum:backResult.data[0].length+backResult.data[1].length,
             })
           }
-        })
+        )
       }
     }) 
   },

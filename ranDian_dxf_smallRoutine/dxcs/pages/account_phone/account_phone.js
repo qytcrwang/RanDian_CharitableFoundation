@@ -1,3 +1,6 @@
+var wxb = require("../../utils/wxb.js");
+var wxUtils = require("../../utils/util.js");
+var constant = require("../../utils/constant.js");
 Page({
   changePhoneSubmit:function(e){
     var _this = this;
@@ -7,35 +10,34 @@ Page({
       key:'userid',
       success:function(res){
         //发送更新请求
-        wx.request({
-          url:'http://localhost:8081/wx/user/updateUserInfo',
-          data:{
+        wxb.wxPost(
+          "/user/updateUserInfo",
+          {
             userId:res.data,
             mobile:newPhone,
-          },
-          method:'POST',
-          dataType:'json',
-          success:function(backResult){
-            if(backResult.data.status == 1){
-              //更新成功
-              _this.setData({
-                phone:newPhone
-              });
-              wx.showToast({
-                title:backResult.data.msg,
-                icon:'success',
-                duration:2000
-              });
-              //跳转到我的信息页面
-              
-            }else{
-              wx.showToast({
-                title:backResult.data.msg,
-                duration:2000
-              })
+          },function(backResult){
+            if(backResult == null ||
+              backResult.status != 1){
+                wx.showToast({
+                  title:constant.REQUEST_TIMEOUT,
+                  duration:2000,
+                  icon:'/img/close.png'
+                })
+              return;
             }
+            //更新成功
+            _this.setData({
+              phone:newPhone
+            });
+            wx.showToast({
+              title:constant.REQUEST_SUCCESS,
+              icon:'success',
+              duration:2000
+            });
+            //跳转到我的信息页面
+            
           }
-        })
+        )
       } 
     })
   },

@@ -1,5 +1,7 @@
 var app = getApp();
-var wxb = require('../../utils/wxb')
+var wxb = require("../../utils/wxb.js");
+var wxUtils = require("../../utils/util.js");
+var constant = require("../../utils/constant.js");
 Page({
   data: {
     isLogin:{},
@@ -28,31 +30,37 @@ Page({
     wx.getStorage({
       key:'userid',
       success:function(res){
-        wx.request({
-          url:'http://localhost:8081/wx/user/getUserInfo',
-          data:{
+        wxb.wxPost(
+          "/user/getUserInfo",
+          {
             userId:res.data
-          },
-          method:'POST',
-          dataType:'json',
-          success:function(backResult){
-            if(backResult.data.status == 1){
-              //查询用户信息成功
-              var userLovePoint = backResult.data.data.lovePoint;
-              var userLoveFund = backResult.data.data.loveFund;
-              if(userLovePoint == null || userLovePoint == ''){
-                userLovePoint = 0;
-              };
-              if(userLoveFund == null || userLoveFund == ''){
-                userLoveFund = 0;
-              }
-              _this.setData({
-                lovePoint:userLovePoint,
-                loveFund:userLoveFund,
-              });
+          },function(backResult){
+            if(backResult == null ||
+              backResult.data == null ||
+              backResult.data.length <= 0 ||
+              backResult.status != 1){
+              wx.showToast({
+                  title:constant.REQUEST_TIMEOUT,
+                  duration:2000,
+                  icon:'/img/close.png'
+              })
+              return;
             }
+            //查询用户信息成功
+            var userLovePoint = backResult.data.lovePoint;
+            var userLoveFund = backResult.data.loveFund;
+            if(userLovePoint == null || userLovePoint == ''){
+              userLovePoint = 0;
+            };
+            if(userLoveFund == null || userLoveFund == ''){
+              userLoveFund = 0;
+            }
+            _this.setData({
+              lovePoint:userLovePoint,
+              loveFund:userLoveFund,
+            });
           }
-        });
+        )
       }
     })
     

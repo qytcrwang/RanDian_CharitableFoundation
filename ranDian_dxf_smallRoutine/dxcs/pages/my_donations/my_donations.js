@@ -1,4 +1,7 @@
 
+var wxb = require("../../utils/wxb.js");
+var wxUtils = require("../../utils/util.js");
+var constant = require("../../utils/constant.js");
 Page({
 
   /**
@@ -24,22 +27,30 @@ Page({
       key:'userid',
       success:function(res){
         //获取userid
-        wx.request({
-          url:'http://localhost:8081/wx/contriInfo/getSelfContriInfo',
-          data:{
+        wxb.wxPost(
+          "/contriInfo/getSelfContriInfo",
+          {
             userId:res.data,
-          },
-          method:'POST',
-          dataType:'json',
-          success:function(backResult){
+          },function(backResult){
+            if(backResult == null ||
+              backResult.data == null ||
+              backResult.data.length <= 0 ||
+              backResult.status != 1){
+              wx.showToast({
+                  title:constant.REQUEST_TIMEOUT,
+                  duration:2000,
+                  icon:'/img/close.png'
+              })
+              return;
+            }
             _this.setData({
-              ongoingList:backResult.data.data.ongoingList,
-              ongoingNum:backResult.data.data.ongoingList.length,
-              completedList:backResult.data.data.completedList,
-              completedNum:backResult.data.data.completedList.length,
+              ongoingList:backResult.data.ongoingList,
+              ongoingNum:backResult.data.ongoingList.length,
+              completedList:backResult.data.completedList,
+              completedNum:backResult.data.completedList.length,
             })
           }
-        })
+        )
       }
     })
   },

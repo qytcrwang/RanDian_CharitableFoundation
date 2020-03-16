@@ -1,3 +1,6 @@
+var wxb = require("../../utils/wxb.js");
+var wxUtils = require("../../utils/util.js");
+var constant = require("../../utils/constant.js");
 Page({
   changeRealNameSubmit:function(e){
     var _this = this;
@@ -7,35 +10,34 @@ Page({
       key:'userid',
       success:function(res){
         //发送更新请求
-        wx.request({
-          url:'http://localhost:8081/wx/user/updateUserInfo',
-          data:{
+        wxb.wxPost(
+          "/user/updateUserInfo",
+          {
             userId:res.data,
             name:newRealName,
-          },
-          method:'POST',
-          dataType:'json',
-          success:function(backResult){
-            if(backResult.data.status == 1){
-              //更新成功
-              _this.setData({
-                realName:newRealName
-              });
-              wx.showToast({
-                title:backResult.data.msg,
-                icon:'success',
-                duration:2000
-              });
-              //跳转到我的信息页面
-              
-            }else{
-              wx.showToast({
-                title:backResult.data.msg,
-                duration:2000
-              })
+          },function(backResult){
+            if(backResult == null ||
+              backResult.status != 1){
+                wx.showToast({
+                  title:constant.REQUEST_TIMEOUT,
+                  duration:2000,
+                  icon:'/img/close.png'
+                })
+              return;
             }
+            //更新成功
+            _this.setData({
+              realName:newRealName
+            });
+            wx.showToast({
+              title:constant.REQUEST_SUCCESS,
+              icon:'success',
+              duration:2000
+            });
+            //跳转到我的信息页面
+            
           }
-        })
+        )
       } 
     })
   },
@@ -55,34 +57,5 @@ Page({
     this.setData({
       realName:e.detail.value
     })
-  },
-  updateRealName(){
-    console.log("用户输入的真实姓名：" + this.data.realName);
-    if(this.data.realName != null && this.data.realName != ''){
-      wx.request({
-        url:'http://localhost:8081/updateUserInfo',
-        data:{
-          id:'1',
-          name:this.data.realName
-        },
-        method:'post',
-        success(res){
-          wx.showToast({
-            title:'更新成功',
-            icon:'success',
-            duration:2000
-          });
-          wx.navigateBack({
-            delta:1
-          }) 
-        }
-      });
-    }else{
-      wx.showToast({
-        title:'请输入您的真实姓名',
-        icon:'none',
-        duration:2000
-      })  
-    }
   }
 })
