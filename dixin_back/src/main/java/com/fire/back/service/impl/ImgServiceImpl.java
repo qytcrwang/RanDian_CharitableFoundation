@@ -16,6 +16,7 @@ import org.springframework.util.ResourceUtils;
 public class ImgServiceImpl implements ImgService {
 
   private static final String URL_HTTP = "http://";
+  private static final String IP = "106.12.194.99";
   private static final String SERVICE_PORT = "server.port";
   private static final String IMG_DIR = "/dixin/images/first/";
   private static final String CLASS_PATH = "classpath:static/images/first";
@@ -29,12 +30,12 @@ public class ImgServiceImpl implements ImgService {
       if (CheckEmptyUtil.isNotEmpty(files)) {
         for (File file : files) {
           imgList.add(
-              URL_HTTP + InetAddress.getLocalHost().getHostAddress() + ":" + CommonUtil
+              URL_HTTP + IP + ":" + CommonUtil
                   .getValue(SERVICE_PORT) + IMG_DIR + file.getName());
         }
       }
       return imgList;
-    } catch (FileNotFoundException | UnknownHostException e) {
+    } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
     return null;
