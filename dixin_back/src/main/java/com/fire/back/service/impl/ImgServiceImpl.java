@@ -30,8 +30,7 @@ public class ImgServiceImpl implements ImgService {
       if (CheckEmptyUtil.isNotEmpty(files)) {
         for (File file : files) {
           imgList.add(
-              URL_HTTP + IP + ":" + CommonUtil
-                  .getValue(SERVICE_PORT) + IMG_DIR + file.getName());
+              URL_HTTP + IP + ":8082" + IMG_DIR + file.getName());
         }
       }
       return imgList;
