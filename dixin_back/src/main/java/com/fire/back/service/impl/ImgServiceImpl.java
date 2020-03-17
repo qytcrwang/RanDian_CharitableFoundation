@@ -17,7 +17,7 @@ public class ImgServiceImpl implements ImgService {
 
   private static final String URL_HTTP = "http://";
   private static final String SERVICE_PORT = "server.port";
-  private static final String IMG_DIR = "/images/first/";
+  private static final String IMG_DIR = "/dixin/images/first/";
   private static final String CLASS_PATH = "classpath:static/images/first";
 
   @Override

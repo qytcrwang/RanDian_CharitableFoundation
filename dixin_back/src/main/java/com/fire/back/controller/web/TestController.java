@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fire.back.common.FireResult;
 import com.fire.back.util.ParamUtil;
 /**
- * 
+ *
  * @author dragon
  * 可依照getInfo规范开发 接口统一返回FireResult
  * Feb 18, 2020
