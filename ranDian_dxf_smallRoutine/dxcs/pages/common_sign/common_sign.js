@@ -46,10 +46,10 @@ Page({
     },
     //计算本周的日期
     getProWeekList:function(){
-         let that=this
+         let _this=this
          let date=new Date()
          let dateTime = date.getTime(); // 获取现在的时间
-         let dateDay = date.getDay()==0?7:date.getDate();// 获取现在的
+         let dateDay = date.getDay()==0?7:date.getDay();// 获取现在的
          let oneDayTime = 24 * 60 * 60 * 1000; //一天的时间
          let proWeekList;
          let weekday;
@@ -57,18 +57,18 @@ Page({
             let time = dateTime - (dateDay - 1 - i) * oneDayTime;
             proWeekList = new Date(time).getDate(); //date格式转换为yyyy-mm-dd格式的字符串
             weekday = "day[" + i + "].wook"
-            that.setData({
+            _this.setData({
                 [weekday]: proWeekList,
             })
             //that.data.day[i].wook = new Date(time).getDate();
         }
+
     },
     dateSelectAction: function (e) {
         let cur_day = e.currentTarget.dataset.idx;
         this.setData({
             todayIndex: cur_day
         })
-        console.log(`点击的日期:${this.data.cur_year}年${this.data.cur_month}月${cur_day + 1}日`);
     },
 
     setNowDate: function () {
@@ -76,7 +76,6 @@ Page({
         const cur_year = date.getFullYear();
         const cur_month = date.getMonth() + 1;
         const todayIndex = date.getDate();
-        console.log(`日期：${todayIndex}`)
         const weeks_ch = ['日', '一', '二', '三', '四', '五', '六'];
         this.calculateEmptyGrids(cur_year, cur_month);
         this.calculateDays(cur_year, cur_month);
@@ -259,7 +258,6 @@ Page({
 
             })
         }
-        // console.log(that.data.nubmerLength)
     },
     upper: function (e) {
         console.log(e)
@@ -288,8 +286,7 @@ Page({
         this.getProWeekList();
         //初始化全月签到数据
         this.calculateDays();
-        console.log("day:" + this.data.day);
-        console.log("days" + this.data.days);
+        
         //加载签到数据
         wx.getStorage({
             key:'userid',
@@ -313,23 +310,20 @@ Page({
                             })
                             return;
                         }
-                        //获取本周签到数据
                         var itemDayList = [];
                         var firstDayOfWeek = _this.data.day[0].wook;
-                        for(var i = firstDayOfWeek-1; i <= firstDayOfWeek+7;i++){
+                        for(var i = firstDayOfWeek-1; i < firstDayOfWeek+6;i++){
                             bindDay(itemDayList,backResult.data[i],i+1);
                         }
                         _this.setData({
                             day:itemDayList,
                         });
-                        //获取本月签到数据
-                        console.log(backResult.data)
+                        
                         var itemMonthDayList = [];
                         var firstDayOfMonth = _this.data.days[0].item;
                         for(var i = firstDayOfMonth-1; i < backResult.data.length; i++){
                             bindMonthDay(itemMonthDayList,backResult.data[i],i+1);
                         }
-                        console.log(itemMonthDayList)
                         _this.setData({
                             days:itemMonthDayList
                         })
@@ -363,7 +357,7 @@ Page({
                             backResult.status != 1){
                             return;
                         }
-                        _this.data({
+                        _this.setData({
                             isTodaySigned:backResult.data
                         })
                     }

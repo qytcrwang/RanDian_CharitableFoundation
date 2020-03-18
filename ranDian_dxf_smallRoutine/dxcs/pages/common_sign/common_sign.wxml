@@ -54,7 +54,7 @@
                                 <text>已打卡</text>
                             </view>
                         </view>
-                        <view class='cs_innercircle' wx:if="{{!isTodaySigned}}" bindTap="bindSign">
+                        <view class='cs_innercircle' wx:if="{{!isTodaySigned}}" bindtap="bindSign">
                             <view class='cs_btn'>
                                 <text>打卡</text>
                             </view>
