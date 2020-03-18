@@ -1,6 +1,7 @@
 package com.fire.back.controller.web;
 
 import com.fire.back.common.CheckEmptyUtil;
+import com.fire.back.common.ExecuteResult;
 import com.fire.back.common.FireResult;
 import com.fire.back.entity.ContriInfoTb;
 import com.fire.back.service.ContriInfoService;
@@ -56,17 +57,14 @@ public class BackContriInfoController {
    * @return null
    */
   @GetMapping(value = "/getSelfContriInfo")
-  public FireResult getSelfContriInfo(@RequestParam Long userId) {
-    if (CheckEmptyUtil.isEmpty(userId)) {
-      return FireResult.build(0, "入参不能为空");
-    }
-    try {
-      List<ContriInfoTb> resultList = contriInfoService.getSelfContriInfo(userId);
-      return FireResult.build(1, "数据获取成功", resultList);
-    } catch (Exception e) {
-      logger.error("", e);
-      return FireResult.build(0, "获取信息失败，请稍后再试");
-    }
+  public ExecuteResult getSelfContriInfo(@RequestParam Long userId) {
+    List<ContriInfoTb> resultList = contriInfoService.getSelfContriInfo(userId);
+    ExecuteResult<List<ContriInfoTb>>  result = new ExecuteResult<>();
+    result.setCode("0");
+    result.setCount(10);
+    result.setData(resultList);
+    result.setMsg("success");
+    return result;
   }
 
   /**

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fire.back.dao.extend.ExtendContriInfoTbTbMapper">
+  <resultMap id="BaseResultMap" type="com.fire.back.entity.ContriInfoTb" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="contri_amount" property="contriAmount" jdbcType="DECIMAL" />
+    <result column="contri_things" property="contriThings" jdbcType="VARCHAR" />
+    <result column="contri_time" property="contriTime" jdbcType="BIGINT" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="org_r_name" property="orgRName" jdbcType="VARCHAR" />
+    <result column="contri_proof" property="contriProof" jdbcType="VARCHAR" />
+    <result column="contri_type" property="contriType" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="contri_state" property="contriState" jdbcType="INTEGER" />
+    <result column="if_stamp" property="ifStamp" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="contri_value" property="contriValue" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, user_id, contri_amount, contri_things, contri_time, mobile, org_name, org_r_name,
+    contri_proof, contri_type, update_time, is_delete, contri_state, if_stamp, create_time,
+    contri_value
+  </sql>
+
+  <select id="selectContriInfoByPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from love_points_tb
+    where user_id = #{lovePoint.userId,jdbcType=BIGINT}
+    <if test="lovePoint.type != null" >
+      and type = #{lovePoint.type,jdbcType=INTEGER}
+    </if>
+    <if test="lovePoint.status != null" >
+      and status = #{lovePoint.status,jdbcType=INTEGER}
+    </if>
+    <if test="lovePoint.operatorId != null" >
+      and operator_id = #{lovePoint.operatorId,jdbcType=BIGINT}
+    </if>
+    <if test="lovePoint.isDelete != null" >
+      and is_delete = #{lovePoint.isDelete,jdbcType=INTEGER}
+    </if>
+    order by create_time desc
+    limit #{start} , #{pageSize}
+  </select>
+</mapper>

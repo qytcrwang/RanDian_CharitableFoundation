@@ -44,6 +44,11 @@ public class TestController {
 	public String add() {return "add";
 	}
 
+	@GetMapping("/contriinfo")
+	public String contriinfo() {
+		return "contriinfo";
+	}
+
 	@PostMapping("/getInfo")
 	@ResponseBody
 	public FireResult getInfo(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {
