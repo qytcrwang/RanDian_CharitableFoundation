@@ -7,16 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fire.back.dao.extend.ExtendUserTbMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ResourceUtils;
 
-import com.fire.back.common.CommonUtil;
 import com.fire.back.dao.ActivityUserTbMapper;
-import com.fire.back.dao.UserTbMapper;
 import com.fire.back.dao.extend.ExtendActivityTbMapper;
+import com.fire.back.dao.extend.ExtendUserTbMapper;
 import com.fire.back.entity.ActivityTbWithBLOBs;
 import com.fire.back.entity.ActivityUserTb;
 import com.fire.back.entity.ActivityUserTbExample;
@@ -148,6 +145,24 @@ public class ActivityServiceImpl implements ActivityService {
 		params.put("param", param);
 		List<Map<String, Object>> list = activityMapper.getListByPage(params);
 		return list;
+	}
+	
+	/**
+	 * count
+	 * @param page,size,field,sort,type,stime,etime,state
+	 * @return
+	 */
+	@Override
+	public int getListByPageCount(int type,String stime,String etime,int state){
+		Map<String,Object> params = new HashMap<>();
+		String param = " where is_delete=0 ";
+		if(type>-1) param += " and type = "+type;
+		if(stime.length()>0) param += " and activity_start_time >="+stime;
+		if(etime.length()>0) param += " and activity_start_time <"+etime;
+		if(state>-1) param += " and state = "+state;
+		params.put("param", param);
+		int count = activityMapper.getListByPageCount(params);
+		return count;
 	}
 
 	/**

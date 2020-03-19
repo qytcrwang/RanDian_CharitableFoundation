@@ -25,5 +25,6 @@ public interface ExtendActivityTbMapper extends ActivityTbMapper {
     void addReadNum(Long id);
     void addGoodNum(Long id);
     List<Map<String, Object>> getListByPage(Map<String,Object> params);
+    int getListByPageCount(Map<String,Object> params);
     Map<String, Object> getBackInfoById(Map<String,Object> params);
 }

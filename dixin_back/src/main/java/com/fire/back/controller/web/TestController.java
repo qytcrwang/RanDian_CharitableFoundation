@@ -49,6 +49,11 @@ public class TestController {
 		return "contriinfo";
 	}
 
+	@GetMapping("/activityManage")
+	public String activityManage() {
+		return "activityManage";
+	}
+	
 	@PostMapping("/getInfo")
 	@ResponseBody
 	public FireResult getInfo(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {

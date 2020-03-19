@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="include :: header"></head>
+<body>
+  <div class="layui-row">
+    <div class="layui-col-md8 layui-col-md-offset2">
+      <div class="dTable" style="padding-top: 10px">
+        会员id：
+        <div class="layui-inline">
+          <input class="layui-input" name="id" id="userIdReload" autocomplete="off">
+        </div>
+        <button class="layui-btn" data-type="reload">搜索</button>
+      </div>
+    </div>
+  </div>
+  <table class="layui-hide" id="activityInfoList" lay-filter="tableFilter"></table>
+  <script type="text/javascript">
+  layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function(){
+    var layer = layui.layer //弹层
+        ,table = layui.table //表格
+        ,element = layui.element; //元素操作
+    //监听Tab切换
+    element.on('tab(demo)', function(data){
+      layer.msg('切换了：'+ this.innerHTML);
+      console.log(data);
+    });
+    //执行一个 table 实例
+    table.render({
+      elem: '#activityInfoList'
+      ,url: '/back/activity/getList'
+      ,method: 'post'
+      ,contentType: 'application/json'
+   	  ,parseData: function(res){ //res 即为原始返回的数据
+   		    return {
+   		      "code": res.status, //解析接口状态
+   		      "msg": res.message, //解析提示文本
+   		   	  "count": res.count, //解析数据长度
+   		      "data": res.data //解析数据列表
+   		    };
+   	  }
+    ,response: {
+        statusCode:1 //规定成功的状态码，默认：0
+      } 
+      ,page: true //开启分页
+      ,cols: [
+          [
+        {type:'checkbox'}
+        ,{title: '序号', type:'numbers', align: 'center'}
+        ,{field: 'id', type:'hidden', title:'id', align: 'center'}
+        ,{field:'title', title: '活动标题', align: 'center'}
+        ,{field:'type', title: '活动类型', align: 'center'}
+        ,{field:'state', title: '活动状态', align: 'center'}
+        ,{field:'activity_stime', title: '活动时间', align: 'center'}
+        /* ,{fixed: 'right', width: 165, align:'center', toolbar: '#bar'} */
+        ]
+      ]
+      ,id: 'tableReload'
+    });
+
+/*     //监听工具条
+    table.on('tool(tableFilter)', function(obj){
+      var data = obj.data //获得当前行数据
+          ,layEvent = obj.event; //获得 lay-event 对应的值
+      if(layEvent === 'detail'){
+        layer.msg('查看操作');
+      } else if(layEvent === 'edit'){
+        var bookid = data.id;
+        var jsonData;
+        $.ajax({
+          type:"post",
+          url:"${pageContext.request.contextPath}/book/queryOneBook",
+          dataType:"json",
+          data:{"bookId":bookid},
+          success : function(data){
+            jsonData = data;
+          }
+        });
+        var index=layer.open({
+          type: 2
+          ,offset: '0px'
+          ,scrollbar: false
+          ,title: '修改信息'
+          ,skin: 'layui-layer-molv'
+          ,area: ['1000px', '450px']
+          ,content: ['${pageContext.request.contextPath}/pages/modules/user/editBook.jsp','false']
+          ,success: function(layero,index){
+            console.log(layero, index);
+            var name = $("#editName", layero.find("iframe")[0].contentWindow.document);
+            var price = $("#editPrice", layero.find("iframe")[0].contentWindow.document);
+            var author = $("#editAuthor", layero.find("iframe")[0].contentWindow.document);
+            var status = $("#editStatus", layero.find("iframe")[0].contentWindow.document);
+            var category = $("#editCategory", layero.find("iframe")[0].contentWindow.document);
+            var time = $("#editTime", layero.find("iframe")[0].contentWindow.document);
+            var introduction = $("#editIntroduction", layero.find("iframe")[0].contentWindow.document);
+            var bookid = $("#id", layero.find("iframe")[0].contentWindow.document);
+            name.val(jsonData.bookName);
+            price.val(jsonData.bookPrice);
+            author.val(jsonData.bookAuthor);
+            status.val(jsonData.status);
+            category.val(jsonData.categoryName);
+            time.attr("value",jsonData.upTime);
+            introduction.val(jsonData.introduction);
+            bookid.val(jsonData.id);
+          }
+        });
+      }
+    }); */
+
+    var $ = layui.$, active = {
+      reload: function(){
+        var userIdReload = $('#userIdReload');
+        //执行重载
+        table.reload('tableReload', {
+          page: {
+            curr: 1 //重新从第 1 页开始
+          }
+          ,where: {
+            userId: userId.val()
+          }
+        });
+      }
+    };
+
+    $('.dTable .layui-btn').on('click', function(){
+      var type = $(this).data('type');
+      active[type] ? active[type].call(this) : '';
+    });
+  });
+  </script>
+  <script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+  </script>
+</body>

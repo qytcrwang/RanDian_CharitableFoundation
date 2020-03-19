@@ -39,13 +39,14 @@ public class BackActivityController {
 			Integer page = ParamUtil.getInteger(paramMap, "page", 1);
 			Integer size = ParamUtil.getInteger(paramMap, "size", 10);
 			String field = ParamUtil.getString(paramMap, "field", "id");
-			String sort = ParamUtil.getString(paramMap, "param4", "asc");
-			Integer type = ParamUtil.getInteger(paramMap, "param4", -1);
+			String sort = ParamUtil.getString(paramMap, "sort", "asc");
+			Integer type = ParamUtil.getInteger(paramMap, "type", -1);
 			String stime = ParamUtil.getString(paramMap, "stime", "");
 			String etime = ParamUtil.getString(paramMap, "etime", "");
 			int state = ParamUtil.getInteger(paramMap, "state", -1);
 			List<Map<String,Object>> list = service.getListByPage(page, size, field, sort, type, stime, etime, state);
-			return FireResult.build(1, "数据获取成功", list);
+			int count = service.getListByPageCount(type, stime, etime, state);
+			return FireResult.build(1, "数据获取成功", list,count);
 		} catch (Exception e) {
 			logger.error("",e);
 			return FireResult.build(0, "获取信息失败，请稍后再试");
