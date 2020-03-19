@@ -1,6 +1,9 @@
 package com.fire.back.service.impl;
 
+import com.fire.back.common.ExecuteResult;
 import com.fire.back.dao.ContriInfoTbMapper;
+import com.fire.back.dao.extend.ExtendContriInfoTbMapper;
+import com.fire.back.dto.ContriInfoListParamsDto;
 import com.fire.back.entity.ContriInfoTb;
 import com.fire.back.entity.ContriInfoTbExample;
 import com.fire.back.service.ContriInfoService;
@@ -17,7 +20,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ContriInfoServiceImpl implements ContriInfoService {
 
-  @Resource ContriInfoTbMapper contriInfoTbMapper;
+  @Resource
+  ContriInfoTbMapper contriInfoTbMapper;
+  @Resource
+  ExtendContriInfoTbMapper extendContriInfoTbMapper;
 
   @Override
   public Boolean saveContriInfo(ContriInfoTb contriInfoTb) {
@@ -28,20 +34,28 @@ public class ContriInfoServiceImpl implements ContriInfoService {
 
   @Override
   public Boolean updateContriStatus(ContriInfoTb contriInfoTb) {
-    contriInfoTb.setUpdateTime(System.currentTimeMillis()/1000);
+    contriInfoTb.setUpdateTime(System.currentTimeMillis() / 1000);
     int i = contriInfoTbMapper.updateByPrimaryKeySelective(contriInfoTb);
     return i == 1;
   }
 
   @Override
-  public List<ContriInfoTb> getSelfContriInfo(Long userId) {
-    ContriInfoTbExample contriInfoTbExample = new ContriInfoTbExample();
-    contriInfoTbExample.createCriteria().andUserIdEqualTo(userId);
-    return contriInfoTbMapper.selectByExample(contriInfoTbExample);
+  public ExecuteResult<List<ContriInfoTb>> getContriInfoList(ContriInfoListParamsDto paramsDto) {
+    List<ContriInfoTb> list = extendContriInfoTbMapper.selectContriInfoByPage(paramsDto);
+    Integer count = extendContriInfoTbMapper.getCount(paramsDto);
+    ExecuteResult<List<ContriInfoTb>> result = new ExecuteResult<>();
+    if (null != list) {
+      result.setCode("0");
+      result.setCount(count);
+      result.setMsg("success");
+      result.setData(list);
+      return result;
+    }
+    return null;
   }
 
   @Override
-  public List<ContriInfoTb> getSelfContriInfoByStatus(Long userId,int status) {
+  public List<ContriInfoTb> getSelfContriInfoByStatus(Long userId, int status) {
     ContriInfoTbExample contriInfoTbExample = new ContriInfoTbExample();
     contriInfoTbExample.createCriteria().andUserIdEqualTo(userId).andContriTypeEqualTo(status);
     return contriInfoTbMapper.selectByExample(contriInfoTbExample);
@@ -63,9 +77,9 @@ public class ContriInfoServiceImpl implements ContriInfoService {
    *
    * @param contriInfoTb 入参
    */
-  private void contriDefaultParamUtil(ContriInfoTb contriInfoTb){
+  private void contriDefaultParamUtil(ContriInfoTb contriInfoTb) {
     contriInfoTb.setIsDelete(0);
-    contriInfoTb.setContriTime(System.currentTimeMillis()/1000);
-    contriInfoTb.setCreateTime(System.currentTimeMillis()/1000);
+    contriInfoTb.setContriTime(System.currentTimeMillis() / 1000);
+    contriInfoTb.setCreateTime(System.currentTimeMillis() / 1000);
   }
 }
