@@ -44,9 +44,14 @@ public class TestController {
 	public String add() {return "add";
 	}
 
-	@GetMapping("/contriinfo")
-	public String contriinfo() {
-		return "contriinfo";
+	@GetMapping("/contriInfo")
+	public String contriInfo() {
+		return "contriInfo";
+	}
+
+	@GetMapping("/contriInfoDetail")
+	public String contriInfoDetail() {
+		return "contriInfoDetail";
 	}
 
 	@GetMapping("/activityManage")
