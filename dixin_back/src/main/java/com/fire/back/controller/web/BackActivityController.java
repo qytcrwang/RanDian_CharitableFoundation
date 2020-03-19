@@ -1,5 +1,6 @@
 package com.fire.back.controller.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fire.back.common.FireResult;
 import com.fire.back.entity.ActivityTbWithBLOBs;
+import com.fire.back.entity.SyscodeTb;
 import com.fire.back.service.ActivityService;
+import com.fire.back.service.SyscodeService;
 import com.fire.back.util.ParamUtil;
 
 /**  
@@ -31,6 +34,8 @@ public class BackActivityController {
 	
 	@Autowired
 	private ActivityService service;
+	@Autowired
+	private SyscodeService syscodeService;
 	
 	@PostMapping("getList")
 	@ResponseBody
@@ -79,5 +84,20 @@ public class BackActivityController {
 			return FireResult.build(0, "操作失败，请稍后再试");
 		}
 	}
-	
+
+	@PostMapping("getSelect")
+	@ResponseBody
+	public FireResult getSelect() {
+		try {
+			List<SyscodeTb> typeList = syscodeService.getSyscode("activity_type");
+			List<SyscodeTb> stateList = syscodeService.getSyscode("activity_state");
+			Map<String,Object> selectData = new HashMap<>();
+			selectData.put("typeList", typeList);
+			selectData.put("stateList", stateList);
+			return FireResult.build(1, "获取成功",selectData);
+		} catch (Exception e) {
+			logger.error("",e);
+			return FireResult.build(0, "操作失败，请稍后再试");
+		}
+	}
 }

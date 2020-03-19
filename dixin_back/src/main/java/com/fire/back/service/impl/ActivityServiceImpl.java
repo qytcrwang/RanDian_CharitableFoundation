@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fire.back.common.TimeTools;
 import com.fire.back.dao.ActivityUserTbMapper;
 import com.fire.back.dao.extend.ExtendActivityTbMapper;
 import com.fire.back.dao.extend.ExtendUserTbMapper;
@@ -138,8 +139,14 @@ public class ActivityServiceImpl implements ActivityService {
 		Map<String,Object> params = new HashMap<>();
 		String param = " where is_delete=0 ";
 		if(type>-1) param += " and type = "+type;
-		if(stime.length()>0) param += " and activity_start_time >="+stime;
-		if(etime.length()>0) param += " and activity_start_time <"+etime;
+		if(stime.length()>0) {
+			stime = TimeTools.getTimeStamp(stime)/1000 +"";
+			param += " and activity_start_time >="+stime;
+		}
+		if(etime.length()>0) {
+			etime = TimeTools.getCircleStamp(etime)/1000 +"";
+			param += " and activity_start_time <"+etime;
+		}
 		if(state>-1) param += " and state = "+state;
 		param += " order by "+field+" "+sort+" limit "+(page-1)*size+","+size;
 		params.put("param", param);
