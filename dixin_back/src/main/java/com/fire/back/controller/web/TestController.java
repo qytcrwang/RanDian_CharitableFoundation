@@ -58,7 +58,12 @@ public class TestController {
 	public String activityManage() {
 		return "activityManage";
 	}
-	
+
+	@GetMapping("/rentManager")
+	public String rentManager() {
+		return "rentManager";
+	}
+
 	@PostMapping("/getInfo")
 	@ResponseBody
 	public FireResult getInfo(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {

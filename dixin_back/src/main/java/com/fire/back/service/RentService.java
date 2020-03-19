@@ -1,5 +1,7 @@
 package com.fire.back.service;
 
+import com.fire.back.common.ExecuteResult;
+import com.fire.back.dto.RentListParamsDto;
 import com.fire.back.entity.RentApplyTb;
 
 import java.util.List;
@@ -44,4 +46,15 @@ public interface RentService {
      * @return 布尔值 true表示成功，false表示失败
      */
     Boolean updateRentApplyTb(RentApplyTb rent);
+
+    /**
+     * description   :  select all
+     *
+     * @param paramsDto
+     * @return       : com.fire.back.common.ExecuteResult<java.util.List<com.fire.back.entity.RentApplyTb>>
+     * @exception    :
+     * @date         : 2020/3/19 10:21 PM
+     * @author       : Killian
+     */
+    ExecuteResult<List<RentApplyTb>> getRentApplyTbList(RentListParamsDto paramsDto);
 }

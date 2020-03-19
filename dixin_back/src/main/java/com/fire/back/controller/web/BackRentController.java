@@ -1,7 +1,9 @@
 package com.fire.back.controller.web;
 
 import com.fire.back.common.CheckEmptyUtil;
+import com.fire.back.common.ExecuteResult;
 import com.fire.back.common.FireResult;
+import com.fire.back.dto.RentListParamsDto;
 import com.fire.back.entity.RentApplyTb;
 import com.fire.back.service.impl.RentServiceImpl;
 import com.fire.back.util.ParamUtil;
@@ -82,7 +84,7 @@ public class BackRentController {
      * param: [userId,school,major,jobIntension,salary,state,jobState,idDelete,page,pageSize,field,sort]
      * @return com.fire.back.common.FireResult[RentApplyTb]
      */
-    @PostMapping("/getRentByPage")
+    @PostMapping("/getRentByPage123")
     public FireResult getRentByPage(@RequestBody Map<String,Object> paramMap){
         try {
             RentApplyTb r = new RentApplyTb();
@@ -104,8 +106,13 @@ public class BackRentController {
             logger.error("租房申请列表查询异常");
             return FireResult.build(1,"租房申请列表查询异常",null);
         }
+    }
 
-
+    @PostMapping(value = "/getRentByPage")
+    public ExecuteResult contriInfoList(@RequestBody RentListParamsDto paramsDto) {
+        paramsDto.setOffSet(paramsDto.getOffSet(paramsDto.getPage(),paramsDto.getLimit()));
+        ExecuteResult<List<RentApplyTb>> result = rentServiceImpl.getRentApplyTbList(paramsDto);
+        return result;
     }
 
 }

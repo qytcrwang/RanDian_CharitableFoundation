@@ -1,6 +1,8 @@
 package com.fire.back.service.impl;
 
+import com.fire.back.common.ExecuteResult;
 import com.fire.back.dao.extend.ExtendRentApplyTbMapper;
+import com.fire.back.dto.RentListParamsDto;
 import com.fire.back.entity.RentApplyTb;
 import com.fire.back.service.RentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +70,32 @@ public class RentServiceImpl implements RentService {
     public Boolean updateRentApplyTb(RentApplyTb rent) {
         rent.setUpdateTime(System.currentTimeMillis()/1000);
         return rentApplyTbMapper.updateByPrimaryKeySelective(rent)>0;
+    }
+
+    /**
+     * description   :  select all
+     *
+     * @param paramsDto
+     * @return       : com.fire.back.common.ExecuteResult<java.util.List<com.fire.back.entity.RentApplyTb>>
+     * @exception    :
+     * @date         : 2020/3/19 10:21 PM
+     * @author       : Shy
+     */
+    @Override
+    public ExecuteResult<List<RentApplyTb>> getRentApplyTbList(RentListParamsDto paramsDto) {
+        List<RentApplyTb> list = rentApplyTbMapper.getRentApplyByPage2(paramsDto);
+                //extendContriInfoTbMapper.selectContriInfoByPage(paramsDto);
+        paramsDto.setPage(null);
+        Integer count = rentApplyTbMapper.getRentApplyByPage2(paramsDto).size();
+        ExecuteResult<List<RentApplyTb>> result = new ExecuteResult<>();
+        if (null != list) {
+            result.setCode("0");
+            result.setCount(count);
+            result.setMsg("success");
+            result.setData(list);
+            return result;
+        }
+        return null;
     }
 
     /**
