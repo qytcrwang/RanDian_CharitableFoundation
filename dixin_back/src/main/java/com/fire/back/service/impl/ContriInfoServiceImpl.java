@@ -1,6 +1,7 @@
 package com.fire.back.service.impl;
 
 import com.fire.back.common.ExecuteResult;
+import com.fire.back.common.FireResult;
 import com.fire.back.dao.ContriInfoTbMapper;
 import com.fire.back.dao.extend.ExtendContriInfoTbMapper;
 import com.fire.back.dto.ContriInfoListParamsDto;
@@ -40,18 +41,13 @@ public class ContriInfoServiceImpl implements ContriInfoService {
   }
 
   @Override
-  public ExecuteResult<List<ContriInfoTb>> getContriInfoList(ContriInfoListParamsDto paramsDto) {
+  public FireResult getContriInfoList(ContriInfoListParamsDto paramsDto) {
     List<ContriInfoTb> list = extendContriInfoTbMapper.selectContriInfoByPage(paramsDto);
     Integer count = extendContriInfoTbMapper.getCount(paramsDto);
-    ExecuteResult<List<ContriInfoTb>> result = new ExecuteResult<>();
     if (null != list) {
-      result.setCode("0");
-      result.setCount(count);
-      result.setMsg("success");
-      result.setData(list);
-      return result;
+      return FireResult.build(1, "数据获取成功", list, count);
     }
-    return null;
+    return FireResult.build(0, "数据获取失败", list, count);
   }
 
   @Override

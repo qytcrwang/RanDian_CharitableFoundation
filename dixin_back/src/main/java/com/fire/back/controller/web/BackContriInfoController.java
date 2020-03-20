@@ -58,9 +58,9 @@ public class BackContriInfoController {
    * @return null
    */
   @PostMapping(value = "/contriInfoList")
-  public ExecuteResult contriInfoList(@RequestBody ContriInfoListParamsDto paramsDto) {
+  public FireResult contriInfoList(@RequestBody ContriInfoListParamsDto paramsDto) {
     paramsDto.setOffSet(paramsDto.getOffSet(paramsDto.getPage(),paramsDto.getLimit()));
-    ExecuteResult<List<ContriInfoTb>> result = contriInfoService.getContriInfoList(paramsDto);
+    FireResult result = contriInfoService.getContriInfoList(paramsDto);
     return result;
   }
 

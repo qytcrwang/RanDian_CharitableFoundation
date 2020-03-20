@@ -1,6 +1,7 @@
 package com.fire.back.service;
 
 import com.fire.back.common.ExecuteResult;
+import com.fire.back.common.FireResult;
 import com.fire.back.dto.ContriInfoListParamsDto;
 import com.fire.back.entity.ContriInfoTb;
 import java.util.List;
@@ -35,7 +36,7 @@ public interface ContriInfoService {
    * @param paramsDto 入参
    * @return
    */
-  ExecuteResult<List<ContriInfoTb>> getContriInfoList(ContriInfoListParamsDto paramsDto);
+  FireResult getContriInfoList(ContriInfoListParamsDto paramsDto);
 
   /**
    * 我的捐赠信息查询.
