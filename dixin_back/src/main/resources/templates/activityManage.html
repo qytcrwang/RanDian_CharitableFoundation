@@ -210,14 +210,14 @@
     
 	$("#add").bind("click", function() {
 		$("#activityInfo").clearForm();
-		openLayer();
+		openLayer('新建活动信息');
 		initFuwenben("");
 	});
 
 	$("#edit").bind("click", function() {
 		$("#activityInfo").clearForm();
 		getEditData();
-		openLayer();
+		openLayer('编辑活动信息');
 		
 	});
     
@@ -341,15 +341,16 @@ function initFuwenben(bodyStr){
 		  tool: ['image']
 	  }); //建立编辑器
 	  layedit.setContent(fuwenben,bodyStr , false);
+	  alert(layedit.getText(fuwenben));
 	})
 }
 
-function openLayer(){
+function openLayer(titleName){
 	  //layedit.setContent(fuwenben, "", false); 这个初始化就相当于清空了
 	  layer.open({
 		  type:1,
 		  area:['800px','500px'],
-		   title: '活动信息'
+		   title: titleName
 		   ,content: $("#activityInfo"),
 		   shade: 0.3,
 		   resize:false ,
@@ -389,7 +390,7 @@ function searchForm(){
 		}
 		var table = layui.table;
 		table.reload('demoTable',{
-			  where: {field: 'activity_stime', sort: "desc",
+			  where: {field: 'activity_start_time', sort: "desc",
 			    	type:type,stime:stime,
 			    	state:state,etime:etime}
 			,page: {
