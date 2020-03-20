@@ -1,18 +1,28 @@
 package com.fire.back.controller.web;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fire.back.common.CommonUtil;
 import com.fire.back.common.FireResult;
 import com.fire.back.entity.ActivityTbWithBLOBs;
 import com.fire.back.entity.SyscodeTb;
@@ -75,10 +85,11 @@ public class BackActivityController {
 
 	@PostMapping("insertOrUpdate")
 	@ResponseBody
-	public FireResult insertOrUpdate(ActivityTbWithBLOBs activeTb) {
+	public FireResult insertOrUpdate(@RequestBody ActivityTbWithBLOBs 
+			activeTb,HttpServletRequest request) {
 		try {
-			
-			return FireResult.build(1, "点赞成功");
+			service.insertOrUpdate(activeTb);
+			return FireResult.build(1, "操作成功！");
 		} catch (Exception e) {
 			logger.error("",e);
 			return FireResult.build(0, "操作失败，请稍后再试");
@@ -98,6 +109,45 @@ public class BackActivityController {
 		} catch (Exception e) {
 			logger.error("",e);
 			return FireResult.build(0, "操作失败，请稍后再试");
+		}
+	}
+	
+	@PostMapping("saveImage")
+	@ResponseBody
+	public Map<String,Object> saveImage(@RequestParam("file") MultipartFile file) {
+		String uuid = UUID.randomUUID().toString().replace("-", "");
+		Map<String,Object> returnMap = new HashMap<>();
+		try {
+//			System.out.println(file.getOriginalFilename());
+			String picPath = ClassUtils.getDefaultClassLoader().getResource("static/images/body").getPath();
+			System.out.println(picPath);
+			String oldName = file.getOriginalFilename();
+			File newFile = new File(picPath,uuid+oldName.substring(oldName.indexOf(".")));
+			BufferedOutputStream out = new BufferedOutputStream(    
+                    new FileOutputStream(newFile));    
+//            System.out.println(file.getName());  
+            out.write(file.getBytes());    
+            out.flush();    
+            out.close();   
+            String url = "http://127.0.0.1:"+CommonUtil.getValue("server.port")
+//          +CommonUtil.getValue("server.servlet-path")
+          +"/images/body/"+newFile.getName();
+            System.out.println(newFile.getName());
+            System.out.println(newFile.getAbsolutePath());
+            System.out.println();
+
+    		returnMap.put("code", 0);
+    		returnMap.put("msg", "添加成功");
+    		Map<String,Object> picMap = new HashMap<>();
+    		picMap.put("src", url);
+    		picMap.put("title", "");
+    		returnMap.put("data", picMap);
+			return returnMap;
+		} catch (Exception e) {
+			logger.error("",e);
+    		returnMap.put("code", 1);
+    		returnMap.put("msg", "图片过大");
+			return returnMap;
 		}
 	}
 }

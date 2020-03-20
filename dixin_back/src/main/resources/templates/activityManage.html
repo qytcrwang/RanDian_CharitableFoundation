@@ -19,10 +19,10 @@
         </div>
         开始时间：
         <div class="layui-inline">
-          <input type="text" class="layui-input" name="activityStime" id="activityStime" placeholder="开始时间起始">
+          <input type="text" class="layui-input" name="activityStime" id="activityStime" placeholder="开始时间起始" onfocus="noInput(this)">
         </div>-
         <div class="layui-inline">
-          <input type="text" class="layui-input" name="activityEtime" id="activityEtime" placeholder="开始时间截止">
+          <input type="text" class="layui-input" name="activityEtime" id="activityEtime" placeholder="开始时间截止" onfocus="noInput(this)">
         </div>
         <div class="layui-inline" style="float:right;">
 	        <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
@@ -38,37 +38,73 @@
     </div>
   </div>
 </form>
-  <table class="layui-hide" id="table" lay-filter="tableFilter"></table>
-  <form class="layui-form" id="test" style="display:none">
-  <div class="layui-form-item">
-    <label class="layui-form-label">输入框</label>
+  <table class="layui-hide" id="demoTable" lay-filter="tableFilter"></table>
+  <form class="layui-form layui-form-pane" id="activityInfo" style="display:none">
+  <input type="hidden" id="id" name="id" value="">
+  <input type="hidden" id="activity_start_time" name="activityStartTime" value="">
+  <input type="hidden" id="activity_end_time" name="activityEndTime" value="">
+  <input type="hidden" id="sign_start_time" name="signStartTime" value="">
+  <input type="hidden" id="sign_end_time" name="signEndTime" value="">
+  <input type="hidden" id="body" name="body" value="">
+  <div class="layui-form-item" style="padding-top: 10px">
+    <label class="layui-form-label">活动标题</label>
     <div class="layui-input-block">
-      <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="on" class="layui-input" id="username" style="width:100px">
+      <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" class="layui-input" id="title">
     </div>
   </div>
   <div class="layui-form-item">
-    <label class="layui-form-label">密码框</label>
-    <div class="layui-input-inline">
-      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="on" class="layui-input">
-    </div>
-    <div class="layui-form-mid layui-word-aux">辅助文字</div>
-  </div>
-  <div class="layui-form-item">
-    <label class="layui-form-label">选择框</label>
+    <label class="layui-form-label">活动地址</label>
     <div class="layui-input-block">
-     <select name="quiz" lay-search>
-  <option value="">请选择</option>
-  <optgroup label="城市记忆">
-    <option value="你工作的第一个城市">你工作的第一个城市？</option>
-  </optgroup>
-  <optgroup label="学生时代">
-    <option value="你的工号">你的工号？</option>
-    <option value="你最喜欢的老师">你最喜欢的老师？</option>
-  </optgroup>
-</select>
+      <input type="text" name="address" required lay-verify="required" placeholder="请输入地址" class="layui-input" id="address">
     </div>
   </div>
   <div class="layui-form-item">
+    <label class="layui-form-label">活动开始</label>
+    <div class="layui-input-block">
+      <input type="text" name="astime" placeholder="请选择活动开始时间" class="layui-input" id="astime" onfocus="noInput(this)">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">活动结束</label>
+    <div class="layui-input-block">
+      <input type="text" name="aetime" placeholder="请选择活动结束时间" class="layui-input" id="aetime" onfocus="noInput(this)">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">签到开始</label>
+    <div class="layui-input-block">
+      <input type="text" name="sstime" placeholder="请选择签到开始时间" class="layui-input" id="sstime" onfocus="noInput(this)">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">签到结束</label>
+    <div class="layui-input-block">
+      <input type="text" name="setime" placeholder="请选择签到结束时间" class="layui-input" id="setime" onfocus="noInput(this)">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">活动类型</label>
+    <div class="layui-input-block" lay-filter="aTypeSelect">
+     <select id="type" name="type" lay-verify="">
+		<option value="">请选择</option>
+	 </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">活动状态</label>
+    <div class="layui-input-block" lay-filter="aStateSelect">
+     <select id="state" name="state" lay-verify="">
+		<option value="">请选择</option>
+	 </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">活动积分</label>
+    <div class="layui-input-block">
+      <input type="text" name="activityTime" required lay-verify="required" placeholder="请输入本次活动积分数" class="layui-input" id="activity_time">
+    </div>
+  </div>
+<!--   <div class="layui-form-item">
     <label class="layui-form-label">复选框</label>
     <div class="layui-input-block">
       <input type="checkbox" name="like[write]" title="写作" lay-skin="primary">
@@ -88,17 +124,20 @@
       <input type="radio" name="sex" value="男" title="男">
       <input type="radio" name="sex" value="女" title="女" checked>
     </div>
-  </div>
+  </div> -->
   <div class="layui-form-item layui-form-text">
-    <label class="layui-form-label" >文本域</label>
+    <label class="layui-form-label" >活动内容</label>
     <div class="layui-input-block">
-      <textarea lay-verify="required" name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+      <textarea id="bodyInfo" name="bodyInfo" placeholder="请输入活动内容" class="layui-textarea"></textarea>
     </div>
   </div>
-<button id="div">提交</button>
 </form>
   <script type="text/javascript">
-  layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function(){
+  var fuwenben;
+  var tableIns; 
+	//加载下拉框
+	getSelect();
+  layui.use(['layedit','laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function(){
     var layer = layui.layer //弹层
         ,table = layui.table //表格
         ,element = layui.element; //元素操作
@@ -108,11 +147,12 @@
       console.log(data);
     });
     //执行一个 table 实例
-    var tableIns = table.render({
-      elem: '#table'
+    tableIns = table.render({
+      elem: '#demoTable'
       ,url: 'back/activity/getList'
       ,method: 'post'
       ,contentType: 'application/json'
+      ,id:'demoTable'
    	  ,parseData: function(res){ //res 即为原始返回的数据
    		    return {
    		      "code": res.status, //解析接口状态
@@ -138,7 +178,6 @@
         /* ,{fixed: 'right', width: 165, align:'center', toolbar: '#bar'} */
         ]
       ]
-      ,id: 'tableReload'
     });
 
     var laydate = layui.laydate;
@@ -146,16 +185,40 @@
     //常规用法
     laydate.render({
       elem: '#activityStime'
+    	    ,trigger: 'click'
     });
     laydate.render({
       elem: '#activityEtime'
+    	    ,trigger: 'click'
+    });
+    laydate.render({
+      elem: '#astime'
+    	    ,trigger: 'click'
+    });
+    laydate.render({
+      elem: '#aetime'
+    	    ,trigger: 'click'
+    });
+    laydate.render({
+      elem: '#sstime'
+    	    ,trigger: 'click'
+    });
+    laydate.render({
+      elem: '#setime'
+    	    ,trigger: 'click'
     });
     
-    layui.form.render('select','stateSelect');
-    layui.form.render('select','typeSelect');
-    
 	$("#add").bind("click", function() {
+		$("#activityInfo").clearForm();
 		openLayer();
+		initFuwenben("");
+	});
+
+	$("#edit").bind("click", function() {
+		$("#activityInfo").clearForm();
+		getEditData();
+		openLayer();
+		
 	});
     
 	$("#search").bind("click", function() {
@@ -167,8 +230,152 @@
 		searchForm();
 	});
 	
-	var searchForm = function(){
-		var table = layui.table;
+	layui.form.on('submit(formDemo)', function(data){
+	    layer.msg(JSON.stringify(data.field));
+	    return false;
+  	});
+  
+});
+  
+  
+function saveData(){
+	//校验必填项
+	layui.use('layedit', function(){
+		  var layedit = layui.layedit;
+		  $("#body").val(layedit.getContent(fuwenben));
+	});	
+	
+	var ast = $("#astime").val();
+	var aet = $("#aetime").val();
+	var sst = $("#sstime").val();
+	var set = $("#setime").val();
+	$("#activity_start_time").val(getTimestamp(ast+" 00:00:00"))
+	$("#activity_end_time").val(getTimestamp(aet+" 00:00:00"))
+	$("#sign_start_time").val(getTimestamp(sst+" 00:00:00"))
+	$("#sign_end_time").val(getTimestamp(set+" 00:00:00"))
+	
+	//alert(JSON.stringify($("#activityInfo").serializeObject()));
+	$.ajax({
+		type : "post",
+		url : "back/activity/insertOrUpdate",
+		data : JSON.stringify($("#activityInfo").serializeObject()),
+		headers : {
+            'Content-Type' : 'application/json;charset=utf-8'
+            },
+		dataType : 'json',
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+					+ textStatus + "," + errorThrown);			
+		},
+		success : function(result) {
+			if(result["status"] == 1){
+				layer.closeAll();
+				layer.msg(result["msg"]);
+				searchForm();
+			}
+		}
+	});
+}
+
+function getEditData(){
+	//获取行
+	layui.use('table', function(){
+	var table = layui.table;
+	var checkData = table.checkStatus('demoTable').data;
+   //,data = checkStatus.data;
+   if(checkData.length != 1){
+		layer.msg('请选择一行数据！');
+		return;
+   }
+   var id = checkData[0]["id"];
+   $.ajax({
+		type : "post",
+		url : "back/activity/getInfo",
+		data : JSON.stringify({
+			"id":id
+			}),
+		headers : {
+            'Content-Type' : 'application/json;charset=utf-8'
+            },
+		dataType : 'json',
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+					+ textStatus + "," + errorThrown);			
+		},
+		success : function(result) {
+			var data = result["data"];
+			$("#id").val(data["id"]);
+			$("#title").val(data["title"]);
+			$("#address").val(data["address"]);
+			$("#activity_time").val(data["activity_time"]);
+			var astime = data["activity_stime"];
+			if(astime!=undefined) astime = astime.substring(0,10);
+			var aetime = data["activity_etime"];
+			if(aetime!=undefined) aetime = aetime.substring(0,10);
+			var sstime = data["sign_stime"];
+			if(sstime!=undefined) sstime = sstime.substring(0,10);
+			var setime = data["sign_etime"];
+			if(setime!=undefined) setime = setime.substring(0,10);
+			$("#astime").val(astime);
+			$("#aetime").val(aetime);
+			$("#sstime").val(sstime);
+			$("#setime").val(setime);
+			$('#state').siblings("div.layui-form-select").find('dl').find('dd').filter(function(){return $(this).text()==data["state"];}).click();
+			$('#type').siblings("div.layui-form-select").find('dl').find('dd').filter(function(){return $(this).text()==data["type"];}).click();
+			initSelect();
+			initFuwenben(data["body"]);
+		}
+	});   
+	});	
+}
+
+function initFuwenben(bodyStr){
+	layui.use('layedit', function(){
+	  var layedit = layui.layedit;
+	  layedit.set({
+		  uploadImage: {
+		    url: 'back/activity/saveImage' //接口url
+		  }
+		});
+	  fuwenben = layedit.build('bodyInfo', {
+		  tool: ['image']
+	  }); //建立编辑器
+	  layedit.setContent(fuwenben,bodyStr , false);
+	})
+}
+
+function openLayer(){
+	  //layedit.setContent(fuwenben, "", false); 这个初始化就相当于清空了
+	  layer.open({
+		  type:1,
+		  area:['800px','500px'],
+		   title: '活动信息'
+		   ,content: $("#activityInfo"),
+		   shade: 0.3,
+		   resize:false ,
+		   move: false,
+		   btn: ['提交', '重置']
+		   ,btn1: function(index, layero){
+			   saveData();
+		   },
+		   btn2: function(index, layero){
+			   if($("#id").val() == "")clearInfoForm();
+			   else getEditData();
+			   return false;
+		   },
+		 cancel: function(layero,index){ 
+		    layer.closeAll();
+		   }
+		 }); 
+}
+
+function clearInfoForm(){
+	$("#activityInfo").clearForm();
+	initFuwenben("");
+}
+
+function searchForm(){
+	layui.use('table', function(){
 		var type = $("#activityType").val();
 		var state = $("#activityState").val();
 		var stime = $("#activityStime").val();
@@ -180,45 +387,20 @@
 				return;
 			}
 		}
-		tableIns.reload({
-		  where: {field: 'activity_stime', sort: "desc",
-		    	type:type,stime:stime,
-		    	state:state,etime:etime}
-		,page: {
-		    curr: 1 //重新从第 1 页开始
-		  }
-		});
-	}
-	
-  form.on('submit(formDemo)', function(data){
-    layer.msg(JSON.stringify(data.field));
-    return false;
-  });
-	  
-  var openLayer = function(){
-	  layer.open({
-		  type:1,
-		  area:['500px','600px'],
-		   title: 'tianxie'
-		   ,content: $("#test"),
-		   shade: 0,
-		   btn: ['提交', '重置']
-		   ,btn1: function(index, layero){
-		   var kk=$("#username").val();
-		   alert(kk);
-		   },
-		   btn2: function(index, layero){
-		    alert("2222");
-		    return false;
-		   },
-		 cancel: function(layero,index){ 
-		    layer.closeAll();
-		   }
-		 }); 
-  }
-});
-  
-  $.ajax({
+		var table = layui.table;
+		table.reload('demoTable',{
+			  where: {field: 'activity_stime', sort: "desc",
+			    	type:type,stime:stime,
+			    	state:state,etime:etime}
+			,page: {
+			    curr: 1 //重新从第 1 页开始
+			  }
+			});
+	});
+}
+
+function getSelect(){
+	$.ajax({
 		type : "post",
 		url : "back/activity/getSelect",
 		async:false,
@@ -245,10 +427,47 @@
 			}
 			$("#activityType").html(typeStr);
 			$("#activityState").html(stateStr);
-		    layui.form.render('select','stateSelect');
-		    layui.form.render('select','typeSelect');
+			$("#type").html(typeStr);
+			$("#state").html(stateStr);
+			initSelect();
 		}
 	});
-  
+}  
+function initSelect(){
+	layui.use('form', function(){
+	    layui.form.render('select','stateSelect');
+	    layui.form.render('select','typeSelect');
+	    layui.form.render('select','aStateSelect');
+	    layui.form.render('select','aTypeSelect');
+	});
+}
+
+function getTimestamp(dateStr){
+	if(dateStr.length == 9) return "";
+	var date = new Date(dateStr);
+	return date.getTime()/1000;
+}
+//让时间插件无法选中 达到禁止手输的目的
+function noInput(dom){
+	$(dom).blur();
+}
+/**
+ * 自动将form表单封装成json对象
+ */
+$.fn.serializeObject = function() {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name]) {
+            if (!o[this.name].push) {
+                o[this.name] = [ o[this.name] ];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};  
   </script>
 </body>

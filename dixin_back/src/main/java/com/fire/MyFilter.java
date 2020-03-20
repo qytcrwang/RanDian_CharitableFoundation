@@ -1,12 +1,19 @@
 package com.fire;
 
-import javax.servlet.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.core.annotation.Order;
-
-import java.io.IOException;
 
 /**
  * 过滤器
@@ -16,6 +23,11 @@ import java.io.IOException;
 // 指定过滤器的执行顺序,值越大越靠后执行
 @Order(1)
 public class MyFilter implements Filter {
+	private static List<String> excludePath = new ArrayList<>();
+	static {
+		excludePath.add("back/activity/saveImage");//富文本上传
+	}
+	
 	@Override
     public void destroy() {
 		
@@ -25,6 +37,12 @@ public class MyFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
         ServletRequest requestWrapper = null;
+        String uri = ((HttpServletRequest) request).getRequestURI();
+//        String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
+        if(ifExclude(uri)) {
+            chain.doFilter(request, response);
+            return ;
+        }
         if(request instanceof HttpServletRequest) {
             requestWrapper = new RequestWrapper((HttpServletRequest) request);
         }
@@ -40,5 +58,12 @@ public class MyFilter implements Filter {
     @Override
     public void init(FilterConfig arg0) throws ServletException {
     	
+    }
+    
+    private boolean ifExclude(String uri) {
+    	for(String path : excludePath) {
+    		if(uri.endsWith(path)) return true;
+    	}
+    	return false;
     }
 }

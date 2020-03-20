@@ -187,8 +187,16 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public int insertOrUpdate(ActivityTbWithBLOBs activeTb){
+		Long now = System.currentTimeMillis()/1000;
 		//新增：先插入 获取id 然后跟更新一样处理 处理封面图片&文本图片&文本内容 拿取图片路径 入库
-		if(activeTb.getId()==null) activityMapper.insertSelective(activeTb);
+		if(activeTb.getId()==null) {
+			activeTb.setIsDelete(0);
+			activeTb.setCreateTime(now);
+			activityMapper.insertSelective(activeTb);	
+		}else {
+			activeTb.setUpdateTime(now);
+			activityMapper.updateByPrimaryKeySelective(activeTb);
+		}
 		//处理封面图片&文本图片&文本内容start
 		/*for(Map<String, Object> map : list) {
 		Long id = Long.parseLong(map.get("id")+"");
