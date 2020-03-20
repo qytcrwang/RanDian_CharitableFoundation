@@ -5,9 +5,8 @@
   <div class="layui-row">
     <div class="layui-col-md8 layui-col-md-offset2">
       <div class="dTable" style="padding-top: 10px">
-        会员id：
         <div class="layui-inline">
-          <input class="layui-input" name="id" id="userIdReload" autocomplete="off">
+          <input class="layui-input" name="id" placeholder="会员Id" id="userIdReload" autocomplete="off">
         </div>
         <button class="layui-btn" data-type="reload">搜索</button>
       </div>
@@ -31,6 +30,16 @@
       ,method: 'post'
       ,contentType: 'application/json'
       ,page: true //开启分页
+      ,parseData: function(res){ //res 即为原始返回的数据
+        return {
+          "code": res.status, //解析接口状态
+          "msg": res.message, //解析提示文本
+          "data": res.data //解析数据列表
+        };
+      }
+      ,response: {
+        statusCode:1 //规定成功的状态码，默认：0
+      }
       ,cols: [
           [
         {type:'checkbox'}
@@ -50,46 +59,43 @@
       var data = obj.data //获得当前行数据
           ,layEvent = obj.event; //获得 lay-event 对应的值
       if(layEvent === 'detail'){
-        layer.msg('查看操作');
-      } else if(layEvent === 'edit'){
-        var bookid = data.id;
+        // layer.msg('查看操作');
+        var userId = data.id;
         var jsonData;
         $.ajax({
-          type:"post",
-          url:"${pageContext.request.contextPath}/book/queryOneBook",
+          type:"get",
+          url:"/back/contriInfo/getContriInfoDetail",
           dataType:"json",
-          data:{"bookId":bookid},
+          data:{"contriInfoId":userId},
           success : function(data){
-            jsonData = data;
+            jsonData = data.data;
           }
         });
-        var index=layer.open({
+        layer.open({
           type: 2
           ,offset: '0px'
           ,scrollbar: false
-          ,title: '修改信息'
+          ,title: '捐赠详情'
           ,skin: 'layui-layer-molv'
           ,area: ['1000px', '450px']
-          ,content: ['${pageContext.request.contextPath}/pages/modules/user/editBook.jsp','false']
+          ,content: ['/contriInfoDetail','false']
           ,success: function(layero,index){
             console.log(layero, index);
-            var name = $("#editName", layero.find("iframe")[0].contentWindow.document);
-            var price = $("#editPrice", layero.find("iframe")[0].contentWindow.document);
-            var author = $("#editAuthor", layero.find("iframe")[0].contentWindow.document);
-            var status = $("#editStatus", layero.find("iframe")[0].contentWindow.document);
-            var category = $("#editCategory", layero.find("iframe")[0].contentWindow.document);
-            var time = $("#editTime", layero.find("iframe")[0].contentWindow.document);
-            var introduction = $("#editIntroduction", layero.find("iframe")[0].contentWindow.document);
-            var bookid = $("#id", layero.find("iframe")[0].contentWindow.document);
-            name.val(jsonData.bookName);
-            price.val(jsonData.bookPrice);
-            author.val(jsonData.bookAuthor);
-            status.val(jsonData.status);
-            category.val(jsonData.categoryName);
-            time.attr("value",jsonData.upTime);
-            introduction.val(jsonData.introduction);
-            bookid.val(jsonData.id);
+            var name = $("#nameIndex", layero.find("iframe")[0].contentWindow.document);
+            name.val(jsonData.contriAmount);
           }
+        });
+      } else if(layEvent === 'edit'){
+        layer.msg('查看操作');
+        layer.confirm('纳尼？', {
+          btn: ['按钮一', '按钮二', '按钮三'] //可以无限个按钮
+          ,btn3: function(index, layero){
+            //按钮【按钮三】的回调
+          }
+        }, function(index, layero){
+          //按钮【按钮一】的回调
+        }, function(index){
+          //按钮【按钮二】的回调
         });
       }
     });

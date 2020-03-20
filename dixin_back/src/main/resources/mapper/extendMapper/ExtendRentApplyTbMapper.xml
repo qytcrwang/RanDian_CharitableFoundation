@@ -61,4 +61,40 @@
     order by ${field} ${sort}
     limit #{start} , #{pageSize}
   </select>
+
+  <select id="getRentApplyByPage2" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from rent_apply_tb
+    <where>
+      <if test="rent.userId != null">
+        user_id = #{rent.userId,jdbcType=BIGINT}
+      </if>
+      <if test="rent.school != null">
+        and school like "%"#{rent.school,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="rent.major != null">
+        and  major like "%"#{rent.major,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="rent.jobIntension != null">
+        and job_intension like "%"#{rent.jobIntension,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="rent.hopeSalary != null">
+        and hope_salary = #{rent.hopeSalary,jdbcType=INTEGER}
+      </if>
+      <if test="rent.state != null">
+        and state = #{rent.state,jdbcType=INTEGER}
+      </if>
+      <if test="rent.jobState != null">
+        and job_state = #{rent.jobState,jdbcType=INTEGER}
+      </if>
+      <if test="rent.isDelete != null">
+        and is_delete = #{rent.isDelete,jdbcType=INTEGER}
+      </if>
+    </where>
+    <if test="rent.page != null">
+      limit #{rent.offSet} , #{rent.limit}
+    </if>
+
+  </select>
 </mapper>
