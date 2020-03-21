@@ -3,13 +3,18 @@ package com.fire.back.service.impl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ClassUtils;
 
 import com.fire.back.common.TimeTools;
 import com.fire.back.dao.ActivityUserTbMapper;
@@ -63,6 +68,7 @@ public class ActivityServiceImpl implements ActivityService {
 		Map<String,Object> params = new HashMap<>();
 		params.put("id", activityId);
 		Map<String,Object> info = activityMapper.getInfoById(params);
+		info.put("bodyList", getBodyList(info.get("body")+""));
 		if(activityUser != null && activityUser.size() > 0)
 			info.put("applyState", 1);//已经报过名
 		else
@@ -189,6 +195,29 @@ public class ActivityServiceImpl implements ActivityService {
 	public int insertOrUpdate(ActivityTbWithBLOBs activeTb){
 		Long now = System.currentTimeMillis()/1000;
 		int result = 0;
+		String body = activeTb.getBody();
+		String picUrls = getPicUrls(body);
+		body.replace("temp", "");
+		activeTb.setBody(body);
+		String coverPath = ClassUtils.getDefaultClassLoader().getResource("static/images/cover").getPath();
+		String bodyPath = ClassUtils.getDefaultClassLoader().getResource("static/images/body").getPath();
+		File coverDir = new File(coverPath);
+		File bodyDir = new File(bodyPath);
+		if(picUrls.length()>0) {
+			for(String picUrl : picUrls.split(",")) {
+				String bodyName = picUrl.substring(picUrl.indexOf("body/")+5); 
+				File file = new File(bodyDir,bodyName);
+				file.renameTo(new File(bodyDir,bodyName.replace("temp", "")));
+			}
+		}
+		String coverUrl = activeTb.getCoverUrl();
+		String coverName = coverUrl.substring(coverUrl.indexOf("cover/")+6);
+		File file = new File(coverDir,coverName);
+		file.renameTo(new File(coverDir,coverName.replace("temp", "")));
+		picUrls = picUrls.replace("temp", "");
+		coverUrl = coverUrl.replace("temp", "");
+		activeTb.setPicUrl(picUrls);
+		activeTb.setCoverUrl(coverUrl);
 		//新增：先插入 获取id 然后跟更新一样处理 处理封面图片&文本图片&文本内容 拿取图片路径 入库
 		if(activeTb.getId()==null) {
 			activeTb.setIsDelete(0);
@@ -198,23 +227,91 @@ public class ActivityServiceImpl implements ActivityService {
 			activeTb.setUpdateTime(now);
 			result = activityMapper.updateByPrimaryKeySelective(activeTb);
 		}
-		//处理封面图片&文本图片&文本内容start
-		/*for(Map<String, Object> map : list) {
-		Long id = Long.parseLong(map.get("id")+"");
-		File cover= ResourceUtils.getFile("classpath:static/images/cover");
-		File[] files = cover.listFiles(new MyFilenameFilter(id+"."));
-		if(files != null && files.length > 0)
-		map.put("url", "http://127.0.0.1:"+CommonUtil.getValue("server.port")
-		+CommonUtil.getValue("server.servlet-path")+"/images/cover/"+files[0].getName());
-		}*/
-		
 
-		//处理封面图片&文本图片&文本内容end
+		//处理多余图片
+		Timer timer = new Timer();
+		TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+            		String coverPath = ClassUtils.getDefaultClassLoader().getResource("static/images/cover").getPath();
+            		String bodyPath = ClassUtils.getDefaultClassLoader().getResource("static/images/body").getPath();
+            		File coverDir = new File(coverPath);
+            		File bodyDir = new File(bodyPath);
+            		File[] covers = coverDir.listFiles(new MyFilenameFilter("temp."));
+            		File[] bodys = bodyDir.listFiles(new MyFilenameFilter("temp."));
+            		if(covers.length == 0 && bodys.length == 0) timer.cancel();
+            		for(File file : covers) {
+            			file.delete();
+            		}
+            		for(File file : bodys) {
+            			file.delete();
+            		}
+            		timer.cancel();
+                } catch (Exception e) {
+                	timer.cancel();
+                    e.printStackTrace();
+                }
+            }
+        };
+        timer.schedule(task, 0);
 		return result;
 	}
+	
 
+	//获取富文本中所有图片url
+	private static String getPicUrls(String bodyStr){
+		String pics = "";
+		while (bodyStr.contains("<p>")) {
+			int p1Index = bodyStr.indexOf("<p>");
+			int p2Index = bodyStr.indexOf("</p>");
+			String pStr = bodyStr.substring(p1Index+3,p2Index);
+			//这里可能存在很多图片文字并存的可能
+			if(pStr.contains("<img")) {
+				while(pStr.contains("<img")) {
+					int img1Index = pStr.indexOf("<img");
+					int img2Index = pStr.indexOf(">");
+					String src = pStr.substring(img1Index+10,img2Index-8);
+					pics += src+",";
+					pStr = pStr.substring(img2Index+1);
+				}
+			}
+			bodyStr = bodyStr.substring(p2Index+3);
+		}
+		if(pics.length()>0) pics = pics.substring(0,pics.length()-1);
+		return pics;
+	}
+	
+	//转换富文本的内容
+	private static List<String> getBodyList (String bodyStr){
+		List<String> bodyList = new ArrayList<>();
+		while (bodyStr.contains("<p>")) {
+			int p1Index = bodyStr.indexOf("<p>");
+			int p2Index = bodyStr.indexOf("</p>");
+			String pStr = bodyStr.substring(p1Index+3,p2Index);
+			//这里可能存在很多图片文字并存的可能
+			if(!pStr.contains("<img")) {
+				pStr = StringEscapeUtils.unescapeHtml4(pStr);
+				pStr+="\n";
+				bodyList.add(pStr);
+			}else {
+				while(pStr.contains("<img")) {
+					int img1Index = pStr.indexOf("<img");
+					int img2Index = pStr.indexOf(">");
+					if(img1Index>0) {
+						bodyList.add(StringEscapeUtils.unescapeHtml4(pStr.substring(0,img1Index)));
+					}
+					String src = pStr.substring(img1Index+10,img2Index-8);
+					bodyList.add(src);
+					pStr = pStr.substring(img2Index+1);
+				}
+				bodyList.add(" \n");
+			}
+			bodyStr = bodyStr.substring(p2Index+3);
+		}
+		return bodyList;
+	}
 }
-
 
 class MyFilenameFilter implements FilenameFilter {
 	// type为需要过滤的条件，比如如果type=".jpg"，则只能返回后缀为jpg的文件

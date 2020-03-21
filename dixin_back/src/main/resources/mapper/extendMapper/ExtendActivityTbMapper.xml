@@ -71,10 +71,10 @@
  </select>
  <select id="getBackInfoById" resultType="Map" parameterType="map" >
  	select a.id,a.title,a.body,a.address,
-	from_unixtime(a.activity_start_time,'%Y-%m-%d %H:%i:%S') activity_stime,
-	from_unixtime(a.activity_end_time,'%Y-%m-%d %H:%i:%S') activity_etime,
-	from_unixtime(a.sign_start_time,'%Y-%m-%d %H:%i:%S') sign_stime,
-	from_unixtime(a.sign_end_time,'%Y-%m-%d %H:%i:%S') sign_etime,
+	from_unixtime(a.activity_start_time,'%Y-%m-%d %H:%i') activity_stime,
+	from_unixtime(a.activity_end_time,'%Y-%m-%d %H:%i') activity_etime,
+	from_unixtime(a.sign_start_time,'%Y-%m-%d %H:%i') sign_stime,
+	from_unixtime(a.sign_end_time,'%Y-%m-%d %H:%i') sign_etime,
 	a.read_num,a.good_num,a.cover_url,a.pic_url,a.activity_time,
 	a.apply_names,a.apply_nums,
 	s1.value state,s2.value type,s3.value if_send 

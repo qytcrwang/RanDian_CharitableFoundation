@@ -122,7 +122,7 @@ public class BackActivityController {
 			String picPath = ClassUtils.getDefaultClassLoader().getResource("static/images/body").getPath();
 			System.out.println(picPath);
 			String oldName = file.getOriginalFilename();
-			File newFile = new File(picPath,uuid+oldName.substring(oldName.indexOf(".")));
+			File newFile = new File(picPath,uuid+"temp"+oldName.substring(oldName.indexOf(".")));
 			BufferedOutputStream out = new BufferedOutputStream(    
                     new FileOutputStream(newFile));    
 //            System.out.println(file.getName());  
@@ -132,6 +132,45 @@ public class BackActivityController {
             String url = "http://127.0.0.1:"+CommonUtil.getValue("server.port")
 //          +CommonUtil.getValue("server.servlet-path")
           +"/images/body/"+newFile.getName();
+            System.out.println(newFile.getName());
+            System.out.println(newFile.getAbsolutePath());
+            System.out.println();
+
+    		returnMap.put("code", 0);
+    		returnMap.put("msg", "添加成功");
+    		Map<String,Object> picMap = new HashMap<>();
+    		picMap.put("src", url);
+    		picMap.put("title", "");
+    		returnMap.put("data", picMap);
+			return returnMap;
+		} catch (Exception e) {
+			logger.error("",e);
+    		returnMap.put("code", 1);
+    		returnMap.put("msg", "图片过大");
+			return returnMap;
+		}
+	}
+	
+	@PostMapping("saveCoverImage")
+	@ResponseBody
+	public Map<String,Object> saveCoverImage(@RequestParam("file") MultipartFile file) {
+		String uuid = UUID.randomUUID().toString().replace("-", "");
+		Map<String,Object> returnMap = new HashMap<>();
+		try {
+//			System.out.println(file.getOriginalFilename());
+			String picPath = ClassUtils.getDefaultClassLoader().getResource("static/images/cover").getPath();
+			System.out.println(picPath);
+			String oldName = file.getOriginalFilename();
+			File newFile = new File(picPath,uuid+"temp"+oldName.substring(oldName.indexOf(".")));
+			BufferedOutputStream out = new BufferedOutputStream(    
+                    new FileOutputStream(newFile));    
+//            System.out.println(file.getName());  
+            out.write(file.getBytes());    
+            out.flush();    
+            out.close();   
+            String url = "http://127.0.0.1:"+CommonUtil.getValue("server.port")
+//          +CommonUtil.getValue("server.servlet-path")
+          +"/images/cover/"+newFile.getName();
             System.out.println(newFile.getName());
             System.out.println(newFile.getAbsolutePath());
             System.out.println();

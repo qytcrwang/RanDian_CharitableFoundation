@@ -26,6 +26,7 @@ public class MyFilter implements Filter {
 	private static List<String> excludePath = new ArrayList<>();
 	static {
 		excludePath.add("back/activity/saveImage");//富文本上传
+		excludePath.add("back/activity/saveCoverImage");//封面图片上传
 	}
 	
 	@Override

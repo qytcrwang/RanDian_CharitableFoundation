@@ -17,12 +17,12 @@
 			  <option value="">请选择</option>
 			</select> 
         </div>
-        开始时间：
+        开始日期：
         <div class="layui-inline">
-          <input type="text" class="layui-input" name="activityStime" id="activityStime" placeholder="开始时间起始" onfocus="noInput(this)">
+          <input type="text" class="layui-input" name="activityStime" id="activityStime" placeholder="开始日期起始" onfocus="noInput(this)">
         </div>-
         <div class="layui-inline">
-          <input type="text" class="layui-input" name="activityEtime" id="activityEtime" placeholder="开始时间截止" onfocus="noInput(this)">
+          <input type="text" class="layui-input" name="activityEtime" id="activityEtime" placeholder="开始日期截止" onfocus="noInput(this)">
         </div>
         <div class="layui-inline" style="float:right;">
 	        <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
@@ -49,37 +49,37 @@
   <div class="layui-form-item" style="padding-top: 10px">
     <label class="layui-form-label">活动标题</label>
     <div class="layui-input-block">
-      <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" class="layui-input" id="title">
+      <input maxlength="100" type="text" name="title" required  lay-verify="required" placeholder="请输入标题" class="layui-input" id="title">
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">活动地址</label>
     <div class="layui-input-block">
-      <input type="text" name="address" required lay-verify="required" placeholder="请输入地址" class="layui-input" id="address">
+      <input maxlength="100" type="text" name="address" required lay-verify="required" placeholder="请输入地址" class="layui-input" id="address">
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">活动开始</label>
     <div class="layui-input-block">
-      <input type="text" name="astime" placeholder="请选择活动开始时间" class="layui-input" id="astime" onfocus="noInput(this)">
+      <input type="text" name="astime" placeholder="请选择活动开始日期" class="layui-input" id="astime" onfocus="noInput(this)">
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">活动结束</label>
     <div class="layui-input-block">
-      <input type="text" name="aetime" placeholder="请选择活动结束时间" class="layui-input" id="aetime" onfocus="noInput(this)">
+      <input type="text" name="aetime" placeholder="请选择活动结束日期" class="layui-input" id="aetime" onfocus="noInput(this)">
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">签到开始</label>
     <div class="layui-input-block">
-      <input type="text" name="sstime" placeholder="请选择签到开始时间" class="layui-input" id="sstime" onfocus="noInput(this)">
+      <input type="text" name="sstime" placeholder="请选择签到开始日期" class="layui-input" id="sstime" onfocus="noInput(this)">
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">签到结束</label>
     <div class="layui-input-block">
-      <input type="text" name="setime" placeholder="请选择签到结束时间" class="layui-input" id="setime" onfocus="noInput(this)">
+      <input type="text" name="setime" placeholder="请选择签到结束日期" class="layui-input" id="setime" onfocus="noInput(this)">
     </div>
   </div>
   <div class="layui-form-item">
@@ -101,36 +101,23 @@
   <div class="layui-form-item">
     <label class="layui-form-label">活动积分</label>
     <div class="layui-input-block">
-      <input type="text" name="activityTime" required lay-verify="required" placeholder="请输入本次活动积分数" class="layui-input" id="activity_time">
+      <input type="text" maxlength="3" onblur="validateNum(this)" name="activityTime" required lay-verify="required" placeholder="请输入本次活动积分数" class="layui-input" id="activity_time">
     </div>
   </div>
-<!--   <div class="layui-form-item">
-    <label class="layui-form-label">复选框</label>
-    <div class="layui-input-block">
-      <input type="checkbox" name="like[write]" title="写作" lay-skin="primary">
-      <input type="checkbox" name="like[read]" title="阅读" checked lay-skin="primary">
-      <input type="checkbox" name="like[dai]" title="发呆" lay-skin="primary">
-    </div>
-  </div>
-  <div class="layui-form-item">
-    <label class="layui-form-label">开关</label>
-    <div class="layui-input-block">
-      <input type="checkbox" name="switch" lay-skin="switch" lay-text="开启|关闭">
-    </div>
-  </div>
-  <div class="layui-form-item">
-    <label class="layui-form-label">单选框</label>
-    <div class="layui-input-block">
-      <input type="radio" name="sex" value="男" title="男">
-      <input type="radio" name="sex" value="女" title="女" checked>
-    </div>
-  </div> -->
   <div class="layui-form-item layui-form-text">
-    <label class="layui-form-label" >活动内容</label>
+    <label class="layui-form-label" >&nbsp;&nbsp;&nbsp;活动内容</label>
     <div class="layui-input-block">
       <textarea id="bodyInfo" name="bodyInfo" placeholder="请输入活动内容" class="layui-textarea"></textarea>
     </div>
   </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">封面上传</label>
+    <div class="layui-input-block" id="upload">
+      <input type="text" placeholder="点击空白区域上传封面图片" class="layui-input" disabled="disabled">
+    </div>
+  </div>
+  <div id="imgPreview"></div>
+  <input type="hidden" id="cover_url" name="coverUrl">
 </form>
   <script type="text/javascript">
   var fuwenben;
@@ -141,11 +128,11 @@
     var layer = layui.layer //弹层
         ,table = layui.table //表格
         ,element = layui.element; //元素操作
-    //监听Tab切换
+    /* //监听Tab切换
     element.on('tab(demo)', function(data){
       layer.msg('切换了：'+ this.innerHTML);
       console.log(data);
-    });
+    }); */
     //执行一个 table 实例
     tableIns = table.render({
       elem: '#demoTable'
@@ -171,53 +158,85 @@
         {type:'checkbox'}
         ,{title: '序号', type:'numbers', align: 'center'}
         ,{field: 'id', hide:true, title:'id', align: 'center'}
-        ,{field:'title', title: '活动标题', align: 'center'}
-        ,{field:'type', title: '活动类型', align: 'center'}
-        ,{field:'state', title: '活动状态', align: 'center'}
-        ,{field:'activity_stime', title: '活动时间', align: 'center'}
+        ,{width:'10%',field:'title', title: '活动标题', align: 'center'}
+        ,{width:'20%',field:'address', title: '活动地址', align: 'center'}
+        ,{width:'20%',field:'activity_stime', title: '活动开始日期', align: 'center'}
+        ,{width:'20%',field:'sign_stime', title: '签到开始日期', align: 'center'}
+        ,{width:'10%',field:'type', title: '活动类型', align: 'center'}
+        ,{width:'10%',field:'state', title: '活动状态', align: 'center'}
+        ,{width:'10%',field:'activity_time', title: '活动积分', align: 'center'}
         /* ,{fixed: 'right', width: 165, align:'center', toolbar: '#bar'} */
         ]
       ]
     });
-
+    var upload = layui.upload;
+    upload.render({
+   	  elem: '#upload'
+   	  ,url: 'back/activity/saveCoverImage'
+   	  ,auto: true
+   	  //,bindAction: '#testListAction' //指向一个按钮触发上传
+		,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+		    layer.load(); //上传loading
+		  }
+	,done: function(res){
+      //上传完毕回调
+      layer.closeAll('loading'); //关闭loading
+      console.log(res);
+      $("#cover_url").val(res["data"]["src"]);
+      $("#imgPreview").html("<img src='"+res["data"]["src"]+"' width='50%' />");
+    }
+   	});
+    
+    
     var laydate = layui.laydate;
     
     //常规用法
     laydate.render({
       elem: '#activityStime'
-    	    ,trigger: 'click'
+    	  ,format: 'yyyy-MM-dd HH:mm'
+    	  ,type:'datetime'
+    	  ,trigger: 'click'
     });
     laydate.render({
       elem: '#activityEtime'
+    	  ,format: 'yyyy-MM-dd HH:mm'
+        	  ,type:'datetime'
     	    ,trigger: 'click'
     });
     laydate.render({
       elem: '#astime'
+    	  ,format: 'yyyy-MM-dd HH:mm'
+        	  ,type:'datetime'
     	    ,trigger: 'click'
     });
     laydate.render({
       elem: '#aetime'
+    	  ,format: 'yyyy-MM-dd HH:mm'
+        	  ,type:'datetime'
     	    ,trigger: 'click'
     });
     laydate.render({
       elem: '#sstime'
+    	  ,format: 'yyyy-MM-dd HH:mm'
+        	  ,type:'datetime'
     	    ,trigger: 'click'
     });
     laydate.render({
       elem: '#setime'
+    	  ,format: 'yyyy-MM-dd HH:mm'
+        	  ,type:'datetime'
     	    ,trigger: 'click'
     });
     
 	$("#add").bind("click", function() {
-		$("#activityInfo").clearForm();
+		clearInfoForm();
 		openLayer('新建活动信息');
 		initFuwenben("");
 	});
 
 	$("#edit").bind("click", function() {
-		$("#activityInfo").clearForm();
+		clearInfoForm();
 		getEditData();
-		openLayer('编辑活动信息');
 		
 	});
     
@@ -239,7 +258,6 @@
   
   
 function saveData(){
-	//校验必填项
 	layui.use('layedit', function(){
 		  var layedit = layui.layedit;
 		  $("#body").val(layedit.getContent(fuwenben));
@@ -249,32 +267,16 @@ function saveData(){
 	var aet = $("#aetime").val();
 	var sst = $("#sstime").val();
 	var set = $("#setime").val();
-	$("#activity_start_time").val(getTimestamp(ast+" 00:00:00"))
-	$("#activity_end_time").val(getTimestamp(aet+" 00:00:00"))
-	$("#sign_start_time").val(getTimestamp(sst+" 00:00:00"))
-	$("#sign_end_time").val(getTimestamp(set+" 00:00:00"))
+	$("#activity_start_time").val(getTimestamp(ast+":00"))
+	$("#activity_end_time").val(getTimestamp(aet+":00"))
+	$("#sign_start_time").val(getTimestamp(sst+":00"))
+	$("#sign_end_time").val(getTimestamp(set+":00"))
+	//顺序校验必填项
+	var validate = validateForm();	
+	if(!validate) return;
 	
 	//alert(JSON.stringify($("#activityInfo").serializeObject()));
-	$.ajax({
-		type : "post",
-		url : "back/activity/insertOrUpdate",
-		data : JSON.stringify($("#activityInfo").serializeObject()),
-		headers : {
-            'Content-Type' : 'application/json;charset=utf-8'
-            },
-		dataType : 'json',
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
-					+ textStatus + "," + errorThrown);			
-		},
-		success : function(result) {
-			if(result["status"] == 1){
-				layer.closeAll();
-				layer.msg(result["msg"]);
-				searchForm();
-			}
-		}
-	});
+	
 }
 
 function getEditData(){
@@ -287,7 +289,13 @@ function getEditData(){
 		layer.msg('请选择一行数据！');
 		return;
    }
+   //console.log(checkData[0]);
    var id = checkData[0]["id"];
+   var state = checkData[0]["state"];
+   if(state != "未发布"){
+		layer.msg('只可编辑未发布的活动信息！');
+		return;
+   }
    $.ajax({
 		type : "post",
 		url : "back/activity/getInfo",
@@ -309,20 +317,27 @@ function getEditData(){
 			$("#address").val(data["address"]);
 			$("#activity_time").val(data["activity_time"]);
 			var astime = data["activity_stime"];
-			if(astime!=undefined) astime = astime.substring(0,10);
+			if(astime!=undefined) astime = astime.substring(0,16);
 			var aetime = data["activity_etime"];
-			if(aetime!=undefined) aetime = aetime.substring(0,10);
+			if(aetime!=undefined) aetime = aetime.substring(0,16);
 			var sstime = data["sign_stime"];
-			if(sstime!=undefined) sstime = sstime.substring(0,10);
+			if(sstime!=undefined) sstime = sstime.substring(0,16);
 			var setime = data["sign_etime"];
-			if(setime!=undefined) setime = setime.substring(0,10);
+			if(setime!=undefined) setime = setime.substring(0,16);
 			$("#astime").val(astime);
 			$("#aetime").val(aetime);
 			$("#sstime").val(sstime);
 			$("#setime").val(setime);
 			$('#state').siblings("div.layui-form-select").find('dl').find('dd').filter(function(){return $(this).text()==data["state"];}).click();
 			$('#type').siblings("div.layui-form-select").find('dl').find('dd').filter(function(){return $(this).text()==data["type"];}).click();
+			var curl = data["cover_url"];
+			if(curl!=undefined){
+				$('#cover_url').val(data["cover_url"]);
+				$('#imgPreview').html("<img src='"+curl+"'  width='50%' />");
+			}
+			
 			initSelect();
+			openLayer('编辑活动信息');
 			initFuwenben(data["body"]);
 		}
 	});   
@@ -341,7 +356,6 @@ function initFuwenben(bodyStr){
 		  tool: ['image']
 	  }); //建立编辑器
 	  layedit.setContent(fuwenben,bodyStr , false);
-	  alert(layedit.getText(fuwenben));
 	})
 }
 
@@ -372,6 +386,7 @@ function openLayer(titleName){
 
 function clearInfoForm(){
 	$("#activityInfo").clearForm();
+	$("#imgPreview").html("");
 	initFuwenben("");
 }
 
@@ -383,7 +398,7 @@ function searchForm(){
 		var etime = $("#activityEtime").val();
 		if(stime!=""&&etime!=""){
 			if(stime>etime){
-				layer.msg('时间起始不可大于时间截止！');
+				layer.msg('日期起始不可大于日期截止！');
 				$("#activityEtime").val("");
 				return;
 			}
@@ -443,12 +458,117 @@ function initSelect(){
 	});
 }
 
+function validateNum(sel){
+	$(sel).val($(sel).val().replace(/[^\d]/g,''));
+	layer.msg("活动积分只能输入纯数字！");
+}
+function submitForm (){
+	$.ajax({
+		type : "post",
+		url : "back/activity/insertOrUpdate",
+		data : JSON.stringify($("#activityInfo").serializeObject()),
+		headers : {
+            'Content-Type' : 'application/json;charset=utf-8'
+            },
+		dataType : 'json',
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+					+ textStatus + "," + errorThrown);			
+		},
+		success : function(result) {
+			if(result["status"] == 1){
+				layer.closeAll();
+				layer.msg(result["msg"]);
+				searchForm();
+			}
+		}
+	});
+}
+//顺序校验必填项
+function validateForm(){
+	var title = $.trim($("#title").val());//必填
+	if(title == ""){
+		layer.msg("活动标题必须输入！");
+		return false;
+	}
+	var address = $.trim($("#address").val());
+	if(address == ""){
+		layer.msg("活动地址必须输入！");
+		return false;
+	}
+	var astime = $("#astime").val();
+	if(astime == ""){
+		layer.msg("活动开始日期必须选择！");
+		return false;
+	}
+	var aetime = $("#aetime").val();
+	if(aetime == ""){
+		layer.msg("活动结束日期必须选择！");
+		return false;
+	}
+	if(astime>aetime){
+		layer.msg("活动开始日期不能大于活动结束日期！");
+		$("#activity_etime").val("");
+		return false;
+	}
+	var sstime = $("#sstime").val();
+	if(sstime == ""){
+		layer.msg("签到开始日期必须选择！");
+		return false;
+	}
+	var setime = $("#setime").val();
+	if(setime == ""){
+		layer.msg("签到结束日期必须选择！");
+		return false;
+	}
+	if(sstime>setime){
+		layer.msg("签到开始日期不能大于签到结束日期！");
+		$("#sign_etime").val("");
+		return false;
+	}
+	var type = $("#type").val();
+	if(type == undefined){
+		layer.msg("活动类型必须选择！");
+		return false;
+	}
+	var state = $("#state").val();
+	if(state == undefined){
+		layer.msg("活动状态必须选择！");
+		return false;
+	}
+	var activity_time = $("#activity_time").val();
+	if(activity_time == ""){
+		layer.msg("活动积分必须输入！");
+		return false;
+	}
+	var bodyHtml = $("#body").val();
+	var bodyValue = "";
+	layui.use('layedit', function(){
+		bodyValue = $.trim(layui.layedit.getText(fuwenben));
+	});
+	if(bodyValue == "" && bodyHtml.indexOf("<img")<0){
+		layer.msg("活动内容必须输入！");
+		return false;
+	}
+	var cover_url = $("#cover_url").val();
+	if(cover_url == ""){
+		layer.msg("封面图片必须选择！");
+		return false;
+	}
+	var submit = false;
+	layer.confirm('确认要提交吗', {icon: 3, title:'信息提交确认'}, function(index){
+		  //do something
+		submitForm();
+	});
+	return true;
+}
+
 function getTimestamp(dateStr){
 	if(dateStr.length == 9) return "";
 	var date = new Date(dateStr);
 	return date.getTime()/1000;
 }
-//让时间插件无法选中 达到禁止手输的目的
+//让日期插件无法选中 达到禁止手输的目的
 function noInput(dom){
 	$(dom).blur();
 }
