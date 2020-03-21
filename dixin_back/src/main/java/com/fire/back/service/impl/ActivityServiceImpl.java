@@ -289,8 +289,8 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 	
 	//转换富文本的内容
-	private static List<String> getBodyList (String bodyStr){
-		List<String> bodyList = new ArrayList<>();
+	private static List<Map<String,Object>> getBodyList (String bodyStr){
+		List<Map<String,Object>> bodyList = new ArrayList<>();
 		while (bodyStr.contains("<p>")) {
 			int p1Index = bodyStr.indexOf("<p>");
 			int p2Index = bodyStr.indexOf("</p>");
@@ -299,19 +299,27 @@ public class ActivityServiceImpl implements ActivityService {
 			if(!pStr.contains("<img")) {
 				pStr = StringEscapeUtils.unescapeHtml4(pStr);
 				pStr+="\n";
-				bodyList.add(pStr);
+				Map<String,Object> map = new HashMap<>();
+				map.put("textarea", pStr);
+				bodyList.add(map);
 			}else {
 				while(pStr.contains("<img")) {
 					int img1Index = pStr.indexOf("<img");
 					int img2Index = pStr.indexOf(">");
 					if(img1Index>0) {
-						bodyList.add(StringEscapeUtils.unescapeHtml4(pStr.substring(0,img1Index)));
+						Map<String,Object> map = new HashMap<>();
+						map.put("textarea", StringEscapeUtils.unescapeHtml4(pStr.substring(0,img1Index)));
+						bodyList.add(map);
 					}
 					String src = pStr.substring(img1Index+10,img2Index-8);
-					bodyList.add(src);
+					Map<String,Object> map = new HashMap<>();
+					map.put("imgUrl", src);
+					bodyList.add(map);
 					pStr = pStr.substring(img2Index+1);
 				}
-				bodyList.add(" \n");
+				Map<String,Object> map = new HashMap<>();
+				map.put("textarea", " \n");
+				bodyList.add(map);
 			}
 			bodyStr = bodyStr.substring(p2Index+3);
 		}
