@@ -192,6 +192,12 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
+	public void del(String ids) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("ids", ids);
+	}
+	
+	@Override
 	public int insertOrUpdate(ActivityTbWithBLOBs activeTb){
 		Long now = System.currentTimeMillis()/1000;
 		int result = 0;

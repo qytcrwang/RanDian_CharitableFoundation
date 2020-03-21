@@ -158,13 +158,17 @@
         {type:'checkbox'}
         ,{title: '序号', type:'numbers', align: 'center'}
         ,{field: 'id', hide:true, title:'id', align: 'center'}
-        ,{width:'10%',field:'title', title: '活动标题', align: 'center'}
+        ,{width:'20%',field:'title', title: '活动标题', align: 'center'}
         ,{width:'20%',field:'address', title: '活动地址', align: 'center'}
         ,{width:'20%',field:'activity_stime', title: '活动开始日期', align: 'center'}
         ,{width:'20%',field:'sign_stime', title: '签到开始日期', align: 'center'}
         ,{width:'10%',field:'type', title: '活动类型', align: 'center'}
-        ,{width:'10%',field:'state', title: '活动状态', align: 'center'}
-        ,{width:'10%',field:'activity_time', title: '活动积分', align: 'center'}
+        ,{width:'8%',field:'state', title: '活动状态', align: 'center'}
+        ,{width:'8%',field:'activity_time', title: '活动积分', align: 'center'}
+        ,{width:'7%',field:'read_num', title: '阅读量', align: 'center'}
+        ,{width:'7%',field:'good_num', title: '点赞量', align: 'center'}
+        ,{width:'8%',field:'apply_nums', title: '申请人数', align: 'center'}
+        ,{width:'20%',field:'apply_names', title: '申请人员', align: 'center'}
         /* ,{fixed: 'right', width: 165, align:'center', toolbar: '#bar'} */
         ]
       ]
@@ -233,11 +237,15 @@
 		openLayer('新建活动信息');
 		initFuwenben("");
 	});
-
+	
 	$("#edit").bind("click", function() {
 		clearInfoForm();
 		getEditData();
 		
+	});
+
+	$("#del").bind("click", function() {
+		delInfo();
 	});
     
 	$("#search").bind("click", function() {
@@ -279,6 +287,52 @@ function saveData(){
 	
 }
 
+function delInfo(){
+	//获取行
+	layui.use('table', function(){
+	var id = "";
+	var table = layui.table;
+	var checkData = table.checkStatus('demoTable').data;
+   //,data = checkStatus.data;
+   if(checkData.length == 0){
+		layer.msg('请选择要删除的记录！');
+		return;
+   }
+   //console.log(checkData[0]['id']);
+   for(var i=0;i<checkData.length;i++){
+	   id+= checkData[i]['id']+",";
+	   console.log(id);
+	   }
+   id = id.substring(0,id.length-1);
+	layer.confirm('确认要删除吗', {icon: 3, title:'信息删除确认'}, function(index){
+		del(id);
+	});
+   });
+}
+
+function del(ids){
+	$.ajax({
+		type : "post",
+		url : "back/activity/del",
+		data : JSON.stringify({"ids":ids}),
+		headers : {
+            'Content-Type' : 'application/json;charset=utf-8'
+            },
+		dataType : 'json',
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+					+ textStatus + "," + errorThrown);			
+		},
+		success : function(result) {
+			if(result["status"] == 1){
+				layer.msg(result["msg"]);
+				searchForm();
+			}
+		}
+	});
+}
+
+
 function getEditData(){
 	//获取行
 	layui.use('table', function(){
@@ -286,7 +340,7 @@ function getEditData(){
 	var checkData = table.checkStatus('demoTable').data;
    //,data = checkStatus.data;
    if(checkData.length != 1){
-		layer.msg('请选择一行数据！');
+		layer.msg('请选择一行记录！');
 		return;
    }
    //console.log(checkData[0]);

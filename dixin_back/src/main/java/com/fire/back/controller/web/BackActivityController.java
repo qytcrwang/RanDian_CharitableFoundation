@@ -96,6 +96,18 @@ public class BackActivityController {
 		}
 	}
 
+	@PostMapping("del")
+	@ResponseBody
+	public FireResult del(@RequestBody Map<String, Object> paramMap) {
+		try {
+			service.del(paramMap.get("ids")+"");
+			return FireResult.build(1, "操作成功！");
+		} catch (Exception e) {
+			logger.error("",e);
+			return FireResult.build(0, "操作失败，请稍后再试");
+		}
+	}
+
 	@PostMapping("getSelect")
 	@ResponseBody
 	public FireResult getSelect() {
