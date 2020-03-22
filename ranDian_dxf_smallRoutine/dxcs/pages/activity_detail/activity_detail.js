@@ -17,6 +17,7 @@ Page({
 
   },
 
+  //点赞状态：0未点赞，1点赞，2已点赞
   changeGoodStatus(activityId){
     // 设置活动id为页面共享
     this.setData({
@@ -43,12 +44,18 @@ Page({
     var goodList = wx.getStorageSync('goodList');
     // 获取活动点赞状态
     var goodStatus = goodList[this.data.currentPostId];
-    // 活动点赞状态切换
-    goodStatus = !goodStatus;
-    // 存储活动点赞状态
-    goodList[this.data.currentPostId] = goodStatus;
-    // 三个参数为,Storage键、值、活动点赞状态
-    this.showToast('goodList', goodList, goodStatus);
+    
+    if(goodStatus==2){//已经点过赞
+      this.showToast('goodList', goodList, 2);
+    }else{
+      // 活动点赞状态切换
+      goodStatus = 1;
+      // 存储活动点赞状态
+      goodList[this.data.currentPostId] = 2;
+      // 三个参数为,Storage键、值、活动点赞状态
+      this.addGoodNum(this.data.currentPostId);
+      this.showToast('goodList', goodList, goodStatus);
+    }
   },
 
   showToast: function (key, value, status) {
@@ -58,10 +65,21 @@ Page({
     this.setData({
       goodStatus: status
     });
+    console.log(status);
     // 显示提示
-    wx.showToast({
-      title: status ? "点赞成功" : "取消成功"
-    })
+    if(status==1){
+      wx.showToast({
+        title: '点赞成功',
+        icon: 'none',
+        duration: 2000
+      })
+    }else{
+      wx.showToast({
+        title: '已经点赞过了哟',
+        icon: 'none',
+        duration: 2000
+      })
+    }
   },
 
   getActivityDetails(activityId){
@@ -77,6 +95,26 @@ Page({
             activityDetails:res.data,
             // imgs:res.data.pic_url.split(",")
           });
+        }
+      }
+    )
+  },
+  addGoodNum(activityId){
+    let that = this;
+    wxb.wxPost(
+      "/activity/addGood",
+      {
+        id: activityId
+      },function(res){
+        if(res.status===1){
+          console.log("活动"+activityId+"点赞成功");
+          that.getActivityDetails(activityId);
+        }else{
+          wx.showToast({
+            title: '点赞失败，请联系管理员~',
+            icon: 'none',
+            duration: 2000
+          })
         }
       }
     )

@@ -29,10 +29,11 @@
                     <image class="read_count_icon" src="../../img/read_count.png"></image>
                     <text >{{activityDetails.read_num}}</text>
 
-                    <image class="good_count_icon" wx:if="{{goodStatus}}" catchtap="ongoodTap" src="../../img/good_count_activity.png"></image>
+                    <image class="good_count_icon" wx:if="{{goodStatus>=1}}" catchtap="ongoodTap" src="../../img/good_count_activity.png"></image>
                     <image class="good_count_icon_activity" wx:else catchtap="ongoodTap" src="../../img/good_count.png"></image>
-                    <text class="good_num" wx:if="{{goodStatus}}" catchtap="ongoodTap">{{activityDetails.good_num+1}}</text>
-                    <text class="good_num" wx:else catchtap="ongoodTap">{{activityDetails.good_num}}</text>
+                    <text class="good_num" catchtap="ongoodTap">{{activityDetails.good_num}}</text>
+                    <!-- <text class="good_num" wx:elif="{{goodStatus==2}}" catchtap="ongoodTap">{{activityDetails.good_num+1}}</text> -->
+                    <!-- <text class="good_num" wx:else catchtap="ongoodTap">{{activityDetails.good_num}}</text> -->
                 </view>
             </view>
         </view>
