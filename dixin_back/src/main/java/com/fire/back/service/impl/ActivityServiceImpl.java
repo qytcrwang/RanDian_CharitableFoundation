@@ -203,7 +203,7 @@ public class ActivityServiceImpl implements ActivityService {
 		int result = 0;
 		String body = activeTb.getBody();
 		String picUrls = getPicUrls(body);
-		body.replace("temp", "");
+		body = body.replace("temp", "");
 		activeTb.setBody(body);
 		String coverPath = ClassUtils.getDefaultClassLoader().getResource("static/images/cover").getPath();
 		String bodyPath = ClassUtils.getDefaultClassLoader().getResource("static/images/body").getPath();
