@@ -6,14 +6,32 @@
 }
 
 .activity-title {
+    /* text-align: center; */
     position: relative;
     width: 650rpx;
-    padding: 40rpx 50rpx 30rpx;
+    padding: 40rpx 50rpx 10rpx;
     background: #1AFA29;
     color: #000;
     font-size: 38rpx;
     line-height: 48rpx;
 }
+
+.read{
+    position: relative;
+    width: 650rpx;
+    padding: 0rpx 50rpx 15rpx;
+    background: #1AFA29;
+    color: #000;
+    font-size: 38rpx;
+    line-height: 48rpx;
+}
+
+.read text{
+    float: right;
+    font-size: 32rpx;
+    color: #ffffff;
+}
+
 
 .activity-content{
     padding: 30rpx 40rpx;
@@ -47,12 +65,12 @@
     width: 45rpx;
     height: 26rpx;
 }
-.read_good .good_count_icon{
+.good .good_count_icon{
     width: 40rpx;
     height: 40rpx;
     float: right;
 }
-.read_good .good_count_icon_activity{
+.good .good_count_icon_activity{
     width: 40rpx;
     height: 40rpx;
     float: right;

@@ -1,7 +1,11 @@
 
 <view class="container">
-    <view class="activity-title" bindtap="toQuestion">
+    <view class="activity-title">
         <text >{{activityDetails.title}}</text>
+    </view>
+    <view class="read">
+        <!-- <image class="read_count_icon" src="../../img/read_count.png"></image> -->
+        <text >浏览 {{activityDetails.read_num}}</text>
     </view>
 
     <view class="activity-content">
@@ -25,10 +29,7 @@
                 <text class="join_count">已报名人数:{{activityDetails.apply_nums}}</text>
             </view>
             <view >
-                <view class="read_good">
-                    <image class="read_count_icon" src="../../img/read_count.png"></image>
-                    <text >{{activityDetails.read_num}}</text>
-
+                <view class="good">
                     <image class="good_count_icon" wx:if="{{goodStatus>=1}}" catchtap="ongoodTap" src="../../img/good_count_activity.png"></image>
                     <image class="good_count_icon_activity" wx:else catchtap="ongoodTap" src="../../img/good_count.png"></image>
                     <text class="good_num" catchtap="ongoodTap">{{activityDetails.good_num}}</text>
