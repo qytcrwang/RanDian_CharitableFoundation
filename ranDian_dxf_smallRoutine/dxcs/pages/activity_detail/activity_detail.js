@@ -74,7 +74,7 @@ Page({
       })
     }else{
       wx.showToast({
-        title: '已经点赞过了哟',
+        title: '已经点赞过了~',
         icon: 'none',
         duration: 2000
       })
