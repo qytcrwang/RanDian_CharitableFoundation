@@ -20,9 +20,11 @@
     <result column="contri_value" property="contriValue" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, contri_amount, contri_things, contri_time, mobile, org_name, org_r_name,
-    contri_proof, contri_type, update_time, is_delete, contri_state, if_stamp, create_time,
-    contri_value
+    id, user_id AS userId, contri_amount AS contriAmount, contri_things AS contriThings,
+    contri_time AS contriTime, mobile, org_name AS orgName, org_r_name AS orgRName,
+    contri_proof AS contriProof, contri_type AS contriType, update_time AS updateTime,
+    is_delete AS isDelete, contri_state AS contriState, if_stamp AS ifStamp,
+    create_time AS createTime, contri_value AS contriValue
   </sql>
 
   <select id='getCount' resultType="Integer">
