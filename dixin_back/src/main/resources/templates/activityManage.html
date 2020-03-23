@@ -414,10 +414,11 @@ function initFuwenben(bodyStr){
 }
 
 function openLayer(titleName){
+	var width = window.innerWidth*3/4+"px";
 	  //layedit.setContent(fuwenben, "", false); 这个初始化就相当于清空了
 	  layer.open({
 		  type:1,
-		  area:['800px','500px'],
+		  area: width,
 		   title: titleName
 		   ,content: $("#activityInfo"),
 		   shade: 0.3,
