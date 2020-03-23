@@ -46,6 +46,7 @@
                 </navigator>
                 <view class="wx-view_WnUrtw2">
                     <view class="wx-view_F9ISUC2">
+                        <text class="wx-text_71u3gA2" data-c_e_id="wx_text5fe6919d">滴信慈善</text>
                         <navigator class="wx-navigator_wTcTS2" hover-class="navigator-hover" url="../message_detail/message_detail?id={{item.id}}">
                             <text class="wx-text_kGXxsa2" data-c_e_id="wx_texta38253c0">{{item.title}}</text>
                         </navigator>
