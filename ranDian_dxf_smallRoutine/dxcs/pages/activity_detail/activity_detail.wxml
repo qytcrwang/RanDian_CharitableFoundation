@@ -37,6 +37,11 @@
                 </view>
             </view>
         </view>
+        
+        <view class="join-wrap">
+            <button class="join" wx:if="{{activityDetails.applyState==0}}" bindtap="joinActivity">我要报名</button>
+            <button class="join" wx:else bindtap="joinedMessage">已报名</button>
+        </view>
 </view>
 
 

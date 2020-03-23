@@ -65,12 +65,11 @@ Page({
     this.setData({
       goodStatus: status
     });
-    console.log(status);
     // 显示提示
     if(status==1){
       wx.showToast({
         title: '点赞成功',
-        icon: 'none',
+        icon: 'success',
         duration: 2000
       })
     }else{
@@ -82,6 +81,7 @@ Page({
     }
   },
 
+  //获取活动详情
   getActivityDetails(activityId){
     let that = this;
     wxb.wxPost(
@@ -99,6 +99,8 @@ Page({
       }
     )
   },
+  
+  //活动点赞
   addGoodNum(activityId){
     let that = this;
     wxb.wxPost(
@@ -107,11 +109,52 @@ Page({
         id: activityId
       },function(res){
         if(res.status===1){
-          console.log("活动"+activityId+"点赞成功");
           that.getActivityDetails(activityId);
         }else{
           wx.showToast({
             title: '点赞失败，请联系管理员~',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      }
+    )
+  },  
+
+  //已报名提示
+  joinedMessage(){
+    wx.showToast({
+      title: '不可重复报名~',
+      icon: 'none',
+      duration: 2000
+    })
+  },
+
+  //报名活动
+  joinActivity(){
+    wx.showLoading({
+      title: '加载中',
+      mask:true//防止触摸穿透
+    });
+    let that = this;
+    var activityId = this.currentPostId;
+    wxb.wxPost(
+      "/activity/applyActivity",
+      {
+        id: activityId,
+        userId:1
+      },function(res){
+        if(res.status===1){
+          that.getActivityDetails(activityId);
+          wx.showToast({
+            title: res.msg,
+            icon: 'success',
+            mask:true,
+            duration: 2000
+          })
+        }else{
+          wx.showToast({
+            title: '报名失败，请联系管理员~',
             icon: 'none',
             duration: 2000
           })
@@ -125,6 +168,7 @@ Page({
    */
   onLoad: function (options) {
     let activityId = options.id;
+    this.currentPostId = options.id;
     this.getActivityDetails(activityId);
     this.changeGoodStatus(activityId);
   },
