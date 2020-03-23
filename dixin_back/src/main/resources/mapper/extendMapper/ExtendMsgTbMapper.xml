@@ -11,6 +11,6 @@
         <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     </resultMap>
     <select id="getMsgsWithOutContent" resultMap="msgWithOutContext" parameterType="map" >
-        select m.id,m.title,from_unixtime(m.time ,'%Y-%m-%d %H:%i:%S') time,m.state,m.if_read,m.msg_type,m.is_delete from msg_tb m ${param}
+        select m.id,m.title,m.time,m.state,m.if_read,m.msg_type,m.is_delete from msg_tb m ${param}
     </select>
 </mapper>
