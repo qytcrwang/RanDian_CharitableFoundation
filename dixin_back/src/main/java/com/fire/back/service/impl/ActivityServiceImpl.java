@@ -3,20 +3,23 @@ package com.fire.back.service.impl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import com.fire.back.dao.extend.ExtendUserTbMapper;
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ResourceUtils;
+import org.springframework.util.ClassUtils;
 
-import com.fire.back.common.CommonUtil;
+import com.fire.back.common.TimeTools;
 import com.fire.back.dao.ActivityUserTbMapper;
-import com.fire.back.dao.UserTbMapper;
 import com.fire.back.dao.extend.ExtendActivityTbMapper;
+import com.fire.back.dao.extend.ExtendUserTbMapper;
 import com.fire.back.entity.ActivityTbWithBLOBs;
 import com.fire.back.entity.ActivityUserTb;
 import com.fire.back.entity.ActivityUserTbExample;
@@ -65,6 +68,7 @@ public class ActivityServiceImpl implements ActivityService {
 		Map<String,Object> params = new HashMap<>();
 		params.put("id", activityId);
 		Map<String,Object> info = activityMapper.getInfoById(params);
+		info.put("bodyList", getBodyList(info.get("body")+""));
 		if(activityUser != null && activityUser.size() > 0)
 			info.put("applyState", 1);//已经报过名
 		else
@@ -141,13 +145,37 @@ public class ActivityServiceImpl implements ActivityService {
 		Map<String,Object> params = new HashMap<>();
 		String param = " where is_delete=0 ";
 		if(type>-1) param += " and type = "+type;
-		if(stime.length()>0) param += " and activity_start_time >="+stime;
-		if(etime.length()>0) param += " and activity_start_time <"+etime;
+		if(stime.length()>0) {
+			stime = TimeTools.getTimeStamp(stime)/1000 +"";
+			param += " and activity_start_time >="+stime;
+		}
+		if(etime.length()>0) {
+			etime = TimeTools.getCircleStamp(etime)/1000 +"";
+			param += " and activity_start_time <"+etime;
+		}
 		if(state>-1) param += " and state = "+state;
 		param += " order by "+field+" "+sort+" limit "+(page-1)*size+","+size;
 		params.put("param", param);
 		List<Map<String, Object>> list = activityMapper.getListByPage(params);
 		return list;
+	}
+	
+	/**
+	 * count
+	 * @param page,size,field,sort,type,stime,etime,state
+	 * @return
+	 */
+	@Override
+	public int getListByPageCount(int type,String stime,String etime,int state){
+		Map<String,Object> params = new HashMap<>();
+		String param = " where is_delete=0 ";
+		if(type>-1) param += " and type = "+type;
+		if(stime.length()>0) param += " and activity_start_time >="+stime;
+		if(etime.length()>0) param += " and activity_start_time <"+etime;
+		if(state>-1) param += " and state = "+state;
+		params.put("param", param);
+		int count = activityMapper.getListByPageCount(params);
+		return count;
 	}
 
 	/**
@@ -164,28 +192,140 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
+	public void del(String ids) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("ids", ids);
+	}
+	
+	@Override
 	public int insertOrUpdate(ActivityTbWithBLOBs activeTb){
-		//新增：先插入 获取id 然后跟更新一样处理 处理封面图片&文本图片&文本内容 拿取图片路径 入库
-		if(activeTb.getId()==null) activityMapper.insertSelective(activeTb);
-		//处理封面图片&文本图片&文本内容start
-		/*for(Map<String, Object> map : list) {
-		Long id = Long.parseLong(map.get("id")+"");
-		File cover= ResourceUtils.getFile("classpath:static/images/cover");
-		File[] files = cover.listFiles(new MyFilenameFilter(id+"."));
-		if(files != null && files.length > 0)
-		map.put("url", "http://127.0.0.1:"+CommonUtil.getValue("server.port")
-		+CommonUtil.getValue("server.servlet-path")+"/images/cover/"+files[0].getName());
-		}*/
-		
-
-		//处理封面图片&文本图片&文本内容end
+		Long now = System.currentTimeMillis()/1000;
 		int result = 0;
-		result = activityMapper.updateByPrimaryKeySelective(activeTb);
+		String body = activeTb.getBody();
+		String picUrls = getPicUrls(body);
+		body.replace("temp", "");
+		activeTb.setBody(body);
+		String coverPath = ClassUtils.getDefaultClassLoader().getResource("static/images/cover").getPath();
+		String bodyPath = ClassUtils.getDefaultClassLoader().getResource("static/images/body").getPath();
+		File coverDir = new File(coverPath);
+		File bodyDir = new File(bodyPath);
+		if(picUrls.length()>0) {
+			for(String picUrl : picUrls.split(",")) {
+				String bodyName = picUrl.substring(picUrl.indexOf("body/")+5); 
+				File file = new File(bodyDir,bodyName);
+				file.renameTo(new File(bodyDir,bodyName.replace("temp", "")));
+			}
+		}
+		String coverUrl = activeTb.getCoverUrl();
+		String coverName = coverUrl.substring(coverUrl.indexOf("cover/")+6);
+		File file = new File(coverDir,coverName);
+		file.renameTo(new File(coverDir,coverName.replace("temp", "")));
+		picUrls = picUrls.replace("temp", "");
+		coverUrl = coverUrl.replace("temp", "");
+		activeTb.setPicUrl(picUrls);
+		activeTb.setCoverUrl(coverUrl);
+		//新增：先插入 获取id 然后跟更新一样处理 处理封面图片&文本图片&文本内容 拿取图片路径 入库
+		if(activeTb.getId()==null) {
+			activeTb.setIsDelete(0);
+			activeTb.setCreateTime(now);
+			result = activityMapper.insertSelective(activeTb);	
+		}else {
+			activeTb.setUpdateTime(now);
+			result = activityMapper.updateByPrimaryKeySelective(activeTb);
+		}
+
+		//处理多余图片
+		Timer timer = new Timer();
+		TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+            		String coverPath = ClassUtils.getDefaultClassLoader().getResource("static/images/cover").getPath();
+            		String bodyPath = ClassUtils.getDefaultClassLoader().getResource("static/images/body").getPath();
+            		File coverDir = new File(coverPath);
+            		File bodyDir = new File(bodyPath);
+            		File[] covers = coverDir.listFiles(new MyFilenameFilter("temp."));
+            		File[] bodys = bodyDir.listFiles(new MyFilenameFilter("temp."));
+            		if(covers.length == 0 && bodys.length == 0) timer.cancel();
+            		for(File file : covers) {
+            			file.delete();
+            		}
+            		for(File file : bodys) {
+            			file.delete();
+            		}
+            		timer.cancel();
+                } catch (Exception e) {
+                	timer.cancel();
+                    e.printStackTrace();
+                }
+            }
+        };
+        timer.schedule(task, 0);
 		return result;
 	}
+	
 
+	//获取富文本中所有图片url
+	private static String getPicUrls(String bodyStr){
+		String pics = "";
+		while (bodyStr.contains("<p>")) {
+			int p1Index = bodyStr.indexOf("<p>");
+			int p2Index = bodyStr.indexOf("</p>");
+			String pStr = bodyStr.substring(p1Index+3,p2Index);
+			//这里可能存在很多图片文字并存的可能
+			if(pStr.contains("<img")) {
+				while(pStr.contains("<img")) {
+					int img1Index = pStr.indexOf("<img");
+					int img2Index = pStr.indexOf(">");
+					String src = pStr.substring(img1Index+10,img2Index-8);
+					pics += src+",";
+					pStr = pStr.substring(img2Index+1);
+				}
+			}
+			bodyStr = bodyStr.substring(p2Index+3);
+		}
+		if(pics.length()>0) pics = pics.substring(0,pics.length()-1);
+		return pics;
+	}
+	
+	//转换富文本的内容
+	private static List<Map<String,Object>> getBodyList (String bodyStr){
+		List<Map<String,Object>> bodyList = new ArrayList<>();
+		while (bodyStr.contains("<p>")) {
+			int p1Index = bodyStr.indexOf("<p>");
+			int p2Index = bodyStr.indexOf("</p>");
+			String pStr = bodyStr.substring(p1Index+3,p2Index);
+			//这里可能存在很多图片文字并存的可能
+			if(!pStr.contains("<img")) {
+				pStr = StringEscapeUtils.unescapeHtml4(pStr);
+				pStr+="\n";
+				Map<String,Object> map = new HashMap<>();
+				map.put("textarea", pStr);
+				bodyList.add(map);
+			}else {
+				while(pStr.contains("<img")) {
+					int img1Index = pStr.indexOf("<img");
+					int img2Index = pStr.indexOf(">");
+					if(img1Index>0) {
+						Map<String,Object> map = new HashMap<>();
+						map.put("textarea", StringEscapeUtils.unescapeHtml4(pStr.substring(0,img1Index)));
+						bodyList.add(map);
+					}
+					String src = pStr.substring(img1Index+10,img2Index-8);
+					Map<String,Object> map = new HashMap<>();
+					map.put("imgUrl", src);
+					bodyList.add(map);
+					pStr = pStr.substring(img2Index+1);
+				}
+				Map<String,Object> map = new HashMap<>();
+				map.put("textarea", " \n");
+				bodyList.add(map);
+			}
+			bodyStr = bodyStr.substring(p2Index+3);
+		}
+		return bodyList;
+	}
 }
-
 
 class MyFilenameFilter implements FilenameFilter {
 	// type为需要过滤的条件，比如如果type=".jpg"，则只能返回后缀为jpg的文件

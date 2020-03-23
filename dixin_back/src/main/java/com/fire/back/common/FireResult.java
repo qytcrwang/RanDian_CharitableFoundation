@@ -26,9 +26,16 @@ public class FireResult {
 
     // 响应中的数据
     private Object data;
+    
+    // 分页总条数
+    private int count;
 
     public static FireResult build(Integer status, String msg, Object data) {
         return new FireResult(status, msg, data);
+    }
+
+    public static FireResult build(Integer status, String msg, Object data,int count) {
+        return new FireResult(status, msg, data,count);
     }
 
     public static FireResult ok(Object data) {
@@ -51,6 +58,13 @@ public class FireResult {
         this.status = status;
         this.msg = msg;
         this.data = data;
+    }
+
+    public FireResult(Integer status, String msg, Object data,int count) {
+        this.status = status;
+        this.msg = msg;
+        this.data = data;
+        this.count = count;
     }
 
     public FireResult(Object data) {
@@ -85,6 +99,14 @@ public class FireResult {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public Object getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     /**

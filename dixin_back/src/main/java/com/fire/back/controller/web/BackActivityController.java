@@ -1,20 +1,33 @@
 package com.fire.back.controller.web;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fire.back.common.CommonUtil;
 import com.fire.back.common.FireResult;
 import com.fire.back.entity.ActivityTbWithBLOBs;
+import com.fire.back.entity.SyscodeTb;
 import com.fire.back.service.ActivityService;
+import com.fire.back.service.SyscodeService;
 import com.fire.back.util.ParamUtil;
 
 /**  
@@ -31,6 +44,8 @@ public class BackActivityController {
 	
 	@Autowired
 	private ActivityService service;
+	@Autowired
+	private SyscodeService syscodeService;
 	
 	@PostMapping("getList")
 	@ResponseBody
@@ -39,13 +54,14 @@ public class BackActivityController {
 			Integer page = ParamUtil.getInteger(paramMap, "page", 1);
 			Integer size = ParamUtil.getInteger(paramMap, "size", 10);
 			String field = ParamUtil.getString(paramMap, "field", "id");
-			String sort = ParamUtil.getString(paramMap, "param4", "asc");
-			Integer type = ParamUtil.getInteger(paramMap, "param4", -1);
+			String sort = ParamUtil.getString(paramMap, "sort", "asc");
+			Integer type = ParamUtil.getInteger(paramMap, "type", -1);
 			String stime = ParamUtil.getString(paramMap, "stime", "");
 			String etime = ParamUtil.getString(paramMap, "etime", "");
 			int state = ParamUtil.getInteger(paramMap, "state", -1);
 			List<Map<String,Object>> list = service.getListByPage(page, size, field, sort, type, stime, etime, state);
-			return FireResult.build(1, "数据获取成功", list);
+			int count = service.getListByPageCount(type, stime, etime, state);
+			return FireResult.build(1, "数据获取成功", list,count);
 		} catch (Exception e) {
 			logger.error("",e);
 			return FireResult.build(0, "获取信息失败，请稍后再试");
@@ -69,14 +85,120 @@ public class BackActivityController {
 
 	@PostMapping("insertOrUpdate")
 	@ResponseBody
-	public FireResult insertOrUpdate(ActivityTbWithBLOBs activeTb) {
+	public FireResult insertOrUpdate(@RequestBody ActivityTbWithBLOBs 
+			activeTb,HttpServletRequest request) {
 		try {
-			
-			return FireResult.build(1, "点赞成功");
+			service.insertOrUpdate(activeTb);
+			return FireResult.build(1, "操作成功！");
+		} catch (Exception e) {
+			logger.error("",e);
+			return FireResult.build(0, "操作失败，请稍后再试");
+		}
+	}
+
+	@PostMapping("del")
+	@ResponseBody
+	public FireResult del(@RequestBody Map<String, Object> paramMap) {
+		try {
+			service.del(paramMap.get("ids")+"");
+			return FireResult.build(1, "操作成功！");
+		} catch (Exception e) {
+			logger.error("",e);
+			return FireResult.build(0, "操作失败，请稍后再试");
+		}
+	}
+
+	@PostMapping("getSelect")
+	@ResponseBody
+	public FireResult getSelect() {
+		try {
+			List<SyscodeTb> typeList = syscodeService.getSyscode("activity_type");
+			List<SyscodeTb> stateList = syscodeService.getSyscode("activity_state");
+			Map<String,Object> selectData = new HashMap<>();
+			selectData.put("typeList", typeList);
+			selectData.put("stateList", stateList);
+			return FireResult.build(1, "获取成功",selectData);
 		} catch (Exception e) {
 			logger.error("",e);
 			return FireResult.build(0, "操作失败，请稍后再试");
 		}
 	}
 	
+	@PostMapping("saveImage")
+	@ResponseBody
+	public Map<String,Object> saveImage(@RequestParam("file") MultipartFile file) {
+		String uuid = UUID.randomUUID().toString().replace("-", "");
+		Map<String,Object> returnMap = new HashMap<>();
+		try {
+//			System.out.println(file.getOriginalFilename());
+			String picPath = ClassUtils.getDefaultClassLoader().getResource("static/images/body").getPath();
+			System.out.println(picPath);
+			String oldName = file.getOriginalFilename();
+			File newFile = new File(picPath,uuid+"temp"+oldName.substring(oldName.indexOf(".")));
+			BufferedOutputStream out = new BufferedOutputStream(    
+                    new FileOutputStream(newFile));    
+//            System.out.println(file.getName());  
+            out.write(file.getBytes());    
+            out.flush();    
+            out.close();   
+            String url = "http://127.0.0.1:"+CommonUtil.getValue("server.port")
+//          +CommonUtil.getValue("server.servlet-path")
+          +"/images/body/"+newFile.getName();
+            System.out.println(newFile.getName());
+            System.out.println(newFile.getAbsolutePath());
+            System.out.println();
+
+    		returnMap.put("code", 0);
+    		returnMap.put("msg", "添加成功");
+    		Map<String,Object> picMap = new HashMap<>();
+    		picMap.put("src", url);
+    		picMap.put("title", "");
+    		returnMap.put("data", picMap);
+			return returnMap;
+		} catch (Exception e) {
+			logger.error("",e);
+    		returnMap.put("code", 1);
+    		returnMap.put("msg", "图片过大");
+			return returnMap;
+		}
+	}
+	
+	@PostMapping("saveCoverImage")
+	@ResponseBody
+	public Map<String,Object> saveCoverImage(@RequestParam("file") MultipartFile file) {
+		String uuid = UUID.randomUUID().toString().replace("-", "");
+		Map<String,Object> returnMap = new HashMap<>();
+		try {
+//			System.out.println(file.getOriginalFilename());
+			String picPath = ClassUtils.getDefaultClassLoader().getResource("static/images/cover").getPath();
+			System.out.println(picPath);
+			String oldName = file.getOriginalFilename();
+			File newFile = new File(picPath,uuid+"temp"+oldName.substring(oldName.indexOf(".")));
+			BufferedOutputStream out = new BufferedOutputStream(    
+                    new FileOutputStream(newFile));    
+//            System.out.println(file.getName());  
+            out.write(file.getBytes());    
+            out.flush();    
+            out.close();   
+            String url = "http://127.0.0.1:"+CommonUtil.getValue("server.port")
+//          +CommonUtil.getValue("server.servlet-path")
+          +"/images/cover/"+newFile.getName();
+            System.out.println(newFile.getName());
+            System.out.println(newFile.getAbsolutePath());
+            System.out.println();
+
+    		returnMap.put("code", 0);
+    		returnMap.put("msg", "添加成功");
+    		Map<String,Object> picMap = new HashMap<>();
+    		picMap.put("src", url);
+    		picMap.put("title", "");
+    		returnMap.put("data", picMap);
+			return returnMap;
+		} catch (Exception e) {
+			logger.error("",e);
+    		returnMap.put("code", 1);
+    		returnMap.put("msg", "图片过大");
+			return returnMap;
+		}
+	}
 }

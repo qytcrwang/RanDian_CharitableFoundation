@@ -13,8 +13,8 @@ Page({
       {id:'',title:'',time:'',state:'',ifRead:''}
     ],
     //消息列表数组
-    newsList:[{
-      id:'1',title:'恭喜您注册成功',time:'2020-03-09',state:'',ifRead:''}
+    newsList:[
+      {id:'',title:'',time:'',state:'',ifRead:''}
     ],
   },
   /**
@@ -35,15 +35,21 @@ Page({
     wx.getStorage({
       key:'userid',
       success:function(res){
+        var flag = _this.trendsTap?0:1;
+        console.log("flag"+flag);
         wxb.wxPost(
           '/notice/getNoticesWithOutContext',
           {
-            msgType:'0'
+            msgType:flag
           },function(backResult){
             console.log(backResult)
             if(backResult.status == 1){
+              var _trendsList = [];
+              for(var i = 0; i < backResult.data.length; i++){
+                bindTrendsData(_trendsList,backResult.data[i]);
+              }
               _this.setData({
-                trendsList:backResult.data
+                trendsList:_trendsList
               })
             }else{
               wx.showToast({
@@ -103,4 +109,13 @@ Page({
     })
   }
 })
+function bindTrendsData(_trendsList,trendsObj){
+  _trendsList.push({
+    id:trendsObj.id,
+    title:trendsObj.title.length>6? trendsObj.title.substring(0,5):trendsObj.title,
+    time:trendsObj.time,
+    state:trendsObj.state,
+    ifRead:trendsObj.ifRead
+  })
+}
 

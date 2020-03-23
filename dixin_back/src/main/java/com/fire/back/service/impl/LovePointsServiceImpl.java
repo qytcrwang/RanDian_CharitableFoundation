@@ -53,7 +53,7 @@ public class LovePointsServiceImpl implements LovePointsService {
     public List<LovePointsTb> getLovePointsTbListByUserId(LovePointsTb lovePointsTb,int page,int pageSize) {
         return lovePointsTbMapper.selectLovePointsByPage(lovePointsTb,(page-1)*pageSize,pageSize);
     }
-
+    @Transactional
     @Override
     public int updateLovePoints(LovePointsTb l) {
         int result = 0;

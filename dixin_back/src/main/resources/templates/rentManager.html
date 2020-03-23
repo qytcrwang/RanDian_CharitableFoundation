@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="include :: header"></head>
+<body>
+<form class="layui-form" id="searchForm">
+  <div class="layui-row">
+    <div class="layui-col-md12" style="padding-top: 10px">
+      学校：
+      <div class="layui-inline" lay-filter="typeSelect">
+        <select name="activityType" id="activityType" lay-verify="">
+          <option value="">请选择</option>
+        </select>
+      </div>
+      专业：
+      <div class="layui-inline" lay-filter="stateSelect">
+        <select name="activityState" id="activityState" lay-verify="">
+          <option value="">请选择</option>
+        </select>
+      </div>
+      职位：
+      <div class="layui-inline">
+        <input type="text" class="layui-input" name="activityStime" id="activityStime" placeholder="开始日期起始" onfocus="noInput(this)">
+      </div>-
+      <div class="layui-inline">
+        <input type="text" class="layui-input" name="activityEtime" id="activityEtime" placeholder="开始日期截止" onfocus="noInput(this)">
+      </div>
+      <div class="layui-inline" style="float:right;">
+        <button class="layui-btn" data-type="reload">搜索</button>
+        <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
+      </div>
+      <div class="layui-col-md12" style="padding-top: 10px">
+        <div style="float:right;">
+          <button type="button" class="layui-btn layui-btn-radius layui-btn-primary" data-type="reload" id="add">新增</button>
+          <button type="button" class="layui-btn layui-btn-radius layui-btn-primary" data-type="reload" id="edit">编辑</button>
+          <button type="button" class="layui-btn layui-btn-radius layui-btn-primary" data-type="reload" id="del">删除</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+  <!--<div class="layui-row">
+    <div class="layui-col-md8 layui-col-md-offset2">
+      <div class="dTable" style="padding-top: 10px">
+        名称：
+        <div class="layui-inline">
+          <input class="layui-input" name="id" id="nameReload" autocomplete="off">
+        </div>
+        价格:
+        <div class="layui-inline">
+          <input class="layui-input" name="id" id="lowPrReload" autocomplete="off"
+                 style="width: 100px">
+        </div>
+
+        <div class="layui-inline">
+          <input class="layui-input" name="id" id="highPrReload" autocomplete="off"
+                 style="width: 100px">
+        </div>
+        <button class="layui-btn" data-type="reload">搜索</button>
+        <button class="layui-btn" onclick="exportBook()">导出</button>
+        <hr class="layui-bg-red" style="width: 100px">
+      </div>
+    </div>
+  </div>-->
+  <table class="layui-hide" id="contriInfoList" lay-filter="tableFilter"></table>
+<script th:src="@{js/jQuery.js}"></script>
+  <script type="text/javascript">
+  layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function(){
+    var laydate = layui.laydate //日期
+        ,laypage = layui.laypage //分页
+        ,layer = layui.layer //弹层
+        ,table = layui.table //表格
+        ,carousel = layui.carousel //轮播
+        ,upload = layui.upload //上传
+        ,element = layui.element
+        /*,data = $('#searchForm').val()*/; //元素操作
+    //监听Tab切换
+    element.on('tab(demo)', function(data){
+      layer.msg('切换了：'+ this.innerHTML);
+      console.log(data);
+    });
+
+    //执行一个 table 实例
+    table.render({
+      elem: '#contriInfoList'
+        ,where:{"data": 123}
+      ,url: '/back/rent/getRentByPage',
+            method:'post'
+      ,page: true //开启分页
+        ,contentType:'application/json'
+      ,cols: [
+          [
+        {type:'checkbox'}
+        ,{title: '序号', type:'numbers', align: 'center'}
+        ,{field:'userId', title: '用户id', align: 'center'}
+        ,{field:'school', title: '学校', align: 'center'}
+        ,{field:'major', title: '专业', align: 'center'}
+        ,{field:'jobIntension', title: '职位', align: 'center'}
+        ,{field:'hopeSalary', title: '期望薪资', align: 'center'}
+        ,{field:'state', title: '状态', align: 'center'}
+        ,{field:'applyTime', title: '申请时间', align: 'center'}
+        ,{field:'sentTime', title: '发放时间', align: 'center'}
+        ,{field:'sentAmount', title: '发放金额', align: 'center'}
+        ,{field:'sentProof', title: '发放凭证', align: 'center'}
+        ,{field:'jobState', title: '是否在职', align: 'center'}
+        ,{field:'position', title: '当前职位', align: 'center'}
+        ,{field:'rejectReason', title: '驳回原因', align: 'center'}
+        ,{field:'companyName', title: '公司名', align: 'center'}
+        ,{field:'companyAddress', title: '公司地址', align: 'center'}
+
+        ,{fixed: 'right', width: 165, align:'center', toolbar: '#bar'}
+        ]
+      ]
+      ,id: 'tableReload'
+    });
+
+    //监听工具条
+    table.on('tool(tableFilter)', function(obj){
+      var data = obj.data //获得当前行数据
+          ,layEvent = obj.event; //获得 lay-event 对应的值
+      if(layEvent === 'detail'){
+        layer.msg('查看操作');
+      } else if(layEvent === 'edit'){
+        var bookid = data.id;
+        var jsonData;
+        $.ajax({
+          type:"post",
+          url:"${pageContext.request.contextPath}/book/queryOneBook",
+          dataType:"json",
+          data:{"bookId":bookid},
+          success : function(data){
+            jsonData = data;
+          }
+        });
+        var index=layer.open({
+          type: 2
+          ,offset: '0px'
+          ,scrollbar: false
+          ,title: '修改信息'
+          ,skin: 'layui-layer-molv'
+          ,area: ['1000px', '450px']
+          ,content: ['${pageContext.request.contextPath}/pages/modules/user/editBook.jsp','false']
+          ,success: function(layero,index){
+            console.log(layero, index);
+            var name = $("#editName", layero.find("iframe")[0].contentWindow.document);
+            var price = $("#editPrice", layero.find("iframe")[0].contentWindow.document);
+            var author = $("#editAuthor", layero.find("iframe")[0].contentWindow.document);
+            var status = $("#editStatus", layero.find("iframe")[0].contentWindow.document);
+            var category = $("#editCategory", layero.find("iframe")[0].contentWindow.document);
+            var time = $("#editTime", layero.find("iframe")[0].contentWindow.document);
+            var introduction = $("#editIntroduction", layero.find("iframe")[0].contentWindow.document);
+            var bookid = $("#id", layero.find("iframe")[0].contentWindow.document);
+            name.val(jsonData.bookName);
+            price.val(jsonData.bookPrice);
+            author.val(jsonData.bookAuthor);
+            status.val(jsonData.status);
+            category.val(jsonData.categoryName);
+            time.attr("value",jsonData.upTime);
+            introduction.val(jsonData.introduction);
+            bookid.val(jsonData.id);
+          }
+        });
+      }
+    });
+
+    var $ = layui.$, active = {
+      reload: function(){
+        var nameReload = $('#nameReload');
+        var lowPrReload = $('#lowPrReload');
+        var highPrReload = $('#highPrReload');
+        //执行重载
+        table.reload('tableReload', {
+          page: {
+            curr: 1 //重新从第 1 页开始
+          }
+          ,where: {
+            bookName: nameReload.val()
+            ,lowPrice: lowPrReload.val()
+            ,highPrice: highPrReload.val()
+          }
+        });
+      }
+    };
+
+    $('.dTable .layui-btn').on('click', function(){
+      var type = $(this).data('type');
+      active[type] ? active[type].call(this) : '';
+    });
+  });
+  </script>
+  <script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+  </script>
+</body>

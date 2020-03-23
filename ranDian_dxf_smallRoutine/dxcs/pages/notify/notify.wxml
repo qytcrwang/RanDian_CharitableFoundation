@@ -2,7 +2,7 @@
 <view class="bottomGrayboder toptab">
     <view class="toptabWrap">
         <view class='{{trendsTap?"active":""}} toptabItem' bindtap="togoTrendsTap">
-            动态
+            公告
         </view>
         <view class='{{newsTap?"active":""}} toptabItem' bindtap="togoNewsTap">
             消息
@@ -21,8 +21,10 @@
                 </navigator>
                 <view class="wx-view_WnUrtw2">
                     <view class="wx-view_F9ISUC2">
-                        <text class="wx-text_kGXxsa2">{{item.title}}</text>
-                        <text class="wx-text_kGXxsa3">{{wxUtils.dateFormat(item.time,yyyy-MM-dd)}}</text>
+                        <navigator class="wx-navigator_wTcTS2" hover-class="navigator-hover" url="../message_detail/message_detail?id={{item.id}}">
+                            <text class="wx-text_kGXxsa2">{{item.title}}</text>
+                            <text class="wx-text_kGXxsa3">{{wxUtils.dateFormat(item.time,yyyy-MM-dd)}}</text>
+                        </navigator>
                     </view>
                 </view>
                 <!--<navigator class="nav_commoditylink" data-c_e_id="wx_navigatoraa33ee92" hover-class="navigator-hover" url="../detail/detail">
@@ -44,10 +46,9 @@
                 </navigator>
                 <view class="wx-view_WnUrtw2">
                     <view class="wx-view_F9ISUC2">
-                        <navigator class="wx-navigator_wTcTS2" hover-class="navigator-hover" url="../message_detail/message_detail">
-                            <text class="wx-text_71u3gA2" data-c_e_id="wx_text5fe6919d">滴信慈善</text>
+                        <navigator class="wx-navigator_wTcTS2" hover-class="navigator-hover" url="../message_detail/message_detail?id={{item.id}}">
+                            <text class="wx-text_kGXxsa2" data-c_e_id="wx_texta38253c0">{{item.title}}</text>
                         </navigator>
-                        <text class="wx-text_kGXxsa2" data-c_e_id="wx_texta38253c0">{{item.title}}</text>
                         <text class="wx-text_kGXxsa3" data-c_e_id="wx_text6014538a">{{wxUtils.dateFormat(item.time,yyyy-MM-dd)}}</text>
                     </view>
                 </view>

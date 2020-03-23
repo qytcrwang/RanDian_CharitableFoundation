@@ -1,4 +1,5 @@
-// pages/activity_detail/activity_detail.js
+var wxb = require('../../utils/wxb.js');
+
 Page({
 
   /**
@@ -9,14 +10,14 @@ Page({
     activityDetails:null,
     //图片
     imgs:[
-      '/img/activity1.png',
-      '/img/activity2.png',
-     '/img/activity3.png'
+      '/img/activity3.png',
+      '/img/activity2.png'
     ],
     currentPostId: ''
 
   },
 
+  //点赞状态：0未点赞，1点赞，2已点赞
   changeGoodStatus(activityId){
     // 设置活动id为页面共享
     this.setData({
@@ -25,9 +26,9 @@ Page({
     // 获取缓存
     var goodList = wx.getStorageSync('goodList');
     if (goodList) {
-      // 获取活动收藏状态
+      // 获取活动点赞状态
       var goodStatus = goodList[activityId];
-      // 更新活动收藏状态
+      // 更新活动点赞状态
       this.setData({
         goodStatus: goodStatus
       });
@@ -41,49 +42,125 @@ Page({
 
   ongoodTap: function (event) {
     var goodList = wx.getStorageSync('goodList');
-    // 获取活动收藏状态
+    // 获取活动点赞状态
     var goodStatus = goodList[this.data.currentPostId];
-    // 活动收藏状态切换
-    goodStatus = !goodStatus;
-    // 存储活动收藏状态
-    goodList[this.data.currentPostId] = goodStatus;
-    // 三个参数为,Storage键、值、活动收藏状态
-    this.showToast('goodList', goodList, goodStatus);
+    
+    if(goodStatus==2){//已经点过赞
+      this.showToast('goodList', goodList, 2);
+    }else{
+      // 活动点赞状态切换
+      goodStatus = 1;
+      // 存储活动点赞状态
+      goodList[this.data.currentPostId] = 2;
+      // 三个参数为,Storage键、值、活动点赞状态
+      this.addGoodNum(this.data.currentPostId);
+      this.showToast('goodList', goodList, goodStatus);
+    }
   },
 
   showToast: function (key, value, status) {
 
     wx.setStorageSync(key, value);
-    // 更新活动收藏状态
+    // 更新活动点赞状态
     this.setData({
       goodStatus: status
     });
     // 显示提示
+    if(status==1){
+      wx.showToast({
+        title: '点赞成功',
+        icon: 'success',
+        duration: 2000
+      })
+    }else{
+      wx.showToast({
+        title: '已经点赞过了~',
+        icon: 'none',
+        duration: 2000
+      })
+    }
+  },
+
+  //获取活动详情
+  getActivityDetails(activityId){
+    let that = this;
+    wxb.wxPost(
+      "/activity/getInfo",
+      {
+        id: activityId,
+        userId:1
+      },function(res){
+        if(res.status===1){
+          that.setData({
+            activityDetails:res.data,
+            // imgs:res.data.pic_url.split(",")
+          });
+        }
+      }
+    )
+  },
+  
+  //活动点赞
+  addGoodNum(activityId){
+    let that = this;
+    wxb.wxPost(
+      "/activity/addGood",
+      {
+        id: activityId
+      },function(res){
+        if(res.status===1){
+          that.getActivityDetails(activityId);
+        }else{
+          wx.showToast({
+            title: '点赞失败，请联系管理员~',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      }
+    )
+  },  
+
+  //已报名提示
+  joinedMessage(){
     wx.showToast({
-      title: status ? "点赞成功" : "取消成功"
+      title: '不可重复报名~',
+      icon: 'none',
+      duration: 2000
     })
   },
 
-  getActivityDetails(activityId){
+  //报名活动
+  joinActivity(){
+    wx.showLoading({
+      title: '加载中',
+      mask:true//防止触摸穿透
+    });
     let that = this;
-    wx.request({
-      method:'POST',
-      // data: {
-      //   id: activityId
-      // },
-      url:"http://mock-api.com/VKyv1Gzw.mock/activity/getInfo",
-      success(res){
-        if(res.data.status===1){
-          var a = res.data.data.pic_url.split(",");
-          console.log(a);
-          that.setData({
-            activityDetails:res.data.data,
-            // imgs:a
-          });
-          // console.log(imgs);
+    var activityId = this.currentPostId;
+    wxb.wxPost(
+      "/activity/applyActivity",
+      {
+        id: activityId,
+        userId:1
+      },function(res){
+        if(res.status===1){
+          that.getActivityDetails(activityId);
+          wx.showToast({
+            title: res.msg,
+            icon: 'success',
+            mask:true,
+            duration: 2000
+          })
+        }else{
+          wx.showToast({
+            title: '报名失败，请联系管理员~',
+            icon: 'none',
+            duration: 2000
+          })
         }
       }
-    })
+    )
   },
 
   /**
@@ -91,6 +168,7 @@ Page({
    */
   onLoad: function (options) {
     let activityId = options.id;
+    this.currentPostId = options.id;
     this.getActivityDetails(activityId);
     this.changeGoodStatus(activityId);
   },

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fire.back.common.FireResult;
 import com.fire.back.util.ParamUtil;
 /**
- * 
+ *
  * @author dragon
  * 可依照getInfo规范开发 接口统一返回FireResult
  * Feb 18, 2020
@@ -42,6 +42,26 @@ public class TestController {
 
 	@GetMapping("/add")
 	public String add() {return "add";
+	}
+
+	@GetMapping("/contriInfo")
+	public String contriInfo() {
+		return "contriInfo";
+	}
+
+	@GetMapping("/contriInfoDetail")
+	public String contriInfoDetail() {
+		return "contriInfoDetail";
+	}
+
+	@GetMapping("/activityManage")
+	public String activityManage() {
+		return "activityManage";
+	}
+
+	@GetMapping("/rentManager")
+	public String rentManager() {
+		return "rentManager";
 	}
 
 	@PostMapping("/getInfo")

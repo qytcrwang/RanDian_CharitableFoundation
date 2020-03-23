@@ -1,5 +1,8 @@
 package com.fire.back.service;
 
+import com.fire.back.common.ExecuteResult;
+import com.fire.back.common.FireResult;
+import com.fire.back.dto.ContriInfoListParamsDto;
 import com.fire.back.entity.ContriInfoTb;
 import java.util.List;
 
@@ -30,10 +33,10 @@ public interface ContriInfoService {
   /**
    * 我的捐赠信息查询.
    *
-   * @param userId 入参
+   * @param paramsDto 入参
    * @return
    */
-  List<ContriInfoTb> getSelfContriInfo(Long userId);
+  FireResult getContriInfoList(ContriInfoListParamsDto paramsDto);
 
   /**
    * 我的捐赠信息查询.

@@ -22,6 +22,8 @@ public interface ActivityService {
 	void addGood(Long activityId);
 	List<Map<String, Object>> getListByPage(int page,int size,String field,String sort,
 			int type,String stime,String etime,int state);
+	int getListByPageCount(int type,String stime,String etime,int state);
 	Map<String, Object> getInfoById(Long activityId);
 	int insertOrUpdate(ActivityTbWithBLOBs activeTb);
+	void del(String ids);
 }

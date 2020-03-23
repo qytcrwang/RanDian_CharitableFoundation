@@ -1,7 +1,9 @@
 package com.fire.back.controller.web;
 
 import com.fire.back.common.CheckEmptyUtil;
+import com.fire.back.common.ExecuteResult;
 import com.fire.back.common.FireResult;
+import com.fire.back.dto.ContriInfoListParamsDto;
 import com.fire.back.entity.ContriInfoTb;
 import com.fire.back.service.ContriInfoService;
 import java.util.List;
@@ -28,7 +30,7 @@ public class BackContriInfoController {
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   /**
-   * 捐赠状态更新.
+   * 后台捐赠状态更新.
    *
    * @return null
    */
@@ -51,26 +53,19 @@ public class BackContriInfoController {
   }
 
   /**
-   * 我的捐赠信息查询.
+   * 后台我的捐赠信息查询.
    *
    * @return null
    */
-  @GetMapping(value = "/getSelfContriInfo")
-  public FireResult getSelfContriInfo(@RequestParam Long userId) {
-    if (CheckEmptyUtil.isEmpty(userId)) {
-      return FireResult.build(0, "入参不能为空");
-    }
-    try {
-      List<ContriInfoTb> resultList = contriInfoService.getSelfContriInfo(userId);
-      return FireResult.build(1, "数据获取成功", resultList);
-    } catch (Exception e) {
-      logger.error("", e);
-      return FireResult.build(0, "获取信息失败，请稍后再试");
-    }
+  @PostMapping(value = "/contriInfoList")
+  public FireResult contriInfoList(@RequestBody ContriInfoListParamsDto paramsDto) {
+    paramsDto.setOffSet(paramsDto.getOffSet(paramsDto.getPage(),paramsDto.getLimit()));
+    FireResult result = contriInfoService.getContriInfoList(paramsDto);
+    return result;
   }
 
   /**
-   * 获取捐赠详情.
+   * 后台获取捐赠详情.
    *
    * @return null
    */

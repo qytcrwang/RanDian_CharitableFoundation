@@ -7,6 +7,10 @@ public class RentApplyTb {
 
     private String school;
 
+    private String field;
+
+    private String sort;
+
     private String major;
 
     private String jobIntension;
@@ -38,6 +42,22 @@ public class RentApplyTb {
     private Long createTime;
 
     private Long updateTime;
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
 
     public Long getId() {
         return id;

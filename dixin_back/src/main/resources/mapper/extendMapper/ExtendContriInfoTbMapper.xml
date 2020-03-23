@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fire.back.dao.extend.ExtendContriInfoTbMapper">
+  <resultMap id="BaseResultMap" type="com.fire.back.entity.ContriInfoTb" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="contri_amount" property="contriAmount" jdbcType="DECIMAL" />
+    <result column="contri_things" property="contriThings" jdbcType="VARCHAR" />
+    <result column="contri_time" property="contriTime" jdbcType="BIGINT" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="org_r_name" property="orgRName" jdbcType="VARCHAR" />
+    <result column="contri_proof" property="contriProof" jdbcType="VARCHAR" />
+    <result column="contri_type" property="contriType" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="contri_state" property="contriState" jdbcType="INTEGER" />
+    <result column="if_stamp" property="ifStamp" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="contri_value" property="contriValue" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id AS userId, contri_amount AS contriAmount, contri_things AS contriThings,
+    contri_time AS contriTime, mobile, org_name AS orgName, org_r_name AS orgRName,
+    contri_proof AS contriProof, contri_type AS contriType, update_time AS updateTime,
+    is_delete AS isDelete, contri_state AS contriState, if_stamp AS ifStamp,
+    create_time AS createTime, contri_value AS contriValue
+  </sql>
+
+  <select id='getCount' resultType="Integer">
+    select
+      count(*)
+    from
+      contri_info_tb
+    where
+      1=1
+    <if test="paramsDto.userId != null" >
+      and user_id = #{paramsDto.userId,jdbcType=BIGINT}
+    </if>
+  </select>
+  <select id="selectContriInfoByPage" resultType="com.fire.back.entity.ContriInfoTb">
+    select
+    <include refid="Base_Column_List" />
+    from contri_info_tb
+    where
+    1=1
+    <if test="paramsDto.userId != null" >
+    and user_id = #{paramsDto.userId,jdbcType=BIGINT}
+    </if>
+    order by update_time desc
+    <![CDATA[
+    limit #{paramsDto.offSet,jdbcType=INTEGER},#{paramsDto.limit,jdbcType=INTEGER}
+    ]]>
+  </select>
+</mapper>

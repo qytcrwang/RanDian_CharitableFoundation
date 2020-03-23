@@ -1,3 +1,6 @@
+var wxb = require("../../utils/wxb.js");
+var wxUtils = require("../../utils/util.js");
+var constant = require("../../utils/constant.js");
 Page({
   /**
    * 页面的初始数据
@@ -8,41 +11,45 @@ Page({
     realName:'',
     idCard:'',
     phone:'',
-    userid:''   
+    userId:''   
   },
   onShow(){
     //获取储存区的userid
-    var that = this;
+    var _this = this;
     wx.getStorage({
       key:'userid',
       success:function(res){
         //将userid缓存到本页面
-        that.setData({
-          userid:res.data
+        _this.setData({
+          userId:res.data
         })
         //根据userid加载用户账户数据
-        wx.request({
-          url:'http://localhost:8081/wx/user/getUserInfo',
-          data:{
-            userId:res.data,
-          },
-          method:'POST',
-          dataType:'json',
-          success:function(backResult){
-            if(backResult.data.status == 1){
-              //获取用户信息成功
-              var userInfo = backResult.data.data;
-              that.setData({
-                realName:userInfo.name,
-                idCard:userInfo.idCardNumber,
-                phone:userInfo.mobile,
-                userTypeIndex:userInfo.type
-              });
-            }else{
-              console.log("获取用户数据失败")
+        wxb.wxPost(
+          "/user/getUserInfo",
+          {
+            userId:_this.data.userId
+          },function(backResult){
+            if(backResult == null ||
+              backResult.data == null ||
+              backResult.data.length <= 0 ||
+              backResult.status != 1){
+              wx.showToast({
+                  title:constant.REQUEST_TIMEOUT,
+                  duration:2000,
+                  icon:'/img/close.png'
+              })
+              return;
             }
+            //获取用户信息成功
+            var userInfo = backResult.data;
+            _this.setData({
+              realName:userInfo.name,
+              idCard:userInfo.idCardNumber,
+              phone:userInfo.mobile,
+              userTypeIndex:userInfo.type
+            });
           }
-        })
+        )
       }
     })
   },
@@ -80,41 +87,31 @@ Page({
     this.setData({
       userTypeIndex:newUserType
     })
-    //获取userid
-    wx.getStorage({
-      key:'userid',
-      success:function(res){
-        //发送更新请求
-        wx.request({
-          url:'http://localhost:8081/wx/user/updateUserInfo',
-          data:{
-            userId:res.data,
-            userType:newUserType,
-          },
-          method:'POST',
-          dataType:'json',
-          success:function(backResult){
-            if(backResult.data.status == 1){
-              //更新成功
-              _this.setData({
-                userType:newUserType
-              });
-              wx.showToast({
-                title:backResult.data.msg,
-                icon:'success',
-                duration:2000
-              });
-              //跳转到我的信息页面
-              
-            }else{
-              wx.showToast({
-                title:backResult.data.msg,
-                duration:2000
-              })
-            }
-          }
-        })
-      } 
-    })
+    wxb.wxPost(
+      "/user/updateUserInfo",
+      {
+        userId:_this.data.userId,
+        userType:newUserType,
+      },function(backResult){
+        if(backResult == null ||
+          backResult.status != 1){
+            wx.showToast({
+              title:constant.REQUEST_TIMEOUT,
+              duration:2000,
+              icon:'/img/close.png'
+            })
+          return;
+        }
+        //更新成功
+        _this.setData({
+          userType:newUserType
+        });
+        wx.showToast({
+          title:constant.REQUEST_SUCCESS,
+          icon:'success',
+          duration:2000
+        });
+      }
+    )
   }
 })

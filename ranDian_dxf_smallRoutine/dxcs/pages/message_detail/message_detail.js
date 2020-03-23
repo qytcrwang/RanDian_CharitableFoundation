@@ -1,4 +1,5 @@
-// pages/message_detail/message_detail.js
+var wxb = require('../../utils/wxb.js');
+
 Page({
 
   /**
@@ -6,38 +7,55 @@ Page({
    */
   data: {
     //活动详情
-    activityDetails:null
+    messageDetails:null,
+    //活动日期
+    noticeTime:null
 
   },
 
-  getActivityDetails(activityId){
+  dateFormat: function (timestamp){
+    let d = new Date(timestamp * 1000);// 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    let yyyy = d.getFullYear() + '-';
+    let MM = (d.getMonth()+1 < 10 ? '0'+(d.getMonth()+1) : d.getMonth()+1) + '-';
+    let dd = d.getDate() + ' ';
+    let HH = d.getHours() + ':';
+    let mm = d.getMinutes() + ':';
+    let ss = d.getSeconds();
+    return yyyy + MM + dd + HH + mm + ss;
+  },
+
+  getMessageDetails(msgId){
     let that = this;
-    wx.request({
-      method:'POST',
-      // data: {
-      //   id: activityId
-      // },
-      url:"http://mock-api.com/VKyv1Gzw.mock/activity/getInfo",
-      success(res){
-        if(res.data.status===1){
-          var a = res.data.data.pic_url.split(",");
-          console.log(a);
+    wxb.wxPost(
+      "/notice/getNoticeById",
+      {
+        id:msgId
+      },function(res){
+        if(res.status===1){
+          let d = new Date(res.data.time * 1000);// 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+          let yyyy = d.getFullYear() + '-';
+          let MM = (d.getMonth()+1 < 10 ? '0'+(d.getMonth()+1) : d.getMonth()+1) + '-';
+          let dd = d.getDate() + ' ';
+          let HH = d.getHours() + ':';
+          let mm = d.getMinutes() + ':';
+          let ss = d.getSeconds();
+          // console.log(yyyy + MM + dd + HH + mm + ss);
           that.setData({
-            activityDetails:res.data.data,
-            imgs:[a]
+            messageDetails:res.data,
+            noticeTime:yyyy + MM + dd + HH + mm + ss
           });
-          // console.log(imgs);
         }
       }
-    })
+    )
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let activityId = options.id;
-    this.getActivityDetails(activityId);
+    let msgId = options.id;
+    console.log(msgId);
+    this.getMessageDetails(msgId);
   },
 
   /**

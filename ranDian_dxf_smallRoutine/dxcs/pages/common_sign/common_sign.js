@@ -18,7 +18,10 @@ Page({
         month:null,
         display:"none",
         curMonthTotal:'',
-        allTotal:'',
+        consecutive:'',
+        userId:'',
+        //当日是否已经签到,默认false未签到
+        isTodaySigned:false,
         week:[
             {
                 wook: "一"
@@ -43,30 +46,29 @@ Page({
     },
     //计算本周的日期
     getProWeekList:function(){
-         let that=this
+         let _this=this
          let date=new Date()
          let dateTime = date.getTime(); // 获取现在的时间
-         let dateDay = date.getDay();// 获取现在的
+         let dateDay = date.getDay()==0?7:date.getDay();// 获取现在的
          let oneDayTime = 24 * 60 * 60 * 1000; //一天的时间
          let proWeekList;
          let weekday;
-         console.log(dateTime)
          for (let i = 0; i < 7; i++) {
             let time = dateTime - (dateDay - 1 - i) * oneDayTime;
             proWeekList = new Date(time).getDate(); //date格式转换为yyyy-mm-dd格式的字符串
             weekday = "day[" + i + "].wook"
-            that.setData({
+            _this.setData({
                 [weekday]: proWeekList,
             })
             //that.data.day[i].wook = new Date(time).getDate();
         }
+
     },
     dateSelectAction: function (e) {
         let cur_day = e.currentTarget.dataset.idx;
         this.setData({
             todayIndex: cur_day
         })
-        console.log(`点击的日期:${this.data.cur_year}年${this.data.cur_month}月${cur_day + 1}日`);
     },
 
     setNowDate: function () {
@@ -74,7 +76,6 @@ Page({
         const cur_year = date.getFullYear();
         const cur_month = date.getMonth() + 1;
         const todayIndex = date.getDate();
-        console.log(`日期：${todayIndex}`)
         const weeks_ch = ['日', '一', '二', '三', '四', '五', '六'];
         this.calculateEmptyGrids(cur_year, cur_month);
         this.calculateDays(cur_year, cur_month);
@@ -257,7 +258,6 @@ Page({
 
             })
         }
-        // console.log(that.data.nubmerLength)
     },
     upper: function (e) {
         console.log(e)
@@ -286,10 +286,14 @@ Page({
         this.getProWeekList();
         //初始化全月签到数据
         this.calculateDays();
+        
         //加载签到数据
         wx.getStorage({
             key:'userid',
             success:function(res){
+                _this.setData({
+                    userId:res.data
+                })
                 wxb.wxPost(
                     "/user/getSignDaysList",
                     {
@@ -306,23 +310,20 @@ Page({
                             })
                             return;
                         }
-                        //获取本周签到数据
                         var itemDayList = [];
                         var firstDayOfWeek = _this.data.day[0].wook;
-                        for(var i = firstDayOfWeek-1; i <= firstDayOfWeek+7;i++){
+                        for(var i = firstDayOfWeek-1; i < firstDayOfWeek+6;i++){
                             bindDay(itemDayList,backResult.data[i],i+1);
                         }
                         _this.setData({
                             day:itemDayList,
                         });
-                        //获取本月签到数据
-                        console.log(backResult.data)
+                        
                         var itemMonthDayList = [];
                         var firstDayOfMonth = _this.data.days[0].item;
                         for(var i = firstDayOfMonth-1; i < backResult.data.length; i++){
                             bindMonthDay(itemMonthDayList,backResult.data[i],i+1);
                         }
-                        console.log(itemMonthDayList)
                         _this.setData({
                             days:itemMonthDayList
                         })
@@ -340,48 +341,54 @@ Page({
                             return;
                         }
                         _this.setData({
-                            allTotal:backResult.data
+                            consecutive:backResult.data.consecutive,
+                            curMonthTotal:backResult.data.signSum,
                         }) 
+                    }
+                );
+                wxb.wxPost(
+                    "/user/isTodaySigned",
+                    {
+                        userId:res.data
+                    },function(backResult){
+                        if(backResult == null ||
+                            backResult.data == null ||
+                            backResult.data.length <= 0 ||
+                            backResult.status != 1){
+                            return;
+                        }
+                        _this.setData({
+                            isTodaySigned:backResult.data
+                        })
                     }
                 )
             }
         })
         
     },
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function () {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
-
+    bindSign:function(){
+        var _this = this;
+        wxb.wxPost(
+            "/user/userSingIn",
+            {
+                userId:this.data.userId
+            },function(backResult){
+                if(backResult == null ||
+                    backResult.data == null ||
+                    backResult.data.length <= 0 ||
+                    backResult.status != 1){
+                    wx.showToast({
+                        title:constant.REQUEST_TIMEOUT,
+                        duration:2000,
+                        icon:'/img/close.png'
+                    })
+                    return;
+                }
+                _this.setData({
+                    isTodaySigned:true
+                })
+            }
+        )
     }
 });
 function bindDay(itemDayList,itemDay,date){
