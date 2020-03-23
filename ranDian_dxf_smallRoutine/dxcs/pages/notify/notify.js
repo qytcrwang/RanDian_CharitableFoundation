@@ -13,8 +13,8 @@ Page({
       {id:'',title:'',time:'',state:'',ifRead:''}
     ],
     //消息列表数组
-    newsList:[{
-      id:'1',title:'恭喜您注册成功',time:'2020-03-09',state:'',ifRead:''}
+    newsList:[
+      {id:'',title:'',time:'',state:'',ifRead:''}
     ],
   },
   /**
@@ -35,10 +35,12 @@ Page({
     wx.getStorage({
       key:'userid',
       success:function(res){
+        var flag = _this.trendsTap?0:1;
+        console.log("flag"+flag);
         wxb.wxPost(
           '/notice/getNoticesWithOutContext',
           {
-            msgType:'0'
+            msgType:flag
           },function(backResult){
             console.log(backResult)
             if(backResult.status == 1){

@@ -24,12 +24,12 @@ Page({
     return yyyy + MM + dd + HH + mm + ss;
   },
 
-  getActivityDetails(activityId){
+  getMessageDetails(msgId){
     let that = this;
     wxb.wxPost(
       "/notice/getNoticeById",
       {
-        id:1
+        id:msgId
       },function(res){
         if(res.status===1){
           let d = new Date(res.data.time * 1000);// 时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -53,8 +53,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let activityId = options.id;
-    this.getActivityDetails(activityId);
+    let msgId = options.id;
+    console.log(msgId);
+    this.getMessageDetails(msgId);
   },
 
   /**
