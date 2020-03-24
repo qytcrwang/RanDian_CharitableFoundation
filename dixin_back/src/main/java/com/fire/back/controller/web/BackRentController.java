@@ -1,5 +1,6 @@
 package com.fire.back.controller.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fire.back.common.CheckEmptyUtil;
 import com.fire.back.common.ExecuteResult;
 import com.fire.back.common.FireResult;
@@ -7,6 +8,7 @@ import com.fire.back.dto.RentListParamsDto;
 import com.fire.back.entity.RentApplyTb;
 import com.fire.back.service.impl.RentServiceImpl;
 import com.fire.back.util.ParamUtil;
+import io.swagger.models.auth.In;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +115,32 @@ public class BackRentController {
         paramsDto.setOffSet(paramsDto.getOffSet(paramsDto.getPage(),paramsDto.getLimit()));
         ExecuteResult<List<RentApplyTb>> result = rentServiceImpl.getRentApplyTbList(paramsDto);
         return result;
+    }
+    @PostMapping(value = "/del")
+    public ExecuteResult del( @RequestBody Map<String, Object> data) {
+        ExecuteResult res = new ExecuteResult();
+        //RentApplyTb list1 = JSONObject.parseObject(paramMap.get("data").toString(), RentApplyTb.class);
+        //Integer o = Integer.parseInt(((Map) paramMap.get("data")).get("id")));
+        Object id = data.get("id");
+        rentServiceImpl.delete(Long.parseLong(id+""));
+        return res;
+    }
+    @PostMapping(value = "/updateStatus")
+    public FireResult updateContriStatus(@RequestBody RentApplyTb contriInfoTb) {
+        if (CheckEmptyUtil.isEmpty(contriInfoTb)) {
+            return FireResult.build(0, "入参不能为空");
+        }
+        try {
+            Boolean b = rentServiceImpl.updateStatus(contriInfoTb);
+            if (b) {
+                return FireResult.build(1, "更新成功", null);
+            } else {
+                return FireResult.build(0, "更新失败，请稍后再试");
+            }
+        } catch (Exception e) {
+            logger.error("", e);
+            return FireResult.build(0, "更新失败，请稍后再试");
+        }
     }
 
 }

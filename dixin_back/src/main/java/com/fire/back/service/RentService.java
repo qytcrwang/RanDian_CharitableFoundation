@@ -57,4 +57,8 @@ public interface RentService {
      * @author       : Killian
      */
     ExecuteResult<List<RentApplyTb>> getRentApplyTbList(RentListParamsDto paramsDto);
+
+    int delete(Long id);
+
+    Boolean updateStatus(RentApplyTb contriInfoTb);
 }
