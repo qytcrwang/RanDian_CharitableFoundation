@@ -13,7 +13,8 @@ Page({
       '/img/activity3.png',
       '/img/activity2.png'
     ],
-    currentPostId: ''
+    currentPostId: '',
+    userId:''
 
   },
 
@@ -84,11 +85,13 @@ Page({
   //获取活动详情
   getActivityDetails(activityId){
     let that = this;
+    var userId = wx.getStorageSync('userid');
+    console.log("userId:"+userId);
     wxb.wxPost(
       "/activity/getInfo",
       {
         id: activityId,
-        userId:1
+        userId:userId
       },function(res){
         if(res.status===1){
           that.setData({
@@ -138,11 +141,12 @@ Page({
     });
     let that = this;
     var activityId = this.currentPostId;
+    var userId = wx.getStorageSync('userid');
     wxb.wxPost(
       "/activity/applyActivity",
       {
         id: activityId,
-        userId:1
+        userId:userId
       },function(res){
         if(res.status===1){
           that.getActivityDetails(activityId);
@@ -179,7 +183,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
   },
 
   /**
