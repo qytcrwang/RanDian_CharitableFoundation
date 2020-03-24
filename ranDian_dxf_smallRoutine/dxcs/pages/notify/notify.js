@@ -1,7 +1,8 @@
 
 // 获取全局应用程序实例对象
 const app = getApp();
-var wxb = require("../../utils/wxb");
+var wxb = require("../../utils/wxb.js");
+var wxUtils = require("../../utils/util.js")
 // 创建页面实例对象
 Page({
   data: {
@@ -108,10 +109,11 @@ Page({
   }
 })
 function bindTrendsData(_trendsList,trendsObj){
+  //var minTitle = trendsObj.title.length > 6 ? trendsObj.title.substring(0, 5) : trendsObj.title;
   _trendsList.push({
     id:trendsObj.id,
-    title:trendsObj.title.length>6? trendsObj.title.substring(0,5)+"...":trendsObj.title,
-    time:trendsObj.time,
+    title:trendsObj.title,
+    time: wxUtils.getDateDiff(trendsObj.time),
     state:trendsObj.state,
     ifRead:trendsObj.ifRead
   })

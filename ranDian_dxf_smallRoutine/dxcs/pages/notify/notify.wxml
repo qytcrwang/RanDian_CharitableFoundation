@@ -1,5 +1,5 @@
 <wxs module="wxUtils" src="../../utils/util.wxs"></wxs>
-<view class="bottomGrayboder toptab">
+<!--<view class="bottomGrayboder toptab">
     <view class="toptabWrap">
         <view class='{{trendsTap?"active":""}} toptabItem' bindtap="togoTrendsTap">
             公告
@@ -8,7 +8,7 @@
             消息
         </view>
     </view>
-</view>
+</view>-->
 <!--动态列表-->
 <view class='{{trendsTap?"show":"hidden"}}'>
     <view class="wx-view_GSg09R" wx:for="{{trendsList}}" wx:for-item="item" wx:key='id'>
@@ -21,10 +21,8 @@
                 </navigator>
                 <view class="wx-view_WnUrtw2">
                     <view class="wx-view_F9ISUC2">
-                        <navigator class="wx-navigator_wTcTS2" hover-class="navigator-hover" url="../message_detail/message_detail?id={{item.id}}">
-                            <text class="wx-text_kGXxsa2">{{item.title}}</text>
-                            <text class="wx-text_kGXxsa3">{{wxUtils.dateFormat(item.time,yyyy-MM-dd)}}</text>
-                        </navigator>
+                        <text class="wx-text_kGXxsa2">{{item.title}}</text>
+                        <text class="wx-text_kGXxsa3">{{item.time}}</text>
                     </view>
                 </view>
                 <!--<navigator class="nav_commoditylink" data-c_e_id="wx_navigatoraa33ee92" hover-class="navigator-hover" url="../detail/detail">
@@ -35,7 +33,7 @@
     </view>
 </view>
 <!--消息列表-->
-<view class='{{newsTap?"show":"hidden"}}'>
+<!--<view class='{{newsTap?"show":"hidden"}}'>
     <view class="wx-view_GSg09R" wx:for="{{newsList}}" wx:for-item="item" wx:key='id'>
         <view class="bottomGrayboder listitemWrap">
             <view class="notifylistitem">
@@ -56,4 +54,4 @@
             </view>
         </view>
     </view>
-</view>
+</view>-->

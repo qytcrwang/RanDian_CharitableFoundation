@@ -31,7 +31,6 @@
   color: #000000; 
 }
 .wx-view_GSg09R{
-  padding-top: 45px; 
   height: 100%; 
   width: 100%; 
   overflow: auto; 
@@ -57,13 +56,8 @@
   margin-bottom: 5px; 
 }
 .useravatar{
-  width: 100%; 
-  height: 100%; 
-  border-radius: 48px; 
-  border-bottom-right-radius: 48px; 
-  border-bottom-left-radius: 48px; 
-  border-top-right-radius: 48px;
-  border-top-left-radius: 48px; 
+  width: 80%; 
+  height: 80%; 
 }
 .wx-view_WnUrtw2{
   flex: 1 1 0%; 
@@ -83,15 +77,18 @@
 .wx-text_kGXxsa2{
   font-size: 13px; 
   color: rgb(84, 84, 84); 
-  line-height: 1.5em; 
-  margin-left: 5px; 
-  margin-right: 5px; 
+  line-height: 1em; 
+  margin-left: 5px;
+  width: 75%;
+  margin-right: 10rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .wx-text_kGXxsa3{
   font-size: 13px; 
   color: #a1a1a1; 
-  margin-left: 50rpx;
-  line-height: 1.5em; 
+  line-height: 1em; 
 }
 .nav_commoditylink{
   align-self: flex-start; 
