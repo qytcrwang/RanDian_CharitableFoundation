@@ -6,7 +6,8 @@
   <div class="layui-col-md8 layui-col-md-offset2">
     <div class="dTable" style="padding-top: 10px">
       <div class="layui-inline">
-        <input class="layui-input" name="id" placeholder="会员Id" id="userIdReload" autocomplete="off">
+        <input class="layui-input" name="id" placeholder="会员名称" id="userName" autocomplete="off"
+               style="width: 200px">
       </div>
       <button class="layui-btn" data-type="reload">搜索</button>
     </div>
@@ -44,11 +45,10 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     , cols: [
       [
         {type: 'checkbox'}
-        , {title: '序号', type: 'numbers', align: 'center'}
+        // , {title: '序号', type: 'numbers', align: 'center'}
         , {title: '捐赠金额', field: 'contriAmount', align: 'center'}
         , {title: '捐赠物品', field: 'contriThings', align: 'center'}
         , {title: '联系方式', field: 'mobile', align: 'center'}
-        , {title: '捐赠状态', field: 'contriState', align: 'center', templet: '#titleTpl'}
         , {
           title: '捐赠时间', field: 'contriTime', align: 'center', templet: function (row) {
             return createTime(row.contriTime * 1000);
@@ -59,6 +59,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
             return createTime(row.updateTime * 1000);
           }
         }
+        , {title: '捐赠状态', field: 'contriState', align: 'center', templet: '#titleTpl'}
         , {fixed: 'right', width: 165, align: 'center', toolbar: '#bar'}
       ]
     ]
@@ -71,13 +72,12 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         , layEvent = obj.event; //获得 lay-event 对应的值
     if (layEvent === 'detail') {
       // layer.msg('查看操作');
-      var userId = data.id;
       var jsonData;
       $.ajax({
         type: "get",
         url: "/back/contriInfo/getContriInfoDetail",
         dataType: "json",
-        data: {"contriInfoId": userId},
+        data: {"userName": data.userName},
         success: function (data) {
           jsonData = data.data;
         }
@@ -97,30 +97,47 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         }
       });
     } else if (layEvent === 'edit') {
-      layer.msg('查看操作');
-      layer.confirm('纳尼？', {
-        btn: ['按钮一', '按钮二', '按钮三'] //可以无限个按钮
-        , btn3: function (index, layero) {
-          //按钮【按钮三】的回调
-        }
-      }, function (index, layero) {
-        //按钮【按钮一】的回调
-      }, function (index) {
-        //按钮【按钮二】的回调
+      layer.confirm('是否确认审核通过？', function(index){
+        offset: '200px';
+        layer.close(index);
+        $.ajax({
+          type:"post",
+          contentType: 'application/json',
+          url:"/back/contriInfo/updateContriStatus",
+          dataType:"json",
+          data: JSON.stringify({
+            id:data.id, contriState:1
+          }),
+          // beforeSend: function () {
+          //   //禁用按钮防止重复提交
+          //   $("#submit").attr({ disabled: "disabled" });
+          // },
+          success: function (data) {
+            if (data.status === 1) {
+              layer.msg("认证成功", {
+                icon: 1,
+                success: location.reload()
+              });
+            }
+            else {
+              layer.msg(data.msg);
+            }
+          },
+        });
       });
     }
   });
 
   var $ = layui.$, active = {
     reload: function () {
-      var userIdReload = $('#userIdReload');
+      var userName = $('#userName');
       //执行重载
       table.reload('tableReload', {
         page: {
           curr: 1 //重新从第 1 页开始
         }
         , where: {
-          userId: userId.val()
+          userName: userName.val()
         }
       });
     }
@@ -138,12 +155,10 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
 </script>
 
 <script type="text/html" id="titleTpl">
-  {{#if (d.contriStatus == null) { }}
-  <span>待证实111</span>
-  {{# }else if(d.contriStatus == 2){ }}
+  {{#if (d.contriState == 0) { }}
+  <span>待证实</span>
+  {{# }else if(d.contriState == 1){ }}
   <span>已证实</span>
-  {{# }else if(d.contriStatus == null){ }}
-  <span>证实</span>
   {{# } }}
 </script>
 

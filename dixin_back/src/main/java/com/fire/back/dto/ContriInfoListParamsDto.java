@@ -18,6 +18,8 @@ public class ContriInfoListParamsDto {
 
   private Integer offSet;
 
+  private String userName;
+
   public Integer getOffSet(Integer page,Integer limit) {
     offSet = (page-1)*limit;
     return offSet;

@@ -30,24 +30,51 @@
   <select id='getCount' resultType="Integer">
     select
       count(*)
-    from
-      contri_info_tb
+    from contri_info_tb t1
+    left join user_tb t2 on t1.user_id = t2.id
     where
       1=1
     <if test="paramsDto.userId != null" >
       and user_id = #{paramsDto.userId,jdbcType=BIGINT}
     </if>
+    <if test="paramsDto.userName != null and paramsDto.userName != ''">
+      <![CDATA[
+        and UPPER(t2.name) like CONCAT("%",#{paramsDto.userName},"%")
+        ]]>
+    </if>
   </select>
+
   <select id="selectContriInfoByPage" resultType="com.fire.back.entity.ContriInfoTb">
     select
-    <include refid="Base_Column_List" />
-    from contri_info_tb
+      t1.id,
+      t2.name,
+      t1.contri_amount AS contriAmount,
+      t1.contri_things AS contriThings,
+      t1.contri_time AS contriTime,
+      t1.mobile,
+      t1.org_name AS orgName,
+      t1.org_r_name AS orgRName,
+      t1.contri_proof AS contriProof,
+      t1.contri_type AS contriType,
+      t1.update_time AS updateTime,
+      t1.is_delete AS isDelete,
+      t1.contri_state AS contriState,
+      t1.if_stamp AS ifStamp,
+      t1.create_time AS createTime,
+      t1.contri_value AS contriValue
+    from contri_info_tb t1
+    left join user_tb t2 on t1.user_id = t2.id
     where
     1=1
     <if test="paramsDto.userId != null" >
-    and user_id = #{paramsDto.userId,jdbcType=BIGINT}
+      and t1.user_id = #{paramsDto.userId,jdbcType=BIGINT}
     </if>
-    order by update_time desc
+    <if test="paramsDto.userName != null and paramsDto.userName != ''">
+      <![CDATA[
+        and UPPER(t2.name) like CONCAT("%",#{paramsDto.userName},"%")
+        ]]>
+    </if>
+    order by t1.update_time desc
     <![CDATA[
     limit #{paramsDto.offSet,jdbcType=INTEGER},#{paramsDto.limit,jdbcType=INTEGER}
     ]]>
