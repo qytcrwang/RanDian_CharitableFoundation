@@ -44,8 +44,8 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     }
     , cols: [
       [
-        {type: 'checkbox'}
-        // , {title: '序号', type: 'numbers', align: 'center'}
+         {title: '序号', type: 'numbers', align: 'center'}
+        , {title: '会员名称', field: 'name', align: 'center'}
         , {title: '捐赠金额', field: 'contriAmount', align: 'center'}
         , {title: '捐赠物品', field: 'contriThings', align: 'center'}
         , {title: '联系方式', field: 'mobile', align: 'center'}
@@ -60,7 +60,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
           }
         }
         , {title: '捐赠状态', field: 'contriState', align: 'center', templet: '#titleTpl'}
-        , {fixed: 'right', width: 165, align: 'center', toolbar: '#bar'}
+        , {fixed: 'right', title: '操作', width: '10%', align: 'center', toolbar: '#bar'}
       ]
     ]
     , id: 'tableReload'
@@ -100,6 +100,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
           var orgName = $("#orgName", layero.find("iframe")[0].contentWindow.document);
           var orgRName = $("#orgRName", layero.find("iframe")[0].contentWindow.document);
           var contriType = $("#contriType", layero.find("iframe")[0].contentWindow.document);
+          userName.val(jsonData.userName);
           contriAmount.val(jsonData.contriAmount);
           contriThings.val(jsonData.contriThings);
           contriTime.val(jsonData.contriTime);
@@ -111,34 +112,37 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         }
       });
     } else if (layEvent === 'edit') {
-      layer.confirm('是否确认审核通过？', function(index){
-        offset: '200px';
-        layer.close(index);
-        $.ajax({
-          type:"post",
-          contentType: 'application/json',
-          url:"/back/contriInfo/updateContriStatus",
-          dataType:"json",
-          data: JSON.stringify({
-            id:data.id, contriState:1
-          }),
-          // beforeSend: function () {
-          //   //禁用按钮防止重复提交
-          //   $("#submit").attr({ disabled: "disabled" });
-          // },
-          success: function (data) {
-            if (data.status === 1) {
-              layer.msg("认证成功", {
-                icon: 1,
-                success: location.reload()
-              });
-            }
-            else {
-              layer.msg(data.msg);
-            }
-          },
+      if (data.contriState === 1) {
+        layer.msg('该捐赠已审核通过！');
+      } else {
+        layer.confirm('是否确认审核通过？', function (index) {
+          offset: '200px';
+          layer.close(index);
+          $.ajax({
+            type: "post",
+            contentType: 'application/json',
+            url: "/back/contriInfo/updateContriStatus",
+            dataType: "json",
+            data: JSON.stringify({
+              id: data.id, contriState: 1
+            }),
+            // beforeSend: function () {
+            //   //禁用按钮防止重复提交
+            //   $("#submit").attr({ disabled: "disabled" });
+            // },
+            success: function (data) {
+              if (data.status === 1) {
+                layer.msg("认证成功", {
+                  icon: 1,
+                  success: location.reload()
+                });
+              } else {
+                layer.msg(data.msg);
+              }
+            },
+          });
         });
-      });
+      }
     }
   });
 

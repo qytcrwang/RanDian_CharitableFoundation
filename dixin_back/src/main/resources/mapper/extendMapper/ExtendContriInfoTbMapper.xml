@@ -44,7 +44,7 @@
     </if>
   </select>
 
-  <select id="selectContriInfoByPage" resultType="com.fire.back.entity.ContriInfoTb">
+  <select id="selectContriInfoByPage" resultType="com.fire.back.dto.ContriInfoResultDto">
     select
       t1.id,
       t2.name,
@@ -66,6 +66,9 @@
     left join user_tb t2 on t1.user_id = t2.id
     where
     1=1
+    <if test="paramsDto.contriInfoId != null" >
+      and t1.id = #{paramsDto.contriInfoId,jdbcType=BIGINT}
+    </if>
     <if test="paramsDto.userId != null" >
       and t1.user_id = #{paramsDto.userId,jdbcType=BIGINT}
     </if>

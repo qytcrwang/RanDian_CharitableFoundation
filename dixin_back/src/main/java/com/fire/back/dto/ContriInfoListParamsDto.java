@@ -12,6 +12,8 @@ import lombok.Data;
 public class ContriInfoListParamsDto {
   private Long userId;
 
+  private Long contriInfoId;
+
   private Integer page;
 
   private Integer limit;
