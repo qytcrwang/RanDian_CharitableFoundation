@@ -27,11 +27,13 @@ Page({
             },
             {
                 "iconUrl": '/img/icon_kfund.png',
-                "iconText": '儿童基金'
+                "iconText": '儿童基金',
+                "navigateUrl": constant.PAGE_KIDS
             },
             {
                 "iconUrl": '/img/icon_sfund.png',
-                "iconText": '大学生计划'
+                "iconText": '大学生计划',
+                "navigateUrl": constant.PAGE_UNIVERSITIES
             },
         ],
         itemArray: [

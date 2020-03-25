@@ -59,7 +59,8 @@ var getCurMonth = function(){
 
 //将时间转换成时间差
 function getDateDiff(dateTime) {
-  let dateTimeStamp = new Date(dateTime).getTime();
+  var timestamp = parseInt(dateTime)*1000;
+  let dateTimeStamp = new Date(timestamp).getTime();
   let result = '';
   let minute = 1000 * 60;
   let hour = minute * 60;
@@ -82,13 +83,13 @@ function getDateDiff(dateTime) {
     result = dateTime;
   } else if (monthEnd >= 1) {
     result = "" + parseInt(monthEnd) + "月前";
-  } else if (weekC >= 1) {
+  } else if (weekEnd >= 1) {
     result = "" + parseInt(weekEnd) + "周前";
-  } else if (dayC >= 1) {
+  } else if (dayEnd >= 1) {
     result = "" + parseInt(dayEnd) + "天前";
-  } else if (hourC >= 1) {
+  } else if (hourEnd >= 1) {
     result = "" + parseInt(hourEnd) + "小时前";
-  } else if (minC >= 1) {
+  } else if (minEnd >= 1) {
     result = "" + parseInt(minEnd) + "分钟前";
   } else {
     result = "刚刚";
@@ -100,5 +101,6 @@ module.exports = {
   formatTime: formatTime,
   dateFormat: dateFormat,
   getCurYear:getCurYear,
-  getCurMonth:getCurMonth
+  getCurMonth:getCurMonth,
+  getDateDiff:getDateDiff
 }

@@ -1,0 +1,129 @@
+<!--pages/universities/universities.wxml-->
+<view class="swiper-tab">  
+    <view class="tab-item {{signTab?'active':''}} "  bindtap="toSignTab">今日签到</view>
+    <view class="tab-item {{applyForTab?'active':''}}"  bindtap="toApplyForTab">申请房租</view>
+</view>
+<view class='tab-items'>
+  <view class='tab_item_blank'></view>  
+  <form class='{{signTab?"show":"hidden"}}' bindsubmit='doncationSubmit'>
+    <!-- 第一步 -->
+    <view class='sign_step'>
+      <view class='step_top'>
+        <view class='flag'>STEP1</view>
+        <view class='stepMain'>
+          <view class='dian'></view> 
+          <view class='describe'>签到金额</view>
+          <view class='sum'>累计金额: <text class='points'>300</text></view>
+        </view>
+      </view>
+      <view class='size'>
+        <view class='size_money'>(根据捐助金额获得捐助积分,1元=1点爱心积分)</view>
+      </view>
+      <view class='money_view'>
+        <input class="money_input" name="contriAmount" placeholder="请输入金额（单位：元）" placeholder-class="input"/>
+      </view>
+    </view>
+    <!-- 第二步 -->
+    <view class='sign_step2'>
+      <view class='step_top' bindtap='checkAddr'>
+        <view class='flag'>STEP2</view>
+        <view class='stepMains'>
+          <view class='dians'></view> 
+          <view class='describe'>微信支付</view>
+          <view class='tips'></view>
+        </view>
+      </view>
+      <view class='info'>
+        <view class='info_left'>
+          <view class='addrAndTel'>
+            <image class='pos' src='/img/service.png'></image>
+            <view class='addr'>使用微信支付后，管理员会尽快核实</view>
+          </view>
+          <view class='tel'>如果您有疑问请移步联系客服咨询</view>
+        </view>
+      </view>
+    </view>
+    <!-- 同意协议 -->
+    <view class='agree'>
+      <radio value='1'>同意</radio>
+      <view class='protocol'>《用户捐赠协议协议》</view>
+    </view>
+    <!-- 温馨提示 -->
+    <view class='tip'>
+      <view class='title'>温馨提示:</view>
+      <view class='content'>01 / 支付成功后管理员会尽快核实积分，稍后可在我的积分中查看。</view>
+      <view class='content'>02 / 支付成功后如果有疑问请联系客服。</view>
+      <view class='content'>03 / 为了您的账户安全，请确认捐赠后再支付。</view>
+    </view>
+    <button class='submit' form-type='submit'>签到</button>
+  </form>
+  <!--申请房租页面-->
+  <form class='{{applyForTab?"show":"hidden"}}' bindsubmit='doncationSubmit'>
+    <!-- 第一步 -->
+    <view class='step'>
+      <view class='step_top'>
+        <view class='flag'>STEP1</view>
+        <view class='stepMain'>
+          <view class='dian'></view> 
+          <view class='describe'>填写申请单</view>
+        </view>
+      </view>
+      <view class='list'>
+        <image class='listPic' src='/img/university.png'></image>
+        <input class='list_name' placeholder='毕业院校' placeholder-class='input'></input>
+      </view>
+      <view class='list'>
+        <image class='listPic' src='/img/major.png'></image>
+        <input class='list_name' placeholder='所属专业' placeholder-class='input'></input>
+      </view>
+      <view class='list'>
+        <image class='listPic' src='/img/salary.png'></image>
+        <input class='list_name' placeholder='期望薪资' placeholder-class='input'></input>
+      </view>
+      <view class='list'>
+        <image class='listPic' src='/img/onjob.png'></image>
+        <input class='list_name' placeholder='在职状态("在职"或"未就业")' placeholder-class='input'></input>
+      </view>
+      <view class='list'>
+        <image class='listPic' src='/img/company_name.png'></image>
+        <input class='list_name' placeholder='公司名称(选填)' placeholder-class='input'></input>
+      </view>
+      <view class='list'>
+        <image class='listPic' src='/img/position.png'></image>
+        <input class='list_name' placeholder='公司地址(选填)' placeholder-class='input'></input>
+      </view>
+      <view class='list'>
+        <image class='listPic' src='/img/comment.png'></image>
+        <input class='list_name' placeholder='工作意向(选填)' placeholder-class='input'></input>
+      </view>   
+    </view>
+    <!-- 第二步 -->
+    <view class='step2'>
+      <view class='step_top' bindtap='checkAddr'>
+        <view class='flag'>STEP2</view>
+        <view class='stepMains'>
+          <view class='dians'></view> 
+          <view class='describe'>工作人员审核</view>
+        </view>
+      </view>
+      <view class='info'>
+        <view class='info_left'>
+          <view class='addr'>预计审核完成时间在<text class='points'>2-5个工作日</text></view>
+        </view>
+      </view>
+    </view>
+    <!-- 同意协议 -->
+    <view class='agree'>
+      <radio value='1'>同意</radio>
+      <view class='protocol'>《用户捐赠协议》</view>
+    </view>
+    <!-- 温馨提示 -->
+    <view class='tip'>
+      <view class='title'>温馨提示:</view>
+      <view class='content'>01 / 捐赠物品以基金会实际收到为主，用户填写简略物品信息即可。</view>
+      <view class='content'>02 / 捐赠物品收到后，收货员会及时入库，确定用户积分。</view>
+      <view class='content'>03 / 为保障运输安全，请将物品打包牢靠。</view>
+    </view>
+    <button class='submit' form-type='submit'>提交申请</button>
+  </form>
+</view>

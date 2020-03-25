@@ -10,6 +10,10 @@ var PAGE_MINE = "/pages/mine/mine";
 var PAGE_DONATION = "/pages/donation/donation";
 //公益活动列表页
 var PAGE_ACTIVITIES = "/pages/activities/activities";
+//大学生页面
+var PAGE_UNIVERSITIES = "/pages/universities/universities";
+//儿童页面
+var PAGE_KIDS = "/pages/kids/kids";
 
 
 
@@ -30,5 +34,7 @@ module.exports={
     PAGE_ACTIVITIES:PAGE_ACTIVITIES,
     PAGE_ACTIVITIES_PAGESIZE:PAGE_ACTIVITIES_PAGESIZE,
     REQUEST_TIMEOUT:REQUEST_TIMEOUT,
-    REQUEST_SUCCESS:REQUEST_SUCCESS
+    REQUEST_SUCCESS:REQUEST_SUCCESS,
+    PAGE_UNIVERSITIES:PAGE_UNIVERSITIES,
+    PAGE_KIDS:PAGE_KIDS
 }
