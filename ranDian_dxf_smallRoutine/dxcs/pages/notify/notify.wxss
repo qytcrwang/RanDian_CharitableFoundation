@@ -79,7 +79,7 @@
   color: rgb(84, 84, 84); 
   line-height: 1em; 
   margin-left: 5px;
-  width: 75%;
+  width: 70%;
   margin-right: 10rpx;
   overflow: hidden;
   white-space: nowrap;
