@@ -64,6 +64,48 @@
   <table class="layui-hide" id="contriInfoList" lay-filter="tableFilter"></table>
 <script th:src="@{js/jQuery.js}"></script>
   <script type="text/javascript">
+
+      function searchForm(){
+          layui.use('table', function(){
+              var table = layui.table;
+              table.reload('contriInfoList',{
+                  page: {
+                      curr: 1 //重新从第 1 页开始
+                  }
+              });
+          });
+      }
+      function del(id){
+          layer.confirm('确认要删除吗', {icon: 3, title:'信息删除确认'}, function(index){
+              delInfo(id);
+          });
+      }
+    function delInfo(data){
+        //layer.confirm('确认要删除吗', {icon: 3, title:'信息删除确认'}, function(index){
+            $.ajax({
+                type : "post",
+                url : "back/rent/del",
+                data : JSON.stringify({
+                    id:data.id
+                }),
+                headers : {
+                    'Content-Type' : 'application/json;charset=utf-8'
+                },
+                dataType : 'json',
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+                        + textStatus + "," + errorThrown);
+                },
+                success : function(result) {
+
+                    searchForm()
+                }
+            });
+        //});
+
+
+    }
+
   layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function(){
     var laydate = layui.laydate //日期
         ,laypage = layui.laypage //分页
@@ -85,6 +127,7 @@
         ,where:{"data": 123}
       ,url: '/back/rent/getRentByPage',
             method:'post'
+        ,id:'contriInfoList'
       ,page: true //开启分页
         ,contentType:'application/json'
       ,cols: [
@@ -159,6 +202,8 @@
             bookid.val(jsonData.id);
           }
         });
+      }else if(layEvent === 'delete'){
+          del(data);
       }
     });
 
@@ -181,6 +226,7 @@
       }
     };
 
+
     $('.dTable .layui-btn').on('click', function(){
       var type = $(this).data('type');
       active[type] ? active[type].call(this) : '';
@@ -190,5 +236,6 @@
   <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+    <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
   </script>
 </body>

@@ -98,6 +98,19 @@ public class RentServiceImpl implements RentService {
         return null;
     }
 
+    @Override
+    public int delete(Long id) {
+        rentApplyTbMapper.deleteByPrimaryKey(id);
+        return 0;
+    }
+
+    @Override
+    public Boolean updateStatus(RentApplyTb contriInfoTb) {
+        contriInfoTb.setUpdateTime(System.currentTimeMillis() / 1000);
+        int i = rentApplyTbMapper.updateByPrimaryKeySelective(contriInfoTb);
+        return i == 1;
+    }
+
     /**
      * create by: 王一悦
      * description: 添加申请数据库默认字段补全方法
@@ -111,4 +124,6 @@ public class RentServiceImpl implements RentService {
         rentApplyTb.setIsDelete(0);
         rentApplyTb.setCreateTime(System.currentTimeMillis()/1000);
     }
+
+
 }

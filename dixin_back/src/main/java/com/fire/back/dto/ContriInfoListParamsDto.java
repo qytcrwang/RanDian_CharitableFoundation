@@ -12,11 +12,19 @@ import lombok.Data;
 public class ContriInfoListParamsDto {
   private Long userId;
 
+  private Long contriInfoId;
+
+  private Long startTime;
+
+  private Long endTime;
+
   private Integer page;
 
   private Integer limit;
 
   private Integer offSet;
+
+  private String userName;
 
   public Integer getOffSet(Integer page,Integer limit) {
     offSet = (page-1)*limit;

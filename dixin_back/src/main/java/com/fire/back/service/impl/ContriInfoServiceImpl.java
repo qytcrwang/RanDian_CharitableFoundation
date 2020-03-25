@@ -1,10 +1,11 @@
 package com.fire.back.service.impl;
 
-import com.fire.back.common.ExecuteResult;
+import com.fire.back.common.CheckEmptyUtil;
 import com.fire.back.common.FireResult;
 import com.fire.back.dao.ContriInfoTbMapper;
 import com.fire.back.dao.extend.ExtendContriInfoTbMapper;
 import com.fire.back.dto.ContriInfoListParamsDto;
+import com.fire.back.dto.ContriInfoResultDto;
 import com.fire.back.entity.ContriInfoTb;
 import com.fire.back.entity.ContriInfoTbExample;
 import com.fire.back.service.ContriInfoService;
@@ -42,7 +43,7 @@ public class ContriInfoServiceImpl implements ContriInfoService {
 
   @Override
   public FireResult getContriInfoList(ContriInfoListParamsDto paramsDto) {
-    List<ContriInfoTb> list = extendContriInfoTbMapper.selectContriInfoByPage(paramsDto);
+    List<ContriInfoResultDto> list = extendContriInfoTbMapper.selectContriInfoByPage(paramsDto);
     Integer count = extendContriInfoTbMapper.getCount(paramsDto);
     if (null != list) {
       return FireResult.build(1, "数据获取成功", list, count);
@@ -64,8 +65,16 @@ public class ContriInfoServiceImpl implements ContriInfoService {
    * @return
    */
   @Override
-  public ContriInfoTb getContriInfoDetail(Long contriInfoId) {
-    return contriInfoTbMapper.selectByPrimaryKey(contriInfoId);
+  public ContriInfoResultDto getContriInfoDetail(Long contriInfoId) {
+    ContriInfoListParamsDto c = new ContriInfoListParamsDto();
+    c.setOffSet(0);
+    c.setLimit(1);
+    c.setContriInfoId(contriInfoId);
+    List<ContriInfoResultDto> list = extendContriInfoTbMapper.selectContriInfoByPage(c);
+    if (CheckEmptyUtil.isNotEmpty(list)) {
+      return list.get(0);
+    }
+    return null;
   }
 
   /**

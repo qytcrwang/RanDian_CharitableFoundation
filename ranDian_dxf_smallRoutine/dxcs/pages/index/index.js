@@ -100,7 +100,7 @@ Page({
 })
 function bindData(itemList,itemData){
     itemList.push({
-        itemText:itemData.title,
+        itemText:itemData.title.length>15?itemData.title.substring(0,15)+"...":itemData.title,
         itemUrl:itemData.cover_url,
         itemId:itemData.id
     })

@@ -27,14 +27,8 @@
         <div class="layui-inline" style="float:right;">
 	        <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
 	        <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
+        	<button type="button" class="layui-btn" data-type="reload" id="add"><i class="layui-icon"></i>新增</button>
       	</div>
-    <div class="layui-col-md12" style="padding-top: 10px">
-        	<div style="float:right;">
-	        	<button type="button" class="layui-btn layui-btn-radius layui-btn-primary" data-type="reload" id="add">新增</button>
-	        	<button type="button" class="layui-btn layui-btn-radius layui-btn-primary" data-type="reload" id="edit">编辑</button>
-	        	<button type="button" class="layui-btn layui-btn-radius layui-btn-primary" data-type="reload" id="del">删除</button>
-        	</div>
-    </div>
     </div>
   </div>
 </form>
@@ -101,9 +95,37 @@
   <div class="layui-form-item">
     <label class="layui-form-label">活动积分</label>
     <div class="layui-input-block">
-      <input type="text" maxlength="3" onblur="validateNum(this)" name="activityTime" required lay-verify="required" placeholder="请输入本次活动积分数" class="layui-input" id="activity_time">
+      <input type="text" maxlength="3" onblur="validateNum(this)" name="activityTime" placeholder="请输入本次活动积分数" class="layui-input" id="activity_time">
     </div>
   </div>
+  <div id="noEdit">
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">阅读量</label>
+    <div class="layui-input-block">
+      <input type="text" class="layui-input" id="read_num" onfocus="noInput(this)">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">点赞量</label>
+    <div class="layui-input-block">
+      <input type="text" class="layui-input" id="good_num" onfocus="noInput(this)">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">申请人数</label>
+    <div class="layui-input-block">
+      <input type="text" class="layui-input" id="apply_nums" onfocus="noInput(this)">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">申请人员</label>
+    <div class="layui-input-block">
+      <textarea class="layui-input" id="apply_names" onfocus="noInput(this)"></textarea>
+    </div>
+  </div>
+  </div>
+  
   <div class="layui-form-item layui-form-text">
     <label class="layui-form-label" >&nbsp;&nbsp;&nbsp;活动内容</label>
     <div class="layui-input-block">
@@ -128,11 +150,6 @@
     var layer = layui.layer //弹层
         ,table = layui.table //表格
         ,element = layui.element; //元素操作
-    /* //监听Tab切换
-    element.on('tab(demo)', function(data){
-      layer.msg('切换了：'+ this.innerHTML);
-      console.log(data);
-    }); */
     //执行一个 table 实例
     tableIns = table.render({
       elem: '#demoTable'
@@ -155,21 +172,15 @@
       ,page: true //开启分页
       ,cols: [
           [
-        {type:'checkbox'}
-        ,{title: '序号', type:'numbers', align: 'center'}
+        //{type:'checkbox'}
+        //,{title: '序号', type:'numbers', align: 'center'}
         ,{field: 'id', hide:true, title:'id', align: 'center'}
-        ,{width:'20%',field:'title', title: '活动标题', align: 'center'}
-        ,{width:'20%',field:'address', title: '活动地址', align: 'center'}
-        ,{width:'20%',field:'activity_stime', title: '活动开始日期', align: 'center'}
-        ,{width:'20%',field:'sign_stime', title: '签到开始日期', align: 'center'}
+        ,{width:'30%',field:'title', title: '活动标题', align: 'center'}
+        ,{width:'30%',field:'activity_stime', title: '活动开始日期', align: 'center'}
         ,{width:'10%',field:'type', title: '活动类型', align: 'center'}
-        ,{width:'8%',field:'state', title: '活动状态', align: 'center'}
-        ,{width:'8%',field:'activity_time', title: '活动积分', align: 'center'}
-        ,{width:'7%',field:'read_num', title: '阅读量', align: 'center'}
-        ,{width:'7%',field:'good_num', title: '点赞量', align: 'center'}
-        ,{width:'8%',field:'apply_nums', title: '申请人数', align: 'center'}
-        ,{width:'20%',field:'apply_names', title: '申请人员', align: 'center'}
-        /* ,{fixed: 'right', width: 165, align:'center', toolbar: '#bar'} */
+        ,{width:'10%',field:'state', title: '活动状态', align: 'center'}
+        ,{width:'10%',field:'apply_nums', title: '申请人数', align: 'center'}
+        ,{ title: '操作',width: '10%', align:'center', toolbar: '#bar'}
         ]
       ]
     });
@@ -190,7 +201,6 @@
       $("#imgPreview").html("<img src='"+res["data"]["src"]+"' width='50%' />");
     }
    	});
-    
     
     var laydate = layui.laydate;
     
@@ -233,19 +243,10 @@
     });
     
 	$("#add").bind("click", function() {
+		$("#noEdit").hide();
 		clearInfoForm();
-		openLayer('新建活动信息');
+		openLayer('新建活动信息',0);
 		initFuwenben("");
-	});
-	
-	$("#edit").bind("click", function() {
-		clearInfoForm();
-		getEditData();
-		
-	});
-
-	$("#del").bind("click", function() {
-		delInfo();
 	});
     
 	$("#search").bind("click", function() {
@@ -262,8 +263,18 @@
 	    return false;
   	});
   
+	table.on('tool(tableFilter)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+		var data = obj.data; //获得当前行数据
+		var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+		if(layEvent === 'detail'){ //查看
+			$("#noEdit").show();
+			clearInfoForm();
+			getEditData(data['id'],data['state']);
+		} else if(layEvent === 'delEvent'){ //删除
+			delInfo(data['id']);
+		}
+	});
 });
-  
   
 function saveData(){
 	layui.use('layedit', function(){
@@ -283,31 +294,12 @@ function saveData(){
 	var validate = validateForm();	
 	if(!validate) return;
 	
-	//alert(JSON.stringify($("#activityInfo").serializeObject()));
-	
 }
 
-function delInfo(){
-	//获取行
-	layui.use('table', function(){
-	var id = "";
-	var table = layui.table;
-	var checkData = table.checkStatus('demoTable').data;
-   //,data = checkStatus.data;
-   if(checkData.length == 0){
-		layer.msg('请选择要删除的记录！');
-		return;
-   }
-   //console.log(checkData[0]['id']);
-   for(var i=0;i<checkData.length;i++){
-	   id+= checkData[i]['id']+",";
-	   console.log(id);
-	   }
-   id = id.substring(0,id.length-1);
+function delInfo(id){
 	layer.confirm('确认要删除吗', {icon: 3, title:'信息删除确认'}, function(index){
 		del(id);
 	});
-   });
 }
 
 function del(ids){
@@ -332,23 +324,12 @@ function del(ids){
 	});
 }
 
-
-function getEditData(){
-	//获取行
-	layui.use('table', function(){
-	var table = layui.table;
-	var checkData = table.checkStatus('demoTable').data;
-   //,data = checkStatus.data;
-   if(checkData.length != 1){
-		layer.msg('请选择一行记录！');
-		return;
-   }
-   //console.log(checkData[0]);
-   var id = checkData[0]["id"];
-   var state = checkData[0]["state"];
+function getEditData(id,state){
+	var ifSub = 0;
    if(state != "未发布"){
-		layer.msg('只可编辑未发布的活动信息！');
-		return;
+		//layer.msg('只可编辑未发布的活动信息！');
+		//return;
+	   ifSub = 1;
    }
    $.ajax({
 		type : "post",
@@ -370,6 +351,10 @@ function getEditData(){
 			$("#title").val(data["title"]);
 			$("#address").val(data["address"]);
 			$("#activity_time").val(data["activity_time"]);
+			$("#read_num").val(data["read_num"]);
+			$("#good_num").val(data["good_num"]);
+			$("#apply_nums").val(data["apply_nums"]);
+			$("#apply_names").val(data["apply_names"]);
 			var astime = data["activity_stime"];
 			if(astime!=undefined) astime = astime.substring(0,16);
 			var aetime = data["activity_etime"];
@@ -391,11 +376,11 @@ function getEditData(){
 			}
 			
 			initSelect();
-			openLayer('编辑活动信息');
+			openLayer('活动信息详情',ifSub);
 			initFuwenben(data["body"]);
 		}
 	});   
-	});	
+	//});	
 }
 
 function initFuwenben(bodyStr){
@@ -413,29 +398,48 @@ function initFuwenben(bodyStr){
 	})
 }
 
-function openLayer(titleName){
+function openLayer(titleName,state){
+	var width = window.innerWidth*3/4+"px";
 	  //layedit.setContent(fuwenben, "", false); 这个初始化就相当于清空了
-	  layer.open({
-		  type:1,
-		  area:['800px','500px'],
-		   title: titleName
-		   ,content: $("#activityInfo"),
-		   shade: 0.3,
-		   resize:false ,
-		   move: false,
-		   btn: ['提交', '重置']
-		   ,btn1: function(index, layero){
-			   saveData();
-		   },
-		   btn2: function(index, layero){
-			   if($("#id").val() == "")clearInfoForm();
-			   else getEditData();
-			   return false;
-		   },
-		 cancel: function(layero,index){ 
-		    layer.closeAll();
-		   }
-		 }); 
+	  if(state == 1){
+			  layer.open({
+				  type:1,
+				  area: width,
+				   title: titleName
+				   ,content: $("#activityInfo"),
+				   shade: 0.3,
+				   resize:false ,
+				   move: false,
+				   scrollbar: true,
+				 	cancel: function(layero,index){ 
+				    layer.closeAll();
+				   }
+				 }); 
+				layer.msg('未发布以外的活动信息仅可查看。');
+	  }else{
+		  layer.open({
+			  type:1,
+			  area: width,
+			   title: titleName
+			   ,content: $("#activityInfo"),
+			   shade: 0.3,
+			   resize:false ,
+			   move: false,
+			   scrollbar: true,
+			   btn: ['提交', '重置']
+			   ,btn1: function(index, layero){
+				   saveData();
+			   },
+			   btn2: function(index, layero){
+				   if($("#id").val() == "")clearInfoForm();
+				   else getEditData();
+				   return false;
+			   },
+			 cancel: function(layero,index){ 
+			    layer.closeAll();
+			   }
+			 }); 
+	  }
 }
 
 function clearInfoForm(){
@@ -514,7 +518,7 @@ function initSelect(){
 
 function validateNum(sel){
 	$(sel).val($(sel).val().replace(/[^\d]/g,''));
-	layer.msg("活动积分只能输入纯数字！");
+	//layer.msg("活动积分只能输入纯数字！");
 }
 function submitForm (){
 	$.ajax({
@@ -645,4 +649,8 @@ $.fn.serializeObject = function() {
     return o;
 };  
   </script>
+  <script type="text/html" id="bar">
+  <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delEvent">删除</a>
+</script>
 </body>

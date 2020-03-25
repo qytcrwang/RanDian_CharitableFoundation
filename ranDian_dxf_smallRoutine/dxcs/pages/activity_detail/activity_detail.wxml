@@ -9,10 +9,10 @@
     </view>
 
     <view class="activity-content">
-        <view wx:for="{{imgs}}" wx:key="index">
-            <image src="{{item}}"/>
+        <view wx:for="{{activityDetails.bodyList}}" wx:key="index">
+            <image wx:if="{{item.imgUrl.length>0}}" src="{{item.imgUrl}}"/>
+            <view class="body_text">{{item.textarea}}</view>
         </view>
-        <text>{{activityDetails.body}}</text>
     </view>
         <view class="message_other">
             <text >活动时长:{{activityDetails.activity_time}}小时</text>

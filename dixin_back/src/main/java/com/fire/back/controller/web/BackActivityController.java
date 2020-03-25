@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fire.back.common.CommonUtil;
 import com.fire.back.common.FireResult;
 import com.fire.back.entity.ActivityTbWithBLOBs;
 import com.fire.back.entity.SyscodeTb;
@@ -126,13 +125,16 @@ public class BackActivityController {
 	
 	@PostMapping("saveImage")
 	@ResponseBody
-	public Map<String,Object> saveImage(@RequestParam("file") MultipartFile file) {
+	public Map<String,Object> saveImage(@RequestParam("file") MultipartFile file,HttpServletRequest req) {
+		//后期换成配置文件中读取域名
+		String ip = req.getServerName();
+		int port = req.getServerPort();
 		String uuid = UUID.randomUUID().toString().replace("-", "");
 		Map<String,Object> returnMap = new HashMap<>();
 		try {
 //			System.out.println(file.getOriginalFilename());
 			String picPath = ClassUtils.getDefaultClassLoader().getResource("static/images/body").getPath();
-			System.out.println(picPath);
+//			System.out.println(picPath);
 			String oldName = file.getOriginalFilename();
 			File newFile = new File(picPath,uuid+"temp"+oldName.substring(oldName.indexOf(".")));
 			BufferedOutputStream out = new BufferedOutputStream(    
@@ -141,12 +143,9 @@ public class BackActivityController {
             out.write(file.getBytes());    
             out.flush();    
             out.close();   
-            String url = "http://127.0.0.1:"+CommonUtil.getValue("server.port")
-//          +CommonUtil.getValue("server.servlet-path")
-          +"/images/body/"+newFile.getName();
-            System.out.println(newFile.getName());
-            System.out.println(newFile.getAbsolutePath());
-            System.out.println();
+            String url = "http://"+ip+":"+port+"/images/body/"+newFile.getName();
+//            System.out.println(newFile.getName());
+//            System.out.println(newFile.getAbsolutePath());
 
     		returnMap.put("code", 0);
     		returnMap.put("msg", "添加成功");
@@ -165,13 +164,15 @@ public class BackActivityController {
 	
 	@PostMapping("saveCoverImage")
 	@ResponseBody
-	public Map<String,Object> saveCoverImage(@RequestParam("file") MultipartFile file) {
-		String uuid = UUID.randomUUID().toString().replace("-", "");
+	public Map<String,Object> saveCoverImage(@RequestParam("file") MultipartFile file,HttpServletRequest req) {
+		//后期换成配置文件中读取域名
+		String ip = req.getServerName();
+		int port = req.getServerPort();String uuid = UUID.randomUUID().toString().replace("-", "");
 		Map<String,Object> returnMap = new HashMap<>();
 		try {
 //			System.out.println(file.getOriginalFilename());
 			String picPath = ClassUtils.getDefaultClassLoader().getResource("static/images/cover").getPath();
-			System.out.println(picPath);
+//			System.out.println(picPath);
 			String oldName = file.getOriginalFilename();
 			File newFile = new File(picPath,uuid+"temp"+oldName.substring(oldName.indexOf(".")));
 			BufferedOutputStream out = new BufferedOutputStream(    
@@ -180,12 +181,9 @@ public class BackActivityController {
             out.write(file.getBytes());    
             out.flush();    
             out.close();   
-            String url = "http://127.0.0.1:"+CommonUtil.getValue("server.port")
-//          +CommonUtil.getValue("server.servlet-path")
-          +"/images/cover/"+newFile.getName();
-            System.out.println(newFile.getName());
-            System.out.println(newFile.getAbsolutePath());
-            System.out.println();
+            String url = "http://"+ip+":"+port+"/images/cover/"+newFile.getName();
+//            System.out.println(newFile.getName());
+//            System.out.println(newFile.getAbsolutePath());
 
     		returnMap.put("code", 0);
     		returnMap.put("msg", "添加成功");

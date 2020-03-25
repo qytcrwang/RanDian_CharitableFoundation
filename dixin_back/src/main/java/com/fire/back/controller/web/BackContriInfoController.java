@@ -4,6 +4,7 @@ import com.fire.back.common.CheckEmptyUtil;
 import com.fire.back.common.ExecuteResult;
 import com.fire.back.common.FireResult;
 import com.fire.back.dto.ContriInfoListParamsDto;
+import com.fire.back.dto.ContriInfoResultDto;
 import com.fire.back.entity.ContriInfoTb;
 import com.fire.back.service.ContriInfoService;
 import java.util.List;
@@ -75,7 +76,7 @@ public class BackContriInfoController {
       return FireResult.build(0, "入参不能为空");
     }
     try {
-      ContriInfoTb result = contriInfoService.getContriInfoDetail(contriInfoId);
+      ContriInfoResultDto result = contriInfoService.getContriInfoDetail(contriInfoId);
       return FireResult.build(1, "数据获取成功", result);
     } catch (Exception e) {
       logger.error("", e);

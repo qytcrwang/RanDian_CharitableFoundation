@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="include :: header"></head>
+<body>
+<div class="layui-row">
+  <div class="layui-col-md8 layui-col-md-offset2">
+    <div class="dTable" style="padding-top: 10px">
+      <div class="layui-inline">
+        <input class="layui-input" name="id" placeholder="学校名称" id="school" autocomplete="off"
+               style="width: 200px">
+      </div>
+      <button class="layui-btn" data-type="reload">搜索</button>
+    </div>
+  </div>
+</div>
+<table class="layui-hide" id="contriInfoList" width="1500px" lay-filter="tableFilter"></table>
+<script type="text/javascript">
+
+  function changeStatus(status){
+    if(status === 1){
+        return '已证实'
+    }
+      if(status === 2){
+          return '已发放'
+      }
+      if(status === 3){
+          return '已驳回'
+      }
+      return '待审核'
+  }
+  function changeJobStatus(status){
+    if(status === 1){
+        return '在职'
+    }
+      return '待业'
+  }
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function () {
+        var layer = layui.layer //弹层
+            , table = layui.table //表格
+            , element = layui.element; //元素操作
+        //监听Tab切换
+        element.on('tab(demo)', function (data) {
+            layer.msg('切换了：' + this.innerHTML);
+            console.log(data);
+        });
+        //执行一个 table 实例
+        table.render({
+            elem: '#contriInfoList'
+            , url: '/back/rent/getRentByPage'
+            , method: 'post'
+            , contentType: 'application/json'
+            , page: true //开启分页
+
+            , cols: [
+                [
+                    ,{title: '序号', type:'numbers', align: 'center'}
+                    ,{field:'userId', title: '用户id', align: 'center'}
+                    ,{field:'school', title: '学校', align: 'center'}
+                    ,{field:'major', title: '专业', align: 'center'}
+                    ,{field:'jobIntension', title: '职位', align: 'center'}
+                    ,{field:'hopeSalary', title: '期望薪资', align: 'center'}
+                    ,{field:'state', title: '状态', align: 'center', templet: function (row) {
+                        return changeStatus(row.state);}}
+                    ,{field:'applyTime', title: '申请时间', align: 'center'}
+                    ,{field:'sentTime', title: '发放时间', align: 'center'}
+                    ,{field:'sentAmount', title: '发放金额', align: 'center'}
+                    ,{field:'sentProof', title: '发放凭证', align: 'center'}
+                    ,{field:'jobState', title: '是否在职', align: 'center', templet: function (row) {
+                        return changeJobStatus(row.jobState);}}
+                    ,{field:'position', title: '当前职位', align: 'center'}
+                    ,{field:'rejectReason', title: '驳回原因', align: 'center'}
+                    ,{field:'companyName', title: '公司名', align: 'center'}
+                    ,{field:'companyAddress', title: '公司地址', align: 'center'}
+                    , {fixed: 'right', title: '操作', width: '10%', align: 'center', toolbar: '#bar'}
+                ]
+            ]
+            , id: 'tableReload'
+        });
+
+        //监听工具条
+        table.on('tool(tableFilter)', function (obj) {
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'detail') {
+                var jsonData;
+                $.ajax({
+                    type: "get",
+                    contentType: 'application/json',
+                    url: "/back/contriInfo/getContriInfoDetail",
+                    dataType: "json",
+                    data: {"contriInfoId": data.id},
+                    success: function (data) {
+                        jsonData = data.data;
+                    }
+                });
+                layer.open({
+                    type: 2
+                    , offset: '0px'
+                    , scrollbar: true
+                    , title: '捐赠详情'
+                    , skin: 'layui-layer-molv'
+                    , area: ['1000px', '600px']
+                    , content: ['/contriInfoDetail', 'false']
+                    , success: function (layero, index) {
+                        console.log(layero, index);
+                        var userName = $("#userName", layero.find("iframe")[0].contentWindow.document);
+                        var contriAmount = $("#contriAmount", layero.find("iframe")[0].contentWindow.document);
+                        var contriThings = $("#contriThings", layero.find("iframe")[0].contentWindow.document);
+                        var contriTime = $("#contriTime", layero.find("iframe")[0].contentWindow.document);
+                        var mobile = $("#mobile", layero.find("iframe")[0].contentWindow.document);
+                        var orgName = $("#orgName", layero.find("iframe")[0].contentWindow.document);
+                        var orgRName = $("#orgRName", layero.find("iframe")[0].contentWindow.document);
+                        var contriType = $("#contriType", layero.find("iframe")[0].contentWindow.document);
+                        userName.val(jsonData.userName);
+                        contriAmount.val(jsonData.contriAmount);
+                        contriThings.val(jsonData.contriThings);
+                        contriTime.val(jsonData.contriTime);
+                        mobile.val(jsonData.mobile);
+                        orgName.val(jsonData.orgName);
+                        orgRName.val(jsonData.orgRName);
+                        contriType.val(jsonData.contriType);
+
+                    }
+                });
+            } else if (layEvent === 'edit') {
+                if (data.status === 1) {
+                    layer.msg('已审核通过！');
+                } else {
+                    layer.confirm('是否确认审核通过？', function (index) {
+                        offset: '200px';
+                        layer.close(index);
+                        $.ajax({
+                            type: "post",
+                            contentType: 'application/json',
+                            url: "/back/rent/updateStatus",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                id: data.id, state: 1
+                            }),
+                            // beforeSend: function () {
+                            //   //禁用按钮防止重复提交
+                            //   $("#submit").attr({ disabled: "disabled" });
+                            // },
+                            success: function (data) {
+                                if (data.status === 1) {
+                                    layer.msg("成功", {
+                                        icon: 1,
+                                        success: location.reload()
+                                    });
+                                } else {
+                                    layer.msg(data.msg);
+                                }
+                            },
+                        });
+                    });
+                }
+            } else if (layEvent === 'editHasSend') {
+                if (data.status === 2) {
+                    layer.msg('已审核通过！');
+                } else {
+                    layer.confirm('是否确认发放？', function (index) {
+                        offset: '200px';
+                        layer.close(index);
+                        $.ajax({
+                            type: "post",
+                            contentType: 'application/json',
+                            url: "/back/rent/updateStatus",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                id: data.id, state: 2
+                            }),
+                            // beforeSend: function () {
+                            //   //禁用按钮防止重复提交
+                            //   $("#submit").attr({ disabled: "disabled" });
+                            // },
+                            success: function (data) {
+                                if (data.status === 1) {
+                                    layer.msg("成功", {
+                                        icon: 1,
+                                        success: location.reload()
+                                    });
+                                } else {
+                                    layer.msg(data.msg);
+                                }
+                            },
+                        });
+                    });
+                }
+            }else if (layEvent === 'editCencel') {
+                if (data.status === 2) {
+                    layer.msg('已驳回！');
+                } else {
+                    layer.confirm('是否驳回？', function (index) {
+                        offset: '200px';
+                        layer.close(index);
+                        $.ajax({
+                            type: "post",
+                            contentType: 'application/json',
+                            url: "/back/rent/updateStatus",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                id: data.id, state: 3
+                            }),
+                            // beforeSend: function () {
+                            //   //禁用按钮防止重复提交
+                            //   $("#submit").attr({ disabled: "disabled" });
+                            // },
+                            success: function (data) {
+                                if (data.status === 1) {
+                                    layer.msg("成功", {
+                                        icon: 1,
+                                        success: location.reload()
+                                    });
+                                } else {
+                                    layer.msg(data.msg);
+                                }
+                            },
+                        });
+                    });
+                }
+            }
+        });
+
+        var $ = layui.$, active = {
+            reload: function () {
+                var school = $('#school');
+                //执行重载
+                table.reload('tableReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        school: school.val()
+                    }
+                });
+            }
+        };
+
+        $('.dTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+<script type="text/html" id="bar">
+  <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">详情</a>-->
+  <a class="layui-btn layui-btn-xs" lay-event="edit">证实</a>
+  <a class="layui-btn layui-btn-xs" lay-event="editHasSend">发放</a>
+  <a class="layui-btn layui-btn-xs" lay-event="editCencel">驳回</a>
+</script>
+
+<script type="text/html" id="titleTpl">
+  {{#if (d.contriState == 0) { }}
+  <span>待证实</span>
+  {{# }else if(d.contriState == 1){ }}
+  <span>已证实</span>
+  {{# } }}
+</script>
+
+<script type="text/javascript">
+    /**13位时间戳转换成 年月日 上午 时间  2018-05-23 10:41:08 */
+    function createTime(v) {
+        return new Date(parseInt(v)).toLocaleString()
+    }
+
+    /**重写toLocaleString方法*/
+    Date.prototype.toLocaleString = function () {
+        var y = this.getFullYear();
+        var m = this.getMonth() + 1;
+        m = m < 10 ? '0' + m : m;
+        var d = this.getDate();
+        d = d < 10 ? ("0" + d) : d;
+        var h = this.getHours();
+        h = h < 10 ? ("0" + h) : h;
+        var M = this.getMinutes();
+        M = M < 10 ? ("0" + M) : M;
+        var S = this.getSeconds();
+        S = S < 10 ? ("0" + S) : S;
+        return y + "-" + m + "-" + d + " " + h + ":" + M + ":" + S;
+    };
+</script>
+</body>

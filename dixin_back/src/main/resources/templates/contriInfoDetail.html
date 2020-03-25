@@ -2,14 +2,73 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="include :: header"></head>
 <body>
-  <div class="layui-row">
-    <div class="layui-col-md4 layui-col-md-offset2">
+  <div class="layui-row" style="padding-top: 20px">
+    <div class="layui-col-xs8 layui-col-md-offset2">
+      <form class="layui-form layui-form-pane" action="">
       <div class="layui-form-item">
-        <label class="layui-form-label" style="width: 100px">名字：</label>
-        <input id="nameIndex" type="text" name="bookName" required  lay-verify="required" class="layui-input" readonly = "readonly">
+        <label class="layui-form-label">用户名称</label>
+        <div class="layui-input-block">
+          <input type="text" id="userName" name="title" lay-verify="required" readOnly="readOnly"
+                 autocomplete="off" class="layui-input">
+        </div>
       </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">捐赠金额</label>
+        <div class="layui-input-block">
+          <input type="text" id="contriAmount" name="username" lay-verify="required" readOnly="readOnly" autocomplete="off" class="layui-input">
+        </div>
       </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">捐赠物品</label>
+        <div class="layui-input-block">
+          <input type="text" id="contriThings" name="username" lay-verify="required" readOnly="readOnly" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">捐赠时间</label>
+        <div class="layui-input-block">
+          <input type="text" id="contriTime" name="username" lay-verify="required" readOnly="readOnly" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">联系方式</label>
+        <div class="layui-input-block">
+          <input type="text" id="mobile" name="username" lay-verify="required" readOnly="readOnly" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">非用户组织或公司名称</label>
+        <div class="layui-input-block">
+          <input type="text" id="orgName" name="username" lay-verify="required" readOnly="readOnly" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">捐赠凭证</label>
+        <div class="layui-input-block">
+          <input type="text" id="orgRName" name="username" lay-verify="required" readOnly="readOnly" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">捐赠类型</label>
+        <div class="layui-input-block">
+          <input type="text" id="contriType" name="username" lay-verify="required" readOnly="readOnly" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">捐赠状态</label>
+        <div class="layui-input-block">
+          <input type="text" id="contriState" name="username" lay-verify="required" readOnly="readOnly" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">捐助物品估价</label>
+        <div class="layui-input-block">
+          <input type="text" id="contriValue" name="username" lay-verify="required" readOnly="readOnly" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+    </form>
     </div>
+  </div>
   </div>
   <script type="text/javascript">
   </script>

@@ -3,14 +3,25 @@
 <head th:replace="include :: header"></head>
 <body>
 <div class="layui-row">
-  <div class="layui-col-md8 layui-col-md-offset2">
-    <div class="dTable" style="padding-top: 10px">
-      <div class="layui-inline">
-        <input class="layui-input" name="id" placeholder="会员Id" id="userIdReload" autocomplete="off">
-      </div>
-      <button class="layui-btn" data-type="reload">搜索</button>
+  <form class="layui-form" action="">
+    <div class="layui-col-md10 layui-col-md-offset2">
+      <div class="dTable" style="padding-top: 10px">
+        名称：
+        <div class="layui-inline">
+          <input class="layui-input" name="id" placeholder="会员名称" id="userName" autocomplete="off" style="width: 200px">
+        </div>
+        捐赠时间：
+        <div class="layui-inline">
+          <input type="text" class="layui-input" name="sTime" id="sTime" placeholder="日期起始" onfocus="noInput(this)">
+        </div> -
+        <div class="layui-inline">
+          <input type="text" class="layui-input" name="eTime" id="eTime" placeholder="日期截止" onfocus="noInput(this)">
+        </div>
+          <button class="layui-btn" data-type="reload" >搜索</button>
+          <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
+        </div>
     </div>
-  </div>
+  </form>
 </div>
 <table class="layui-hide" id="contriInfoList" lay-filter="tableFilter"></table>
 <script type="text/javascript">
@@ -25,7 +36,8 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
   });
   //执行一个 table 实例
   table.render({
-    elem: '#contriInfoList'
+    id: 'contriTable'
+    , elem: '#contriInfoList'
     , url: '/back/contriInfo/contriInfoList'
     , method: 'post'
     , contentType: 'application/json'
@@ -43,12 +55,11 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     }
     , cols: [
       [
-        {type: 'checkbox'}
-        , {title: '序号', type: 'numbers', align: 'center'}
+         {title: '序号', type: 'numbers', align: 'center'}
+        , {title: '会员名称', field: 'name', align: 'center'}
         , {title: '捐赠金额', field: 'contriAmount', align: 'center'}
         , {title: '捐赠物品', field: 'contriThings', align: 'center'}
         , {title: '联系方式', field: 'mobile', align: 'center'}
-        , {title: '捐赠状态', field: 'contriState', align: 'center', templet: '#titleTpl'}
         , {
           title: '捐赠时间', field: 'contriTime', align: 'center', templet: function (row) {
             return createTime(row.contriTime * 1000);
@@ -59,7 +70,8 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
             return createTime(row.updateTime * 1000);
           }
         }
-        , {fixed: 'right', width: 165, align: 'center', toolbar: '#bar'}
+        , {title: '捐赠状态', field: 'contriState', align: 'center', templet: '#titleTpl'}
+        , {fixed: 'right', title: '操作', width: '10%', align: 'center', toolbar: '#bar'}
       ]
     ]
     , id: 'tableReload'
@@ -70,14 +82,13 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     var data = obj.data //获得当前行数据
         , layEvent = obj.event; //获得 lay-event 对应的值
     if (layEvent === 'detail') {
-      // layer.msg('查看操作');
-      var userId = data.id;
       var jsonData;
       $.ajax({
         type: "get",
+        contentType: 'application/json',
         url: "/back/contriInfo/getContriInfoDetail",
         dataType: "json",
-        data: {"contriInfoId": userId},
+        data: {"contriInfoId": data.id},
         success: function (data) {
           jsonData = data.data;
         }
@@ -88,39 +99,91 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         , scrollbar: false
         , title: '捐赠详情'
         , skin: 'layui-layer-molv'
-        , area: ['1000px', '450px']
+        , area: ['1000px', '600px']
         , content: ['/contriInfoDetail', 'false']
         , success: function (layero, index) {
           console.log(layero, index);
-          var name = $("#nameIndex", layero.find("iframe")[0].contentWindow.document);
-          name.val(jsonData.contriAmount);
+          var userName = $("#userName", layero.find("iframe")[0].contentWindow.document);
+          var contriAmount = $("#contriAmount", layero.find("iframe")[0].contentWindow.document);
+          var contriThings = $("#contriThings", layero.find("iframe")[0].contentWindow.document);
+          var contriTime = $("#contriTime", layero.find("iframe")[0].contentWindow.document);
+          var mobile = $("#mobile", layero.find("iframe")[0].contentWindow.document);
+          var orgName = $("#orgName", layero.find("iframe")[0].contentWindow.document);
+          var orgRName = $("#orgRName", layero.find("iframe")[0].contentWindow.document);
+          var contriType = $("#contriType", layero.find("iframe")[0].contentWindow.document);
+          userName.val(jsonData.name);
+          contriAmount.val(jsonData.contriAmount);
+          contriThings.val(jsonData.contriThings);
+          contriTime.val(jsonData.contriTime);
+          mobile.val(jsonData.mobile);
+          orgName.val(jsonData.orgName);
+          orgRName.val(jsonData.orgRName);
+          contriType.val(jsonData.contriType);
+
         }
       });
     } else if (layEvent === 'edit') {
-      layer.msg('查看操作');
-      layer.confirm('纳尼？', {
-        btn: ['按钮一', '按钮二', '按钮三'] //可以无限个按钮
-        , btn3: function (index, layero) {
-          //按钮【按钮三】的回调
-        }
-      }, function (index, layero) {
-        //按钮【按钮一】的回调
-      }, function (index) {
-        //按钮【按钮二】的回调
-      });
+      if (data.contriState === 1) {
+        layer.msg('该捐赠已审核通过！');
+      } else {
+        layer.confirm('是否确认审核通过？', function (index) {
+          offset: '200px';
+          layer.close(index);
+          $.ajax({
+            type: "post",
+            contentType: 'application/json',
+            url: "/back/contriInfo/updateContriStatus",
+            dataType: "json",
+            data: JSON.stringify({
+              id: data.id, contriState: 1
+            }),
+            // beforeSend: function () {
+            //   //禁用按钮防止重复提交
+            //   $("#submit").attr({ disabled: "disabled" });
+            // },
+            success: function (data) {
+              if (data.status === 1) {
+                layer.msg("认证成功", {
+                  icon: 1,
+                  success: location.reload()
+                });
+              } else {
+                layer.msg(data.msg);
+              }
+            },
+          });
+        });
+      }
     }
   });
 
+
+
   var $ = layui.$, active = {
     reload: function () {
-      var userIdReload = $('#userIdReload');
+      var userName = $('#userName').val();
+      var sTime = $('#sTime').val();
+      var eTime = $('#eTime').val();
+      var sTimeString = new Date(sTime).getTime()/1000;
+      var eTimeString = new Date(eTime).getTime()/1000;
+      if(sTime!=="" && eTime!==""){
+        if(sTime > eTime){
+          layer.msg('日期起始不可大于日期截止！');
+          $("#sTime").val("");
+          $("#eTime").val("");
+          $("#userName").val("");
+          return;
+        }
+      }
       //执行重载
       table.reload('tableReload', {
         page: {
           curr: 1 //重新从第 1 页开始
         }
         , where: {
-          userId: userId.val()
+          userName: userName,
+          startTime: sTimeString,
+          endTime: eTimeString
         }
       });
     }
@@ -130,20 +193,82 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     var type = $(this).data('type');
     active[type] ? active[type].call(this) : '';
   });
+
+  $("#clear").bind("click", function() {
+    $("#sTime").val("");
+    $("#eTime").val("");
+    $("#userName").val("");
+    table.reload('tableReload', {
+      page: {
+        curr: 1 //重新从第 1 页开始
+      }, where: {
+        startTime: '',
+        endTime: ''
+    }
+    });
+  });
+
+  var laydate = layui.laydate;
+  //常规用法
+  laydate.render({
+    elem: '#sTime'
+    ,format: 'yyyy-MM-dd HH:mm'
+    ,type:'datetime'
+    ,trigger: 'click'
+  });
+  laydate.render({
+    elem: '#eTime'
+    ,format: 'yyyy-MM-dd HH:mm'
+    ,type:'datetime'
+    ,trigger: 'click'
+  });
+
+
 });
+//让日期插件无法选中 达到禁止手输的目的
+function noInput(dom){
+  $(dom).blur();
+}
+
+// function searchForm(){
+//   layui.use('table', function(){
+//     var type = $("#activityType").val();
+//     var state = $("#activityState").val();
+//     var stime = $("#activityStime").val();
+//     var etime = $("#activityEtime").val();
+//     if(stime!=""&&etime!=""){
+//       if(stime>etime){
+//         layer.msg('日期起始不可大于日期截止！');
+//         $("#activityEtime").val("");
+//         return;
+//       }
+//     }
+//     var table = layui.table;
+//     table.reload('contriTable',{
+//       where: {field: 'activity_start_time', sort: "desc",
+//         type:type,stime:stime,
+//         state:state,etime:etime}
+//       ,page: {
+//         curr: 1 //重新从第 1 页开始
+//       }
+//     });
+//   });
+// }
+
+
+
 </script>
-  <script type="text/html" id="bar">
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">详情</a>
-  <a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+
+<script type="text/html" id="bar">
+<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">详情</a>
+<a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
 </script>
 
 <script type="text/html" id="titleTpl">
-  {{#if (d.contriStatus == null) { }}
-  <span>待证实111</span>
-  {{# }else if(d.contriStatus == 2){ }}
+  {{#if (d.contriState == 0) { }}
+  <span>待证实</span>
+  {{# }else if(d.contriState == 1){ }}
   <span>已证实</span>
-  {{# }else if(d.contriStatus == null){ }}
-  <span>证实</span>
   {{# } }}
 </script>
 

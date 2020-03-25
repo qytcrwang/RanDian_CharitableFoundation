@@ -20,6 +20,7 @@ import com.fire.back.common.TimeTools;
 import com.fire.back.dao.ActivityUserTbMapper;
 import com.fire.back.dao.extend.ExtendActivityTbMapper;
 import com.fire.back.dao.extend.ExtendUserTbMapper;
+import com.fire.back.entity.ActivityTbExample;
 import com.fire.back.entity.ActivityTbWithBLOBs;
 import com.fire.back.entity.ActivityUserTb;
 import com.fire.back.entity.ActivityUserTbExample;
@@ -193,8 +194,12 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public void del(String ids) {
-		Map<String,Object> map = new HashMap<>();
-		map.put("ids", ids);
+		ActivityTbExample example = new ActivityTbExample();
+		com.fire.back.entity.ActivityTbExample.Criteria c = example.createCriteria();
+		c.andIdEqualTo(Long.parseLong(ids));
+		ActivityTbWithBLOBs a = new ActivityTbWithBLOBs();
+		a.setIsDelete(1);
+		activityMapper.updateByExampleSelective(a, example);
 	}
 	
 	@Override
@@ -203,7 +208,7 @@ public class ActivityServiceImpl implements ActivityService {
 		int result = 0;
 		String body = activeTb.getBody();
 		String picUrls = getPicUrls(body);
-		body.replace("temp", "");
+		body = body.replace("temp", "");
 		activeTb.setBody(body);
 		String coverPath = ClassUtils.getDefaultClassLoader().getResource("static/images/cover").getPath();
 		String bodyPath = ClassUtils.getDefaultClassLoader().getResource("static/images/body").getPath();

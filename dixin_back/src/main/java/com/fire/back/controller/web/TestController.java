@@ -63,6 +63,10 @@ public class TestController {
 	public String rentManager() {
 		return "rentManager";
 	}
+	@GetMapping("/rentManagerNew")
+	public String rentManagerNew() {
+		return "rentManagerNew";
+	}
 
 	@PostMapping("/getInfo")
 	@ResponseBody

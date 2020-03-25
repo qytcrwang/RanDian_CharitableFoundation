@@ -54,7 +54,6 @@ Page({
    */
   onLoad: function (options) {
     let msgId = options.id;
-    console.log(msgId);
     this.getMessageDetails(msgId);
   },
 
