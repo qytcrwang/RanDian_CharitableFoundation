@@ -4,7 +4,7 @@ page{
 }
 .step{
   width: 94%;
-  height: 800rpx;
+  height: 700rpx;
   margin: 16rpx auto 0;
   background: #ffffff;
   border-radius: 8rpx;
@@ -124,7 +124,7 @@ page{
 }
 .step2{
   width: 94%;
-  height: 222rpx;
+  height: 180rpx;
   margin: 16rpx auto 0;
   background: #ffffff;
   border-radius: 8rpx;
@@ -226,8 +226,8 @@ page{
 }
 .listPic{
   width: 34rpx;
-  height: 26rpx;
-  margin:30rpx 18rpx 0 2rpx;
+  height: 34rpx;
+  margin:25rpx 18rpx 0 2rpx;
 }
 input{display: block}
 .list_name{

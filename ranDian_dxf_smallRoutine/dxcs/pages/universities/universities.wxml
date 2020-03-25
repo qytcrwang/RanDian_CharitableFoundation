@@ -55,7 +55,7 @@
       <view class='content'>02 / 支付成功后如果有疑问请联系客服。</view>
       <view class='content'>03 / 为了您的账户安全，请确认捐赠后再支付。</view>
     </view>
-    <button class='submit' form-type='submit'>提交订单</button>
+    <button class='submit' form-type='submit'>签到</button>
   </form>
   <!--申请房租页面-->
   <form class='{{applyForTab?"show":"hidden"}}' bindsubmit='doncationSubmit'>
@@ -66,42 +66,36 @@
         <view class='stepMain'>
           <view class='dian'></view> 
           <view class='describe'>填写申请单</view>
-          <view class='sum'>预计审核时间: <text class='points'>2-5个工作日</text></view>
         </view>
       </view>
       <view class='list'>
-        <image class='listPic' src='/img/deliver.png'></image>
+        <image class='listPic' src='/img/university.png'></image>
         <input class='list_name' placeholder='毕业院校' placeholder-class='input'></input>
       </view>
       <view class='list'>
-        <image class='listPic' src='/img/form.png'></image>
+        <image class='listPic' src='/img/major.png'></image>
         <input class='list_name' placeholder='所属专业' placeholder-class='input'></input>
       </view>
       <view class='list'>
-        <image class='listPic' src='/img/people.png'></image>
+        <image class='listPic' src='/img/salary.png'></image>
         <input class='list_name' placeholder='期望薪资' placeholder-class='input'></input>
       </view>
       <view class='list'>
-        <image class='listPic' src='/img/people.png'></image>
+        <image class='listPic' src='/img/onjob.png'></image>
         <input class='list_name' placeholder='在职状态("在职"或"未就业")' placeholder-class='input'></input>
       </view>
       <view class='list'>
-        <image class='listPic' src='/img/people.png'></image>
+        <image class='listPic' src='/img/company_name.png'></image>
         <input class='list_name' placeholder='公司名称(选填)' placeholder-class='input'></input>
       </view>
       <view class='list'>
-        <image class='listPic' src='/img/people.png'></image>
+        <image class='listPic' src='/img/position.png'></image>
         <input class='list_name' placeholder='公司地址(选填)' placeholder-class='input'></input>
       </view>
       <view class='list'>
-        <image class='listPic' src='/img/people.png'></image>
+        <image class='listPic' src='/img/comment.png'></image>
         <input class='list_name' placeholder='工作意向(选填)' placeholder-class='input'></input>
-      </view>
-      <view class='lists'>
-        <image class='listPic' src='/img/camera.png'></image>
-        <input class='list_name' placeholder='物品信息备注/照片(选填)' placeholder-class='input'></input>
-      </view>
-      
+      </view>   
     </view>
     <!-- 第二步 -->
     <view class='step2'>
@@ -109,31 +103,14 @@
         <view class='flag'>STEP2</view>
         <view class='stepMains'>
           <view class='dians'></view> 
-          <view class='describe'>邮寄地址</view>
-          <view class='tips'>请将捐赠物品邮寄至指定地址</view>
+          <view class='describe'>工作人员审核</view>
         </view>
       </view>
       <view class='info'>
         <view class='info_left'>
-          <view class='addrAndTel'>
-            <image class='pos' src='/img/position.png'></image>
-            <view class='addr'>浙江省杭州市东旱门南路95号</view>
-          </view>
-          <view class='tel'>收货员 1385781996</view>
+          <view class='addr'>预计审核完成时间在<text class='points'>2-5个工作日</text></view>
         </view>
       </view>
-    </view>
-    <!-- 第三步 -->
-    <view class='step3'>
-      <view class='step_top'>
-        <view class='flag'>STEP3</view>
-        <view class='stepMains'>
-          <view class='dians'></view> 
-          <view class='describe'>快递信息</view>
-          <view class='tips'>请填写您寄出的快递信息</view>
-        </view>
-      </view>
-      
     </view>
     <!-- 同意协议 -->
     <view class='agree'>
@@ -147,6 +124,6 @@
       <view class='content'>02 / 捐赠物品收到后，收货员会及时入库，确定用户积分。</view>
       <view class='content'>03 / 为保障运输安全，请将物品打包牢靠。</view>
     </view>
-    <button class='submit' form-type='submit'>提交订单</button>
+    <button class='submit' form-type='submit'>提交申请</button>
   </form>
 </view>
