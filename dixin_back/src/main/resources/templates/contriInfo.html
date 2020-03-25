@@ -9,7 +9,14 @@
         <input class="layui-input" name="id" placeholder="会员名称" id="userName" autocomplete="off"
                style="width: 200px">
       </div>
+      <div class="layui-inline" style="padding-left: 50px">
+        <input type="text" class="layui-input" name="sTime" id="sTime" placeholder="日期起始" onfocus="noInput(this)">
+      </div> -
+      <div class="layui-inline">
+        <input type="text" class="layui-input" name="eTime" id="eTime" placeholder="日期截止" onfocus="noInput(this)">
+      </div>
       <button class="layui-btn" data-type="reload">搜索</button>
+      <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
     </div>
   </div>
 </div>
@@ -26,7 +33,8 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
   });
   //执行一个 table 实例
   table.render({
-    elem: '#contriInfoList'
+    id: 'contriTable'
+    , elem: '#contriInfoList'
     , url: '/back/contriInfo/contriInfoList'
     , method: 'post'
     , contentType: 'application/json'
@@ -100,7 +108,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
           var orgName = $("#orgName", layero.find("iframe")[0].contentWindow.document);
           var orgRName = $("#orgRName", layero.find("iframe")[0].contentWindow.document);
           var contriType = $("#contriType", layero.find("iframe")[0].contentWindow.document);
-          userName.val(jsonData.userName);
+          userName.val(jsonData.name);
           contriAmount.val(jsonData.contriAmount);
           contriThings.val(jsonData.contriThings);
           contriTime.val(jsonData.contriTime);
@@ -148,14 +156,29 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
 
   var $ = layui.$, active = {
     reload: function () {
-      var userName = $('#userName');
+      var userName = $('#userName').val();
+      var sTime = $('#sTime').val();
+      var eTime = $('#eTime').val();
+      var sTimeString = new Date(sTime).getTime()/1000;
+      var eTimeString = new Date(eTime).getTime()/1000;
+      if(sTime!=="" && eTime!==""){
+        if(sTime > eTime){
+          layer.msg('日期起始不可大于日期截止！');
+          $("#sTime").val("");
+          $("#eTime").val("");
+          $("#userName").val("");
+          return;
+        }
+      }
       //执行重载
       table.reload('tableReload', {
         page: {
           curr: 1 //重新从第 1 页开始
         }
         , where: {
-          userName: userName.val()
+          userName: userName,
+          sTime: sTime,
+          eTime: eTimeString
         }
       });
     }
@@ -165,11 +188,67 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     var type = $(this).data('type');
     active[type] ? active[type].call(this) : '';
   });
+
+  var laydate = layui.laydate;
+  //常规用法
+  laydate.render({
+    elem: '#sTime'
+    ,format: 'yyyy-MM-dd HH:mm'
+    ,type:'datetime'
+    ,trigger: 'click'
+  });
+  laydate.render({
+    elem: '#eTime'
+    ,format: 'yyyy-MM-dd HH:mm'
+    ,type:'datetime'
+    ,trigger: 'click'
+  });
+
+
+});
+//让日期插件无法选中 达到禁止手输的目的
+function noInput(dom){
+  $(dom).blur();
+}
+
+// function searchForm(){
+//   layui.use('table', function(){
+//     var type = $("#activityType").val();
+//     var state = $("#activityState").val();
+//     var stime = $("#activityStime").val();
+//     var etime = $("#activityEtime").val();
+//     if(stime!=""&&etime!=""){
+//       if(stime>etime){
+//         layer.msg('日期起始不可大于日期截止！');
+//         $("#activityEtime").val("");
+//         return;
+//       }
+//     }
+//     var table = layui.table;
+//     table.reload('contriTable',{
+//       where: {field: 'activity_start_time', sort: "desc",
+//         type:type,stime:stime,
+//         state:state,etime:etime}
+//       ,page: {
+//         curr: 1 //重新从第 1 页开始
+//       }
+//     });
+//   });
+// }
+
+$("#search").bind("click", function() {
+  searchForm();
+});
+
+$("#clear").bind("click", function() {
+  $("#searchForm").clearForm();
+  searchForm();
 });
 </script>
-  <script type="text/html" id="bar">
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">详情</a>
-  <a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+
+<script type="text/html" id="bar">
+<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">详情</a>
+<a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
 </script>
 
 <script type="text/html" id="titleTpl">

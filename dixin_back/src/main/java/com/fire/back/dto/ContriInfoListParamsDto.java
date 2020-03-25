@@ -14,6 +14,10 @@ public class ContriInfoListParamsDto {
 
   private Long contriInfoId;
 
+  private Long sTime;
+
+  private Long eTime;
+
   private Integer page;
 
   private Integer limit;

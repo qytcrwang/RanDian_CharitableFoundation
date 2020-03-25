@@ -77,6 +77,16 @@
         and UPPER(t2.name) like CONCAT("%",#{paramsDto.userName},"%")
         ]]>
     </if>
+    <if test="paramsDto.sTime != null and paramsDto.sTime != ''">
+      <![CDATA[
+			and t1.contri_time >= #{paramsDto.sTime}
+		]]>
+    </if>
+    <if test="paramsDto.eTime != null and paramsDto.eTime != ''">
+      <![CDATA[
+			and t1.contri_time <= #{paramsDto.eTime}
+		]]>
+    </if>
     order by t1.update_time desc
     <![CDATA[
     limit #{paramsDto.offSet,jdbcType=INTEGER},#{paramsDto.limit,jdbcType=INTEGER}
