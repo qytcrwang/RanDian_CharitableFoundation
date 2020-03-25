@@ -77,14 +77,14 @@
         and UPPER(t2.name) like CONCAT("%",#{paramsDto.userName},"%")
         ]]>
     </if>
-    <if test="paramsDto.sTime != null and paramsDto.sTime != ''">
+    <if test="paramsDto.startTime != null and paramsDto.startTime != ''">
       <![CDATA[
-			and t1.contri_time >= #{paramsDto.sTime}
+			and t1.contri_time >= #{paramsDto.startTime}
 		]]>
     </if>
-    <if test="paramsDto.eTime != null and paramsDto.eTime != ''">
+    <if test="paramsDto.endTime != null and paramsDto.endTime != ''">
       <![CDATA[
-			and t1.contri_time <= #{paramsDto.eTime}
+			and t1.contri_time <= #{paramsDto.endTime}
 		]]>
     </if>
     order by t1.update_time desc

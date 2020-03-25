@@ -3,22 +3,25 @@
 <head th:replace="include :: header"></head>
 <body>
 <div class="layui-row">
-  <div class="layui-col-md8 layui-col-md-offset2">
-    <div class="dTable" style="padding-top: 10px">
-      <div class="layui-inline">
-        <input class="layui-input" name="id" placeholder="会员名称" id="userName" autocomplete="off"
-               style="width: 200px">
-      </div>
-      <div class="layui-inline" style="padding-left: 50px">
-        <input type="text" class="layui-input" name="sTime" id="sTime" placeholder="日期起始" onfocus="noInput(this)">
-      </div> -
-      <div class="layui-inline">
-        <input type="text" class="layui-input" name="eTime" id="eTime" placeholder="日期截止" onfocus="noInput(this)">
-      </div>
-      <button class="layui-btn" data-type="reload">搜索</button>
-      <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
+  <form class="layui-form" action="">
+    <div class="layui-col-md10 layui-col-md-offset2">
+      <div class="dTable" style="padding-top: 10px">
+        名称：
+        <div class="layui-inline">
+          <input class="layui-input" name="id" placeholder="会员名称" id="userName" autocomplete="off" style="width: 200px">
+        </div>
+        捐赠时间：
+        <div class="layui-inline">
+          <input type="text" class="layui-input" name="sTime" id="sTime" placeholder="日期起始" onfocus="noInput(this)">
+        </div> -
+        <div class="layui-inline">
+          <input type="text" class="layui-input" name="eTime" id="eTime" placeholder="日期截止" onfocus="noInput(this)">
+        </div>
+          <button class="layui-btn" data-type="reload" >搜索</button>
+          <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
+        </div>
     </div>
-  </div>
+  </form>
 </div>
 <table class="layui-hide" id="contriInfoList" lay-filter="tableFilter"></table>
 <script type="text/javascript">
@@ -154,6 +157,8 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     }
   });
 
+
+
   var $ = layui.$, active = {
     reload: function () {
       var userName = $('#userName').val();
@@ -177,8 +182,8 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         }
         , where: {
           userName: userName,
-          sTime: sTime,
-          eTime: eTimeString
+          startTime: sTimeString,
+          endTime: eTimeString
         }
       });
     }
@@ -187,6 +192,20 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
   $('.dTable .layui-btn').on('click', function () {
     var type = $(this).data('type');
     active[type] ? active[type].call(this) : '';
+  });
+
+  $("#clear").bind("click", function() {
+    $("#sTime").val("");
+    $("#eTime").val("");
+    $("#userName").val("");
+    table.reload('tableReload', {
+      page: {
+        curr: 1 //重新从第 1 页开始
+      }, where: {
+        startTime: '',
+        endTime: ''
+    }
+    });
   });
 
   var laydate = layui.laydate;
@@ -236,14 +255,8 @@ function noInput(dom){
 //   });
 // }
 
-$("#search").bind("click", function() {
-  searchForm();
-});
 
-$("#clear").bind("click", function() {
-  $("#searchForm").clearForm();
-  searchForm();
-});
+
 </script>
 
 <script type="text/html" id="bar">
