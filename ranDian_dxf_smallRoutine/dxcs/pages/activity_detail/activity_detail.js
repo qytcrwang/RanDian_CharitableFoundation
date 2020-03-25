@@ -7,7 +7,11 @@ Page({
    */
   data: {
     //活动详情
-    activityDetails:null,
+    activityDetails:{
+      sign_etime:'',
+      activity_stime:'',
+      activity_etime:''
+    },
     //图片
     imgs:[
       '/img/activity3.png',

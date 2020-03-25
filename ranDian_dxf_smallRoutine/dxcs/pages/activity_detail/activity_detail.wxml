@@ -1,3 +1,4 @@
+<wxs src="../../utils/util.wxs" module="tools" />
 
 <view class="container">
     <view class="activity-title">
@@ -15,18 +16,22 @@
         </view>
     </view>
         <view class="message_other">
-            <text >活动时长：{{activityDetails.activity_time}}小时</text>
-            <view >
-               <text >活动地址：{{activityDetails.address}}</text>
+            <!-- <text >活动时长：{{activityDetails.activity_time}}小时</text> -->
+            <view class="join_end_time">
+                <image src="../../img/join_end_time.png" />
+                <text >报名截止时间：{{tools.sub(activityDetails.sign_etime)}}</text>
             </view>
-            <view >
-                <text >报名时间：{{activityDetails.sign_stime}}-{{activityDetails.sign_etime}}</text>
+            <view class="activity_time">
+                <image src="../../img/activity_time.png" />
+                <text class="time_label">活动时间：{{tools.sub(activityDetails.activity_stime)}}至{{tools.sub(activityDetails.activity_etime)}}</text>
             </view>
-            <view >
-                <text class="time_label">活动时间：</text>
-                <text class="time_body">{{activityDetails.activity_stime}}-{{activityDetails.activity_etime}}</text>
+            <view class="activity_address">
+                <image src="../../img/activity_address.png" />
+                <text class="activity_address_title">活动地址：</text>
+                <text class="activity_address_msg">{{activityDetails.address}}</text>
             </view>
-            <view >
+            <view class="sign_up_count">
+                <image src="../../img/sign_up_count.png" />
                 <text class="join_count">已报名人数：{{activityDetails.apply_nums}}</text>
             </view>
             <view >

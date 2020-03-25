@@ -54,6 +54,8 @@
     margin: 20rpx 0;
     border-radius:15rpx;
 }
+
+/* 活动相关信息 */
 .message_other{
     padding-bottom: 30rpx;
     padding: 30rpx 40rpx;
@@ -63,14 +65,22 @@
     line-height: 44rpx;
     /* font-weight:bold */
 }
-/* .time_label{
-    float: left;
-} */
-/* .time_body{
-    float: right;
-} */
-
-
+.message_other image{
+    height: 34rpx;
+    width: 34rpx;
+    margin-bottom: -3rpx;
+    margin-right: 5rpx;
+}
+.message_other text{
+    color: #999999;
+}
+.activity_address_title{
+    width: 300rpx;
+}
+.activity_address_msg{
+    width: 400rpx;
+}
+/* 点赞 */
 .good_num{
     float: right;
 }
