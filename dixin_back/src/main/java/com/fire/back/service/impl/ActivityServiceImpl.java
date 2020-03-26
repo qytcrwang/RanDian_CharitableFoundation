@@ -171,8 +171,14 @@ public class ActivityServiceImpl implements ActivityService {
 		Map<String,Object> params = new HashMap<>();
 		String param = " where is_delete=0 ";
 		if(type>-1) param += " and type = "+type;
-		if(stime.length()>0) param += " and activity_start_time >="+stime;
-		if(etime.length()>0) param += " and activity_start_time <"+etime;
+		if(stime.length()>0) {
+			stime = TimeTools.getTimeStamp(stime)/1000 +"";
+			param += " and activity_start_time >="+stime;
+		}
+		if(etime.length()>0) {
+			etime = TimeTools.getCircleStamp(etime)/1000 +"";
+			param += " and activity_start_time <"+etime;
+		}
 		if(state>-1) param += " and state = "+state;
 		params.put("param", param);
 		int count = activityMapper.getListByPageCount(params);
