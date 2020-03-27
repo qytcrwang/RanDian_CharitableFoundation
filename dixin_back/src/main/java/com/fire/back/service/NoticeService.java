@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ：王一悦
@@ -23,7 +24,9 @@ public interface NoticeService {
      [page, size, state, msg_type, is_delete]
      * @return java.util.List<com.fire.back.entity.MsgTb>
      */
-    List<MsgTb> getMsgsWithOutContent(int page,int size,int state,int msgType,int isDelete);
+    List<MsgTb> getMsgsWithOutContent(int page,int size,String ltitle,int state,int msgType,int isDelete,Long stime,Long etime);
+
+    int getMsgCount(String ltitle,int state,int msgType,int isDelete,Long stime,Long etime);
 
     /**
      * create by: 王一悦
@@ -54,4 +57,5 @@ public interface NoticeService {
      * @return java.lang.Boolean
      */
     Boolean updateMsgById(MsgTb msgTb);
+
 }

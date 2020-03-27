@@ -35,13 +35,22 @@ public class NoticeServiceImpl implements NoticeService {
      * @return java.util.List<com.fire.back.entity.MsgTb>
      */
     @Override
-    public List<MsgTb> getMsgsWithOutContent(int page, int size, int state, int msgType, int isDelete) {
-        Map<String,Object> params = new HashMap<>();
-        String param = " where m.state = "+state+" and m.msg_type = "+msgType+" and m.is_delete = "+isDelete;
-        param += " order by m.time limit "+(page-1)*size+","+size;
-        params.put("param", param);
-        List<MsgTb> list = extendMsgTbMapper.getMsgsWithOutContent(params);
+    public List<MsgTb> getMsgsWithOutContent(int page, int size, String ltitle, int state, int msgType, int isDelete,Long stime,Long etime) {
+        List<MsgTb> list = extendMsgTbMapper.getMsgsWithOutContent(ltitle,state,msgType,isDelete,stime,etime,(page-1)*size,size);
         return list;
+    }
+
+    /**
+     * create by: 王一悦
+     * description: 获取通知总数
+     * create time: 2020/3/26 18:00
+     *
+     []
+     * @return int
+     */
+    @Override
+    public int getMsgCount(String ltitle,int state,int msgType,int isDelete,Long stime,Long etime){
+        return extendMsgTbMapper.getMsgCount(ltitle,state,msgType,isDelete,stime,etime);
     }
 
     /**

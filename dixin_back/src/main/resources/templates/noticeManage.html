@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="include :: header"></head>
+<body>
+    <table class="layui-table" lay-skin="nob">
+        <tbody>
+        <tr>
+            <td width="10%"></td>
+            <td width="80%">
+                <form class="layui-form" id="searchForm">
+                    标题搜索：
+                    <div class="layui-input-inline">
+                        <input type="text" id="noticeTitle" name="noticeTitle" lay-verify="likeSelect" placeholder="输入要搜索的通知标题"
+                               autocomplete="off" class="layui-input" >
+                    </div>
+                         活动状态：
+                    <div class="layui-input-inline" lay-filter="">
+                        <select name="noticeState" id="noticeState" lay-verify="stateSelect">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                         时间范围：
+                    <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="noticeStime" id="noticeStime" placeholder="起始日期">
+                </div>-
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="noticeEtime" id="noticeEtime" placeholder="截止日期">
+                    </div>
+                    <div class="layui-input-inline" style="float:right;">
+                        <button type="button" class="layui-btn" data-type="reload" id="search">查找</button>
+                        <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+                    </div>
+                </form>
+            </td>
+            <td width="10%">
+                <button class="layui-btn" id="add"><i class="layui-icon">&#xe608;</i>添加</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="layui-table" id="noticeTable" lay-filter="tableTool"></table>
+    <!-- 通知添加的表单 -->
+    <form class="layui-form" id="addForm" style="display:none">
+        <input type="hidden" id="noticeId" name="id" value="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">通知标题</label>
+            <div class="layui-input-inline">
+                <input type="text" id="title" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">通知内容</label>
+            <div class="layui-input-block">
+                <textarea id="body" name="body" required  lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </form>
+    <!-- table后的操作按钮 -->
+    <script type="text/html" id="noticeBar">
+        <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <script id="checkboxTpl" type="text/html">
+        <!-- 这里的 checked 的状态只是演示 -->
+        <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="已发布|未发布" lay-filter="release" {{ d.state == 0 ? 'checked' : '' }}>
+    </script>
+    <script type="text/javascript">
+        //初始化时加载下拉菜单
+        $(function(){
+            $.ajax({
+                type : "post",
+                url : "back/notice/getNoticeStateList",
+                async:false,
+                data : "",
+                dataType : 'json',
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+                        + textStatus + "," + errorThrown);
+                },
+                success : function(result) {
+                    var stateList = result['data'];
+                    var stateStr = "<option value='-1'>请选择</option>";
+                    for ( var i = 0; i < stateList.length; i++) {
+                        var data = stateList[i];
+                        stateStr += "<option value=" + data["code"] + ">" + data["value"]
+                            + "</option>";
+                    }
+                    $("#noticeState").html(stateStr);
+                    //$("#state").html(stateStr);
+                }
+            });
+        });
+        var laydate = null;
+        var table = null;
+        var layer = null;
+        //初始化layui各种插件
+        layui.use(['laydate', 'laypage', 'layer', 'table', 'element', 'form'], function() {
+            laydate = layui.laydate;
+            table = layui.table;
+            layer = layui.layer;
+            var form = layui.form;
+            //初始化列表
+            table.render({
+                elem: '#noticeTable'
+                ,url: 'back/notice/getNoticesWithOutContext'
+                ,method: 'post'
+                ,contentType: 'application/json'
+                ,id:'noticeTable'
+                ,page: true
+                ,parseData: function(res){ //res 即为原始返回的数据
+                    return {
+                        "code": res.status, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.count, //解析数据长度
+                        "data": res.data //解析数据列表
+                    };
+                }
+                ,response: {
+                    statusCode:1 //规定成功的状态码，默认：0
+                }
+                ,limit: 10
+                ,cols: [
+                    [
+                        ,{field: 'id', hide:true, title:'id', align: 'center'}
+                        ,{width:'30%', field:'title', title: '通知标题', align: 'center'}
+                        ,{width:'30%', field:'time', title: '通知日期', align: 'center', templet: function(row) {
+                                return createTime(row.time * 1000);
+                        }}
+                        ,{width:'20%', field: 'state', title: '通知状态', align: 'center', templet: '#checkboxTpl'}
+                        ,{width: '20%', title: '操作', align:'center', toolbar: '#noticeBar'}
+                    ]
+                ]
+            });
+            form.on('switch(release)', function(obj){
+                updateNotice(this.value,null,null,null,obj.elem.checked?0:1,null);
+            });
+            //操作工具栏
+            table.on('tool(tableTool)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                if(layEvent === 'detail'){ //查看
+                    $("#addForm").clearForm();
+                    getNoticeData(data['id']);
+                    openLayer('查看修改通知');
+                } else if(layEvent === 'del'){ //删除
+                    updateNotice(data['id'],null,null,null,null,1);
+                }
+            });
+            //时间弹出层
+            laydate.render({
+                elem: '#noticeStime'
+                , format: 'yyyy-MM-dd HH:mm'
+                , type: 'datetime'
+                , trigger: 'click'
+            });
+            laydate.render({
+                elem: '#noticeEtime'
+                , format: 'yyyy-MM-dd HH:mm'
+                , type: 'datetime'
+                , trigger: 'click'
+            });
+            //搜索按钮监听
+            $("#search").bind("click", function() {
+                searchForm();
+            });
+            //重置按钮监听
+            $("#clear").bind("click", function() {
+                $("#searchForm").clearForm();
+                searchForm();
+            });
+            //添加按钮监听
+            $("#add").bind("click", function() {
+                $("#addForm").clearForm();
+                openLayer('新建通知');
+            });
+        });
+        //弹出添加或者详情弹出层
+        function openLayer(titleName){
+            var width = window.innerWidth*3/4+"px";
+            layer.open({
+                type:1,
+                area: width,
+                title: titleName,
+                content: $("#addForm"),
+                shade: 0.3,
+                resize:false ,
+                move: false,
+                scrollbar: true,
+                btn: ['提交', '重置'],
+                btn1: function(index, layero){
+                    layer.confirm('确认要提交信息吗？', {icon: 3, title:'信息提交确认'}, function(index){
+                        //如果通知id为空就是添加
+                        if($("#noticeId").val()==''){
+                            submitAddForm();
+                        }else{//否则就是修改
+                            updateNotice($("#noticeId").val(),$("#title").val(),$("#body").val(),null,null,null);
+                        }
+                    });
+                },
+                btn2: function(index, layero){
+                    if($("#noticeId").val() == "")$("#addForm").clearForm();
+                    else getNoticeData($("#noticeId").val());
+                    return false;
+                },
+                cancel: function(layero,index){
+                    $("#addForm").clearForm();
+                    layer.closeAll();
+                }
+            });
+        }
+        //根据条件刷新列表
+        function searchForm(){
+            var title = $("#noticeTitle").val();
+            var state = $("#noticeState").val();
+            var stime = $("#noticeStime").val();
+            var etime = $("#noticeEtime").val();
+            if(stime!=""&&etime!=""){
+                if(stime>etime){
+                    layer.msg('日期起始不可大于日期截止！');
+                    $("#noticeEtime").val("");
+                    return;
+                }
+            }
+            table.reload('noticeTable',{
+                where: {ltitle:title, state:state, noticeStime:stime, noticeEtime:etime}
+                ,page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        }
+        //修改通知
+        function updateNotice(id,title,body,time,state,isDelete) {
+            $.ajax({
+                type : "post",
+                url : "back/notice/updateNoticeById",
+                data : JSON.stringify({id:id,title:title,body:body,time:time,state:state,is_delete:isDelete}),
+                headers : {
+                    'Content-Type' : 'application/json;charset=utf-8'
+                },
+                dataType : 'json',
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+                        + textStatus + "," + errorThrown);
+                },
+                success : function(result) {
+                    if(result["status"] == 1){
+                        layer.closeAll();
+                        layer.msg(result["msg"]);
+                        searchForm();
+                    }
+                }
+            });
+        }
+        //添加通知
+        function submitAddForm (){
+            $.ajax({
+                type : "post",
+                url : "back/notice/addNotice",
+                data : JSON.stringify($("#addForm").serializeObject()),
+                headers : {
+                    'Content-Type' : 'application/json;charset=utf-8'
+                },
+                dataType : 'json',
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+                        + textStatus + "," + errorThrown);
+                },
+                success : function(result) {
+                    if(result["status"] == 1){
+                        layer.closeAll();
+                        layer.msg(result["msg"]);
+                        searchForm();
+                    }
+                }
+            });
+        }
+        //根据id获取通知数据
+        function getNoticeData(id){
+            $.ajax({
+                type : "post",
+                url : "back/notice/getNoticeById",
+                data : JSON.stringify({
+                    "id":id
+                }),
+                headers : {
+                    'Content-Type' : 'application/json;charset=utf-8'
+                },
+                dataType : 'json',
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+                        + textStatus + "," + errorThrown);
+                },
+                success : function(result) {
+                    var data = result["data"];
+                    $("#noticeId").val(data["id"]);
+                    $("#title").val(data["title"]);
+                    $("#body").val(data["body"]);
+                }
+            });
+        }
+        /**13位时间戳转换成 年月日 上午 时间  2018-05-23 10:41:08 */
+        function createTime(v) {
+            return new Date(parseInt(v)).toLocaleString()
+        }
+        /**
+         * 自动将form表单封装成json对象
+         */
+        $.fn.serializeObject = function() {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function() {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [ o[this.name] ];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    </script>
+</body>

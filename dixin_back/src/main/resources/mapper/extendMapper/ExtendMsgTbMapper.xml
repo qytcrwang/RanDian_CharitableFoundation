@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fire.back.dao.extend.ExtendMsgTbMapper" >
-    <resultMap id="msgWithOutContext" type="com.fire.back.entity.MsgTb" >
+    <resultMap id="MsgResultMap" type="com.fire.back.entity.MsgTb" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="title" property="title" jdbcType="VARCHAR" />
         <result column="time" property="time" jdbcType="BIGINT" />
@@ -10,7 +10,42 @@
         <result column="msg_type" property="msgType" jdbcType="INTEGER" />
         <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     </resultMap>
-    <select id="getMsgsWithOutContent" resultMap="msgWithOutContext" parameterType="map" >
-        select m.id,m.title,m.time,m.state,m.if_read,m.msg_type,m.is_delete from msg_tb m ${param}
+
+    <sql id="Base_Column_List">
+        id,title,time,state,if_read,msg_type,is_delete
+    </sql>
+
+    <select id="getMsgsWithOutContent" resultMap="MsgResultMap" parameterType="map" >
+        select
+        <include refid="Base_Column_List" />
+        from msg_tb
+        where msg_type = #{msgType,jdbcType=INTEGER}
+        <if test="state != -1">
+            and state = #{state,jdbcType=INTEGER}
+        </if>
+            and is_delete = #{isDelete,jdbcType=INTEGER}
+        <if test="ltitle != ''">
+            and title like CONCAT('%',#{ltitle,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="stime != null and etime != null" >
+            and time BETWEEN #{stime,jdbcType=BIGINT} and #{etime,jdbcType=BIGINT}
+        </if>
+        order by time desc
+        limit #{start} , #{size}
+    </select>
+
+    <select id="getMsgCount" resultType="java.lang.Integer">
+        select count(*) from msg_tb
+        where msg_type = #{msgType,jdbcType=INTEGER}
+        <if test="state != -1">
+            and state = #{state,jdbcType=INTEGER}
+        </if>
+            and is_delete = #{isDelete,jdbcType=INTEGER}
+        <if test="ltitle != ''">
+            and title like CONCAT('%',#{ltitle,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="stime != null and etime != null" >
+            and time BETWEEN #{stime,jdbcType=BIGINT} and #{etime,jdbcType=BIGINT}
+        </if>
     </select>
 </mapper>

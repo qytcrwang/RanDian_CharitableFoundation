@@ -68,6 +68,11 @@ public class TestController {
 		return "rentManagerNew";
 	}
 
+	@GetMapping("/noticeManage")
+	public String noticeManage() {
+		return "noticeManage";
+	}
+
 	@PostMapping("/getInfo")
 	@ResponseBody
 	public FireResult getInfo(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {

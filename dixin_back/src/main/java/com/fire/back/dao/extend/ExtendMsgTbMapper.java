@@ -14,5 +14,6 @@ import java.util.Map;
  */
 @Repository
 public interface ExtendMsgTbMapper {
-    List<MsgTb> getMsgsWithOutContent(Map<String,Object> params);
+    List<MsgTb> getMsgsWithOutContent(String ltitle,Integer state,Integer msgType,Integer isDelete,Long stime,Long etime,Integer start,Integer size);
+    int getMsgCount(String ltitle,Integer state,Integer msgType,Integer isDelete,Long stime,Long etime);
 }
