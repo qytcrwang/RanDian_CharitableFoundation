@@ -2,20 +2,36 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="include :: header"></head>
 <body>
-<div class="layui-row">
-  <div class="layui-col-md8 layui-col-md-offset2">
-    <div class="dTable" style="padding-top: 10px">
-      <div class="layui-inline">
-        <input class="layui-input" name="id" placeholder="学校名称" id="school" autocomplete="off"
-               style="width: 200px">
+<form class="layui-form" id="searchForm">
+  <div class="layui-row">
+    <div class="layui-col-md8">
+      <div class="dTable" style="padding-top: 10px">
+        <div class="layui-inline">
+          <input class="layui-input" name="id" placeholder="学校名称" id="school" autocomplete="off"
+                 style="width: 200px">
+        </div>
+        状态：
+        <div class="layui-inline" lay-filter="typeSelect">
+          <select name="state" id="state" lay-verify="">
+
+          </select>
+        </div>
+        是否在职：
+        <div class="layui-inline" lay-filter="typeSelect">
+          <select name="jobState" id="jobState" lay-verify="">
+
+          </select>
+        </div>
+        <div class="layui-inline" style="float:right;">
+        <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+        </div>
       </div>
-      <button class="layui-btn" data-type="reload">搜索</button>
     </div>
   </div>
-</div>
+</form>
 <table class="layui-hide" id="contriInfoList" width="1500px" lay-filter="tableFilter"></table>
 <script type="text/javascript">
-
+  initSelect();
   function changeStatus(status){
     if(status === 1){
         return '已证实'
@@ -26,14 +42,82 @@
       if(status === 3){
           return '已驳回'
       }
-      return '待审核'
+      if(status === 0){
+        return '待审核'
+      }
+      return ""
   }
   function changeJobStatus(status){
     if(status === 1){
         return '在职'
     }
-      return '待业'
+    if(status === 0){
+        return '待业'
+    }
+
+      return ''
   }
+  $("#search").bind("click", function() {
+    searchForm();
+  });
+
+/*  function searchForm(){
+    debugger
+    layui.use('table', function(){
+      var school = $('#school');
+      var state = $('#state');
+      var jobState = $('#jobState');
+      //执行重载
+      var table = layui.table;
+      table.reload('tableReload', {
+        page: {
+          curr: 1 //重新从第 1 页开始
+        }
+        , where: {
+          school: school.val(),
+          state: state.val(),
+          jobState: jobState.val(),
+        }
+      });
+    });
+  }*/
+  function searchForm(){
+    layui.use('table', function(){
+      var school = $('#school');
+      var state = $('#state');
+      var jobState = $('#jobState');
+
+      var table = layui.table;
+      table.reload('tableReload',{
+        where: {school: school.val(),
+          state: state.val(),
+          jobState: jobState.val(),}
+        ,page: {
+          curr: 1 //重新从第 1 页开始
+        }
+      });
+    });
+  }
+  function initSelect(){
+    debugger
+    var stateStr = '<option value="">请选择</option>\n' +
+        '          <option value="0">待审核</option>\n' +
+        '          <option value="1">已证实</option>\n' +
+        '          <option value="2">已发放</option>\n' +
+        '          <option value="3">驳回</option>';
+    var jobStateStr = '<option value="">请选择</option>\n' +
+        '          <option value="0">待业</option>\n' +
+        '          <option value="1">在职</option>\n'
+    $("#state").html(stateStr);
+    $("#jobState").html(jobStateStr);
+    layui.use('form', function(){
+      layui.form.render('select','stateSelect');
+      layui.form.render('select','typeSelect');
+      layui.form.render('select','aStateSelect');
+      layui.form.render('select','aTypeSelect');
+    });
+  }
+
     layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function () {
         var layer = layui.layer //弹层
             , table = layui.table //表格
@@ -53,22 +137,22 @@
 
             , cols: [
                 [
-                    ,{title: '序号', type:'numbers', align: 'center'}
+                    {title: '序号', type:'numbers', align: 'center'}
                     ,{field:'userId', title: '用户id', align: 'center'}
                     ,{field:'school', title: '学校', align: 'center'}
                     ,{field:'major', title: '专业', align: 'center'}
                     ,{field:'jobIntension', title: '职位', align: 'center'}
                     ,{field:'hopeSalary', title: '期望薪资', align: 'center'}
                     ,{field:'state', title: '状态', align: 'center', templet: function (row) {
-                        return changeStatus(row.state);}}
+                        return changeStatus(row.state)}}
                     ,{field:'applyTime', title: '申请时间', align: 'center'}
                     ,{field:'sentTime', title: '发放时间', align: 'center'}
                     ,{field:'sentAmount', title: '发放金额', align: 'center'}
                     ,{field:'sentProof', title: '发放凭证', align: 'center'}
                     ,{field:'jobState', title: '是否在职', align: 'center', templet: function (row) {
-                        return changeJobStatus(row.jobState);}}
+                        return changeJobStatus(row.jobState)}}
                     ,{field:'position', title: '当前职位', align: 'center'}
-                    ,{field:'rejectReason', title: '驳回原因', align: 'center'}
+                    /*,{field:'rejectReason', title: '驳回原因', align: 'center'}*/
                     ,{field:'companyName', title: '公司名', align: 'center'}
                     ,{field:'companyAddress', title: '公司地址', align: 'center'}
                     , {fixed: 'right', title: '操作', width: '10%', align: 'center', toolbar: '#bar'}
@@ -97,20 +181,26 @@
                     type: 2
                     , offset: '0px'
                     , scrollbar: true
-                    , title: '捐赠详情'
+                    , title: '详情'
                     , skin: 'layui-layer-molv'
                     , area: ['1000px', '600px']
-                    , content: ['/contriInfoDetail', 'false']
+                    , content: ['/rentDetail', 'false']
                     , success: function (layero, index) {
                         console.log(layero, index);
-                        var userName = $("#userName", layero.find("iframe")[0].contentWindow.document);
-                        var contriAmount = $("#contriAmount", layero.find("iframe")[0].contentWindow.document);
-                        var contriThings = $("#contriThings", layero.find("iframe")[0].contentWindow.document);
-                        var contriTime = $("#contriTime", layero.find("iframe")[0].contentWindow.document);
-                        var mobile = $("#mobile", layero.find("iframe")[0].contentWindow.document);
-                        var orgName = $("#orgName", layero.find("iframe")[0].contentWindow.document);
-                        var orgRName = $("#orgRName", layero.find("iframe")[0].contentWindow.document);
-                        var contriType = $("#contriType", layero.find("iframe")[0].contentWindow.document);
+                        var userId = $("#userId", layero.find("iframe")[0].contentWindow.document);
+                        var school = $("#school", layero.find("iframe")[0].contentWindow.document);
+                        var major = $("#major", layero.find("iframe")[0].contentWindow.document);
+                        var jobIntension = $("#jobIntension", layero.find("iframe")[0].contentWindow.document);
+                        var hopeSalary = $("#hopeSalary", layero.find("iframe")[0].contentWindow.document);
+                        var state = $("#state", layero.find("iframe")[0].contentWindow.document);
+                        var applyTime = $("#applyTime", layero.find("iframe")[0].contentWindow.document);
+                        var sentTime = $("#sentTime", layero.find("iframe")[0].contentWindow.document);
+                        var sentAmount = $("#sentAmount", layero.find("iframe")[0].contentWindow.document);
+                        var sentProof = $("#sentProof", layero.find("iframe")[0].contentWindow.document);
+                        var jobState = $("#jobState", layero.find("iframe")[0].contentWindow.document);
+                        var position = $("#position", layero.find("iframe")[0].contentWindow.document);
+                        var companyAddress = $("#companyAddress", layero.find("iframe")[0].contentWindow.document);
+                        var companyName = $("#companyName", layero.find("iframe")[0].contentWindow.document);
                         userName.val(jsonData.userName);
                         contriAmount.val(jsonData.contriAmount);
                         contriThings.val(jsonData.contriThings);
@@ -224,13 +314,17 @@
         var $ = layui.$, active = {
             reload: function () {
                 var school = $('#school');
+                var state = $('#state');
+                var jobState = $('#jobState');
                 //执行重载
                 table.reload('tableReload', {
                     page: {
                         curr: 1 //重新从第 1 页开始
                     }
                     , where: {
-                        school: school.val()
+                        school: school.val(),
+                        state: state.val(),
+                        jobState: jobState.val(),
                     }
                 });
             }
