@@ -142,7 +142,7 @@ public class ActivityServiceImpl implements ActivityService {
 	 */
 	@Override
 	public List<Map<String, Object>> getListByPage(int page,int size,String field,String sort,
-			int type,String stime,String etime,int state){
+			int type,String stime,String etime,int state,String name){
 		Map<String,Object> params = new HashMap<>();
 		String param = " where is_delete=0 ";
 		if(type>-1) param += " and type = "+type;
@@ -155,6 +155,9 @@ public class ActivityServiceImpl implements ActivityService {
 			param += " and activity_start_time <"+etime;
 		}
 		if(state>-1) param += " and state = "+state;
+		if(name.length()>0) {
+			param += " and title like '%"+name+"%'";
+		}
 		param += " order by "+field+" "+sort+" limit "+(page-1)*size+","+size;
 		params.put("param", param);
 		List<Map<String, Object>> list = activityMapper.getListByPage(params);
@@ -167,7 +170,7 @@ public class ActivityServiceImpl implements ActivityService {
 	 * @return
 	 */
 	@Override
-	public int getListByPageCount(int type,String stime,String etime,int state){
+	public int getListByPageCount(int type,String stime,String etime,int state,String name){
 		Map<String,Object> params = new HashMap<>();
 		String param = " where is_delete=0 ";
 		if(type>-1) param += " and type = "+type;
@@ -180,6 +183,9 @@ public class ActivityServiceImpl implements ActivityService {
 			param += " and activity_start_time <"+etime;
 		}
 		if(state>-1) param += " and state = "+state;
+		if(name.length()>0) {
+			param += " and title like '%"+name+"%'";
+		}
 		params.put("param", param);
 		int count = activityMapper.getListByPageCount(params);
 		return count;
