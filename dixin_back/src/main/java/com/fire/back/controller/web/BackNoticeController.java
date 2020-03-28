@@ -76,7 +76,7 @@ public class BackNoticeController {
             msgTb.setId(ParamUtil.getLong(paramMap,"id"));
             msgTb.setTitle(ParamUtil.getString(paramMap,"title",null));
             msgTb.setBody(ParamUtil.getString(paramMap,"body",null));
-            msgTb.setTime(ParamUtil.getLong(paramMap,"time",System.currentTimeMillis()/1000));
+            msgTb.setTime(ParamUtil.getLong(paramMap,"time",null));
             msgTb.setState(ParamUtil.getInteger(paramMap,"state",null));
             msgTb.setIfRead(ParamUtil.getInteger(paramMap,"if_read",null));
             msgTb.setUpdateTime(System.currentTimeMillis()/1000);

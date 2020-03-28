@@ -187,7 +187,7 @@ CREATE TABLE `love_points_tb`  (
   `update_time` bigint(20) NOT NULL COMMENT '更新时间',
   `is_delete` int(2) NOT NULL COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB  CHARACTER SET = utf8 COMMENT='菜单角色关联表';;
+) ENGINE = InnoDB  CHARACTER SET = utf8 COMMENT='菜单角色关联表';
 -- 刘云龙 2020-02-28 爱心积分表 end
 
 -- 刘云龙 2020-02-28 签到表添加索引 start

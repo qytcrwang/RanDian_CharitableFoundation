@@ -132,7 +132,7 @@
                 ]
             });
             form.on('switch(release)', function(obj){
-                updateNotice(this.value,null,null,null,obj.elem.checked?0:1,null);
+                updateNotice(this.value,null,null,obj.elem.checked?Date.parse(new Date())/1000:null,obj.elem.checked?0:1,null);
             });
             //操作工具栏
             table.on('tool(tableTool)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
@@ -188,6 +188,8 @@
                 scrollbar: true,
                 btn: ['提交', '重置'],
                 btn1: function(index, layero){
+                    //校验表格内容
+                    if(!validateForm()) return;
                     layer.confirm('确认要提交信息吗？', {icon: 3, title:'信息提交确认'}, function(index){
                         //如果通知id为空就是添加
                         if($("#noticeId").val()==''){
@@ -297,6 +299,20 @@
                     $("#body").val(data["body"]);
                 }
             });
+        }
+        //校验表格
+        function validateForm(){
+            var title = $.trim($("#title").val());
+            if(title == ''||title == null){
+                layer.msg("通知标题必须输入！");
+                return false;
+            }
+            var body = $.trim($("#body").val());
+            if(body == ''||body == null){
+                layer.msg("通知内容必须输入！");
+                return false;
+            }
+            return true;
         }
         /**13位时间戳转换成 年月日 上午 时间  2018-05-23 10:41:08 */
         function createTime(v) {
