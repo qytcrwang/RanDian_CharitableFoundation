@@ -28,7 +28,7 @@
         </view>
         <view class='list_bottom'>
           <view class="integral"><text class="integral_text">爱心积分：</text><text class="integral_num">+ 0</text></view>
-          <view class='detail_btn' bindtap='detailsLook'>查看详情</view>
+          <!--<view class='detail_btn' bindtap='detailsLook'>查看详情</view>-->
         </view>
       </view>
     </view>
@@ -54,7 +54,7 @@
         </view>
         <view class='list_bottom'>
           <view class="integral"><text class="integral_text">爱心积分：</text><text class="integral_num">+ 0</text></view>
-          <view class='detail_btn' catchtap='detailsLook'>查看详情</view>
+          <!--<view class='detail_btn' catchtap='detailsLook'>查看详情</view>-->
         </view>
       </view>
     </view>

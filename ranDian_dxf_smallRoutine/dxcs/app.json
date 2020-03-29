@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/universities/universities",
+    
     "pages/index/index",
     "pages/activities/activities",
     "pages/donation/donation",
@@ -18,6 +18,7 @@
     "pages/common_sign/common_sign",
     "pages/activity_detail/activity_detail",
     "pages/message_detail/message_detail",
+    "pages/universities/universities",
     "pages/kids/kids"
     
   ],

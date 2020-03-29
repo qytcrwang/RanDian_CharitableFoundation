@@ -16,7 +16,7 @@
       <view class='list' wx:for="{{enrolmentList}}" wx:for-item="item" wx:key='id'>
         <view class='list_top'>
           <view class='numAndTime'>
-            <image class='numPic' src='/img/moren.png'></image>
+            <image class='numPic' src='{{item.cover_url}}'></image>
             <view  class='numInfo'>
               <view class='num'>{{item.title}}</view>
               <view class='time'>{{item.stime}}</view>
@@ -25,8 +25,8 @@
           <view class='state'>已报名</view>
         </view>
         <view class='list_bottom'>
-          <view class="integral"><text class="integral_text">爱心积分：</text><text class="integral_num">+ 0</text></view>
-          <view class='detail_btn' bindtap='detailsLook'>查看详情</view>
+          <view class="integral"><text class="integral_text">可获积分：</text><text class="integral_num">+ {{item.activity_time}}</text></view>
+          <!--<view class='detail_btn' bindtap='detailsLook'>查看详情</view>-->
         </view>
       </view>
     </view>
@@ -40,7 +40,7 @@
       <view class='list' wx:for="{{ongoingList}}" wx:key='id' wx:for-item="item">
         <view class='list_top'>
           <view class='numAndTime'>
-            <image class='numPic' src='/img/moren.png'></image>
+            <image class='numPic' src='{{item.cover_url}}'></image>
             <view  class='numInfo'>
               <view class='num'>{{item.title}}</view>
               <view class='time'>{{item.stime}}</view>
@@ -49,8 +49,8 @@
           <view class='state'>进行中</view>
         </view>
         <view class='list_bottom'>
-          <view class="integral"><text class="integral_text">爱心积分：</text><text class="integral_num">+ 0</text></view>
-          <view class='detail_btn' catchtap='detailsLook'>查看详情</view>
+          <view class="integral"><text class="integral_text">爱心积分：</text><text class="integral_num">+ {{item.activity_time}}</text></view>
+          <!--<view class='detail_btn' catchtap='detailsLook'>查看详情</view>-->
         </view>
       </view>
     </view>
@@ -64,7 +64,7 @@
       <view class='list' wx:for="{{completedList}}" wx:key='{{item.id}}' wx:for-item="item" wx:if="{{completedList.length>0}}">
         <view class='list_top'>
           <view class='numAndTime'>
-            <image class='numPic' src='/img/moren.png'></image>
+            <image class='numPic' src='{{item.cover_url}}'></image>
             <view  class='numInfo'>
               <view class='num'>{{item.title}}</view>
               <view class='time'>{{item.stime}}</view>
@@ -73,8 +73,8 @@
           <view class='state'>已完成</view>
         </view>
         <view class='list_bottom'>
-          <view class="integral"><text class="integral_text">爱心积分：</text><text class="integral_num">+ 0</text></view>
-          <view class='detail_btn' bindtap='detailsLook'>查看详情</view>
+          <view class="integral"><text class="integral_text">爱心积分：</text><text class="integral_num">+ {{item.activity_time}}</text></view>
+          <!--<view class='detail_btn' bindtap='detailsLook'>查看详情</view>-->
         </view>
       </view>
     </view>
