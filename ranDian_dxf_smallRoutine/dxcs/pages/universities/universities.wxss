@@ -4,7 +4,7 @@ page{
 }
 .step{
   width: 94%;
-  height: 700rpx;
+  height: 830rpx;
   margin: 16rpx auto 0;
   background: #ffffff;
   border-radius: 8rpx;

@@ -58,8 +58,9 @@ public class BackActivityController {
 			String stime = ParamUtil.getString(paramMap, "stime", "");
 			String etime = ParamUtil.getString(paramMap, "etime", "");
 			int state = ParamUtil.getInteger(paramMap, "state", -1);
-			List<Map<String,Object>> list = service.getListByPage(page, size, field, sort, type, stime, etime, state);
-			int count = service.getListByPageCount(type, stime, etime, state);
+			String aname = ParamUtil.getString(paramMap, "aname", "").trim();
+			List<Map<String,Object>> list = service.getListByPage(page, size, field, sort, type, stime, etime, state,aname);
+			int count = service.getListByPageCount(type, stime, etime, state,aname);
 			return FireResult.build(1, "数据获取成功", list,count);
 		} catch (Exception e) {
 			logger.error("",e);

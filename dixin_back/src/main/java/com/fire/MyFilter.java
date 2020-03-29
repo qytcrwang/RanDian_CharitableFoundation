@@ -1,6 +1,7 @@
 package com.fire;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,14 @@ public class MyFilter implements Filter {
         String uri = ((HttpServletRequest) request).getRequestURI();
 //        String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
         if(ifExclude(uri)) {
-            chain.doFilter(request, response);
+        	try {
+                chain.doFilter(request, response);
+			} catch (Exception e) {
+	            PrintWriter out = response.getWriter();
+	            response.setContentType("application/json; charset=utf-8");  
+	            out.print("{\"code\": 1,\"msg\": \"文件不能超过10240K\" }");
+	            out.flush();
+			}
             return ;
         }
         if(request instanceof HttpServletRequest) {

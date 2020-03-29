@@ -20,7 +20,7 @@
         <view class='size_money'>(根据捐助金额获得捐助积分,1元=1点爱心积分)</view>
       </view>
       <view class='money_view'>
-        <input class="money_input" name="contriAmount" placeholder="请输入金额（单位：元）" placeholder-class="input"/>
+        <input class="money_input" name="contriAmount" placeholder="请输入签到金额（单位：元）" placeholder-class="input"/>
       </view>
     </view>
     <!-- 第二步 -->
@@ -55,10 +55,11 @@
       <view class='content'>02 / 支付成功后如果有疑问请联系客服。</view>
       <view class='content'>03 / 为了您的账户安全，请确认捐赠后再支付。</view>
     </view>
-    <button class='submit' form-type='submit'>签到</button>
+    <button class='submit' form-type='submit' wx:if="{{!isTodaySigned}}">签到</button>
+    <button class='submit' form-type='submit' wx:if="{{isTodaySigned}}">已签到</button>
   </form>
   <!--申请房租页面-->
-  <form class='{{applyForTab?"show":"hidden"}}' bindsubmit='doncationSubmit'>
+  <form class='{{applyForTab?"show":"hidden"}}' bindsubmit='applyRent'>
     <!-- 第一步 -->
     <view class='step'>
       <view class='step_top'>
@@ -69,32 +70,40 @@
         </view>
       </view>
       <view class='list'>
+        <image class='listPic' src='/img/apply_amount.png'></image>
+        <input class='list_name' placeholder='申请金额(元)' placeholder-class='input' name="applyAmount" type="number"></input>
+      </view>
+      <view class='list'>
         <image class='listPic' src='/img/university.png'></image>
-        <input class='list_name' placeholder='毕业院校' placeholder-class='input'></input>
+        <input class='list_name' placeholder='毕业院校' placeholder-class='input' name="university" type="text"></input>
       </view>
       <view class='list'>
         <image class='listPic' src='/img/major.png'></image>
-        <input class='list_name' placeholder='所属专业' placeholder-class='input'></input>
+        <input class='list_name' placeholder='所属专业' placeholder-class='input' name="major" type="text"></input>
       </view>
       <view class='list'>
         <image class='listPic' src='/img/salary.png'></image>
-        <input class='list_name' placeholder='期望薪资' placeholder-class='input'></input>
+        <input class='list_name' placeholder='期望薪资' placeholder-class='input' name="salary" type="number"></input>
       </view>
       <view class='list'>
         <image class='listPic' src='/img/onjob.png'></image>
-        <input class='list_name' placeholder='在职状态("在职"或"未就业")' placeholder-class='input'></input>
+        <input class='list_name' placeholder='在职状态("在职"或"未就业")' placeholder-class='input' name="onjob" type="text"></input>
       </view>
       <view class='list'>
         <image class='listPic' src='/img/company_name.png'></image>
-        <input class='list_name' placeholder='公司名称(选填)' placeholder-class='input'></input>
+        <input class='list_name' placeholder='公司名称(选填)' placeholder-class='input' name="companyName" type="text"></input>
       </view>
       <view class='list'>
-        <image class='listPic' src='/img/position.png'></image>
-        <input class='list_name' placeholder='公司地址(选填)' placeholder-class='input'></input>
+        <image class='listPic' src='/img/company_address.png'></image>
+        <input class='list_name' placeholder='公司地址(选填)' placeholder-class='input' name="companyAddress" type="text"></input>
+      </view>
+      <view class='list'>
+        <image class='listPic' src='/img/company_position.png'></image>
+        <input class='list_name' placeholder='当前职位(选填)' placeholder-class='input' name="companyPostion" type="text"></input>
       </view>
       <view class='list'>
         <image class='listPic' src='/img/comment.png'></image>
-        <input class='list_name' placeholder='工作意向(选填)' placeholder-class='input'></input>
+        <input class='list_name' placeholder='工作意向(选填)' placeholder-class='input' name="comment" type="text"></input>
       </view>   
     </view>
     <!-- 第二步 -->
@@ -112,11 +121,6 @@
         </view>
       </view>
     </view>
-    <!-- 同意协议 -->
-    <view class='agree'>
-      <radio value='1'>同意</radio>
-      <view class='protocol'>《用户捐赠协议》</view>
-    </view>
     <!-- 温馨提示 -->
     <view class='tip'>
       <view class='title'>温馨提示:</view>
@@ -124,6 +128,7 @@
       <view class='content'>02 / 捐赠物品收到后，收货员会及时入库，确定用户积分。</view>
       <view class='content'>03 / 为保障运输安全，请将物品打包牢靠。</view>
     </view>
-    <button class='submit' form-type='submit'>提交申请</button>
+    <button class='submit' form-type='submit' wx:if="{{!isApplySent}}">提交申请</button>
+    <button class='submit' form-type='submit' wx:if="{{isApplySent}}">已提交</button>
   </form>
 </view>

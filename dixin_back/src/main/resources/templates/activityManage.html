@@ -4,7 +4,18 @@
 <body>
 <form class="layui-form" id="searchForm">
   <div class="layui-row">
-    <div class="layui-col-md12" style="padding-top: 10px">
+    <div class="layui-col-md12" style="padding:20px">
+        活动标题：
+        <div class="layui-inline">
+	        <input type="text" class="layui-input" name="activityName" id="activityName" placeholder="活动标题模糊查询">
+        </div>
+        开始日期：
+        <div class="layui-inline">
+          <input type="text" class="layui-input" name="activityStime" id="activityStime" placeholder="开始日期起始" onfocus="noInput(this)">
+        </div>-
+        <div class="layui-inline">
+          <input type="text" class="layui-input" name="activityEtime" id="activityEtime" placeholder="开始日期截止" onfocus="noInput(this)">
+        </div>
         活动类型：
         <div class="layui-inline" lay-filter="typeSelect">
 	        <select name="activityType" id="activityType" lay-verify="">
@@ -17,17 +28,10 @@
 			  <option value="">请选择</option>
 			</select> 
         </div>
-        开始日期：
-        <div class="layui-inline">
-          <input type="text" class="layui-input" name="activityStime" id="activityStime" placeholder="开始日期起始" onfocus="noInput(this)">
-        </div>-
-        <div class="layui-inline">
-          <input type="text" class="layui-input" name="activityEtime" id="activityEtime" placeholder="开始日期截止" onfocus="noInput(this)">
-        </div>
         <div class="layui-inline" style="float:right;">
 	        <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
-	        <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
-        	<button type="button" class="layui-btn" data-type="reload" id="add"><i class="layui-icon"></i>新增</button>
+	        <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+        	<button type="button" class="layui-btn" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>新增</button>
       	</div>
     </div>
   </div>
@@ -183,23 +187,44 @@
         ,{ title: '操作',width: '10%', align:'center', toolbar: '#bar'}
         ]
       ]
+      ,done: function(res, curr, count){
+    	var table = $('.layui-table').eq(1);
+  		if(table.length > 0){
+  		//遍历所有行
+  			table.find('tr').each(function(){
+  				var div = $(this).find('td[data-field="state"]').find('div').eq(0);
+  				var state = div.text();
+  				if(state == "未发布"){
+  					div.html("<font color='red'>未发布</font>");
+  				}else if(state == "未开始"){
+  					div.html("<font color='orange'>未开始</font>");
+  				}else if(state == "已开始"){
+  					div.html("<font color='#00EC00'>已开始</font>");
+  				}else if(state == "已结束"){
+  					div.html("<font color='blue'>已结束</font>");
+  				}
+  			})
+  		}
+      }
     });
     var upload = layui.upload;
     upload.render({
    	  elem: '#upload'
    	  ,url: 'back/activity/saveCoverImage'
    	  ,auto: true
-   	  //,bindAction: '#testListAction' //指向一个按钮触发上传
-		,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
-		    layer.load(); //上传loading
-		  }
-	,done: function(res){
-      //上传完毕回调
-      layer.closeAll('loading'); //关闭loading
-      console.log(res);
-      $("#cover_url").val(res["data"]["src"]);
-      $("#imgPreview").html("<img src='"+res["data"]["src"]+"' width='50%' />");
-    }
+   	  ,accept: 'images'
+   	  ,exts: 'jpg|png'
+   	  ,size:10240
+	  ,before: function(obj){  //上传前选择回调方法
+		  layer.load();
+      }
+	  ,done: function(res){
+	      //上传完毕回调
+	      layer.closeAll('loading'); //关闭loading
+	      console.log(res);
+	      $("#cover_url").val(res["data"]["src"]);
+	      $("#imgPreview").html("<img src='"+res["data"]["src"]+"' width='50%' />");
+      }
    	});
     
     var laydate = layui.laydate;
@@ -454,6 +479,7 @@ function searchForm(){
 		var state = $("#activityState").val();
 		var stime = $("#activityStime").val();
 		var etime = $("#activityEtime").val();
+		var aname = $("#activityName").val();
 		if(stime!=""&&etime!=""){
 			if(stime>etime){
 				layer.msg('日期起始不可大于日期截止！');
@@ -465,7 +491,7 @@ function searchForm(){
 		table.reload('demoTable',{
 			  where: {field: 'activity_start_time', sort: "desc",
 			    	type:type,stime:stime,
-			    	state:state,etime:etime}
+			    	state:state,etime:etime,aname:aname}
 			,page: {
 			    curr: 1 //重新从第 1 页开始
 			  }
@@ -650,7 +676,7 @@ $.fn.serializeObject = function() {
 };  
   </script>
   <script type="text/html" id="bar">
-  <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+  <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delEvent">删除</a>
 </script>
 </body>

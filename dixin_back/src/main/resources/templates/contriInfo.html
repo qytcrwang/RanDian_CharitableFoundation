@@ -1,31 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:templet="http://www.w3.org/1999/xhtml">
 <head th:replace="include :: header"></head>
 <body>
 <div class="layui-row">
-  <form class="layui-form" action="">
-    <div class="layui-col-md10 layui-col-md-offset2">
-      <div class="dTable" style="padding-top: 10px">
-        名称：
-        <div class="layui-inline">
-          <input class="layui-input" name="id" placeholder="会员名称" id="userName" autocomplete="off" style="width: 200px">
-        </div>
-        捐赠时间：
-        <div class="layui-inline">
-          <input type="text" class="layui-input" name="sTime" id="sTime" placeholder="日期起始" onfocus="noInput(this)">
-        </div> -
-        <div class="layui-inline">
-          <input type="text" class="layui-input" name="eTime" id="eTime" placeholder="日期截止" onfocus="noInput(this)">
-        </div>
-          <button class="layui-btn" data-type="reload" >搜索</button>
-          <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
-        </div>
-    </div>
-  </form>
+  <div class="layui-col-md10 layui-col-md-offset2">
+    <div class="dTable" style="padding-top: 10px">
+      名称：
+      <div class="layui-inline">
+        <input class="layui-input" name="id" placeholder="会员名称" id="userName" autocomplete="off" style="width: 200px">
+      </div>
+      捐赠时间：
+      <div class="layui-inline">
+        <input type="text" class="layui-input" name="sTime" id="sTime" placeholder="日期起始" onfocus="noInput(this)">
+      </div> -
+      <div class="layui-inline">
+        <input type="text" class="layui-input" name="eTime" id="eTime" placeholder="日期截止" onfocus="noInput(this)">
+      </div>
+        <button class="layui-btn" data-type="reload" >搜索</button>
+        <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
+      </div>
+  </div>
 </div>
 <table class="layui-hide" id="contriInfoList" lay-filter="tableFilter"></table>
+
 <script type="text/javascript">
-layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function () {
+  layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function () {
   var layer = layui.layer //弹层
       , table = layui.table //表格
       , element = layui.element; //元素操作
@@ -56,10 +55,10 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     , cols: [
       [
          {title: '序号', type: 'numbers', align: 'center'}
-        , {title: '会员名称', field: 'name', align: 'center'}
+        , {title: '会员名称', field: 'userName', align: 'center'}
         , {title: '捐赠金额', field: 'contriAmount', align: 'center'}
         , {title: '捐赠物品', field: 'contriThings', align: 'center'}
-        , {title: '联系方式', field: 'mobile', align: 'center'}
+        , {title: '联系方式', field: 'userMobile', align: 'center'}
         , {
           title: '捐赠时间', field: 'contriTime', align: 'center', templet: function (row) {
             return createTime(row.contriTime * 1000);
@@ -98,24 +97,22 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         , offset: '0px'
         , scrollbar: false
         , title: '捐赠详情'
-        , skin: 'layui-layer-molv'
         , area: ['1000px', '600px']
         , content: ['/contriInfoDetail', 'false']
         , success: function (layero, index) {
-          console.log(layero, index);
           var userName = $("#userName", layero.find("iframe")[0].contentWindow.document);
           var contriAmount = $("#contriAmount", layero.find("iframe")[0].contentWindow.document);
           var contriThings = $("#contriThings", layero.find("iframe")[0].contentWindow.document);
           var contriTime = $("#contriTime", layero.find("iframe")[0].contentWindow.document);
-          var mobile = $("#mobile", layero.find("iframe")[0].contentWindow.document);
+          var userMobile = $("#userMobile", layero.find("iframe")[0].contentWindow.document);
           var orgName = $("#orgName", layero.find("iframe")[0].contentWindow.document);
           var orgRName = $("#orgRName", layero.find("iframe")[0].contentWindow.document);
           var contriType = $("#contriType", layero.find("iframe")[0].contentWindow.document);
-          userName.val(jsonData.name);
+          userName.val(jsonData.userName);
           contriAmount.val(jsonData.contriAmount);
           contriThings.val(jsonData.contriThings);
           contriTime.val(jsonData.contriTime);
-          mobile.val(jsonData.mobile);
+          userMobile.val(jsonData.userMobile);
           orgName.val(jsonData.orgName);
           orgRName.val(jsonData.orgRName);
           contriType.val(jsonData.contriType);
@@ -156,8 +153,6 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
       }
     }
   });
-
-
 
   var $ = layui.$, active = {
     reload: function () {
@@ -229,39 +224,36 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
 function noInput(dom){
   $(dom).blur();
 }
+/**13位时间戳转换成 年月日 上午 时间  2018-05-23 10:41:08 */
+function createTime(v) {
+  return new Date(parseInt(v)).toLocaleString()
 
-// function searchForm(){
-//   layui.use('table', function(){
-//     var type = $("#activityType").val();
-//     var state = $("#activityState").val();
-//     var stime = $("#activityStime").val();
-//     var etime = $("#activityEtime").val();
-//     if(stime!=""&&etime!=""){
-//       if(stime>etime){
-//         layer.msg('日期起始不可大于日期截止！');
-//         $("#activityEtime").val("");
-//         return;
-//       }
-//     }
-//     var table = layui.table;
-//     table.reload('contriTable',{
-//       where: {field: 'activity_start_time', sort: "desc",
-//         type:type,stime:stime,
-//         state:state,etime:etime}
-//       ,page: {
-//         curr: 1 //重新从第 1 页开始
-//       }
-//     });
-//   });
-// }
-
-
-
+  /**重写toLocaleString方法*/
+  Date.prototype.toLocaleString = function () {
+    var y = this.getFullYear();
+    var m = this.getMonth() + 1;
+    m = m < 10 ? '0' + m : m;
+    var d = this.getDate();
+    d = d < 10 ? ("0" + d) : d;
+    var h = this.getHours();
+    h = h < 10 ? ("0" + h) : h;
+    var M = this.getMinutes();
+    M = M < 10 ? ("0" + M) : M;
+    var S = this.getSeconds();
+    S = S < 10 ? ("0" + S) : S;
+    return y + "-" + m + "-" + d + " " + h + ":" + M + ":" + S;
+  };
+}
 </script>
 
 <script type="text/html" id="bar">
-<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">详情</a>
-<a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+  {{#  if(d.contriState == '0'){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+  {{#  } else if(d.contriState == "1"){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+    <a class="layui-btn layui-btn-xs layui-btn-disabled" lay-event="edit">审核</a>
+  {{#  } }}
 </script>
 
 <script type="text/html" id="titleTpl">
@@ -270,28 +262,5 @@ function noInput(dom){
   {{# }else if(d.contriState == 1){ }}
   <span>已证实</span>
   {{# } }}
-</script>
-
-<script type="text/javascript">
-/**13位时间戳转换成 年月日 上午 时间  2018-05-23 10:41:08 */
-function createTime(v) {
-  return new Date(parseInt(v)).toLocaleString()
-}
-
-/**重写toLocaleString方法*/
-Date.prototype.toLocaleString = function () {
-  var y = this.getFullYear();
-  var m = this.getMonth() + 1;
-  m = m < 10 ? '0' + m : m;
-  var d = this.getDate();
-  d = d < 10 ? ("0" + d) : d;
-  var h = this.getHours();
-  h = h < 10 ? ("0" + h) : h;
-  var M = this.getMinutes();
-  M = M < 10 ? ("0" + M) : M;
-  var S = this.getSeconds();
-  S = S < 10 ? ("0" + S) : S;
-  return y + "-" + m + "-" + d + " " + h + ":" + M + ":" + S;
-};
 </script>
 </body>

@@ -47,7 +47,7 @@
   <select id="selectContriInfoByPage" resultType="com.fire.back.dto.ContriInfoResultDto">
     select
       t1.id,
-      t2.name,
+      t2.name AS userName,
       t1.contri_amount AS contriAmount,
       t1.contri_things AS contriThings,
       t1.contri_time AS contriTime,
