@@ -27,7 +27,7 @@
                         <input type="text" class="layui-input" name="noticeEtime" id="noticeEtime" placeholder="截止日期">
                     </div>
                     <div class="layui-input-inline" style="float:right;">
-                        <button type="button" class="layui-btn" data-type="reload" id="search">查找</button>
+                        <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
                         <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
                     </div>
                 </form>
@@ -40,11 +40,11 @@
     </table>
     <table class="layui-table" id="noticeTable" lay-filter="tableTool"></table>
     <!-- 通知添加的表单 -->
-    <form class="layui-form" id="addForm" style="display:none">
+    <form class="layui-form layui-form-pane" id="addForm" style="display:none">
         <input type="hidden" id="noticeId" name="id" value="">
         <div class="layui-form-item">
             <label class="layui-form-label">通知标题</label>
-            <div class="layui-input-inline">
+            <div class="layui-input-block">
                 <input type="text" id="title" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
             </div>
         </div>

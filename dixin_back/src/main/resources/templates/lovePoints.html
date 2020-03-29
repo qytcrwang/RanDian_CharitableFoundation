@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="include :: header"></head>
+<body>
+<table class="layui-table" lay-skin="nob">
+    <tbody>
+    <tr>
+        <td width="10%"></td>
+        <td width="80%">
+            <form class="layui-form" id="searchForm">
+                用户名搜索：
+                <div class="layui-input-inline">
+                    <input type="text" id="userIdSelect" name="userIdSelect" lay-verify="likeSelect" placeholder="输入要搜索积分的用户"
+                           autocomplete="off" class="layui-input" >
+                </div>
+                <div class="layui-input-inline" style="float:right;">
+                    <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+                    <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+                </div>
+            </form>
+        </td>
+        <td width="10%">
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+<!-- 用户列表 -->
+<table class="layui-table" id="userTable" lay-filter="tableTool"></table>
+<!-- 爱心积分详情列表 -->
+<table class="layui-table" id="loveDetailTable" style="display:none"></table>
+<!-- 爱心积分添加的表单 -->
+<form class="layui-form layui-form-pane" id="addForm" style="display:none">
+    <input type="hidden" id="userIdsAdd" name="ids" value="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">对应活动</label>
+        <div class="layui-input-inline" lay-filter="activityIdSelect">
+            <select name="activityId" id="activityId" lay-verify="">
+                <option value="">请选择</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">积分值</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="loveNumber" lay-verify="required|number|loveValue" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">积分描述</label>
+        <div class="layui-input-block">
+            <textarea id="description" name="description" required  lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+    </div>
+</form>
+<!-- 批量用户添加爱心积分 -->
+<script id="checkedBar" type="text/html">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckUserId">批量用户添加爱心积分</button>
+    </div>
+</script>
+<!-- table后的操作按钮 -->
+<script type="text/html" id="loveBar">
+    <a class="layui-btn layui-btn-xs" lay-event="insert">添加积分</a>
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看记录</a>
+</script>
+<!-- 用户类型显示 -->
+<script type="text/html" id="userType">
+    {{#  if(d.user_type == 0){ }}
+        <span>普通用户</span>
+    {{#  } else if(d.user_type == 1){ }}
+        <span>儿童</span>
+    {{#  } else { }}
+        <span>大学生</span>
+    {{#  } }}
+</script>
+<script type="text/javascript">
+    //初始化时加载下拉菜单
+    $(function(){
+        $.ajax({
+            type : "post",
+            url : "back/notice/getNoticeStateList",
+            async:false,
+            data : "",
+            dataType : 'json',
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+                    + textStatus + "," + errorThrown);
+            },
+            success : function(result) {
+                var stateList = result['data'];
+                var stateStr = "<option value='-1'>请选择</option>";
+                for ( var i = 0; i < stateList.length; i++) {
+                    var data = stateList[i];
+                    stateStr += "<option value=" + data["code"] + ">" + data["value"]
+                        + "</option>";
+                }
+                $("#noticeState").html(stateStr);
+                //$("#state").html(stateStr);
+            }
+        });
+    });
+    var laydate = null;
+    var table = null;
+    var layer = null;
+    var form = null;
+    //初始化layui各种插件
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'element', 'form'], function() {
+        laydate = layui.laydate;
+        table = layui.table;
+        layer = layui.layer;
+        form = layui.form;
+        //初始化列表
+        table.render({
+            elem: '#userTable'
+            ,url: '/**......*/'
+            ,toolbar: '#checkedBar' //头部工具栏批量用户添加爱心积分
+            ,method: 'post'
+            ,contentType: 'application/json'
+            ,id:'userTable'
+            ,page: true
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": res.status, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.count, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            }
+            ,response: {
+                statusCode:1 //规定成功的状态码，默认：0
+            }
+            ,limit: 10
+            ,cols: [
+                [
+                     {width:'10%', type: 'checkbox'}
+                    ,{width:'10%', field: 'id', title:'id', align: 'center'}
+                    ,{width:'30%', field:'name', title: '用户名', align: 'center'}
+                    ,{width:'20%', field:'type', title: '用户类型', align: 'center', templet: '#userType'}
+                    ,{width:'10%', field: 'love_point', title: '爱心积分', align: 'center'}
+                    ,{width: '30%', title: '操作', align:'center', toolbar: '#loveBar'}
+                ]
+            ]
+        });
+        //头工具栏事件
+        table.on('toolbar(tableTool)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            if(obj.event === 'getCheckUserId'){ //批量添加爱心积分功能
+                var data = checkStatus.data.id;
+                layer.alert(JSON.stringify(data));
+            }
+        });
+        //爱心积分值校验
+        form.verify({
+            loveValue: [
+                /^[+]{0,1}(\d+)$/,
+                '爱心积分必须为正整数！'
+            ]
+        }
+            //操作工具栏
+        table.on('tool(tableTool)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if(layEvent === 'detail'){ //查看记录
+                //弹出层显示积分列表
+                openDetailLovePointLayer(data['name']+'的爱心积分',data['id']);
+            } else if(layEvent === 'insert'){ //添加积分
+                $("#addForm").clearForm();
+                //获取添加层，拉列表框里的内容
+                getActivitySelect();
+                //弹出添加爱心积分弹出层
+                openAddLovePointLayer('添加爱心积分',data['id']);
+            }
+        });
+        //搜索按钮监听
+        $("#search").bind("click", function() {
+            searchForm();
+        });
+        //重置按钮监听
+        $("#clear").bind("click", function() {
+            $("#searchForm").clearForm();
+            searchForm();
+        });
+    });
+    //获取添加层下拉列表框里的内容
+    function getActivitySelect() {
+        $.ajax({
+            type: "post",
+            url: "/**.....*/",
+            async: false,
+            data: "",
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+                    + textStatus + "," + errorThrown);
+            },
+            success: function (result) {
+                //
+                var activityList = result['data'];
+                var activityList = "<option value='-1'>请选择</option>";
+                for ( var i = 0; i < activityList.length; i++) {
+                    var data = activityList[i];
+                    activityList += "<option value=" + data["code"] + ">" + data["value"]
+                        + "</option>";
+                }
+                $("#activityId").html(activityList);
+                form.render('select','activityIdSelect');
+
+            }
+        });
+    }
+    //弹出爱心积分记录弹出层
+    function openDetailLovePointLayer(titleName,id){
+        table.render({
+            elem: '#loveDetailTable'
+            ,url: '/**......*/'
+            ,method: 'post'
+            ,contentType: 'application/json'
+            ,id:'loveDetailTable'
+            ,page: true
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": res.status, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.count, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            }
+            ,response: {
+                statusCode:1 //规定成功的状态码，默认：0
+            }
+            ,limit: 10
+            ,cols: [
+                [
+                    {width:'10%', field: 'love_points', title:'爱心积分', align: 'center'}
+                    ,{width:'30%', field:'activity_name', title: '活动', align: 'center'}
+                    ,{width:'20%', field:'description', title: '积分描述', align: 'center'}
+                    ,{width:'10%', field: 'operator_id', title: '操作员', align: 'center'}
+                    ,{width: '30%',field: 'create_time', title: '添加时间', align:'center'}
+                ]
+            ]
+        });
+        var width = window.innerWidth*3/4+"px";
+        layer.open({
+            type:1,
+            area: width,
+            title: titleName,
+            content: $("#loveDetailTable"),
+            shade: 0.3,
+            resize:false ,
+            move: false,
+            scrollbar: true
+        });
+    }
+    //弹出爱心积分添加弹出层
+    function openAddLovePointLayer(titleName,ids){
+        var width = window.innerWidth*3/4+"px";
+        layer.open({
+            type:1,
+            area: width,
+            title: titleName,
+            content: $("#addForm"),
+            shade: 0.3,
+            resize:false ,
+            move: false,
+            scrollbar: true,
+            btn: ['提交', '重置'],
+            btn1: function(index, layero){
+                //校验表格内容
+                if(1???) return;
+                layer.confirm('确认要提交信息吗？', {icon: 3, title:'信息提交确认'}, function(index){
+                    //添加爱心积分值
+                    submitAddForm();
+                });
+            },
+            btn2: function(index, layero){
+                $("#addForm").clearForm();
+                $("#userIdsAdd").val(ids);
+                return false;
+            },
+            cancel: function(layero,index){
+                $("#addForm").clearForm();
+                layer.closeAll();
+            }
+        });
+    }
+    //根据条件刷新列表
+    function searchForm(){
+        var title = $("#userIdSelect").val();
+        table.reload('userTable',{
+            where: {/**...........*/}
+            ,page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    }
+    //添加通知
+    function submitAddForm (){
+        $.ajax({
+            type : "post",
+            url : "/***/",
+            data : JSON.stringify($("#addForm").serializeObject()),
+            headers : {
+                'Content-Type' : 'application/json;charset=utf-8'
+            },
+            dataType : 'json',
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+                    + textStatus + "," + errorThrown);
+            },
+            success : function(result) {
+                if(result["status"] == 1){
+                    layer.closeAll();
+                    layer.msg(result["msg"]);
+                    searchForm();
+                }
+            }
+        });
+    }
+    //根据id获取通知数据
+    function getNoticeData(id){
+        $.ajax({
+            type : "post",
+            url : "back/notice/getNoticeById",
+            data : JSON.stringify({
+                "id":id
+            }),
+            headers : {
+                'Content-Type' : 'application/json;charset=utf-8'
+            },
+            dataType : 'json',
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+                    + textStatus + "," + errorThrown);
+            },
+            success : function(result) {
+                var data = result["data"];
+                $("#noticeId").val(data["id"]);
+                $("#title").val(data["title"]);
+                $("#body").val(data["body"]);
+            }
+        });
+    }
+    //校验表格
+    function validateForm(){
+
+    }
+    /**13位时间戳转换成 年月日 上午 时间  2018-05-23 10:41:08 */
+    function createTime(v) {
+        return new Date(parseInt(v)).toLocaleString()
+    }
+    /**
+     * 自动将form表单封装成json对象
+     */
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [ o[this.name] ];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+</script>
+</body>
