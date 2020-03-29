@@ -26,6 +26,8 @@ public class ContriInfoListParamsDto {
 
   private String userName;
 
+  private Integer contriState;
+
   public Integer getOffSet(Integer page,Integer limit) {
     offSet = (page-1)*limit;
     return offSet;

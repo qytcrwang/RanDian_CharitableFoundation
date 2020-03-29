@@ -23,7 +23,7 @@ public class ContriInfoResultDto {
 
   private Long contriTime;
 
-  private String mobile;
+  private String userMobile;
 
   private String orgName;
 

@@ -3,22 +3,32 @@
 <head th:replace="include :: header"></head>
 <body>
 <div class="layui-row">
-  <div class="layui-col-md10 layui-col-md-offset2">
+  <div class="layui-col-md12" style="padding:20px">
     <div class="dTable" style="padding-top: 10px">
       名称：
       <div class="layui-inline">
         <input class="layui-input" name="id" placeholder="会员名称" id="userName" autocomplete="off" style="width: 200px">
       </div>
+      捐赠状态：
+      <div class="layui-inline layui-form">
+        <select id="contriState" lay-verify="">
+          <option value="">请选择</option>
+          <option value="0">未申请</option>
+          <option value="1">已申请</option>
+        </select>
+      </div>
       捐赠时间：
       <div class="layui-inline">
-        <input type="text" class="layui-input" name="sTime" id="sTime" placeholder="日期起始" onfocus="noInput(this)">
+      <input type="text" class="layui-input" name="sTime" id="sTime" placeholder="日期起始" onfocus="noInput(this)">
       </div> -
       <div class="layui-inline">
         <input type="text" class="layui-input" name="eTime" id="eTime" placeholder="日期截止" onfocus="noInput(this)">
       </div>
+      <div class="layui-inline" style="float:right;">
         <button class="layui-btn" data-type="reload" >搜索</button>
-        <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
+        <button type="button" class="layui-btn layui-btn-primary" id="clear">重置</button>
       </div>
+    </div>
   </div>
 </div>
 <table class="layui-hide" id="contriInfoList" lay-filter="tableFilter"></table>
@@ -90,35 +100,36 @@
         data: {"contriInfoId": data.id},
         success: function (data) {
           jsonData = data.data;
-        }
-      });
-      layer.open({
-        type: 2
-        , offset: '0px'
-        , scrollbar: false
-        , title: '捐赠详情'
-        , area: ['1000px', '600px']
-        , content: ['/contriInfoDetail', 'false']
-        , success: function (layero, index) {
-          var userName = $("#userName", layero.find("iframe")[0].contentWindow.document);
-          var contriAmount = $("#contriAmount", layero.find("iframe")[0].contentWindow.document);
-          var contriThings = $("#contriThings", layero.find("iframe")[0].contentWindow.document);
-          var contriTime = $("#contriTime", layero.find("iframe")[0].contentWindow.document);
-          var userMobile = $("#userMobile", layero.find("iframe")[0].contentWindow.document);
-          var orgName = $("#orgName", layero.find("iframe")[0].contentWindow.document);
-          var orgRName = $("#orgRName", layero.find("iframe")[0].contentWindow.document);
-          var contriType = $("#contriType", layero.find("iframe")[0].contentWindow.document);
-          userName.val(jsonData.userName);
-          contriAmount.val(jsonData.contriAmount);
-          contriThings.val(jsonData.contriThings);
-          contriTime.val(jsonData.contriTime);
-          userMobile.val(jsonData.userMobile);
-          orgName.val(jsonData.orgName);
-          orgRName.val(jsonData.orgRName);
-          contriType.val(jsonData.contriType);
+          layer.open({
+            type: 2
+            , offset: '0px'
+            , scrollbar: false
+            , title: '捐赠详情'
+            , area: ['1000px', '600px']
+            , content: ['/contriInfoDetail', 'false']
+            , success: function (layero, index) {
+              var userName1 = $("#userName", layero.find("iframe")[0].contentWindow.document);
+              var contriAmount = $("#contriAmount", layero.find("iframe")[0].contentWindow.document);
+              var contriThings = $("#contriThings", layero.find("iframe")[0].contentWindow.document);
+              var contriTime = $("#contriTime", layero.find("iframe")[0].contentWindow.document);
+              var userMobile = $("#userMobile", layero.find("iframe")[0].contentWindow.document);
+              var orgName = $("#orgName", layero.find("iframe")[0].contentWindow.document);
+              var orgRName = $("#orgRName", layero.find("iframe")[0].contentWindow.document);
+              var contriType = $("#contriType", layero.find("iframe")[0].contentWindow.document);
+              userName1.val(jsonData.userName);
+              contriAmount.val(jsonData.contriAmount);
+              contriThings.val(jsonData.contriThings);
+              contriTime.val(jsonData.contriTime);
+              userMobile.val(jsonData.userMobile);
+              orgName.val(jsonData.orgName);
+              orgRName.val(jsonData.orgRName);
+              contriType.val(jsonData.contriType);
 
+            }
+          });
         }
       });
+
     } else if (layEvent === 'edit') {
       if (data.contriState === 1) {
         layer.msg('该捐赠已审核通过！');
@@ -159,6 +170,7 @@
       var userName = $('#userName').val();
       var sTime = $('#sTime').val();
       var eTime = $('#eTime').val();
+      var contriState = $('#contriState').val();
       var sTimeString = new Date(sTime).getTime()/1000;
       var eTimeString = new Date(eTime).getTime()/1000;
       if(sTime!=="" && eTime!==""){
@@ -167,6 +179,7 @@
           $("#sTime").val("");
           $("#eTime").val("");
           $("#userName").val("");
+          $("#contriState").val("");
           return;
         }
       }
@@ -177,6 +190,7 @@
         }
         , where: {
           userName: userName,
+          contriState: contriState,
           startTime: sTimeString,
           endTime: eTimeString
         }
@@ -193,12 +207,16 @@
     $("#sTime").val("");
     $("#eTime").val("");
     $("#userName").val("");
+    $("#contriState")[0].reselect();
+    layui.form.render();
     table.reload('tableReload', {
       page: {
         curr: 1 //重新从第 1 页开始
       }, where: {
         startTime: '',
-        endTime: ''
+        endTime: '',
+        userName: '',
+        contriState: ''
     }
     });
   });
@@ -226,23 +244,18 @@ function noInput(dom){
 }
 /**13位时间戳转换成 年月日 上午 时间  2018-05-23 10:41:08 */
 function createTime(v) {
-  return new Date(parseInt(v)).toLocaleString()
-
-  /**重写toLocaleString方法*/
-  Date.prototype.toLocaleString = function () {
-    var y = this.getFullYear();
-    var m = this.getMonth() + 1;
-    m = m < 10 ? '0' + m : m;
-    var d = this.getDate();
-    d = d < 10 ? ("0" + d) : d;
-    var h = this.getHours();
-    h = h < 10 ? ("0" + h) : h;
-    var M = this.getMinutes();
-    M = M < 10 ? ("0" + M) : M;
-    var S = this.getSeconds();
-    S = S < 10 ? ("0" + S) : S;
-    return y + "-" + m + "-" + d + " " + h + ":" + M + ":" + S;
-  };
+  var date = new Date(v);
+  var y = date.getFullYear();
+  var m = date.getMonth()+1;
+  m = m<10?'0'+m:m;
+  var d = date.getDate();
+  d = d<10?("0"+d):d;
+  var h = date.getHours();
+  h = h<10?("0"+h):h;
+  var M = date.getMinutes();
+  M = M<10?("0"+M):M;
+  var str = y+"-"+m+"-"+d+" "+h+":"+M;
+  return str;
 }
 </script>
 
