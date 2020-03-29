@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:templet="http://www.w3.org/1999/xhtml">
 <head th:replace="include :: header"></head>
 <body>
 <div class="layui-row">
@@ -22,6 +22,7 @@
   </div>
 </div>
 <table class="layui-hide" id="contriInfoList" lay-filter="tableFilter"></table>
+
 <script type="text/javascript">
 layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function () {
   var layer = layui.layer //弹层
@@ -54,10 +55,10 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     , cols: [
       [
          {title: '序号', type: 'numbers', align: 'center'}
-        , {title: '会员名称', field: 'name', align: 'center'}
+        , {title: '会员名称', field: 'userName', align: 'center'}
         , {title: '捐赠金额', field: 'contriAmount', align: 'center'}
         , {title: '捐赠物品', field: 'contriThings', align: 'center'}
-        , {title: '联系方式', field: 'mobile', align: 'center'}
+        , {title: '联系方式', field: 'usermobile', align: 'center'}
         , {
           title: '捐赠时间', field: 'contriTime', align: 'center', templet: function (row) {
             return createTime(row.contriTime * 1000);
@@ -92,7 +93,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         }
       });
       layer.open({
-        type: 2
+        type: 1
         , offset: '0px'
         , scrollbar: false
         , title: '捐赠详情'
@@ -105,15 +106,15 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
           var contriAmount = $("#contriAmount", layero.find("iframe")[0].contentWindow.document);
           var contriThings = $("#contriThings", layero.find("iframe")[0].contentWindow.document);
           var contriTime = $("#contriTime", layero.find("iframe")[0].contentWindow.document);
-          var mobile = $("#mobile", layero.find("iframe")[0].contentWindow.document);
+          var userMobile = $("#mobile", layero.find("iframe")[0].contentWindow.document);
           var orgName = $("#orgName", layero.find("iframe")[0].contentWindow.document);
           var orgRName = $("#orgRName", layero.find("iframe")[0].contentWindow.document);
           var contriType = $("#contriType", layero.find("iframe")[0].contentWindow.document);
-          userName.val(jsonData.name);
+          userName.val(jsonData.userName);
           contriAmount.val(jsonData.contriAmount);
           contriThings.val(jsonData.contriThings);
           contriTime.val(jsonData.contriTime);
-          mobile.val(jsonData.mobile);
+          userMobile.val(jsonData.userMobile);
           orgName.val(jsonData.orgName);
           orgRName.val(jsonData.orgRName);
           contriType.val(jsonData.contriType);
@@ -154,8 +155,6 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
       }
     }
   });
-
-
 
   var $ = layui.$, active = {
     reload: function () {
@@ -228,38 +227,16 @@ function noInput(dom){
   $(dom).blur();
 }
 
-// function searchForm(){
-//   layui.use('table', function(){
-//     var type = $("#activityType").val();
-//     var state = $("#activityState").val();
-//     var stime = $("#activityStime").val();
-//     var etime = $("#activityEtime").val();
-//     if(stime!=""&&etime!=""){
-//       if(stime>etime){
-//         layer.msg('日期起始不可大于日期截止！');
-//         $("#activityEtime").val("");
-//         return;
-//       }
-//     }
-//     var table = layui.table;
-//     table.reload('contriTable',{
-//       where: {field: 'activity_start_time', sort: "desc",
-//         type:type,stime:stime,
-//         state:state,etime:etime}
-//       ,page: {
-//         curr: 1 //重新从第 1 页开始
-//       }
-//     });
-//   });
-// }
-
-
-
 </script>
 
 <script type="text/html" id="bar">
-<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">详情</a>
-<a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+  {{#  if(d.contriState == '0'){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+  {{#  } else if(d.contriState == "1"){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+    <a class="layui-btn layui-btn-xs layui-btn-disabled" lay-event="edit">审核</a>
+  {{#  } }}
 </script>
 
 <script type="text/html" id="titleTpl">
@@ -270,10 +247,13 @@ function noInput(dom){
   {{# } }}
 </script>
 
+
 <script type="text/javascript">
 /**13位时间戳转换成 年月日 上午 时间  2018-05-23 10:41:08 */
 function createTime(v) {
   return new Date(parseInt(v)).toLocaleString()
+
+
 }
 
 /**重写toLocaleString方法*/
