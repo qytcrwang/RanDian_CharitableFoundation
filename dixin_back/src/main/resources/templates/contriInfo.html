@@ -3,25 +3,23 @@
 <head th:replace="include :: header"></head>
 <body>
 <div class="layui-row">
-  <form class="layui-form" action="">
-    <div class="layui-col-md10 layui-col-md-offset2">
-      <div class="dTable" style="padding-top: 10px">
-        名称：
-        <div class="layui-inline">
-          <input class="layui-input" name="id" placeholder="会员名称" id="userName" autocomplete="off" style="width: 200px">
-        </div>
-        捐赠时间：
-        <div class="layui-inline">
-          <input type="text" class="layui-input" name="sTime" id="sTime" placeholder="日期起始" onfocus="noInput(this)">
-        </div> -
-        <div class="layui-inline">
-          <input type="text" class="layui-input" name="eTime" id="eTime" placeholder="日期截止" onfocus="noInput(this)">
-        </div>
-          <button class="layui-btn" data-type="reload" >搜索</button>
-          <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
-        </div>
-    </div>
-  </form>
+  <div class="layui-col-md10 layui-col-md-offset2">
+    <div class="dTable" style="padding-top: 10px">
+      名称：
+      <div class="layui-inline">
+        <input class="layui-input" name="id" placeholder="会员名称" id="userName" autocomplete="off" style="width: 200px">
+      </div>
+      捐赠时间：
+      <div class="layui-inline">
+        <input type="text" class="layui-input" name="sTime" id="sTime" placeholder="日期起始" onfocus="noInput(this)">
+      </div> -
+      <div class="layui-inline">
+        <input type="text" class="layui-input" name="eTime" id="eTime" placeholder="日期截止" onfocus="noInput(this)">
+      </div>
+        <button class="layui-btn" data-type="reload" >搜索</button>
+        <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
+      </div>
+  </div>
 </div>
 <table class="layui-hide" id="contriInfoList" lay-filter="tableFilter"></table>
 <script type="text/javascript">
