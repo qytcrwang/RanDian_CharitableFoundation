@@ -24,7 +24,7 @@
 <table class="layui-hide" id="contriInfoList" lay-filter="tableFilter"></table>
 
 <script type="text/javascript">
-layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function () {
+  layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function () {
   var layer = layui.layer //弹层
       , table = layui.table //表格
       , element = layui.element; //元素操作
@@ -58,7 +58,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         , {title: '会员名称', field: 'userName', align: 'center'}
         , {title: '捐赠金额', field: 'contriAmount', align: 'center'}
         , {title: '捐赠物品', field: 'contriThings', align: 'center'}
-        , {title: '联系方式', field: 'usermobile', align: 'center'}
+        , {title: '联系方式', field: 'userMobile', align: 'center'}
         , {
           title: '捐赠时间', field: 'contriTime', align: 'center', templet: function (row) {
             return createTime(row.contriTime * 1000);
@@ -100,12 +100,11 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         , area: ['1000px', '600px']
         , content: ['/contriInfoDetail', 'false']
         , success: function (layero, index) {
-          console.log(layero, index);
           var userName = $("#userName", layero.find("iframe")[0].contentWindow.document);
           var contriAmount = $("#contriAmount", layero.find("iframe")[0].contentWindow.document);
           var contriThings = $("#contriThings", layero.find("iframe")[0].contentWindow.document);
           var contriTime = $("#contriTime", layero.find("iframe")[0].contentWindow.document);
-          var userMobile = $("#mobile", layero.find("iframe")[0].contentWindow.document);
+          var userMobile = $("#userMobile", layero.find("iframe")[0].contentWindow.document);
           var orgName = $("#orgName", layero.find("iframe")[0].contentWindow.document);
           var orgRName = $("#orgRName", layero.find("iframe")[0].contentWindow.document);
           var contriType = $("#contriType", layero.find("iframe")[0].contentWindow.document);
@@ -225,7 +224,26 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
 function noInput(dom){
   $(dom).blur();
 }
+/**13位时间戳转换成 年月日 上午 时间  2018-05-23 10:41:08 */
+function createTime(v) {
+  return new Date(parseInt(v)).toLocaleString()
 
+  /**重写toLocaleString方法*/
+  Date.prototype.toLocaleString = function () {
+    var y = this.getFullYear();
+    var m = this.getMonth() + 1;
+    m = m < 10 ? '0' + m : m;
+    var d = this.getDate();
+    d = d < 10 ? ("0" + d) : d;
+    var h = this.getHours();
+    h = h < 10 ? ("0" + h) : h;
+    var M = this.getMinutes();
+    M = M < 10 ? ("0" + M) : M;
+    var S = this.getSeconds();
+    S = S < 10 ? ("0" + S) : S;
+    return y + "-" + m + "-" + d + " " + h + ":" + M + ":" + S;
+  };
+}
 </script>
 
 <script type="text/html" id="bar">
@@ -244,31 +262,5 @@ function noInput(dom){
   {{# }else if(d.contriState == 1){ }}
   <span>已证实</span>
   {{# } }}
-</script>
-
-
-<script type="text/javascript">
-/**13位时间戳转换成 年月日 上午 时间  2018-05-23 10:41:08 */
-function createTime(v) {
-  return new Date(parseInt(v)).toLocaleString()
-
-
-}
-
-/**重写toLocaleString方法*/
-Date.prototype.toLocaleString = function () {
-  var y = this.getFullYear();
-  var m = this.getMonth() + 1;
-  m = m < 10 ? '0' + m : m;
-  var d = this.getDate();
-  d = d < 10 ? ("0" + d) : d;
-  var h = this.getHours();
-  h = h < 10 ? ("0" + h) : h;
-  var M = this.getMinutes();
-  M = M < 10 ? ("0" + M) : M;
-  var S = this.getSeconds();
-  S = S < 10 ? ("0" + S) : S;
-  return y + "-" + m + "-" + d + " " + h + ":" + M + ":" + S;
-};
 </script>
 </body>

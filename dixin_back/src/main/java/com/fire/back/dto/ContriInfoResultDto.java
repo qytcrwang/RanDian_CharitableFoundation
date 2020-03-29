@@ -15,7 +15,7 @@ public class ContriInfoResultDto {
 
   private Long userId;
 
-  private String name;
+  private String userName;
 
   private BigDecimal contriAmount;
 
