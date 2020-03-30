@@ -56,9 +56,12 @@
       t1.org_r_name AS orgRName,
       t1.contri_proof AS contriProof,
       t1.contri_type AS contriType,
+      (case t1.contri_type when 0 then '物品'
+      when 1 then '金钱' when 2 then '物品及金钱' end) AS contriTypeString,
       t1.update_time AS updateTime,
       t1.is_delete AS isDelete,
       t1.contri_state AS contriState,
+      (case t1.contri_state when 0 then '待证实' when 1 then '已证实' end) AS contriStateString,
       t1.if_stamp AS ifStamp,
       t1.create_time AS createTime,
       t1.contri_value AS contriValue

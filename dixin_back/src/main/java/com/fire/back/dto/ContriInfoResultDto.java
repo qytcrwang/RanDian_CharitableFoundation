@@ -33,11 +33,15 @@ public class ContriInfoResultDto {
 
   private Integer contriType;
 
+  private String contriTypeString;
+
   private Long updateTime;
 
   private Integer isDelete;
 
   private Integer contriState;
+
+  private String contriStateString;
 
   private Integer ifStamp;
 

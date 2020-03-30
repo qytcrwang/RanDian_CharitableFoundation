@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:templet="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="include :: header"></head>
 <body>
 <div class="layui-row">
@@ -90,6 +90,7 @@
   table.on('tool(tableFilter)', function (obj) {
     var data = obj.data //获得当前行数据
         , layEvent = obj.event; //获得 lay-event 对应的值
+    // 查看详情
     if (layEvent === 'detail') {
       var jsonData;
       $.ajax({
@@ -108,29 +109,31 @@
             , area: ['1000px', '600px']
             , content: ['/contriInfoDetail', 'false']
             , success: function (layero, index) {
-              var userName1 = $("#userName", layero.find("iframe")[0].contentWindow.document);
+              var userName = $("#userName", layero.find("iframe")[0].contentWindow.document);
               var contriAmount = $("#contriAmount", layero.find("iframe")[0].contentWindow.document);
               var contriThings = $("#contriThings", layero.find("iframe")[0].contentWindow.document);
               var contriTime = $("#contriTime", layero.find("iframe")[0].contentWindow.document);
               var userMobile = $("#userMobile", layero.find("iframe")[0].contentWindow.document);
               var orgName = $("#orgName", layero.find("iframe")[0].contentWindow.document);
               var orgRName = $("#orgRName", layero.find("iframe")[0].contentWindow.document);
+              var contriState = $("#contriState", layero.find("iframe")[0].contentWindow.document);
               var contriType = $("#contriType", layero.find("iframe")[0].contentWindow.document);
-              userName1.val(jsonData.userName);
+              var contriValue = $("#contriValue", layero.find("iframe")[0].contentWindow.document);
+              userName.val(jsonData.userName);
               contriAmount.val(jsonData.contriAmount);
               contriThings.val(jsonData.contriThings);
               contriTime.val(jsonData.contriTime);
               userMobile.val(jsonData.userMobile);
               orgName.val(jsonData.orgName);
               orgRName.val(jsonData.orgRName);
-              contriType.val(jsonData.contriType);
-
+              contriState.val(jsonData.contriStateString);
+              contriType.val(jsonData.contriTypeString);
+              contriValue.val(jsonData.contriValue);
             }
           });
         }
       });
-
-    } else if (layEvent === 'edit') {
+    } else if (layEvent === 'edit') { // 审核
       if (data.contriState === 1) {
         layer.msg('该捐赠已审核通过！');
       } else {
@@ -145,10 +148,6 @@
             data: JSON.stringify({
               id: data.id, contriState: 1
             }),
-            // beforeSend: function () {
-            //   //禁用按钮防止重复提交
-            //   $("#submit").attr({ disabled: "disabled" });
-            // },
             success: function (data) {
               if (data.status === 1) {
                 layer.msg("认证成功", {
@@ -164,7 +163,7 @@
       }
     }
   });
-
+  // 查询操作
   var $ = layui.$, active = {
     reload: function () {
       var userName = $('#userName').val();
@@ -203,11 +202,12 @@
     active[type] ? active[type].call(this) : '';
   });
 
+  // 重置操作
   $("#clear").bind("click", function() {
     $("#sTime").val("");
     $("#eTime").val("");
     $("#userName").val("");
-    $("#contriState")[0].reselect();
+    $("#contriState").val("");
     layui.form.render();
     table.reload('tableReload', {
       page: {
@@ -221,6 +221,7 @@
     });
   });
 
+  // 选择日期组件
   var laydate = layui.laydate;
   //常规用法
   laydate.render({
@@ -242,6 +243,8 @@
 function noInput(dom){
   $(dom).blur();
 }
+
+// 字符戳时间转换方法
 /**13位时间戳转换成 年月日 上午 时间  2018-05-23 10:41:08 */
 function createTime(v) {
   var date = new Date(v);
