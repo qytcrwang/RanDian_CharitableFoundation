@@ -3,10 +3,16 @@ package com.fire.back.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.fire.back.common.FireResult;
 import com.fire.back.constant.WxConstant;
+import com.fire.back.dao.UserTbMapper;
+import com.fire.back.dao.WxPayTradeMapper;
+import com.fire.back.entity.UserTb;
+import com.fire.back.entity.WxPayTrade;
 import com.fire.back.service.WxPayService;
+import com.fire.back.util.StringUtils;
 import com.fire.back.util.WxUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,16 +22,26 @@ import java.util.Map;
 @Service
 public class WxPayServiceImpl implements WxPayService {
 
-
     private Logger logger = LoggerFactory.getLogger(WxPayServiceImpl.class);
+
+    @Autowired
+    WxPayTradeMapper wxPayTradeMapper;
+    @Autowired
+    UserTbMapper userTbMapper;
     /**
      * 微信支付step1 创建order
-     * @param openid
+     * @param userId
      * @param amount 订单金额
      * @return
      */
     @Override
-    public FireResult createUnifiedOrder(HttpServletRequest request, String openid, String amount) {
+    public FireResult createUnifiedOrder(HttpServletRequest request, Long userId, String amount) {
+        //查询用户信息
+        UserTb user = userTbMapper.selectByPrimaryKey(userId);
+        if(null == user || StringUtils.isEmpty(user.getOpenId())){
+            return FireResult.build(0,"用户不存在",null);
+        }
+        String openid = user.getOpenId();
         try{
             //生成32位随机字符串
             String nonceStr = WxUtils.getRandomStringByLength(32);
@@ -78,12 +94,24 @@ public class WxPayServiceImpl implements WxPayService {
             Map map = WxUtils.xmlToMap(result);
             //获取请求结果
             String returnCode = (String)map.get("return_code");
+            //保存请求结果
+            WxPayTrade tradeInfo = new WxPayTrade();
+            tradeInfo.setUserId(userId);
+            tradeInfo.setOutTradeNo(orderNo);
+            tradeInfo.setOpenId(openid);
+            tradeInfo.setSpbillCreateIp(spbillCreateIp);
+            tradeInfo.setTotalFee(totalFee);
+            tradeInfo.setStSign(stSign);
+            tradeInfo.setNonceStr(nonceStr);
+            tradeInfo.setStatus(returnCode);
+            tradeInfo.setCreateTime(System.currentTimeMillis()/1000);
 
             //给移动端返回参数
             Map<String,Object> response = new HashMap<>();
             if(WxConstant.SUCCESS.equals(returnCode)){
                 //获取交易结果
                 String resultCode = (String)map.get("result_code");
+                tradeInfo.setResultCode(resultCode);
                 if(WxConstant.SUCCESS.equals(resultCode)){
                     //获取预订单信息
                     String prepayId = (String)map.get("prepay_id");
@@ -107,14 +135,22 @@ public class WxPayServiceImpl implements WxPayService {
                     logger.info("============第二次签名：" + ndSign + "===============");
                     response.put("paySign",ndSign);
 
+                    tradeInfo.setNdSign(ndSign);
+                    tradeInfo.setPrepayId(prepayId);
                     return FireResult.build(1,"订单已提交",response);
                 }else{
                     //交易错误
-
+                    String errorCode = (String)map.get("error_code");
+                    String errorCodeDes = (String)map.get("error_code_des");
+                    tradeInfo.setErrorCode(errorCode);
+                    tradeInfo.setErrorMsg(errorCodeDes);
                 }
             }else{
                 //请求失败
+                String returnMsg = (String)map.get("return_msg");
+                tradeInfo.setReturnMsg(returnMsg);
             }
+            wxPayTradeMapper.insertSelective(tradeInfo);
         }catch (Exception e){
             e.printStackTrace();
         }

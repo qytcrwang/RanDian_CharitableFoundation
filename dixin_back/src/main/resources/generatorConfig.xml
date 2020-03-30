@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
     <classPathEntry
-            location="D:\MAVEAN\mavenjar\mysql\mysql-connector-java\5.1.47\mysql-connector-java-5.1.47.jar"/>
+            location="E:\repository\mysql\mysql-connector-java\5.1.40\mysql-connector-java-5.1.40.jar"/>
     <context id="my" targetRuntime="MyBatis3">
         <commentGenerator>
             <property name="suppressDate" value="false"/>
@@ -13,9 +13,9 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/dixin?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true&amp;useSSL=false&amp;allowMultiQueries=true"
+                        connectionURL="jdbc:mysql://106.12.194.99:3306/dixin_dev?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true&amp;useSSL=false&amp;allowMultiQueries=true"
                         userId="root"
-                        password=""/>
+                        password="lsjbyfaxm2"/>
 
         <!-- model文件配置 -->
         <javaModelGenerator targetPackage="com.fire.back.entity"
@@ -41,8 +41,8 @@
                enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="true">
         </table>-->
-        <table schema="catalog" tableName="sys_role_menu" domainObjectName="SysRoleMenu"
-               enableCountByExample="true" enableUpdateByExample="false"
+        <table schema="catalog" tableName="wx_pay_trade" domainObjectName="WxPayTrade"
+               enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="true">
         </table>

@@ -6,5 +6,5 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface WxPayService {
 
-    public Object createUnifiedOrder(HttpServletRequest request,String openid, String amount);
+    public Object createUnifiedOrder(HttpServletRequest request,Long userId, String amount);
 }
