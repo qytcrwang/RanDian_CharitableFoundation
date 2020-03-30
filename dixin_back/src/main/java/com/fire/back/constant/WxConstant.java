@@ -28,4 +28,5 @@ public class WxConstant {
     public static final String SUCCESS  = "SUCCESS";
     //请求超时
     public static final String TIMEOUT = "TIMEOUT";
+
 }

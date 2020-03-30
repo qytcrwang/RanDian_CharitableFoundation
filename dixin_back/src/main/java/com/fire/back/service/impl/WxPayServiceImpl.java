@@ -110,7 +110,7 @@ public class WxPayServiceImpl implements WxPayService {
                     return FireResult.build(1,"订单已提交",response);
                 }else{
                     //交易错误
-                    
+
                 }
             }else{
                 //请求失败
