@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fire.back.dao.extend.ExtendSysRoleMapper">
+  <resultMap id="BaseResultMap" type="com.fire.back.entity.SysRole">
+    <id column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_key" jdbcType="VARCHAR" property="roleKey" />
+    <result column="role_sort" jdbcType="INTEGER" property="roleSort" />
+    <result column="data_scope" jdbcType="CHAR" property="dataScope" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <resultMap type="com.fire.back.entity.SysMenu" id="SysMenuResult">
+    <id     property="menuId"         column="menu_id"        />
+    <result property="menuName"       column="menu_name"      />
+    <result property="parentId"       column="parent_id"      />
+    <result property="orderNum"       column="order_num"      />
+    <result property="url"            column="url"            />
+    <result property="target"         column="target"         />
+    <result property="menuType"       column="menu_type"      />
+    <result property="visible"        column="visible"        />
+    <result property="perms"          column="perms"          />
+    <result property="icon"           column="icon"           />
+    <result property="createBy"       column="create_by"      />
+    <result property="createTime"     column="create_time"    />
+    <result property="updateTime"     column="update_time"    />
+    <result property="updateBy"       column="update_by"      />
+    <result property="remark"         column="remark"         />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    role_id, role_name, role_key, role_sort, data_scope, status, del_flag, create_by, 
+    create_time, update_by, update_time, remark
+  </sql>
+  <sql id="selectMenuVo">
+        select menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, ifnull(perms,'') as perms, icon, create_by, create_time
+		from sys_menu
+    </sql>
+  <select id="selectSysRoleBySysUser" parameterType="long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_role r,sys_user_role ur
+    where r.role_id = ur.role_id AND ur.user_id=#{userId,jdbcType=BIGINT}
+
+  </select>
+  <select id="getUsersBySysRole"  resultType="com.fire.back.entity.SysUser">
+    select
+    u.*
+    from sys_user u
+    where u.user_id
+    <if test="status==0">
+        in
+    </if>
+    <if test="status==1">
+        not in
+    </if>
+    (select user_id from sys_user_role where role_id=#{roleId,jdbcType=BIGINT})
+    <if test="phonenumber != null">
+     and  u.phonenumber like "%"#{phonenumber,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="loginName != null">
+     and u.login_name like "%"#{loginName,jdbcType=VARCHAR}"%"
+    </if>
+     order by u.update_time desc limit ${offset},${limit}
+  </select>
+  <select id="getUsersCountBySysRole" resultType="Integer">
+    select
+    count(*)
+    from sys_user u
+    where u.user_id
+    <if test="status==0">
+      in
+    </if>
+    <if test="status==1">
+      not in
+    </if>
+    (select user_id from sys_user_role where role_id=#{roleId,jdbcType=BIGINT})
+    <if test="phonenumber != null">
+      and  u.phonenumber like "%"#{phonenumber,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="loginName != null">
+      and u.login_name like "%"#{loginName,jdbcType=VARCHAR}"%"
+    </if>
+  </select>
+
+
+  <insert id="batchRoleMenu">
+    insert into sys_role_menu(role_id, menu_id) values
+    <foreach item="item" index="index" collection="list" separator=",">
+      (#{item.roleId},#{item.menuId})
+    </foreach>
+  </insert>
+
+  <delete id="deleteRoleMenuByRoleId" parameterType="Long">
+		delete from sys_role_menu where role_id=#{roleId}
+	</delete>
+
+  <select id="selectMenuTree" parameterType="Long" resultType="String">
+		select concat(m.menu_id, ifnull(m.perms,'')) as perms
+		from sys_menu m
+			left join sys_role_menu rm on m.menu_id = rm.menu_id
+		where rm.role_id = #{roleId}
+		order by m.parent_id, m.order_num
+	</select>
+
+  <select id="selectMenuAll" resultMap="SysMenuResult">
+    <include refid="selectMenuVo"/>
+    order by parent_id, order_num
+  </select>
+
+    <insert id="insertRole" parameterType="com.fire.back.entity.SysRole">
+      <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="roleId">
+        SELECT LAST_INSERT_ID() AS ID
+      </selectKey>
+    insert into sys_role (role_name, role_key,
+      role_sort, data_scope, status,
+      del_flag, create_by, create_time,
+      update_by, update_time, remark
+      )
+    values (#{roleName,jdbcType=VARCHAR}, #{roleKey,jdbcType=VARCHAR},
+      #{roleSort,jdbcType=INTEGER}, #{dataScope,jdbcType=CHAR}, #{status,jdbcType=CHAR},
+      #{delFlag,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <select id="selectMenuAllByUserId" parameterType="Long" resultMap="SysMenuResult">
+		select distinct m.menu_id, m.parent_id, m.menu_name, m.url, m.visible, ifnull(m.perms,'') as perms, m.target, m.menu_type, m.icon, m.order_num, m.create_time
+		from sys_menu m
+			 left join sys_role_menu rm on m.menu_id = rm.menu_id
+			 left join sys_user_role ur on rm.role_id = ur.role_id
+			 LEFT JOIN sys_role ro on ur.role_id = ro.role_id
+		where ur.user_id = #{userId}
+		order by m.parent_id, m.order_num
+	</select>
+  <insert id="insertUserRole">
+    insert into sys_user_role(user_id, role_id) values
+      (#{userId},#{roleId})
+  </insert>
+
+  <delete id="deleteUserRole">
+		delete from sys_user_role where user_id=#{userId} and role_id=#{roleId}
+    </delete>
+
+
+</mapper>

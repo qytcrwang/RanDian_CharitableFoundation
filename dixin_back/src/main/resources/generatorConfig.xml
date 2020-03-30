@@ -41,7 +41,7 @@
                enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="true">
         </table>-->
-        <table schema="catalog" tableName="rent_apply_tb" domainObjectName="RentApplyTb"
+        <table schema="catalog" tableName="sys_role_menu" domainObjectName="SysRoleMenu"
                enableCountByExample="true" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="true">

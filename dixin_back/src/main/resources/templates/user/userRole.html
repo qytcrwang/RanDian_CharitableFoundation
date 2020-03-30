@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="include :: header">
+</head>
+<body>
+<form class="layui-form" id="searchForm">
+    <input type="hidden" id="roleId" th:value="${roleId}" name="roleId">
+    <div class="layui-row" style="text-align: center">
+        <div class="layui-col-md12" style="padding:20px;">
+            登录名称：
+            <div class="layui-inline">
+                <input class="layui-input" name="loginName" id="loginName" autocomplete="off">
+            </div>
+            手机号码：
+            <div class="layui-inline">
+                <input class="layui-input" name="phonenumber" id="phonenumber" autocomplete="off">
+            </div>
+            授权状态：
+            <div class="layui-inline">
+                <select name="status" lay-filter="status" id="status">
+                    <option value="0" selected>已授权</option>
+                    <option value="1">未授权</option>
+                </select>
+            </div>
+            <div class="layui-inline" style="float:right;">
+                <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+                <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+                <button type="button" class="layui-btn" data-type="reload" id="back">返回</button>
+            </div>
+        </div>
+    </div>
+</form>
+<table class="layui-hide" id="demoTable" lay-filter="tableFilter"></table>
+
+<script type="text/javascript">
+    let tableIns;
+    //加载下拉框
+    layui.use([ 'laypage', 'layer', 'table','laytpl','form'], function(){
+        let layer = layui.layer //弹层
+            ,table = layui.table //表格
+            ,form = layui.form
+            ;
+        //执行一个 table 实例
+        tableIns = table.render({
+            elem: '#demoTable'
+            ,url: '/back/sysRole/getRoleUsers'
+            ,method: 'post'
+            ,contentType: 'application/json'
+            ,id:'demoTable'
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": res.status, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.count, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            }
+            ,where: {status:$("#status").val(),roleId:$("#roleId").val()}
+            ,response: {
+                statusCode:1 //规定成功的状态码，默认：0
+            }
+            ,page: true //开启分页
+            ,cols: [
+                [
+                    /*{type:'checkbox'}*/
+                    /*   ,{title: '序号', type:'numbers', align: 'center'}*/
+                    {field:'loginName', title: '登录名称', align: 'center'}
+                    ,{field:'userName', title: '用户昵称', align: 'center'}
+                    ,{field:'phonenumber', title: '手机号码', align: 'center'}
+                    ,{field:'status',title:'用户状态',align:'center',templet:'#checkboxS'}
+                    ,{field:'createTime', title: '创建时间', align: 'center',templet:function(d){
+                        return  layui.util.toDateString(d.createTime,"yyyy-MM-dd HH:mm:ss");
+                    }}
+                    ,{width:'15%', title: '操作', align:'center', toolbar:'#bar'}
+                ]
+            ]
+        });
+
+        $("#search").bind("click", function() {
+            searchForm();
+        });
+
+        $("#clear").bind("click", function() {
+            $("#searchForm").clearForm();
+            searchForm();
+        });
+        $("#back").bind("click",function(){
+            history.back();
+        });
+        form.on('select(status)', function(data){
+           searchForm();
+        });
+
+        form.on('submit(formDemo)', function(data){
+            //layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+        table.on('tool(tableFilter)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            let data = obj.data; //获得当前行数据
+            let layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            let param = {userId:data['userId'],roleId:$("#roleId").val()};
+            if(layEvent === 'remove'){ //编辑
+                saveData("/back/sysRole/removeUser",param);
+            }else if(layEvent === 'add'){ //删除
+                saveData("/back/sysRole/bindUser",param);
+            }
+        });
+
+    });
+    function saveData(url,data){
+        $.ajax({
+            type : "post",
+            url : url,
+            data : JSON.stringify(data),
+            headers : {
+                'Content-Type' : 'application/json;charset=utf-8'
+            },
+            dataType : 'json',
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+                    + textStatus + "," + errorThrown);
+            },
+            success : function(result) {
+                if(result["status"] == 1){
+                    layer.closeAll();
+                    layer.msg(result["msg"]);
+                    searchForm();
+                }else{
+                    layer.alert(result["msg"]);
+                }
+            }
+        });
+    }
+    function searchForm(){
+        layui.use('table', function(){
+            let loginName = $("#loginName").val();
+            let phonenumber = $("#phonenumber").val();
+            let status = $("#status").val();
+            let table = layui.table;
+            table.reload('demoTable',{
+                where: {loginName:loginName,phonenumber:phonenumber,
+                    status:status}
+                ,page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        });
+    }
+</script>
+<script type="text/html" id="withRole">
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="remove">取消授权</a>
+</script>
+<script type="text/html" id="noRole">
+    <a class="layui-btn layui-btn-xs" lay-event="add">分配角色</a>
+</script>
+
+<script type="text/html" id="bar">
+    {{# if($("#status").val()=='0'){ }}
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="remove">取消授权</a>
+    {{# }else{ }}
+        <a class="layui-btn layui-btn-xs" lay-event="add">分配角色</a>
+    {{# }  }}
+</script>
+<script id="checkboxS" type="text/html">
+    <!-- 这里的 checked 的状态只是演示 -->
+    <input type="checkbox" disabled value="{{d.userId}}" lay-skin="switch" lay-text="开启|停用" lay-filter="release" {{ d.status == 0 ? 'checked' : '' }}>
+</script>
+</body>

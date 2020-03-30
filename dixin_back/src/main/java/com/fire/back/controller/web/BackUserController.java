@@ -1,7 +1,6 @@
 package com.fire.back.controller.web;
 
 import com.fire.back.common.FireResult;
-import com.fire.back.controller.app.UserController;
 import com.fire.back.entity.UserTb;
 import com.fire.back.service.SignInService;
 import com.fire.back.service.UserService;
@@ -9,16 +8,14 @@ import com.fire.back.util.ParamUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@Controller
 @RequestMapping("/back/user")
 public class BackUserController {
     @Autowired
@@ -26,6 +23,19 @@ public class BackUserController {
     @Autowired
     SignInService ss;
     private Logger logger = LoggerFactory.getLogger(BackUserController.class);
+
+
+    @GetMapping("/userManager")
+    public String UserPage(){
+        return "user";
+    }
+
+    @GetMapping("/")
+    public String index(){
+        return "index";
+    }
+
+
     /**
      *
      * @param paramMap ->userId
@@ -116,10 +126,10 @@ public class BackUserController {
             UserTb user  = new UserTb();
             Object field = ParamUtil.getString(paramMap,"field","love_point");
             Integer page = ParamUtil.getInteger(paramMap,"page",1);
-            Integer pageSize = ParamUtil.getInteger(paramMap,"pageSize",20);
+            Integer pageSize = ParamUtil.getInteger(paramMap,"pageSize",10);
             String sort = ParamUtil.getString(paramMap,"sort","desc");
             createUserTbParam(paramMap,user);
-            List<UserTb> list = us.selectUsersByPage(user,field,sort==null?"desc":sort,page,pageSize);
+            List<UserTb> list = us.selectUsersByPage(user,field,sort,page,pageSize);
             return FireResult.build(1,"查询用户列表成功",list);
         } catch (Exception e) {
             logger.error("用户列表查询异常",e);

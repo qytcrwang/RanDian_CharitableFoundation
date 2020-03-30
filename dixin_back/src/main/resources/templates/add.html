@@ -133,12 +133,30 @@
         <div class="layui-form-item">
             <label class="layui-form-label">开关:</label>
             <div class="layui-input-block">
-                <input type="checkbox" name="xxx" lay-skin="switch" lay-filter="myswitch" value="iloveetoak">
+                <input type="button" value="开关" id="btn">
+                <input id="t1" type="checkbox" name="xxx" lay-skin="switch" lay-filter="myswitch" value="iloveetoak">
                 <input type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" value="wocao" checked>
                 <input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭" value="fuck">
                 <input type="checkbox" name="aaa" lay-skin="switch" disabled>
             </div>
         </div>
+        <script>
+            let i = 0;
+            $("#btn").click(function(){
+                if(i%2==0){
+                    $("#t1").prop("checked",true);
+                }else{
+                    $("#t1").removeAttr("checked");
+                }
+                i++;
+                layui.use(['form'],function(){
+                    layui.form.render("checkbox");
+                });
+                alert( $("#t1").val());
+            });
+
+
+        </script>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~5:单选框~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <div class="layui-form-item">
             <label class="layui-form-label">单选框:</label>

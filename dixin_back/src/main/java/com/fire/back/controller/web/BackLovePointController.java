@@ -45,8 +45,8 @@ public class BackLovePointController {
             l.setOperatorId(ParamUtil.getLong(paramMap,"operatorId",null));
             l.setIsDelete(ParamUtil.getInteger(paramMap,"isDelete",0));
             Integer page = ParamUtil.getInteger(paramMap, "page",1);
-            Integer pageSize = ParamUtil.getInteger(paramMap, "pageSize",20);
-            List<LovePointsTb> list = lovePointsService.getLovePointsTbListByUserId(l, page, pageSize);
+            Integer limit = ParamUtil.getInteger(paramMap, "limit",20);
+            List<LovePointsTb> list = lovePointsService.getLovePointsTbListByUserId(l, page, limit);
             return FireResult.build(1, "爱心积分查询成功", list);
         }catch(Exception e){
             logger.error("爱心积分查询异常",e);
