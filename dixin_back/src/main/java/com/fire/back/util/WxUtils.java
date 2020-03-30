@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
@@ -26,8 +28,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
 import java.net.URL;
 import java.util.*;
 
@@ -36,9 +38,6 @@ import java.util.*;
  * create by gao
  */
 public class WxUtils {
-
-    private Logger logger = LoggerFactory.getLogger(WxUtils.class);
-
     /**
      * 使用用户code从微信换取sessionKey和openid
      * 返回结果组装成map
@@ -76,48 +75,75 @@ public class WxUtils {
     }
 
     /**
-     * map转成xml
-     * @param map
-     * @return
+     * XML格式字符串转换为Map
+     *
+     * @param strXML XML字符串
+     * @return XML数据转换后的Map
      * @throws Exception
      */
-    public static String mapToXml(SortedMap<String,String> map) throws Exception{
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        //防止xxe攻击
-        documentBuilderFactory.setXIncludeAware(false);
-        documentBuilderFactory.setExpandEntityReferences(false);
-        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        Document document = documentBuilder.newDocument();
-        Element root = document.createElement("xml");
+    public static Map<String, String> xmlToMap(String strXML) throws Exception {
+        try {
+            Map<String, String> data = new HashMap<String, String>();
+            DocumentBuilder documentBuilder = WXPayXmlUtil.newDocumentBuilder();
+            InputStream stream = new ByteArrayInputStream(strXML.getBytes("UTF-8"));
+            org.w3c.dom.Document doc = documentBuilder.parse(stream);
+            doc.getDocumentElement().normalize();
+            NodeList nodeList = doc.getDocumentElement().getChildNodes();
+            for (int idx = 0; idx < nodeList.getLength(); ++idx) {
+                Node node = nodeList.item(idx);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    org.w3c.dom.Element element = (org.w3c.dom.Element) node;
+                    data.put(element.getNodeName(), element.getTextContent());
+                }
+            }
+            try {
+                stream.close();
+            } catch (Exception ex) {
+                // do nothing
+            }
+            return data;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    /**
+     * 将Map转换为XML格式的字符串
+     *
+     * @param data Map类型数据
+     * @return XML格式的字符串
+     * @throws Exception
+     */
+    public static String mapToXml(Map<String, String> data) throws Exception {
+        org.w3c.dom.Document document = WXPayXmlUtil.newDocument();
+        org.w3c.dom.Element root = document.createElement("xml");
         document.appendChild(root);
-        //组装xml
-        for(String key:map.keySet()){
-            String value = map.get(key);
-            if(value == null){
+        for (String key: data.keySet()) {
+            String value = data.get(key);
+            if (value == null) {
                 value = "";
             }
             value = value.trim();
-            Element filed = document.createElement(key);
+            org.w3c.dom.Element filed = document.createElement(key);
             filed.appendChild(document.createTextNode(value));
             root.appendChild(filed);
         }
-        TransformerFactory tfFactory = TransformerFactory.newInstance();
-        Transformer tf = tfFactory.newTransformer();
-        DOMSource domSource = new DOMSource(document);
-        tf.setOutputProperty(OutputKeys.ENCODING,"UTF-8");
-        tf.setOutputProperty(OutputKeys.INDENT,"yes");
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        DOMSource source = new DOMSource(document);
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         StringWriter writer = new StringWriter();
         StreamResult result = new StreamResult(writer);
-        tf.transform(domSource,result);
-        String output = writer.getBuffer().toString();
-        try{
+        transformer.transform(source, result);
+        String output = writer.getBuffer().toString(); //.replaceAll("\n|\r", "");
+        try {
             writer.close();
-        }catch (Exception e){
-            e.printStackTrace();
+        }
+        catch (Exception ex) {
         }
         return output;
     }
-
     /**
      * 获取指定长度的随机字符串 范围："a-z"+"0-9"
      * @param length 指定字符串长度
@@ -268,5 +294,14 @@ public class WxUtils {
             }
         }
         return preStr;
+    }
+
+    /**
+     * 转换金额单位  元 -> 分
+     * @param amount
+     * @return
+     */
+    public static String changeY2F(String amount){
+        return new BigDecimal(amount).multiply(new BigDecimal(100)).toString();
     }
 }
