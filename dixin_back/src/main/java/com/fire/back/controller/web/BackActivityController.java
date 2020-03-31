@@ -67,7 +67,6 @@ public class BackActivityController {
 			return FireResult.build(0, "获取信息失败，请稍后再试");
 		}
 	}
-	
 
 	@PostMapping("getInfo")
 	@ResponseBody
@@ -82,6 +81,21 @@ public class BackActivityController {
 		}
 	}
 	
+	//已报名  已到场
+	@PostMapping("getUserList")
+	@ResponseBody
+	public FireResult getUserList(@RequestBody Map<String, Object> paramMap) {
+		try {
+			Long userId = ParamUtil.getLong(paramMap, "userId", -1L);
+			Map<String, List<Map<String,Object>>> info = new HashMap<>();
+			info.put("0", service.getUserList(userId, 0));
+			info.put("1", service.getUserList(userId, 1));
+			return FireResult.build(1, "数据获取成功",info);
+		} catch (Exception e) {
+			logger.error("",e);
+			return FireResult.build(0, "获取信息失败，请稍后再试");
+		}
+	}
 
 	@PostMapping("insertOrUpdate")
 	@ResponseBody
