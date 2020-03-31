@@ -45,7 +45,7 @@
     </view>
     <!-- 同意协议 -->
     <view class='agree'>
-      <radio value='1'>同意</radio>
+      <radio catchtap="dmProtocolChecked" checked="{{isCheckDmProtocol}}">同意</radio>
       <view class='protocol'>《用户捐赠协议协议》</view>
     </view>
     <!-- 温馨提示 -->

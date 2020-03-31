@@ -4,9 +4,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    donateMoneyTab:true,
-    donateGoodsTab:false,
     userid:'',
+    //是否勾选捐钱协议
+    isCheckDmProtocol:false,
   },
   onLoad: function () {
     var _this = this;
@@ -17,19 +17,6 @@ Page({
           userid:res.data
         })
       }
-    })
-  },
-
-  toDonateMoney: function (e) {
-    this.setData({
-      donateMoneyTab: true,
-      donateGoodsTab: false
-    })
-  },
-  toDonateGoods: function (e) {
-    this.setData({
-      donateMoneyTab: false,
-      donateGoodsTab: true
     })
   },
   //提交捐赠信息
@@ -59,5 +46,12 @@ Page({
         }
       }
     )
-  }
+  },
+  //勾选同意捐钱协议按钮
+  dmProtocolChecked:function(){
+    var isCheckDmProtocol = this.data.isCheckDmProtocol;
+    this.setData({
+      isCheckDmProtocol:!isCheckDmProtocol
+    })
+  },
 })
