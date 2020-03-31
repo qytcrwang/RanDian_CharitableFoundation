@@ -41,10 +41,10 @@
  	${extend} order by a.activity_time desc
  </select>
  <update id="addReadNum" parameterType="Long" >
- 	update activity_tb set read_num = read_num+1 where id=#{id,jdbcType=BIGINT}
+ 	update activity_tb set read_num = ifnull(read_num,0)+1 where id=#{id,jdbcType=BIGINT}
  </update>
  <update id="addGoodNum" parameterType="Long" >
- 	update activity_tb set good_num = good_num+1 where id=#{id,jdbcType=BIGINT}
+ 	update activity_tb set good_num = ifnull(good_num,0)+1 where id=#{id,jdbcType=BIGINT}
  </update>
  
  
