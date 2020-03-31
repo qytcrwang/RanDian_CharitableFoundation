@@ -19,6 +19,7 @@ public interface ActivityService {
 	Map<String, Object> getInfoById(Long activityId,Long userId);
 	Map<String, Object> applyActivity(Long activityId,Long userId);
 	List<Map<String, Object>> getUserList(Long userId,int flag);
+	List<Map<String, Object>> getUserActivityList(Long userId);
 	void addGood(Long activityId);
 	List<Map<String, Object>> getListByPage(int page,int size,String field,String sort,
 			int type,String stime,String etime,int state,String aname);

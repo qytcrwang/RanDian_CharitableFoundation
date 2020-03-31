@@ -22,6 +22,7 @@ public interface ExtendActivityTbMapper extends ActivityTbMapper {
     Map<String, Object> getInfoById(Map<String,Object> params);
     Map<String, Object> getNamesAndNumsById(Map<String,Object> params);
     List<Map<String, Object>> getUserList(Map<String,Object> params);
+    List<Map<String, Object>> getUserActivityList(Long id);
     void addReadNum(Long id);
     void addGoodNum(Long id);
     void del(Map<String,Object> ids);

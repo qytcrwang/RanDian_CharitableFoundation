@@ -40,6 +40,16 @@
  	<!-- and au.state = #{activityUserState,jdbcType=INTEGER}  -->
  	${extend} order by a.activity_time desc
  </select>
+ 
+ <select id="getUserActivityList" resultType="Map" parameterType="Long" >
+ 	select a.id,a.title,a.activity_time,a.cover_url,
+ 	from_unixtime(activity_start_time,'%Y-%m-%d %H:%i:%S') stime,
+ 	from_unixtime(activity_end_time,'%Y-%m-%d %H:%i:%S') etime
+ 	from activity_tb a ,activity_user_tb au ,user_tb u
+ 	where a.id = au.activity_id and au.user_id = u.id  and a.is_delete=0 
+ 	and a.id not in(select l.activity_id from love_points_tb l where l.user_id=#{id,jdbcType=BIGINT} and l.is_delete=0) 
+ 	and a.state=3 order by a.activity_time desc
+ </select>
  <update id="addReadNum" parameterType="Long" >
  	update activity_tb set read_num = ifnull(read_num,0)+1 where id=#{id,jdbcType=BIGINT}
  </update>
