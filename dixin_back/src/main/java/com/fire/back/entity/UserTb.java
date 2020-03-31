@@ -1,6 +1,6 @@
 package com.fire.back.entity;
 
-public class UserTb {
+public class UserTb extends BaseEntity {
     private Long id;
 
     private String name;

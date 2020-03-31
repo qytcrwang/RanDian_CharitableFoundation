@@ -30,59 +30,130 @@
     open_id, sex, address, email, comment, org_name, org_num, old_name, old_mobile, school,
     school_num, create_time, update_time, is_delete
   </sql>
-  <select id="selectUsersByPage" resultMap="BaseResultMap">
+  <select id="selectUsersByPage" resultMap="BaseResultMap" parameterType="com.fire.back.entity.UserTb">
     select
     <include refid="Base_Column_List" />
     from user_tb
     <where>
-      <if test="user.name != null" >
-        name like "%"#{user.name,jdbcType=VARCHAR}"%"
+      <if test="name != null" >
+        name like "%"#{name,jdbcType=VARCHAR}"%"
       </if>
-      <if test="user.idCardNumber != null" >
-        and id_card_number like "%"#{user.idCardNumber,jdbcType=VARCHAR}"%"
+      <if test="idCardNumber != null" >
+        and id_card_number like "%"#{idCardNumber,jdbcType=VARCHAR}"%"
       </if>
-      <if test="user.mobile != null" >
-        and mobile like "%"#{user.mobile,jdbcType=VARCHAR}"%"
+      <if test="mobile != null" >
+        and mobile like "%"#{mobile,jdbcType=VARCHAR}"%"
       </if>
-      <if test="user.state != null" >
-        and state = #{user.state,jdbcType=INTEGER}
+      <if test="state != null" >
+        and state = #{state,jdbcType=INTEGER}
       </if>
-      <if test="user.type != null" >
-        and type = #{user.type,jdbcType=INTEGER}
+      <if test="type != null" >
+        and type = #{type,jdbcType=INTEGER}
       </if>
-      <if test="user.roleId != null" >
-        and role_id = #{user.roleId,jdbcType=BIGINT}
+      <if test="roleId != null" >
+        and role_id = #{roleId,jdbcType=BIGINT}
       </if>
-      <if test="user.sex != null" >
-        and sex = #{user.sex,jdbcType=INTEGER}
+      <if test="sex != null" >
+        and sex = #{sex,jdbcType=INTEGER}
       </if>
-      <if test="user.address != null" >
-        and address like "%"#{user.address,jdbcType=VARCHAR}"%"
+      <if test="address != null" >
+        and address like "%"#{address,jdbcType=VARCHAR}"%"
       </if>
-      <if test="user.orgName != null" >
-        and org_name like "%"#{user.orgName,jdbcType=VARCHAR}"%"
+      <if test="orgName != null" >
+        and org_name like "%"#{orgName,jdbcType=VARCHAR}"%"
       </if>
-      <if test="user.oldName != null" >
-        and old_name like  "%"#{user.oldName,jdbcType=VARCHAR}"%"
+      <if test="oldName != null" >
+        and old_name like  "%"#{oldName,jdbcType=VARCHAR}"%"
       </if>
-      <if test="user.oldMobile != null" >
-        and old_mobile like "%"#{user.oldMobile,jdbcType=VARCHAR}"%"
+      <if test="oldMobile != null" >
+        and old_mobile like "%"#{oldMobile,jdbcType=VARCHAR}"%"
       </if>
-      <if test="user.school != null" >
-        and school like "%"#{user.school,jdbcType=VARCHAR}"%"
+      <if test="school != null" >
+        and school like "%"#{school,jdbcType=VARCHAR}"%"
       </if>
-      <if test="user.isDelete != null" >
-        and is_delete = #{user.isDelete,jdbcType=INTEGER}
+      <if test="isDelete != null" >
+        and is_delete = #{isDelete,jdbcType=INTEGER}
+      </if>
+      <if test="startTime != null" >
+        and create_time >= unix_timestamp(#{startTime,jdbcType=TIMESTAMP})
+      </if>
+      <if test="endTime != null" >
+        and create_time &lt;= unix_timestamp(#{endTime,jdbcType=TIMESTAMP})
       </if>
     </where>
-    order by ${field} ${sort}
-    limit #{start} , #{pageSize}
+    order by update_time desc
+    limit #{offSet} , #{limit}
+  </select>
+  <select id="selectUsersCount" resultType="Integer" parameterType="com.fire.back.entity.UserTb">
+    select
+        count(*)
+    from user_tb
+    <where>
+      <if test="name != null" >
+        name like "%"#{name,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="idCardNumber != null" >
+        and id_card_number like "%"#{idCardNumber,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="mobile != null" >
+        and mobile like "%"#{mobile,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="state != null" >
+        and state = #{state,jdbcType=INTEGER}
+      </if>
+      <if test="type != null" >
+        and type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="roleId != null" >
+        and role_id = #{roleId,jdbcType=BIGINT}
+      </if>
+      <if test="sex != null" >
+        and sex = #{sex,jdbcType=INTEGER}
+      </if>
+      <if test="address != null" >
+        and address like "%"#{address,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="orgName != null" >
+        and org_name like "%"#{orgName,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="oldName != null" >
+        and old_name like  "%"#{oldName,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="oldMobile != null" >
+        and old_mobile like "%"#{oldMobile,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="school != null" >
+        and school like "%"#{school,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="isDelete != null" >
+        and is_delete = #{isDelete,jdbcType=INTEGER}
+      </if>
+      <if test="startTime != null" >
+        and FROM_UNIXTIME(create_time) >= #{startTime}
+      </if>
+      <if test="endTime != null" >
+        and FROM_UNIXTIME(create_time) &lt;= #{endTime}
+      </if>
+    </where>
   </select>
 
-  <update id="updateLovePointsByUser" parameterType="long">
-    update user_tb set love_point=
-    (select sum(love_points) from love_points_tb where user_id=#{userId,jdbcType=BIGINT} and is_delete=0)
+  <update id="updateLovePointsByUser" >
+    update user_tb set love_point=ifnull(
+    (select sum(love_points) from love_points_tb where user_id=#{userId,jdbcType=BIGINT} and is_delete=0),0),
+    update_time=#{updateTime,jdbcType=BIGINT}
     where id= #{userId,jdbcType=BIGINT}
 
+  </update>
+
+  <update id="batchUpdateLovePointsByUser" parameterType="java.util.List">
+    <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+      update user_tb set love_point=ifnull(
+          (
+              select sum(love_points) from love_points_tb
+              where user_id=#{item.userId,jdbcType=BIGINT} and is_delete=0
+          ),0),
+      update_time=#{item.updateTime,jdbcType=BIGINT}
+      where id= #{item.userId,jdbcType=BIGINT}
+    </foreach>
   </update>
 </mapper>

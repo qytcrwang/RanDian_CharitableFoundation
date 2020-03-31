@@ -35,5 +35,12 @@ public interface UserService {
      */
     UserTb getUserInfoByOpenId(String openid);
 
-    List<UserTb>selectUsersByPage(UserTb user,Object field,String sort,Integer page,Integer pageSize);
+    /**
+     * 根据条件查询数据条数
+     * @param user
+     * @return
+     */
+    int selectUsersCount(UserTb user);
+
+    List<UserTb>selectUsersByPage(UserTb user);
 }
