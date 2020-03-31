@@ -33,6 +33,7 @@ var mTitles = [];
 var mSrcs = [];
 var mTimes = [];
 var mCurrentPage = 0;
+var mId = [];
 
 /**
  * 请求数据
@@ -63,7 +64,8 @@ function requestData(_this, targetPage) {
                 itemList.push({
                     title:mTitles[i],
                     src:mSrcs[i],
-                    time:mTimes[i]
+                    time:mTimes[i],
+                    id:mId[i]
                 })
             }
             _this.setData({
@@ -85,4 +87,5 @@ function bindData(itemData) {
     mTitles.push(itemData.title);
     mTimes.push(wxUtils.dateFormat(itemData.activity_start_time));
     mSrcs.push(itemData.cover_url);
+    mId.push(itemData.id);
 }
