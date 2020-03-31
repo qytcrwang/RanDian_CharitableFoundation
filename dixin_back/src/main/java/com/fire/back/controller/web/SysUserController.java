@@ -116,6 +116,9 @@ public class SysUserController {
     public FireResult getUserInfo(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap,"userId",null);
+          //TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO
+            if(userId == null) userId = 1L;
+          //TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO
             SysUser user = sysUserService.getSysUserInfoById(userId);
             return FireResult.build(1,"获取管理员信息成功",user);
         } catch (Exception e) {

@@ -73,6 +73,11 @@ public class TestController {
 		return "noticeManage";
 	}
 
+	@GetMapping("/managerInfo")
+	public String managerInfo() {
+		return "managerInfo";
+	}
+
 	@PostMapping("/getInfo")
 	@ResponseBody
 	public FireResult getInfo(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {
