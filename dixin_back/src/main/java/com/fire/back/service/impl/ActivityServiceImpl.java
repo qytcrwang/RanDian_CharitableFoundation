@@ -126,6 +126,16 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	/**
+	 * 获取用户已到场的已结束的活动并且没有加过分的
+	 * @return
+	 */
+	@Override
+	public List<Map<String, Object>> getUserActivityList(Long userId){
+		List<Map<String, Object>> list = activityMapper.getUserActivityList(userId);
+		return list;
+	}
+	
+	/**
 	 * 活动点赞
 	 * @param activityId
 	 * @return

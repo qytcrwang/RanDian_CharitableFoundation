@@ -81,15 +81,12 @@ public class BackActivityController {
 		}
 	}
 	
-	//已报名  已到场
-	@PostMapping("getUserList")
+	@PostMapping("getUserActivityList")
 	@ResponseBody
-	public FireResult getUserList(@RequestBody Map<String, Object> paramMap) {
+	public FireResult getUserActivityList(@RequestBody Map<String, Object> paramMap) {
 		try {
 			Long userId = ParamUtil.getLong(paramMap, "userId", -1L);
-			Map<String, List<Map<String,Object>>> info = new HashMap<>();
-			info.put("0", service.getUserList(userId, 0));
-			info.put("1", service.getUserList(userId, 1));
+			List<Map<String,Object>> info = service.getUserActivityList(userId);
 			return FireResult.build(1, "数据获取成功",info);
 		} catch (Exception e) {
 			logger.error("",e);

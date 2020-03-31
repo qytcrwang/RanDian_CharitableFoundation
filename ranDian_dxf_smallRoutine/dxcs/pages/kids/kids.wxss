@@ -310,7 +310,7 @@ radio .wx-radio-input.wx-radio-input-checked::before{
 }
 .tab_item_blank{
   width: 100%;
-  height: 90rpx;
+  height: 10rpx;
 }
 .show{
   display: block

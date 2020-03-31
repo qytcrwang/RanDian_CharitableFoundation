@@ -39,9 +39,28 @@ public class RentApplyTb {
 
     private String rejectReason;
 
+    private String eTime;
+    private String sTime;
+
     private Long createTime;
 
     private Long updateTime;
+
+    public String geteTime() {
+        return eTime;
+    }
+
+    public void seteTime(String eTime) {
+        this.eTime = eTime;
+    }
+
+    public String getsTime() {
+        return sTime;
+    }
+
+    public void setsTime(String sTime) {
+        this.sTime = sTime;
+    }
 
     public String getSort() {
         return sort;
