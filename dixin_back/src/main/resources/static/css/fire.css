@@ -2,3 +2,10 @@
     content: '* ';
     color: red;
 }
+.fireUi-form-label{
+    text-align: right;
+    padding:7px 15px 0px 15px;
+
+
+
+}

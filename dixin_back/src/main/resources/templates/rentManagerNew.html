@@ -4,8 +4,9 @@
 <body>
 <form class="layui-form" id="searchForm">
   <div class="layui-row">
-    <div class="layui-col-md8">
+    <div class="layui-col-md12">
       <div class="dTable" style="padding-top: 10px">
+        学校名称：
         <div class="layui-inline">
           <input class="layui-input" name="id" placeholder="学校名称" id="school" autocomplete="off"
                  style="width: 200px">
@@ -19,11 +20,20 @@
         是否在职：
         <div class="layui-inline" lay-filter="typeSelect">
           <select name="jobState" id="jobState" lay-verify="">
-
           </select>
         </div>
-        <div class="layui-inline" style="float:right;">
+        注册时间：
+        <div class="layui-inline">
+          <input type="text" class="layui-input" name="applyTime" id="applyTime" placeholder="注册时间" onfocus="noInput(this)">
+        </div>
+        发放时间
+        <div class="layui-inline">
+          <input type="text" class="layui-input" name="sentTime" id="sentTime" placeholder="发放时间" onfocus="noInput(this)">
+        </div>
+        <div class="layui-inline" style="float:right;padding-right: 10px">
         <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+          <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+          <button type="button" class="layui-btn" style="visibility: hidden" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>新增</button>
         </div>
       </div>
     </div>
@@ -32,6 +42,15 @@
 <table class="layui-hide" id="contriInfoList" width="1500px" lay-filter="tableFilter"></table>
 <script type="text/javascript">
   initSelect();
+  //让日期插件无法选中 达到禁止手输的目的
+  function noInput(dom){
+    $(dom).blur();
+  }
+  $("#clear").bind("click", function() {
+    $("#searchForm").clearForm();
+    searchForm();
+  });
+
   function changeStatus(status){
     if(status === 1){
         return '已证实'
@@ -86,12 +105,23 @@
       var school = $('#school');
       var state = $('#state');
       var jobState = $('#jobState');
+      var applyTime = $("#applyTime").val();
+      var sentTime = $("#sentTime").val();
+      debugger
+      var date = applyTime;
+      date = date.substring(0,19);
+      date = date.replace(/-/g,'/'); //必须把日期'-'转为'/'
+      applyTime = new Date(date).getTime();
 
+      var date1 = sentTime;
+      date1 = date1.substring(0,19);
+      date1 = date1.replace(/-/g,'/'); //必须把日期'-'转为'/'
+      sentTime = new Date(date1).getTime();
       var table = layui.table;
       table.reload('tableReload',{
         where: {school: school.val(),
           state: state.val(),
-          jobState: jobState.val(),}
+          jobState: jobState.val(),applyTime:applyTime,sentTime:sentTime}
         ,page: {
           curr: 1 //重新从第 1 页开始
         }
@@ -99,7 +129,6 @@
     });
   }
   function initSelect(){
-    debugger
     var stateStr = '<option value="">请选择</option>\n' +
         '          <option value="0">待审核</option>\n' +
         '          <option value="1">已证实</option>\n' +
@@ -143,10 +172,11 @@
                     ,{field:'major', title: '专业', align: 'center'}
                     ,{field:'jobIntension', title: '职位', align: 'center'}
                     ,{field:'hopeSalary', title: '期望薪资', align: 'center'}
-                    ,{field:'state', title: '状态', align: 'center', templet: function (row) {
-                        return changeStatus(row.state)}}
-                    ,{field:'applyTime', title: '申请时间', align: 'center'}
-                    ,{field:'sentTime', title: '发放时间', align: 'center'}
+
+                    ,{field:'applyTime', title: '申请时间', align: 'center',templet: function (row) {
+                        return createTime(row.applyTime)}}
+                    ,{field:'sentTime', title: '发放时间', align: 'center',templet: function (row) {
+                        return createTime(row.sentTime)}}
                     ,{field:'sentAmount', title: '发放金额', align: 'center'}
                     ,{field:'sentProof', title: '发放凭证', align: 'center'}
                     ,{field:'jobState', title: '是否在职', align: 'center', templet: function (row) {
@@ -155,12 +185,44 @@
                     /*,{field:'rejectReason', title: '驳回原因', align: 'center'}*/
                     ,{field:'companyName', title: '公司名', align: 'center'}
                     ,{field:'companyAddress', title: '公司地址', align: 'center'}
+                  ,{field:'state', title: '状态', align: 'center', templet: function (row) {
+                    return changeStatus(row.state)}}
                     , {fixed: 'right', title: '操作', width: '10%', align: 'center', toolbar: '#bar'}
                 ]
-            ]
+            ],done: function(res, curr, count){
+            var table = $('.layui-table').eq(1);
+            if(table.length > 0){
+              //遍历所有行
+              table.find('tr').each(function(){
+                var div = $(this).find('td[data-field="state"]').find('div').eq(0);
+                var state = div.text();
+                if(state == "已驳回"){
+                  div.html("<font color='red'>已驳回</font>");
+                }else if(state == "待审核"){
+                  div.html("<font color='orange'>待审核</font>");
+                }else if(state == "已证实"){
+                  div.html("<font color='#00EC00'>已证实</font>");
+                }else if(state == "已发放"){
+                  div.html("<font color='blue'>已发放</font>");
+                }
+              })
+            }
+          }
             , id: 'tableReload'
         });
-
+      var laydate = layui.laydate;
+      laydate.render({
+        elem: '#applyTime'
+        ,format: 'yyyy-MM-dd HH:mm'
+        ,type:'datetime'
+        ,trigger: 'click'
+      });
+      laydate.render({
+        elem: '#sentTime'
+        ,format: 'yyyy-MM-dd HH:mm'
+        ,type:'datetime'
+        ,trigger: 'click'
+      });
         //监听工具条
         table.on('tool(tableFilter)', function (obj) {
             var data = obj.data //获得当前行数据
@@ -213,9 +275,9 @@
                     }
                 });
             } else if (layEvent === 'edit') {
-                if (data.status === 1) {
-                    layer.msg('已审核通过！');
-                } else {
+              if (data.state != 0) {
+                layer.msg('只有待审核状态下才可以证实');
+              } else {
                     layer.confirm('是否确认审核通过？', function (index) {
                         offset: '200px';
                         layer.close(index);
@@ -245,9 +307,11 @@
                     });
                 }
             } else if (layEvent === 'editHasSend') {
-                if (data.status === 2) {
-                    layer.msg('已审核通过！');
-                } else {
+                if (data.state === 2) {
+                    layer.msg('已经发放');
+                }else if(data.state === 3){
+                  layer.msg('已经驳回');
+                } else if(data.state === 1){
                     layer.confirm('是否确认发放？', function (index) {
                         offset: '200px';
                         layer.close(index);
@@ -277,9 +341,11 @@
                     });
                 }
             }else if (layEvent === 'editCencel') {
-                if (data.status === 2) {
-                    layer.msg('已驳回！');
-                } else {
+                if (data.state === 2) {
+                  layer.msg('已经发放');
+                }else if(data.state === 3){
+                  layer.msg('已经驳回！');
+                } else if(data.state === 1){
                     layer.confirm('是否驳回？', function (index) {
                         offset: '200px';
                         layer.close(index);

@@ -24,10 +24,10 @@
       </div>
         创建时间：
         <div class="layui-inline">
-          <input type="text" class="layui-input" name="startTime" id="startTime" placeholder="开始时间起始" onfocus="noInput(this)">
+          <input type="text" class="layui-input" name="startTime" id="startTime" placeholder="开始时间" onfocus="noInput(this)">
         </div>-
         <div class="layui-inline">
-          <input type="text" class="layui-input" name="endTime" id="endTime" placeholder="开始时间截止" onfocus="noInput(this)">
+          <input type="text" class="layui-input" name="endTime" id="endTime" placeholder="截止时间" onfocus="noInput(this)">
         </div>
         <div class="layui-inline" style="float:right;">
           <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
@@ -261,8 +261,9 @@
         ,content: $("#sysRoleInfo"),
         shade: 0.3,
         resize:false ,
-        moveType:1,
-        moveOut:true,
+        moveType: 1,//可拖动
+        moveOut: true,//可拖动移出
+        shadeClose:true,//点击遮罩关闭弹窗
         btn: ['提交', '返回']
         ,btn1: function(index, layero){
           if(!inputValidate(type))

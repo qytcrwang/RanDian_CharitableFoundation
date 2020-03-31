@@ -11,4 +11,10 @@ public interface ExtendLovePointsTbMapper extends LovePointsTbMapper {
     List<LovePointsTb> selectLovePointsByPage(@Param("lovePoint") LovePointsTb lp,
                                               @Param("start") Integer start,
                                               @Param("pageSize") Integer pageSize);
+
+    int batchInsertLvoePoints(List<LovePointsTb> list);
+
+    int batchDeleteLovePoints(List<LovePointsTb> ids);
+
+    int selectLovePointsCount(LovePointsTb lp);
 }

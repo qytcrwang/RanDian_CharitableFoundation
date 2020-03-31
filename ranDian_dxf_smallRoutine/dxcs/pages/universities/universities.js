@@ -10,6 +10,7 @@ Page({
     userid:'',
     isTodaySigned:false,
     isApplyRent:false,
+    isCheckDmProtocol:false
   },
   //初始化页面加载用户id
   onShow: function () {
@@ -161,5 +162,12 @@ Page({
         })
       }
     )
-  }
+  },
+  //勾选同意捐钱协议按钮
+  dmProtocolChecked:function(){
+    var isCheckDmProtocol = this.data.isCheckDmProtocol;
+    this.setData({
+      isCheckDmProtocol:!isCheckDmProtocol
+    })
+  },
 })

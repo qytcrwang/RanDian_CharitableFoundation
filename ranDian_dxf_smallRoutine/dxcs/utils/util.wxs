@@ -39,7 +39,7 @@ module.exports = {
 
 //字符串截取:去掉后三位(日期的毫秒及：)
 var sub = function(val) {
-  if (val.length == 0 || val == undefined) {
+  if (val == null || val.length == 0 || val == undefined) {
     return;
   }
   return val.substring(0, val.length-3);
