@@ -77,9 +77,9 @@
 	(select code,value from syscode_tb where name='activity_state') s1 
 	on a.state = s1.code left join 
 	(select code,value from syscode_tb where name='activity_type') s2 
-	on a.state = s2.code left join 
+	on a.type = s2.code left join 
 	(select code,value from syscode_tb where name='activity_if_send') s3 
-	on a.state = s3.code  ${param}
+	on a.if_send = s3.code  ${param}
  </select>
  <select id="getListByPageCount" resultType="Integer" parameterType="map" >
  	select count(*) count 
