@@ -6,19 +6,19 @@
                 <div class="layui-header">
                     <div class="layui-logo">滴信慈善平台后台</div>
                     <!-- 头部区域（可配合layui已有的水平导航） -->
-                    <ul class="layui-nav layui-layout-left">
-                        <li class="layui-nav-item"><a href="">导航一</a></li>
-                        <li class="layui-nav-item"><a href="">导航二</a></li>
-                        <li class="layui-nav-item"><a href="">导航三</a></li>
-                        <li class="layui-nav-item">
-                            <a href="javascript:;">其它导航</a>
-                            <dl class="layui-nav-child">
-                                <dd><a href="">子导航一</a></dd>
-                                <dd><a href="">子导航二</a></dd>
-                                <dd><a href="">子导航三</a></dd>
-                            </dl>
-                        </li>
-                    </ul>
+<!--                    <ul class="layui-nav layui-layout-left">-->
+<!--                        <li class="layui-nav-item"><a href="">导航一</a></li>-->
+<!--                        <li class="layui-nav-item"><a href="">导航二</a></li>-->
+<!--                        <li class="layui-nav-item"><a href="">导航三</a></li>-->
+<!--                        <li class="layui-nav-item">-->
+<!--                            <a href="javascript:;">其它导航</a>-->
+<!--                            <dl class="layui-nav-child">-->
+<!--                                <dd><a href="">子导航一</a></dd>-->
+<!--                                <dd><a href="">子导航二</a></dd>-->
+<!--                                <dd><a href="">子导航三</a></dd>-->
+<!--                            </dl>-->
+<!--                        </li>-->
+<!--                    </ul>-->
                     <ul class="layui-nav layui-layout-right">
                         <li class="layui-nav-item">
                             <a href="javascript:;">
@@ -27,7 +27,7 @@
                             </a>
                             <dl class="layui-nav-child">
                                 <dd><a href="/managerInfo" target="main">个人资料</a></dd>
-                                <dd><a href="">安全设置</a></dd>
+                               <!-- <dd><a href="">安全设置</a></dd>-->
                             </dl>
                         </li>
                         <li class="layui-nav-item"><a href="">注销登录</a></li>
@@ -38,7 +38,7 @@
                     <div class="layui-side-scroll">
                         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
                         <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                            <li class="layui-nav-item layui-nav-itemed">
+                            <!--<li class="layui-nav-item layui-nav-itemed">
                                 <a class="" href="javascript:;">列表一</a>
                                 <dl class="layui-nav-child">
                                     <dd><a href="/table" target="main">表格</a></dd>
@@ -46,12 +46,19 @@
                                     <dd><a href="javascript:;">子列表3</a></dd>
                                     <dd><a href="">超链接</a></dd>
                                 </dl>
-                            </li>
+                            </li>-->
                             <li class="layui-nav-item">
                                 <a href="javascript:;">系统管理</a>
                                 <dl class="layui-nav-child">
-                                    <dd><a href="/back/sysUser/" target="main">用户管理</a></dd>
+                                    <dd><a href="/back/sysUser/" target="main">管理员</a></dd>
                                     <dd><a href="/back/sysRole/" target="main">角色管理</a></dd>
+                                </dl>
+                            </li>
+                            <li class="layui-nav-item">
+                                <a href="javascript:;">用户管理</a>
+                                <dl class="layui-nav-child">
+                                    <dd><a href="/back/user/" target="main">用户管理</a></dd>
+                                    <dd><a href="/back/lovePoint/" target="main">爱心积分管理</a></dd>
                                 </dl>
                             </li>
                             <li class="layui-nav-item">
@@ -79,7 +86,7 @@
                                     <dd><a href="/noticeManage" target="main">通知列表</a></dd>
                                 </dl>
                             </li>
-                            <li class="layui-nav-item"><a href="">列表三</a></li>
+                            <!--<li class="layui-nav-item"><a href="">列表三</a></li>-->
                         </ul>
                     </div>
                 </div>

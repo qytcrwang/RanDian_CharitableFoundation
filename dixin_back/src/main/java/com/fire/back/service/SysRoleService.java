@@ -33,7 +33,7 @@ public interface SysRoleService {
      * @param userId 用户ID
      * @return 菜单列表
      */
-    List<LayTree> roleMenuTreeData(SysRole role, Long userId);
+    List<LayTree> roleMenuTreeData(Long roleId, Long userId);
 
     List<SysMenu> selectMenuAll(Long userId);
 

@@ -112,8 +112,8 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public List<LayTree> roleMenuTreeData(SysRole role, Long userId) {
-        Long roleId = role.getRoleId();
+    public List<LayTree> roleMenuTreeData(Long roleId, Long userId) {
+
         List<LayTree> trees = new ArrayList<>();
         List<SysMenu> menuList = selectMenuAll(userId);
         if (StringUtils.isNotNull(roleId))

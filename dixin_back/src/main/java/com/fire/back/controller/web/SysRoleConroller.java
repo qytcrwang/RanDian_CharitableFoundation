@@ -141,11 +141,12 @@ public class SysRoleConroller {
      */
     @GetMapping("/roleMenuTreeData")
     @ResponseBody
-    public List<LayTree> roleMenuTreeData(SysRole role)
+    public List<LayTree> roleMenuTreeData(Long roleId)
     {
         //Long userId = ShiroUtils.getUserId();
+        //TODO 获取当前userId
         Long userId=1l;
-        List<LayTree> tress = sysRoleService.roleMenuTreeData(role,userId);
+        List<LayTree> tress = sysRoleService.roleMenuTreeData(roleId,userId);
         return tress;
     }
 

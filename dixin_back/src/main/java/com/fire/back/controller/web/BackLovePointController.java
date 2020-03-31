@@ -28,9 +28,10 @@ public class BackLovePointController {
     private org.slf4j.Logger logger = LoggerFactory.getLogger(BackLovePointController.class);
 
     @GetMapping("/love")
-    public String info(String userId, ModelMap map){
-        map.put("userId",userId);
-        return "/user/lovePoints";
+    public String info(String name,String mobile, ModelMap map){
+        map.put("name",name);
+        map.put("mobile",mobile);
+        return "/user/lovePoint";
     }
     @GetMapping("/")
     public String index(){
@@ -49,11 +50,11 @@ public class BackLovePointController {
             LovePointsTb l = new LovePointsTb();
             l.setUserId(ParamUtil.getLong(paramMap, "userId"));
             l.setType(ParamUtil.getInteger(paramMap,"type",null));
-            l.setStatus(ParamUtil.getInteger(paramMap,"status",null));
+            l.setStatus(ParamUtil.getInteger(paramMap,"status",0));
             l.setOperatorId(ParamUtil.getLong(paramMap,"operatorId",null));
             l.setIsDelete(ParamUtil.getInteger(paramMap,"isDelete",0));
             Integer page = ParamUtil.getInteger(paramMap, "page",1);
-            Integer limit = ParamUtil.getInteger(paramMap, "limit",20);
+            Integer limit = ParamUtil.getInteger(paramMap, "limit",10);
             List<LovePointsTb> list = lovePointsService.getLovePointsTbListByUserId(l, page, limit);
             int count = lovePointsService.getLovePointsTbCountByUserId(l);
             return FireResult.build(1, "爱心积分查询成功", list,count);

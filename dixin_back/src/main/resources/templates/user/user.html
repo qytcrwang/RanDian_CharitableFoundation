@@ -77,6 +77,7 @@
         <div class="layui-inline" style="float:right; right:20px;">
             <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
             <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+            <button type="button" style="visibility:hidden!important" class="layui-btn" id="add"><i class="layui-icon">&#xe608;</i>新增</button>
         </div>
     </div>
 
@@ -254,7 +255,7 @@
                     {field: 'name', title: '用户姓名', align: 'center'}
                     , {
                     field: 'sex', title: '用户性别', align: 'center', templet: function (d) {
-                        return d.sex == '0' ? '女' : d.sex == '1' ? '男' : '位置';
+                        return d.sex == '0' ? '女' : d.sex == '1' ? '男' : '未知';
                     }
                 }
                     , {field: 'orgName', title: '公司名称', align: 'center'}
@@ -338,7 +339,7 @@
                 getEditData(data['id']);
                 openLayer('查看用户信息', '/back/sysUser/update', 1);
             }else if(layEvent==='lovePoint'){
-                location.href="/back/lovePoint/love?userId="+data['id'];
+                location.href="/back/lovePoint/love?name="+data['name']+"&mobile="+data['mobile'];
             }
         });
 
@@ -425,18 +426,25 @@
             }
         });
     }
-
+    function trimData(data){
+        let result={};
+        $.each(data,function(index,value){
+            if(value!="")
+                result[key]=value;
+        });
+        return result;
+    }
     function searchForm() {
         layui.use('table', function () {
-            let name = $("#name").val();
-            let mobile = $("#mobile").val();
-            let state = $("#state").val();
-            let type = $("#type").val();
-            let sex = $("#sex").val();
-            let orgName = $("#orgName").val();
-            let school = $("#school").val();
-            let startTime = $("#startTime").val();
-            let endTime = $("#endTime").val();
+            let data = {name : $("#name").val(),
+             mobile : $("#mobile").val(),
+             state : $("#state").val(),
+             type : $("#type").val(),
+             sex : $("#sex").val(),
+             orgName : $("#orgName").val(),
+             school : $("#school").val(),
+             startTime : $("#startTime").val(),
+             endTime : $("#endTime").val()}
             if (startTime != "" && endTime != "") {
                 if (startTime > endTime) {
                     layer.msg('时间起始不可大于时间截止！');
@@ -446,11 +454,7 @@
             }
             let table = layui.table;
             table.reload('demoTable', {
-                where: {
-                    name: name, mobile: mobile, sex: sex, orgName: orgName, school: school,
-                    state: state, type: type, startTime: startTime,
-                    endTime: endTime
-                }
+                where: trimData(data)
                 , page: {
                     curr: 1 //重新从第 1 页开始
                 }
