@@ -70,6 +70,12 @@
       <if test="rent.userId != null">
         user_id = #{rent.userId,jdbcType=BIGINT}
       </if>
+      <if test="rent.applyTime != null">
+        apply_time = #{rent.applyTime,jdbcType=BIGINT}
+      </if>
+      <if test="rent.sentTime != null">
+        sent_time = #{rent.sentTime,jdbcType=BIGINT}
+      </if>
       <if test="rent.school != null">
         and school like "%"#{rent.school,jdbcType=VARCHAR}"%"
       </if>

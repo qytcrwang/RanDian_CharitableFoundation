@@ -84,7 +84,6 @@ public class RentServiceImpl implements RentService {
     @Override
     public ExecuteResult<List<RentApplyTb>> getRentApplyTbList(RentListParamsDto paramsDto) {
         List<RentApplyTb> list = rentApplyTbMapper.getRentApplyByPage2(paramsDto);
-                //extendContriInfoTbMapper.selectContriInfoByPage(paramsDto);
         paramsDto.setPage(null);
         Integer count = rentApplyTbMapper.getRentApplyByPage2(paramsDto).size();
         ExecuteResult<List<RentApplyTb>> result = new ExecuteResult<>();
