@@ -29,7 +29,7 @@ public interface SysRoleService {
     /**
      * 根据角色ID查询菜单
      *
-     * @param role 角色对象
+     * @param roleId 角色对象
      * @param userId 用户ID
      * @return 菜单列表
      */

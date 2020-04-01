@@ -5,6 +5,8 @@ import com.fire.back.dto.SysUserExtend;
 import com.fire.back.entity.SysUser;
 import com.fire.back.service.SysUserService;
 import com.fire.back.util.ParamUtil;
+import com.fire.back.util.ShiroUtils;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +48,7 @@ public class SysUserController {
             user.setUpdateTime(new Date());
             user.setLoginName(null);
             user.setPassword(null);
+            user.setUpdateBy(ShiroUtils.getUserId()+":"+ShiroUtils.getLoginName());
             sysUserService.updateSysUser(user);
             return FireResult.build(1,"修改管理员信息成功");
         } catch (Exception e) {
@@ -64,8 +67,9 @@ public class SysUserController {
             String password = ParamUtil.getString(paramMap,"password",null);
             SysUser user = new SysUser();
             user.setUserId(userId);
-            //TODO 加密
-            user.setPassword(password);
+            user.setSalt(ShiroUtils.randomSalt());
+            user.setPassword(new Md5Hash(password,user.getSalt(),2).toHex());
+            user.setUpdateBy(ShiroUtils.getUserId()+":"+ShiroUtils.getLoginName());
             sysUserService.updateSysUser(user);
             return FireResult.build(1,"重置密码成功");
         } catch (Exception e) {
@@ -81,7 +85,10 @@ public class SysUserController {
             Date date = new Date();
             user.setUpdateTime(date);
             user.setCreateTime(date);
-            //TODO 密码加密
+            String salt = ShiroUtils.randomSalt();
+            user.setSalt(salt);
+            user.setPassword(new Md5Hash(user.getPassword(),salt,2).toHex());
+            user.setCreateBy(ShiroUtils.getUserId()+":"+ShiroUtils.getLoginName());
             if(sysUserService.getSysUserByLoginName(user.getLoginName())!=null){
                 return FireResult.build(0,"该登录名已存在");
             }
@@ -103,6 +110,7 @@ public class SysUserController {
             SysUser user = new SysUser();
             user.setUserId(userId);
             user.setDelFlag("2");
+            user.setUpdateBy(ShiroUtils.getUserId()+":"+ShiroUtils.getLoginName());
             sysUserService.updateSysUser(user);
             return FireResult.build(1,"删除管理员信息成功");
         } catch (Exception e) {
@@ -116,9 +124,7 @@ public class SysUserController {
     public FireResult getUserInfo(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap,"userId",null);
-          //TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO
-            if(userId == null) userId = 1L;
-          //TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO//TODO
+            if(userId == null) userId = ShiroUtils.getUserId();
             SysUser user = sysUserService.getSysUserInfoById(userId);
             return FireResult.build(1,"获取管理员信息成功",user);
         } catch (Exception e) {

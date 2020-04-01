@@ -4,6 +4,7 @@ import com.fire.back.common.FireResult;
 import com.fire.back.entity.LovePointsTb;
 import com.fire.back.service.LovePointsService;
 import com.fire.back.util.ParamUtil;
+import com.fire.back.util.ShiroUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -74,11 +75,12 @@ public class BackLovePointController {
     @ResponseBody
     public FireResult insertLovePoints(@RequestBody LovePointsTb l){
         try {
-            l.setOperatorId(1l);//TODO
+            l.setOperatorId(ShiroUtils.getUserId());
             l.setStatus(0);
             l.setCreateTime(System.currentTimeMillis()/1000);
             l.setUpdateTime(System.currentTimeMillis()/1000);
             l.setIsDelete(0);
+            l.setOperatorId(ShiroUtils.getUserId());
             int result = lovePointsService.insertLovePoints(l);
             return result>0?FireResult.build(1,"添加爱心积分成功",null):
                     FireResult.build(0,"添加爱心积分失败",null);
@@ -98,7 +100,7 @@ public class BackLovePointController {
     public FireResult batchInsertLovePoints(@RequestBody List<LovePointsTb> list){
         try {
             for(LovePointsTb l:list){
-                l.setOperatorId(1l);//TODO
+                l.setOperatorId(ShiroUtils.getUserId());
                 l.setStatus(0);
                 l.setCreateTime(System.currentTimeMillis()/1000);
                 l.setUpdateTime(System.currentTimeMillis()/1000);
@@ -124,6 +126,7 @@ public class BackLovePointController {
         try {
             l.setUpdateTime(System.currentTimeMillis()/1000);
             l.setIsDelete(1);
+            l.setOperatorId(ShiroUtils.getUserId());
             int result = lovePointsService.updateLovePoints(l);
             return result>0?FireResult.build(1,"删除爱心积分成功",null):
                     FireResult.build(0,"删除爱心积分失败",null);
@@ -145,6 +148,7 @@ public class BackLovePointController {
             for(LovePointsTb l :list){
                 l.setUpdateTime(System.currentTimeMillis()/1000);
                 l.setIsDelete(1);
+                l.setOperatorId(ShiroUtils.getUserId());
             }
             int result = lovePointsService.batchUpdateLovePoints(list);
             return result>0?FireResult.build(1,"删除爱心积分成功",null):

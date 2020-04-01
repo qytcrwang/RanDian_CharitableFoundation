@@ -57,7 +57,7 @@
             </div>
             <div class="layui-col-md8" id="activity">
                 <select name="activityId" id="_activityId" lay-filter="activity">
-                    <option value="">请选择活动</option>
+                    <option value="-1">请选择活动</option>
                 </select>
             </div>
         </div>
@@ -207,6 +207,7 @@
             }
         });
         form.on('select(activity)', function (obj) {
+            if(obj.value==-1)return;
             $("#_description").val('活动《' + obj.elem[obj.elem.selectedIndex].text + '》');
         });
 

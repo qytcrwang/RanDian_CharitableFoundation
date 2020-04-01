@@ -8,6 +8,7 @@ import com.fire.back.entity.SysRole;
 import com.fire.back.entity.SysUser;
 import com.fire.back.service.SysRoleService;
 import com.fire.back.util.ParamUtil;
+import com.fire.back.util.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -51,7 +52,7 @@ public class SysRoleConroller {
             role.setUpdateTime(date);
             role.setDelFlag("0");
             role.setStatus("0");
-            role.setCreateBy("");
+            role.setCreateBy(ShiroUtils.getUserId()+":"+ShiroUtils.getLoginName());
             if(sysRoleService.checkRoleByRoleKey(role.getRoleKey(),null))
                 return FireResult.build(0,"角色字符:"+role.getRoleKey()+" 已存在");
             if(sysRoleService.checkRoleByRoleName(role.getRoleName(),null))
@@ -70,7 +71,7 @@ public class SysRoleConroller {
             if(role.isAdmin())
                 return FireResult.build(0,"不允许修改超级管理员角色");
             role.setUpdateTime(new Date());
-            role.setUpdateBy("");
+            role.setUpdateBy(ShiroUtils.getUserId()+":"+ShiroUtils.getLoginName());
             if(sysRoleService.checkRoleByRoleKey(role.getRoleKey(),role.getRoleId()))
                 return FireResult.build(0,"角色字符:"+role.getRoleKey()+" 已存在");
             if(sysRoleService.checkRoleByRoleName(role.getRoleName(),role.getRoleId()))
@@ -93,7 +94,7 @@ public class SysRoleConroller {
             String status = ParamUtil.getString(param,"status",null);
             SysRole role = new SysRole();
             role.setUpdateTime(new Date());
-            role.setUpdateBy("");
+            role.setUpdateBy(ShiroUtils.getUserId()+":"+ShiroUtils.getLoginName());
             role.setRoleId(roleId);
             role.setStatus(status);
             sysRoleService.updateSysRole(role);
@@ -143,9 +144,7 @@ public class SysRoleConroller {
     @ResponseBody
     public List<LayTree> roleMenuTreeData(Long roleId)
     {
-        //Long userId = ShiroUtils.getUserId();
-        //TODO 获取当前userId
-        Long userId=1l;
+        Long userId = ShiroUtils.getUserId();
         List<LayTree> tress = sysRoleService.roleMenuTreeData(roleId,userId);
         return tress;
     }

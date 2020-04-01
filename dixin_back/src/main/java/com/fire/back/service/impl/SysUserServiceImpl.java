@@ -2,6 +2,8 @@ package com.fire.back.service.impl;
 
 import com.fire.back.common.CheckEmptyUtil;
 import com.fire.back.dao.SysUserMapper;
+import com.fire.back.dao.extend.ExtendSysUserMapper;
+import com.fire.back.dto.SysUserExtend;
 import com.fire.back.entity.SysUser;
 import com.fire.back.entity.SysUserExample;
 import com.fire.back.service.SysUserService;
@@ -14,7 +16,7 @@ import java.util.List;
 @Service
 public class SysUserServiceImpl implements SysUserService {
     @Autowired
-    SysUserMapper sysUserMapper;
+    ExtendSysUserMapper sysUserMapper;
 
     @Override
     public List<SysUser> getSysUsersByParams(SysUser user) {
@@ -76,5 +78,10 @@ public class SysUserServiceImpl implements SysUserService {
         example.createCriteria().andLoginNameLike(loginName);
         List<SysUser> list = sysUserMapper.selectByExample(example);
         return list.size()>0?list.get(0):null;
+    }
+
+    @Override
+    public SysUserExtend getSysUserMenusByLoginName(String loginName) {
+        return sysUserMapper.getSysUserListByName(loginName);
     }
 }

@@ -3,6 +3,7 @@ package com.fire;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -41,6 +42,7 @@ public class MyFilter implements Filter {
         ServletRequest requestWrapper = null;
         String uri = ((HttpServletRequest) request).getRequestURI();
 //        String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
+
         if(ifExclude(uri)) {
         	try {
                 chain.doFilter(request, response);
@@ -52,7 +54,8 @@ public class MyFilter implements Filter {
 			}
             return ;
         }
-        if(request instanceof HttpServletRequest) {
+        chain.doFilter(request, response);
+     /*   if(request instanceof HttpServletRequest) {
             requestWrapper = new RequestWrapper((HttpServletRequest) request);
         }
         //获取请求中的流如何，将取出来的字符串，再次转换成流，然后把它放入到新request对象中。
@@ -61,7 +64,7 @@ public class MyFilter implements Filter {
             chain.doFilter(request, response);
         } else {
             chain.doFilter(requestWrapper, response);
-        }
+        }*/
     }
 
     @Override

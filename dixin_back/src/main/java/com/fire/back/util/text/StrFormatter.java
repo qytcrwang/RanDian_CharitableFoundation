@@ -6,7 +6,7 @@ import com.fire.back.util.StringUtils;
 /**
  * 字符串格式化
  * 
- * @author ruoyi
+ * @author fire
  */
 public class StrFormatter
 {

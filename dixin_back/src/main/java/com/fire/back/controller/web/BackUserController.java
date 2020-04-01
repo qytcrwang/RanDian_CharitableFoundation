@@ -5,6 +5,7 @@ import com.fire.back.entity.UserTb;
 import com.fire.back.service.SignInService;
 import com.fire.back.service.UserService;
 import com.fire.back.util.ParamUtil;
+import com.fire.back.util.ShiroUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,7 @@ public class BackUserController {
             u.setName(name);
             u.setType(type);
             u.setState(state);
+            u.setComment("update by:"+ShiroUtils.getUserId());
             int result = us.UpdateUserInfo(u);
             return result>0?FireResult.build(1,"用户信息更新成功"):FireResult.build(0,"用户信息更新失败");
         }catch(Exception e){
