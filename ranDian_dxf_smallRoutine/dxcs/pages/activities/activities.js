@@ -29,6 +29,7 @@ Page({
             url: targetUrl
         });
     },
+<<<<<<< HEAD
   /**
    * 请求数据
    * @param _this Page的对象，用其进行数据的更新
@@ -47,6 +48,56 @@ Page({
           || backResult.data.length <= 0) {
           console.log(constant.REQUEST_TIMEOUT);
           return;
+=======
+
+    
+});
+var mTitles = [];
+var mSrcs = [];
+var mTimes = [];
+var mCurrentPage = 0;
+var mId = [];
+
+/**
+ * 请求数据
+ * @param _this Page的对象，用其进行数据的更新
+ * @param targetPage 请求的目标页码
+ */
+function requestData(_this, targetPage) {
+    wxb.wxPost(
+        '/activity/getList',
+        {
+            page:targetPage,
+            size:constant.PAGE_ACTIVITIES_PAGESIZE,
+        },function(backResult){
+            if(backResult == null
+                || backResult.status != 1
+                || backResult.data == null
+                || backResult.data.length <= 0){
+                console.log(constant.REQUEST_TIMEOUT);
+                return;
+            }
+            var i = 0;
+            for(; i < backResult.data.length; i++){
+                bindData(backResult.data[i]);
+            }
+            //将数据写入list,用于给页面数据赋值
+            var itemList = [];
+            for(var i = 0; i < mTitles.length; i++){
+                itemList.push({
+                    title:mTitles[i],
+                    src:mSrcs[i],
+                    time:mTimes[i],
+                    id:mId[i]
+                })
+            }
+            _this.setData({
+                items: itemList,
+                hidden: true
+            });
+
+            mCurrentPage = targetPage;
+>>>>>>> e543b771cc9045dc35fea2de3beae0be1b9a24fd
         }
         var i = 0;
         for (; i < backResult.data.length; i++) {
@@ -86,3 +137,11 @@ bindData:function(itemData) {
 
 
 
+<<<<<<< HEAD
+=======
+    mTitles.push(itemData.title);
+    mTimes.push(wxUtils.dateFormat(itemData.activity_start_time));
+    mSrcs.push(itemData.cover_url);
+    mId.push(itemData.id);
+}
+>>>>>>> e543b771cc9045dc35fea2de3beae0be1b9a24fd
