@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
     <head th:replace="include :: header"></head>
     <body class="layui-layout-body">
             <div class="layui-layout layui-layout-admin">
@@ -23,7 +23,7 @@
                         <li class="layui-nav-item">
                             <a href="javascript:;">
                                 <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                                qytcrwang
+                                <span th:text="${name}"></span>
                             </a>
                             <dl class="layui-nav-child">
                                 <dd><a href="/managerInfo" target="main">个人资料</a></dd>

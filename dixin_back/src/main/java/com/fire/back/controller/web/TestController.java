@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import com.fire.back.common.FireResult;
@@ -37,7 +38,9 @@ public class TestController {
 
 	@GetMapping("/")
 	@RequiresAuthentication
-	public String index(){
+	public String index(ModelMap map){
+		String name = ShiroUtils.getSysUser().getUserName();
+		map.put("name",name!=null?name:"未登录");
 		return "index";
 	}
 
