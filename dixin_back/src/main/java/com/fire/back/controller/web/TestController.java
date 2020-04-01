@@ -38,8 +38,6 @@ public class TestController {
 	@GetMapping("/")
 	@RequiresAuthentication
 	public String index(){
-
-		System.out.println(ShiroUtils.getUserId()+"&&&&&&&&&&&&&&&&&&");
 		return "index";
 	}
 
