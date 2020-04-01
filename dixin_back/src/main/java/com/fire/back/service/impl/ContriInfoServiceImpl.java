@@ -87,5 +87,6 @@ public class ContriInfoServiceImpl implements ContriInfoService {
     contriInfoTb.setContriState(0);
     contriInfoTb.setContriTime(System.currentTimeMillis() / 1000);
     contriInfoTb.setCreateTime(System.currentTimeMillis() / 1000);
+    contriInfoTb.setUpdateTime(System.currentTimeMillis() / 1000);
   }
 }
