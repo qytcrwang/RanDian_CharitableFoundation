@@ -46,8 +46,8 @@
  	from_unixtime(activity_start_time,'%Y-%m-%d %H:%i:%S') stime,
  	from_unixtime(activity_end_time,'%Y-%m-%d %H:%i:%S') etime
  	from activity_tb a ,activity_user_tb au ,user_tb u
- 	where a.id = au.activity_id and au.user_id = u.id  and a.is_delete=0 
- 	and a.id not in(select l.activity_id from love_points_tb l where l.user_id=#{id,jdbcType=BIGINT} and l.is_delete=0) 
+ 	where a.id = au.activity_id and au.user_id = u.id  and a.is_delete=0 and u.id=#{id,jdbcType=BIGINT}
+ 	and a.id not in(select l.activity_id from love_points_tb l where l.user_id=u.id and l.is_delete=0) 
  	and a.state=3 order by a.activity_time desc
  </select>
  <update id="addReadNum" parameterType="Long" >
