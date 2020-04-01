@@ -112,7 +112,7 @@ public class SysRoleConroller {
         try {
             Long roleId = ParamUtil.getLong(paramMap,"roleId",null);
             if(SysRoleParamdto.isAdmin(roleId))
-                return FireResult.build(0,"不允许修改超级管理员角色");
+                return FireResult.build(0,"不允许删除超级管理员角色");
             if(sysRoleService.checkRoleUserByRoleId(roleId))
                 return FireResult.build(0,"该角色以赋予用户，请先解除用户角色再予以删除");
             sysRoleService.deleteSysRole(roleId);
@@ -181,6 +181,9 @@ public class SysRoleConroller {
         try {
             Long roleId = ParamUtil.getLong(paramMap,"roleId");
             Long userId = ParamUtil.getLong(paramMap,"userId");
+            if(SysRoleParamdto.isAdmin(roleId)){
+                return FireResult.build(0,"不允许授予超级管理员角色");
+            }
             sysRoleService.insertUserRole(userId,roleId);
             return FireResult.build(1,"授予角色成功");
         } catch (Exception e) {

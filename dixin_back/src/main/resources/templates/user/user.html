@@ -339,7 +339,8 @@
                 getEditData(data['id']);
                 openLayer('查看用户信息', '/back/sysUser/update', 1);
             }else if(layEvent==='lovePoint'){
-                location.href="/back/lovePoint/love?name="+data['name']+"&mobile="+data['mobile'];
+                location.href="/back/lovePoint/love?name="
+                +(data['name']==null?"":data['name'])+"&mobile="+(data['mobile']==null?"":data['mobile']);
             }
         });
 
@@ -430,7 +431,7 @@
         let result={};
         $.each(data,function(index,value){
             if(value!="")
-                result[key]=value;
+                result[index]=value;
         });
         return result;
     }

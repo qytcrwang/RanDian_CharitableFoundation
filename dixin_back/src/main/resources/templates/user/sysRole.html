@@ -293,7 +293,7 @@
                     form.on('submit(formVerify)', function (data) {
                         let param = getparams(data.field);
                         param.menuIds = getCheckedIds(tree.getChecked('demoId1'));
-                        saveData(url, data);
+                        saveData(url, param);
                         return false;
                     });
 

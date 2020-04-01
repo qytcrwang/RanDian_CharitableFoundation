@@ -50,7 +50,7 @@
         <label class="layui-form-label is-required">用户名称</label>
         <div class="layui-input-block">
             <input type="text" name="userName" id="_userName" lay-verify="required|username" placeholder="请输入登录名称"
-                   class="layui-input required">
+                   class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -63,14 +63,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label is-required">登录名称</label>
         <div class="layui-input-block">
-            <input type="text" name="loginName" id="_loginName" required lay-verify="required|username"
+            <input type="text" name="loginName" id="_loginName"  lay-verify="required|username"
                    placeholder="请输入登录名称" class="layui-input required">
         </div>
     </div>
     <div class="layui-form-item" id="_pass">
         <label class="layui-form-label is-required">登录密码</label>
         <div class="layui-input-block">
-            <input type="password" name="password" id="_password" required lay-verify="required|pass"
+            <input type="password" name="password" id="_password"  lay-verify="required|pass"
                    placeholder="请输入登录密码" class="layui-input required">
         </div>
     </div>
@@ -84,9 +84,9 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label is-required">邮箱</label>
+        <label class="layui-form-label">邮箱</label>
         <div class="layui-input-block">
-            <input type="text" name="email" id="_email" required lay-verify="required|email" placeholder="请输入邮箱"
+            <input type="text" name="email" id="_email" placeholder="请输入邮箱"
                    class="layui-input">
         </div>
     </div>
@@ -115,7 +115,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label is-required">再次输入</label>
         <div class="layui-input-block">
-            <input type="password" id="_repeatPassword" lay-verify="required|pass" placeholder="请输入登录密码"
+            <input type="password" id="_repeatPassword" name="passRepeat" lay-verify="required|pass" placeholder="请输入登录密码"
                    class="layui-input">
         </div>
     </div>
@@ -193,13 +193,14 @@
 
             //我们既支持上述函数式的方式，也支持下述数组的形式
             //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
-            , pass: [/^[\S]{6,12}$/, '密码必须6到12位，且不能出现空格']
+            , pass: [/^[\S]{5,12}$/, '密码必须5到12位，且不能出现空格']
 
         });
         $("#add").bind("click", function () {
             $("#sysUserInfo").clearForm();
             $("#_userId").val("");
             $("#_loginName").removeAttr("readonly");
+            $('#_password').prop("lay-verify","required|pass");
             $('#_pass').show();
             openLayer('新建管理员', '/back/sysUser/add', 0);
         });
@@ -238,6 +239,7 @@
             let layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             if (layEvent === 'edit') { //编辑
                 $('#_pass').hide();
+                $("#_password").removeAttr("lay-verify");
                 getEditData(data['userId']);
                 openLayer('编辑管理员信息', '/back/sysUser/update', 1);
             } else if (layEvent === 'del') { //删除
@@ -265,9 +267,26 @@
                 moveOut: true,//可拖动移出
                 shadeClose: true,//点击遮罩关闭弹窗
                 btn: ['重置', '返回']
-                , btn1: function (index, layero) {
-                    resetPassword();
+                ,
+                success: function (layero, index) {
+                    layero.addClass('layui-form');
+                    layero.find('.layui-layer-btn0 ').attr('lay-filter', 'formVerify')
+                        .attr('lay-submit', '');
+                    form.render();
                 },
+                yes: function (layero, index) {
+                    form.on('submit(formVerify)', function (obj) {
+                        let data = obj.field;
+                        if(data.passRepeat!=data.password){
+                            layer.alert("两次密码输入不一致");
+                            return false;
+                        }
+                        delete data['passRepeat'];
+                        saveData("/back/sysUser/reset", data);
+                        return false;
+                    });
+                }
+                ,
                 btn2: function (index, layero) {
                     layer.closeAll();
                 },
@@ -389,6 +408,7 @@
         }
 
         function openLayer(titleName, url, type) {
+            //type  0新增  1编辑
             layer.open({
                 type: 1,
                 area: ['800px', '480px'],

@@ -30,8 +30,8 @@ public class BackLovePointController {
 
     @GetMapping("/love")
     public String info(String name,String mobile, ModelMap map){
-        map.put("name",name);
-        map.put("mobile",mobile);
+        map.put("name",name==null?"":name);
+        map.put("mobile",mobile==null?"":mobile);
         return "/user/lovePoint";
     }
     @GetMapping("/")
