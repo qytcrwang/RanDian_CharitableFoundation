@@ -1,17 +1,24 @@
 package com.fire.back.controller.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.fire.back.dto.SysUserExtend;
+import com.fire.back.entity.SysUser;
+import com.fire.back.service.SysUserService;
+import com.fire.back.util.ShiroUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import com.fire.back.common.FireResult;
 import com.fire.back.util.ParamUtil;
@@ -24,6 +31,39 @@ import com.fire.back.util.ParamUtil;
 @Controller
 public class TestController {
 	private Logger logger = LoggerFactory.getLogger(TestController.class);
+
+	@Autowired
+	private SysUserService ss;
+
+	@GetMapping("/")
+	@RequiresAuthentication
+	public String index(){
+
+		System.out.println(ShiroUtils.getUserId()+"&&&&&&&&&&&&&&&&&&");
+		return "index";
+	}
+
+	@RequestMapping("/login")
+	public String login(Model model, HttpServletRequest req){
+		// 登录失败从request中获取shiro处理的异常信息。
+		// shiroLoginFailure:就是shiro异常类的全类名.
+		String exception = (String) req.getAttribute("shiroLoginFailure");
+		if (exception != null) {
+			if (UnknownAccountException.class.getName().equals(exception)) {
+				model.addAttribute("msg", "账号不存在");
+			} else if (IncorrectCredentialsException.class.getName().equals(exception)) {
+				model.addAttribute("msg","密码不正确：");
+			} else if ("kaptchaValidateFailed".equals(exception)) {
+				model.addAttribute("msg","验证码错误");
+			} else {
+				model.addAttribute("msg","else >> "+exception);
+			}
+		}
+		// 此方法不处理登录成功,由shiro进行处理
+		//shiro 将记录将要登录前要前往的地址
+		return "/login/login";
+	}
+
 
 	@GetMapping("/test1")
 	public String test1() {
@@ -71,6 +111,11 @@ public class TestController {
 	@GetMapping("/noticeManage")
 	public String noticeManage() {
 		return "noticeManage";
+	}
+
+	@GetMapping("/managerInfo")
+	public String managerInfo() {
+		return "managerInfo";
 	}
 
 	@PostMapping("/getInfo")

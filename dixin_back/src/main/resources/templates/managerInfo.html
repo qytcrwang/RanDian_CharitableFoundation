@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="include :: header"></head>
+<body>
+<form class="layui-form layui-form-pane" id="infoForm">
+  <div class="layui-row">
+    <div class="layui-col-md12" style="padding:20px">
+        <div class="layui-inline" style="float:right;">
+	        <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+        	<button type="button" class="layui-btn" id="add"><i class="layui-icon">&#xe608;</i>保存</button>
+      	</div>
+    </div>
+  </div>
+  <!-- <input type="hidden" id="userId" name="userId" value="">
+  <input type="hidden" id="deptId" name="deptId" value=""> -->
+  <div class="layui-form-item" style="padding-top: 10px">
+    <label class="layui-form-label">登录账号</label>
+    <div class="layui-input-block">
+      <input type="text" name="loginName" required  lay-verify="required" placeholder="请输入昵称" class="layui-input" id="loginName" maxlength="30" onfocus="noInput(this)">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">昵称</label>
+    <div class="layui-input-block">
+      <input type="text" name="userName" required  lay-verify="required" placeholder="请输入昵称" class="layui-input" id="userName" maxlength="30" onfocus="noInput(this)">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">邮箱</label>
+    <div class="layui-input-block">
+      <input type="text" name="email" required lay-verify="required" placeholder="请输入邮箱" class="layui-input" id="email" maxlength="50">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">手机号码</label>
+    <div class="layui-input-block">
+      <input type="text" name="phonenumber" class="layui-input" id="phonenumber" placeholder="请输入手机号码" onblur="validateNum(this)" maxlength="11">
+    </div>
+  </div>
+  <div class="layui-form-item">
+      <label class="layui-form-label">性别</label>
+    <div class="layui-input-block">
+      <input type="text" name="sexValue" class="layui-input" id="sexValue" onfocus="noInput(this)">
+    </div>
+  </div>
+  <!-- <div class="layui-form-item">
+    <label class="layui-form-label">密码</label>
+    <div class="layui-input-block">
+      <input type="password" name="password" class="layui-input" placeholder="请输入密码" id="password" maxlength="16">
+    </div>
+  </div> -->
+</form>
+  <script type="text/javascript">
+getInfo();
+layui.use(['layer'], function(){
+});
+$("#add").bind("click", function() {
+	saveData();
+});
+ 
+$("#clear").bind("click", function() {
+	getInfo();
+});  
+  
+function saveData(){
+	//顺序校验必填项
+	var validate = validateForm();	
+	if(!validate) return;
+}
+
+function getInfo(){
+   $.ajax({
+		type : "post",
+		url : "back/sysUser/getUserInfo",
+		data : '{}',
+		headers : {
+            'Content-Type' : 'application/json;charset=utf-8'
+            },
+		dataType : 'json',
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+					+ textStatus + "," + errorThrown);			
+		},
+		success : function(result) {
+			var data = result["data"];
+			$("#loginName").val(data["loginName"]);
+			$("#userName").val(data["userName"]);
+			$("#email").val(data["email"]);
+			$("#phonenumber").val(data["phonenumber"]);
+			var sex = data["sex"];
+			$("#sexValue").val(sex=="0"?"男":"女");
+		}
+	});   
+	//});	
+}
+
+function clearInfoForm(){
+	$("#activityInfo").clearForm();
+	$("#imgPreview").html("");
+	initFuwenben("");
+}
+
+function validateNum(sel){
+	$(sel).val($(sel).val().replace(/[^\d]/g,''));
+}
+
+function submitForm (){
+	$.ajax({
+		type : "post",
+		url : "back/sysUser/update",
+		data : JSON.stringify($("#infoForm").serializeObject()),
+		headers : {
+            'Content-Type' : 'application/json;charset=utf-8'
+            },
+		dataType : 'json',
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
+					+ textStatus + "," + errorThrown);			
+		},
+		success : function(result) {
+			if(result["status"] == 1){
+				layer.msg(result["msg"]);
+			}
+		}
+	});
+}
+//顺序校验必填项
+function validateForm(){
+	var email = $.trim($("#email").val());//必填
+	if(email == ""){
+		layer.msg("邮箱必须输入！");
+		return false;
+	}
+	var phonenumber = $.trim($("#phonenumber").val());
+	if(phonenumber == ""){
+		layer.msg("手机号码必须输入！");
+		return false;
+	}
+	var submit = false;
+	layer.confirm('确认要提交吗', {icon: 3, title:'信息提交确认'}, function(index){
+		  //do something
+		submitForm();
+	});
+	return true;
+}
+
+function getTimestamp(dateStr){
+	if(dateStr.length == 9) return "";
+	var date = new Date(dateStr);
+	return date.getTime()/1000;
+}
+//让日期插件无法选中 达到禁止手输的目的
+function noInput(dom){
+	$(dom).blur();
+}
+/**
+ * 自动将form表单封装成json对象
+ */
+$.fn.serializeObject = function() {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name]) {
+            if (!o[this.name].push) {
+                o[this.name] = [ o[this.name] ];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};  
+  </script>
+</body>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fire.back.dao.extend.ExtendSysUserMapper">
+
+    <resultMap id="UserExtraResultMap" type="com.fire.back.dto.SysUserExtend">
+        <id column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="dept_id" jdbcType="BIGINT" property="deptId"/>
+        <result column="login_name" jdbcType="VARCHAR" property="loginName"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_type" jdbcType="VARCHAR" property="userType"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phonenumber" jdbcType="VARCHAR" property="phonenumber"/>
+        <result column="sex" jdbcType="CHAR" property="sex"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <collection ofType="com.fire.back.dto.SysRoleParamdto" property="sysRoleList">
+            <id column="role_id" jdbcType="BIGINT" property="roleId"/>
+            <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+            <result column="role_key" jdbcType="VARCHAR" property="roleKey"/>
+            <result column="role_sort" jdbcType="INTEGER" property="roleSort"/>
+            <result column="data_scope" jdbcType="CHAR" property="dataScope"/>
+            <collection ofType="com.fire.back.entity.SysMenu" property="sysMenuList">
+                <id column="menu_id" jdbcType="BIGINT" property="menuId"/>
+                <result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
+                <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+                <result column="order_num" jdbcType="INTEGER" property="orderNum"/>
+                <result column="url" jdbcType="VARCHAR" property="url"/>
+                <result column="target" jdbcType="VARCHAR" property="target"/>
+                <result column="menu_type" jdbcType="CHAR" property="menuType"/>
+                <result column="visible" jdbcType="CHAR" property="visible"/>
+                <result column="perms" jdbcType="VARCHAR" property="perms"/>
+                <result column="icon" jdbcType="VARCHAR" property="icon"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="getSysUserListByName" resultMap="UserExtraResultMap" parameterType="string">
+      SELECT * FROM `sys_user` u
+      left join sys_user_role ur on u.user_id = ur.user_id
+      left join sys_role r on ur.role_id = r.role_id and r.status=0 and r.del_flag = 0
+      left join sys_role_menu rm on r.role_id = rm.role_id
+      left join sys_menu m on rm.menu_id = m.menu_id
+      WHERE U.LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+      and u.status=0 and u.del_flag = 0
+  </select>
+
+</mapper>

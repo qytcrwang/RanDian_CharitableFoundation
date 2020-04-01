@@ -1,8 +1,7 @@
 package com.fire.back.service;
 
+import com.fire.back.dto.SysUserExtend;
 import com.fire.back.entity.SysUser;
-
-import java.util.Date;
 import java.util.List;
 
 public interface SysUserService {
@@ -20,4 +19,6 @@ public interface SysUserService {
     SysUser getSysUserInfoById(Long userId);
 
     SysUser getSysUserByLoginName(String loginName);
+
+    SysUserExtend getSysUserMenusByLoginName(String loginName);
 }

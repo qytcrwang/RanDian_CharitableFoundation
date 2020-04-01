@@ -8,6 +8,7 @@ import com.fire.back.dto.SysRoleParamdto;
 import com.fire.back.dto.SysUserExtend;
 import com.fire.back.entity.*;
 import com.fire.back.service.SysRoleService;
+import com.fire.back.util.ShiroUtils;
 import com.fire.back.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     public boolean deleteSysRole(Long roleId) {
         SysRole role = sysRoleMapper.selectByPrimaryKey(roleId);
         role.setDelFlag("1");
+        role.setUpdateBy(ShiroUtils.getUserId()+":"+ShiroUtils.getLoginName());
         return sysRoleMapper.updateByPrimaryKeySelective(role)>0;
     }
 
@@ -112,8 +114,8 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public List<LayTree> roleMenuTreeData(SysRole role, Long userId) {
-        Long roleId = role.getRoleId();
+    public List<LayTree> roleMenuTreeData(Long roleId, Long userId) {
+
         List<LayTree> trees = new ArrayList<>();
         List<SysMenu> menuList = selectMenuAll(userId);
         if (StringUtils.isNotNull(roleId))

@@ -42,10 +42,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserTb> selectUsersByPage(UserTb user, Object field, String sort, Integer page, Integer pageSize) {
-        return um.selectUsersByPage(user,field,sort,(page-1)*pageSize,pageSize);
+    public List<UserTb> selectUsersByPage(UserTb user) {
+        return um.selectUsersByPage(user);
     }
 
+    @Override
+    public int selectUsersCount(UserTb user){
+        return um.selectUsersCount(user);
+    }
 
     private UserTb UserDefaultParamUtil(UserTb u){
         u.setUpdateTime(System.currentTimeMillis()/1000);

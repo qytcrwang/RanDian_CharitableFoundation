@@ -2,6 +2,7 @@ package com.fire.back.dto;
 
 import com.fire.back.entity.RentApplyTb;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @description   :  rent
@@ -12,6 +13,7 @@ import lombok.Data;
  * @updateRemark  :
  * @version       :  1.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class RentListParamsDto extends RentApplyTb {
 

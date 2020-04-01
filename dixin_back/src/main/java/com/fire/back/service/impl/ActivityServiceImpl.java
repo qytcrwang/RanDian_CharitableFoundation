@@ -154,19 +154,19 @@ public class ActivityServiceImpl implements ActivityService {
 	public List<Map<String, Object>> getListByPage(int page,int size,String field,String sort,
 			int type,String stime,String etime,int state,String name){
 		Map<String,Object> params = new HashMap<>();
-		String param = " where is_delete=0 ";
-		if(type>-1) param += " and type = "+type;
+		String param = " where a.is_delete=0 ";
+		if(type>-1) param += " and a.type = "+type;
 		if(stime.length()>0) {
 			stime = TimeTools.getTimeStamp(stime)/1000 +"";
-			param += " and activity_start_time >="+stime;
+			param += " and a.activity_start_time >="+stime;
 		}
 		if(etime.length()>0) {
 			etime = TimeTools.getCircleStamp(etime)/1000 +"";
-			param += " and activity_start_time <"+etime;
+			param += " and a.activity_start_time <"+etime;
 		}
-		if(state>-1) param += " and state = "+state;
+		if(state>-1) param += " and a.state = "+state;
 		if(name.length()>0) {
-			param += " and title like '%"+name+"%'";
+			param += " and a.title like '%"+name+"%'";
 		}
 		param += " order by "+field+" "+sort+" limit "+(page-1)*size+","+size;
 		params.put("param", param);

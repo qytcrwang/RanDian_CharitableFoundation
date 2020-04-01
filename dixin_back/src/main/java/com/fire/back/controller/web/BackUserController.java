@@ -5,12 +5,12 @@ import com.fire.back.entity.UserTb;
 import com.fire.back.service.SignInService;
 import com.fire.back.service.UserService;
 import com.fire.back.util.ParamUtil;
+import com.fire.back.util.ShiroUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -25,14 +25,9 @@ public class BackUserController {
     private Logger logger = LoggerFactory.getLogger(BackUserController.class);
 
 
-    @GetMapping("/userManager")
-    public String UserPage(){
-        return "user";
-    }
-
     @GetMapping("/")
     public String index(){
-        return "index";
+        return "user/user";
     }
 
 
@@ -41,7 +36,8 @@ public class BackUserController {
      * @param paramMap ->userId
      * @return data{UserTb}
      */
-    @PostMapping("/getUserInfo")
+    @PostMapping("/info")
+    @ResponseBody
     public FireResult getUserInfo(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap,"userId");
@@ -57,7 +53,8 @@ public class BackUserController {
      * @param  paramMap ->idCardNumber,mobile，name
      * @return data{null}
      */
-    @PostMapping("/updateUserInfo")
+    @PostMapping("/update")
+    @ResponseBody
     public FireResult updateUserInfo(@RequestBody  Map<String, Object> paramMap){
         try {
             Long id = ParamUtil.getLong(paramMap,"id");
@@ -65,12 +62,16 @@ public class BackUserController {
             String mobile = ParamUtil.getString(paramMap,"mobile",null);
             String name = ParamUtil.getString(paramMap,"name",null);
             Integer type = ParamUtil.getInteger(paramMap,"userType",null);
+            Integer state = ParamUtil.getInteger(paramMap,"state",null);
+
             UserTb u = new UserTb();
             u.setId(id);
             u.setIdCardNumber(idCardNumber);
             u.setMobile(mobile);
             u.setName(name);
             u.setType(type);
+            u.setState(state);
+            u.setComment("update by:"+ShiroUtils.getUserId());
             int result = us.UpdateUserInfo(u);
             return result>0?FireResult.build(1,"用户信息更新成功"):FireResult.build(0,"用户信息更新失败");
         }catch(Exception e){
@@ -84,6 +85,7 @@ public class BackUserController {
      * @return data{List<String>}
      */
     @PostMapping("/getSignDaysList")
+    @ResponseBody
     public FireResult getSignDaysList(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap,"userId");
@@ -103,6 +105,7 @@ public class BackUserController {
      * @return
      */
     @PostMapping("/getUserInfoByOpenid")
+    @ResponseBody
     public FireResult getUserInfoByOpenid(@RequestBody Map<String,Object> paramMap){
 
         try {
@@ -117,24 +120,21 @@ public class BackUserController {
 
     /**
      * 分页查询用户列表
-     * @param paramMap 可选则查询 name,idCardNumber,mobile,state,type,roleId,sex,address,
+     * @param user 可选则查询 name,idCardNumber,mobile,state,type,roleId,sex,address,
      *                  orgName,oldName,oldMobile,school,isDelete
      */
-    @PostMapping("/getUsersByPage")
-    public FireResult getsersByPage(@RequestBody Map<String,Object> paramMap){
+    @PostMapping("/list")
+    @ResponseBody
+    public FireResult getUsersList(@RequestBody UserTb user){
         try {
-            UserTb user  = new UserTb();
-            Object field = ParamUtil.getString(paramMap,"field","love_point");
-            Integer page = ParamUtil.getInteger(paramMap,"page",1);
-            Integer pageSize = ParamUtil.getInteger(paramMap,"pageSize",10);
-            String sort = ParamUtil.getString(paramMap,"sort","desc");
-            createUserTbParam(paramMap,user);
-            List<UserTb> list = us.selectUsersByPage(user,field,sort,page,pageSize);
-            return FireResult.build(1,"查询用户列表成功",list);
+            user.setIsDelete(0);
+            List<UserTb> list = us.selectUsersByPage(user);
+            int count = us.selectUsersCount(user);
+            return FireResult.build(1,"查询用户列表成功",list,count);
         } catch (Exception e) {
             logger.error("用户列表查询异常",e);
             e.printStackTrace();
-            return FireResult.build(0,"查询用户列表失败",null);
+            return FireResult.build(0,"查询用户列表失败");
         }
     }
 
@@ -145,6 +145,7 @@ public class BackUserController {
      * @return
      */
     @PostMapping("/getYearSignedSum")
+    @ResponseBody
     public FireResult getYearSignedSum(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap, "userId");

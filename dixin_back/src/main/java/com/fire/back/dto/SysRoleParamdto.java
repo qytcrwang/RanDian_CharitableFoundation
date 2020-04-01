@@ -1,6 +1,9 @@
 package com.fire.back.dto;
 
+import com.fire.back.entity.SysMenu;
 import com.fire.back.entity.SysRole;
+
+import java.util.List;
 
 public class SysRoleParamdto extends SysRole {
 
@@ -13,6 +16,17 @@ public class SysRoleParamdto extends SysRole {
     public void setMenuIds(long[] menuIds) {
         this.menuIds = menuIds;
     }
+
+    private List<SysMenu> sysMenuList;
+
+    public List<SysMenu> getSysMenuList() {
+        return sysMenuList;
+    }
+
+    public void setSysMenuList(List<SysMenu> sysMenuList) {
+        this.sysMenuList = sysMenuList;
+    }
+
     public boolean isAdmin(){
         return isAdmin(getRoleId());
     }

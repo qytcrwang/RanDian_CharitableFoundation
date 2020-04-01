@@ -3,128 +3,240 @@
 <head th:replace="include :: header">
 </head>
 <body>
-<form class="layui-form" id="searchForm">
-    <div class="layui-row" style="text-align: center">
-        <div class="layui-col-md12" style="padding:20px;">
-            登录名称：
-            <div class="layui-inline">
-                <input class="layui-input" name="loginName" id="loginName" autocomplete="off">
-            </div>
-            手机号码：
-            <div class="layui-inline">
-                <input class="layui-input" name="phonenumber" id="phonenumber" autocomplete="off">
-            </div>
-            用户状态：
-            <div class="layui-inline">
-                <select name="status" lay-filter="status" id="status">
-                    <option value="" selected>全部</option>
-                    <option value="0">正常</option>
-                    <option value="1">停用</option>
-                </select>
-            </div>
-            创建时间：
-            <div class="layui-inline">
-                <input type="text" class="layui-input" name="startTime" id="startTime" placeholder="开始时间起始" onfocus="noInput(this)">
-            </div>-
-            <div class="layui-inline">
-                <input type="text" class="layui-input" name="endTime" id="endTime" placeholder="开始时间截止" onfocus="noInput(this)">
-            </div>
-            <div class="layui-inline" style="float:right;">
-                <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
-                <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
-                <button type="button" class="layui-btn" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>新增</button>
+<form class="layui-form" id="searchForm" style="padding-top: 15px;">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">用户姓名：</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="请输入用户姓名" name="name" id="name" autocomplete="off">
             </div>
         </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">手机号码：</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="请输入手机号码" name="mobile" id="mobile" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">用户状态：</label>
+            <div class="layui-input-inline">
+                <select name="state" lay-filter="status" id="state">
+                    <option value="" selected>全部</option>
+                    <option value="0">正常</option>
+                    <option value="1">禁用</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">创建时间：</label>
+            <div class="layui-inline">
+                <input type="text" class="layui-input" name="startTime" id="startTime" placeholder="开始时间"
+                       onfocus="noInput(this)">
+            </div>
+            <label>-&ensp;</label>
+            <div class="layui-inline">
+                <input type="text" class="layui-input" name="endTime" id="endTime" placeholder="截止时间"
+                       onfocus="noInput(this)">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">用户类型：</label>
+            <div class="layui-input-inline">
+                <select name="type" lay-filter="status" id="type">
+                    <option value="" selected>全部</option>
+                    <option value="0">普通</option>
+                    <option value="1">儿童</option>
+                    <option value="2">大学生</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">用户性别：</label>
+            <div class="layui-input-inline">
+                <select name="sex" lay-filter="status" id="sex">
+                    <option value="" selected>全部</option>
+                    <option value="0">女</option>
+                    <option value="1">男</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">公司名称：</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="请输入组织或公司名称" name="orgName" id="orgName" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">毕业院校：</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="请输入毕业院校名称" name="school" id="school" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-inline" style="float:right; right:20px;">
+            <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+            <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+            <button type="button" style="visibility:hidden!important" class="layui-btn" id="add"><i class="layui-icon">&#xe608;</i>新增</button>
+        </div>
+    </div>
+
     </div>
 </form>
 <table class="layui-hide" id="demoTable" lay-filter="tableFilter"></table>
 
 <!--弹出框-->
-<form class="layui-form layui-form-pane" id="sysUserInfo" style="display:none">
-    <input type="hidden" name="userId" id="_userId">
-    <div class="layui-form-item" style="padding-top: 10px">
-        <label class="layui-form-label is-required">用户名称</label>
-        <div class="layui-input-block">
-            <input type="text" name="userName" id="_userName"   lay-verify="required" placeholder="请输入登录名称" class="layui-input required" >
+<form class="layui-form " id="userInfo" style="display:none">
+    <div class="layui-col-md12" style="padding:20px 20px 0px 20px">
+        <input type="hidden" id="_id">
+        <div class="layui-col-md6" style="padding-right:40px">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户姓名</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="用户姓名" name="name" id="_name" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机号码</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="手机号码" name="mobile" id="_mobile" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户类型</label>
+                <div class="layui-input-block">
+                    <select  lay-filter="status" id="_type" name="type">
+                        <option value="0">普通</option>
+                        <option value="1">儿童</option>
+                        <option value="2">大学生</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户性别</label>
+                <div class="layui-input-block">
+                    <select lay-filter="status" id="_sex" name="sex">
+                        <option value="0">女</option>
+                        <option value="1">男</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户状态</label>
+                <div class="layui-input-block">
+                    <select lay-filter="status" id="_state" name="state">
+                        <option value="0">正常</option>
+                        <option value="1">封禁</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">身份证号</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="身份证号" name="idCardNumber" id="_idCardNumber"
+                           autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户住址</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="用户住址" name="address" id="_address" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户邮箱</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="用户住址" name="email" id="_email" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">监护人姓名</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="监护人姓名" name="oldMame" id="_oldName" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">监护人电话</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="监护人电话" name="oldMobile" id="_oldMobile"
+                           autocomplete="off">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md6" style="padding-right:40px">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">公司名称</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="组织或公司名称" name="orgName" id="_orgName" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">企业代码</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="企业统一代码" name="orgNum" id="_orgNum" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">毕业院校</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="毕业院校" name="school" id="_school" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">学号</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="学号" name="schoolNum" id="_schoolNum" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">注册时间</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="注册时间" name="createTime" id="_createTime" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">最终修改</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="最后修改时间" name="updateTime" id="_updateTime"
+                           autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">公益积分</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="爱心公益积分" name="lovePoint" id="_lovePoint" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">捐赠总额</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" placeholder="捐赠总额" name="loveFund" id="_loveFund" autocomplete="off">
+                </div>
+            </div>
+
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label is-required">手机号码</label>
-        <div class="layui-input-block">
-            <input type="text" name="phonenumber" id="_phonenumber" required lay-verify="required" placeholder="请输入手机号码" class="layui-input required" >
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label is-required">登录名称</label>
-        <div class="layui-input-block">
-            <input type="text" name="loginName" id="_loginName" required  lay-verify="required" placeholder="请输入登录名称" class="layui-input required" >
-        </div>
-    </div>
-    <div class="layui-form-item" id="_pass">
-        <label class="layui-form-label is-required">登录密码</label>
-        <div class="layui-input-block">
-            <input type="password" name="password" id="_password" required  lay-verify="required" placeholder="请输入登录密码" class="layui-input required" >
-        </div>
-    </div>
-    <div class="layui-form-item ">
-        <label class="layui-form-label">用户性别</label>
-        <div class="layui-input-block">
-            <select name="sex" id="_sex">
-                <option value="0" selected>男</option>
-                <option value="1">女</option>
-            </select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label is-required">邮箱</label>
-        <div class="layui-input-block">
-            <input type="text" name="email" id="_email" required  lay-verify="required" placeholder="请输入邮箱" class="layui-input required" >
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">用户状态</label>
-        <div class="layui-input-block">
-            <input type="checkbox" id="_status" name="status" lay-skin="switch" checked>
-        </div>
-    </div>
-</form>
-<form class="layui-form layui-form-pane" id="reset" style="display:none">
-    <input type="hidden" name="userId" id="_resetUserId">
-    <div class="layui-form-item">
-        <label class="layui-form-label is-required">登录名称</label>
-        <div class="layui-input-block">
-            <input type="text" id="_userLoginName" readonly  class="layui-input required" >
-        </div>
-    </div>
-    <div class="layui-form-item" >
-        <label class="layui-form-label is-required">新密码</label>
-        <div class="layui-input-block">
-            <input type="password" name="password" id="_newPassword" required  placeholder="请输入登录密码" class="layui-input required" >
-        </div>
-    </div>
-    <div class="layui-form-item" >
-        <label class="layui-form-label is-required">重新密码</label>
-        <div class="layui-input-block">
-            <input type="password" id="_repeatPassword" required  placeholder="请输入登录密码" class="layui-input required" >
-        </div>
-    </div>
+
+
 </form>
 <script type="text/javascript">
     let tableIns;
     //加载下拉框
-    layui.use(['laydate', 'laypage', 'layer', 'table', 'form'], function(){
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'form'], function () {
         let layer = layui.layer //弹层
-            ,table = layui.table //表格
-            ,form = layui.form,
+            , table = layui.table //表格
+            , form = layui.form,
             laydate = layui.laydate; //元素操作
         //执行一个 table 实例
         tableIns = table.render({
             elem: '#demoTable'
-            ,url: '/back/sysUser/list'
-            ,method: 'post'
-            ,contentType: 'application/json'
-            ,id:'demoTable'
-            ,parseData: function(res){ //res 即为原始返回的数据
+            , url: '/back/user/list'
+            , method: 'post'
+            , contentType: 'application/json'
+            , id: 'demoTable'
+            , parseData: function (res) { //res 即为原始返回的数据
                 return {
                     "code": res.status, //解析接口状态
                     "msg": res.message, //解析提示文本
@@ -132,351 +244,232 @@
                     "data": res.data //解析数据列表
                 };
             }
-            ,where: {}
-            ,response: {
-                statusCode:1 //规定成功的状态码，默认：0
+            , where: {}
+            , response: {
+                statusCode: 1 //规定成功的状态码，默认：0
             }
-            ,page: true //开启分页
-            ,cols: [
+            , page: true //开启分页
+            , cols: [
                 [
                     /*{type:'checkbox'}*/
-                    /*   ,{title: '序号', type:'numbers', align: 'center'}*/
-                    {width:'6%',field: 'userId',  title:'用户编号', align: 'center'}
-                    ,{field:'loginName', title: '登录名称', align: 'center'}
-                    ,{field:'userName', title: '用户昵称', align: 'center'}
-                    ,{field:'phonenumber', title: '手机号码', align: 'center'}
-                    ,{field:'status',title:'用户状态',align:'center',templet:'#checkboxS'}
-                    ,{field:'createTime', title: '创建时间', align: 'center',templet:function(d){
-                        return  layui.util.toDateString(d.createTime,"yyyy-MM-dd HH:mm:ss");
-                    }}
-                    ,{width:'15%', title: '操作', align:'center', toolbar: '#bar'}
+                    {field: 'name', title: '用户姓名', align: 'center'}
+                    , {
+                    field: 'sex', title: '用户性别', align: 'center', templet: function (d) {
+                        return d.sex == '0' ? '女' : d.sex == '1' ? '男' : '未知';
+                    }
+                }
+                    , {field: 'orgName', title: '公司名称', align: 'center'}
+                    , {field: 'school', title: '毕业院校', align: 'center'}
+                    , {field: 'mobile', title: '手机号码', align: 'center'}
+                    , {
+                    field: 'type', title: '用户类型', align: 'center', templet: function (d) {
+                        return d.type == '0' ? '普通' : d.type == '1' ? '儿童' : '大学生';
+                    }
+                }
+                    , {
+                    field: 'lovePoint', title: '爱心积分', align: 'center', templet: function (d) {
+                        return d.lovePoint == '' ? 0 : d.lovePoint;
+                    }
+                }
+                    , {
+                    field: 'loveFund', title: '捐赠金额', align: 'center', templet: function (d) {
+                        return (d.loveFund == '' ? 0 : d.loveFund)+"元";
+                    }
+                }
+                    , {
+                    width: '10%', field: 'createTime', title: '创建时间', align: 'center', templet: function (d) {
+                        return layui.util.toDateString(parseInt(d.createTime) * 1000, "yyyy-MM-dd HH:mm:ss");
+                    }
+                }
+                    , {
+                    field: 'state', title: '用户状态', align: 'center', templet: '#checkboxS'
+                }
+                    , {width: '10%', title: '操作', align: 'center', toolbar: '#bar'}
                 ]
             ]
         });
         //常规用法
         laydate.render({
             elem: '#startTime'
-            ,trigger: 'click'
+            , trigger: 'click'
         });
         laydate.render({
             elem: '#endTime'
-            ,trigger: 'click'
+            , trigger: 'click'
         });
-        $("#add").bind("click", function() {
-            $("#sysUserInfo").clearForm();
-            $("#_userId").val("");
-            $("#_loginName").removeAttr("readonly");
-            $('#_pass').show();
-            openLayer('新建管理员','/back/sysUser/add',0);
-        });
-
-        $("#search").bind("click", function() {
+        $("#search").bind("click", function () {
             searchForm();
         });
 
-        $("#clear").bind("click", function() {
+        $("#clear").bind("click", function () {
             $("#searchForm").clearForm();
             searchForm();
         });
-        form.on('switch(release)', function(obj){
-            let data={userId:obj.value,status:obj.elem.checked?0:1}
-            saveData("/back/sysUser/update",data);
-            layer.closeAll();
-        });
+
+
         /*ESC关闭弹窗*/
-        $(document).ready(function () { }).keydown(
+        $(document).ready(function () {
+        }).keydown(
             function (e) {
                 if (e.which === 27) {
                     layer.closeAll();
                 }
             });
-
-        form.on('select(status)', function(data){
+        form.on('switch(release)', function(obj){
+            let value = obj.value.split(",")[0];
+            let name = obj.value.split(",")[1];
+            layer.confirm('确定要禁用账户     "'+name+'"     ?',function(){
+                let data={id:value,state:obj.elem.checked?0:1}
+                saveData("/back/user/update",data);
+            });
             searchForm();
         });
-        form.on('submit(formDemo)', function(data){
+
+        form.on('select(status)', function (data) {
+            searchForm();
+        });
+        form.on('submit(formDemo)', function (data) {
             //layer.msg(JSON.stringify(data.field));
             return false;
         });
-        table.on('tool(tableFilter)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(tableFilter)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             let data = obj.data; //获得当前行数据
             let layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            if(layEvent === 'edit'){ //编辑
-                $('#_pass').hide();
-                getEditData(data['userId']);
-                openLayer('编辑管理员信息','/back/sysUser/update',1);
-            }else if(layEvent === 'del'){ //删除
-                layer.confirm('确认要删除吗', {icon: 3, title:'信息删除确认'}, function(index){
-                    saveData("/back/sysUser/del",{userId:data['userId']});
-                });
-            }else if(layEvent==='reset'){
-                reset(data['userId'],data['loginName']);
+            if (layEvent === 'info') { //详情
+                getEditData(data['id']);
+                openLayer('查看用户信息', '/back/sysUser/update', 1);
+            }else if(layEvent==='lovePoint'){
+                location.href="/back/lovePoint/love?name="+data['name']+"&mobile="+data['mobile'];
             }
         });
 
     });
-    function reset(userId,loginName){
-        $("#reset").clearForm();
-        $("#_resetUserId").val(userId);
-        $("#_userLoginName").val(loginName);
-        layer.open({
-            type:1,
-            area:['600px','300px'],
-            title: "重置密码"
-            ,content: $("#reset"),
-            shade: 0.3,
-            resize:false ,
-            move: false,
-            btn: ['重置', '返回']
-            ,btn1: function(index, layero){
-                resetPassword();
-            },
-            btn2: function(index, layero){
-                layer.closeAll();
-            },
-            cancel: function(layero,index){
-                layer.closeAll();
-            }
-        });
+    //让时间插件无法选中 达到禁止手输的目的
+    function noInput(dom) {
+        $(dom).blur();
     }
-    function resetPassword(){
-        let userId =  $("#_resetUserId").val();
-        let password = $("#_newPassword").val();
-        let passwordRepeat = $("#_repeatPassword").val();
-        if(userId==""){
-            layer.msg("参数异常，请刷新再试");
-            return;
-        }
-        if(password==""){
-            layer.msg("请输入新密码");
-            return;
-        }
-        if(password!=passwordRepeat){
-            layer.msg("两次输入密码不一致")
-            return;
-        }
+    function saveData(url, data) {
         $.ajax({
-            type:"post",
-            url:"/back/sysUser/reset",
-            data : JSON.stringify({userId:userId,password,password}),
-            headers : {
-                'Content-Type' : 'application/json;charset=utf-8'
+            type: "post",
+            url: url,
+            data: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
             },
-            dataType : 'json',
-            success:function(data){
-                if(data["status"] == 1){
-                    layer.msg(data["msg"]);
-                    layer.closeAll();
-                }else{
-                    layer.alert(data['msg']);
-                }
-            }
-        });
-    }
-    function saveData(url,data){
-        $.ajax({
-            type : "post",
-            url : url,
-            data : JSON.stringify(data),
-            headers : {
-                'Content-Type' : 'application/json;charset=utf-8'
-            },
-            dataType : 'json',
-            error : function(XMLHttpRequest, textStatus, errorThrown) {
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
                     + textStatus + "," + errorThrown);
             },
-            success : function(result) {
-                if(result["status"] == 1){
+            success: function (result) {
+                if (result["status"] == 1) {
                     layer.closeAll();
                     layer.msg(result["msg"]);
                     searchForm();
-                }else{
+                } else {
                     layer.alert(result['msg']);
                 }
             }
         });
     }
 
-    function getEditData(data){
-        //获取行
-        /*layui.use('table', function(){
-        let table = layui.table;
-        let checkData = table.checkStatus('demoTable').data;
-       if(checkData.length != 1){
-            layer.msg('请选择一行数据！');
-            return;
-       }
-       let id = checkData[0]["id"];*/
-        $("#sysUserInfo").clearForm();
+    function getEditData(data) {
+        $("#userInfo").clearForm();
         $.ajax({
-            type : "post",
-            url : "/back/sysUser/getUserInfo",
-            data : JSON.stringify({"userId":data}),
-            headers : {
-                'Content-Type' : 'application/json;charset=utf-8'
+            type: "post",
+            url: "/back/user/info",
+            data: JSON.stringify({"userId": data}),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
             },
-            dataType : 'json',
-            error : function(XMLHttpRequest, textStatus, errorThrown) {
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log(XMLHttpRequest.status + "," + XMLHttpRequest.readyState + ","
                     + textStatus + "," + errorThrown);
             },
-            success : function(result) {
-                if(result['status']==1) {
+            success: function (result) {
+                if (result['status'] == 1) {
                     let data = result["data"];
-                    $("#_userId").val(data["userId"]);
-                    $("#_loginName").val(data["loginName"]);
-                    $("#_loginName").attr("readonly", "readonly");
-                    $("#_phonenumber").val(data["phonenumber"]);
-                    $("#_userName").val(data["userName"]);
-                    $("#_email").val(data["email"]);
-                    let sex = data['sex'];
-                    let status = data['status'];
-                    $("#_sex").val(sex);
-                    if (status == 0) {
-                        $("#_status").prop('checked', true);
-                    } else {
-                        $("#_status").removeAttr('checked');
-                    }
+                    $.each(data,function(key,value){
+                       $("#_"+key).val(value);
+                       $("#_"+key).attr("disabled",true);
+                    });
+                    $("select").css("color", "black!important");
                     layui.use(['form'], function () {
-                        layui.form.render("checkbox");
                         layui.form.render("select");
                     });
-                }else{
+                } else {
                     layui.alert(result['msg']);
                 }
             }
         });
     }
 
-    function openLayer(titleName,url,type){
+    function openLayer(titleName, url, type) {
         layer.open({
-            type:1,
-            area:['800px','480px'],
+            type: 1,
+            area: ['1000px', '650px'],
             title: titleName
-            ,content: $("#sysUserInfo"),
+            , content: $("#userInfo"),
             shade: 0.3,
-            resize:false ,
-            moveType:1,
-            moveOut:true,
-            btn: ['提交', '返回']
-            ,btn1: function(index, layero){
-                if(!inputValidate(type))
-                    return;
-                let data =getparams(type);
-                saveData(url,data);
-            },
-            btn2: function(index, layero){
+            resize: false,
+            moveType: 1,//可拖动
+            moveOut: true,//可拖动移出
+            shadeClose:true,//点击遮罩关闭弹窗
+            btn: ['返回']
+            ,
+            btn1: function (index, layero) {
                 layer.closeAll();
             },
-            cancel: function(layero,index){
+            cancel: function (layero, index) {
                 layer.closeAll();
             }
         });
     }
-    function searchForm(){
-        layui.use('table', function(){
-            let loginName = $("#loginName").val();
-            let phonenumber = $("#phonenumber").val();
-            let status = $("#status").val();
-            let startTime = $("#startTime").val();
-            let endTime = $("#endTime").val();
-            if(startTime!=""&&endTime!=""){
-                if(startTime>endTime){
+    function trimData(data){
+        let result={};
+        $.each(data,function(index,value){
+            if(value!="")
+                result[key]=value;
+        });
+        return result;
+    }
+    function searchForm() {
+        layui.use('table', function () {
+            let data = {name : $("#name").val(),
+             mobile : $("#mobile").val(),
+             state : $("#state").val(),
+             type : $("#type").val(),
+             sex : $("#sex").val(),
+             orgName : $("#orgName").val(),
+             school : $("#school").val(),
+             startTime : $("#startTime").val(),
+             endTime : $("#endTime").val()}
+            if (startTime != "" && endTime != "") {
+                if (startTime > endTime) {
                     layer.msg('时间起始不可大于时间截止！');
                     $("#endTime").val("");
                     return;
                 }
             }
             let table = layui.table;
-            table.reload('demoTable',{
-                where: {loginName:loginName,phonenumber:phonenumber,
-                    status:status,startTime:startTime,
-                    endTime:endTime}
-                ,page: {
+            table.reload('demoTable', {
+                where: trimData(data)
+                , page: {
                     curr: 1 //重新从第 1 页开始
                 }
             });
         });
     }
-    //让时间插件无法选中 达到禁止手输的目的
-    function noInput(dom){
-        $(dom).blur();
-    }
 
-    function getparams(type){
-        //type==0 ==>新增 type==1 ==>编辑
-        let o = {};
-        o.userName = $.trim($("#_userName").val());
-        o.phonenumber = $.trim($("#_phonenumber").val());
-        o.loginName = $.trim($("#_loginName").val());
-        if(type==0)
-            o.password = $.trim($("#_password").val());
-        else if(type==1){
-            o.userId = $.trim($("#_userId").val());
-        }
-        o.email = $.trim($("#_email").val());
-        o.status=$("#_status").prop("checked")?0:1
-        return o;
-
-    }
-    function inputValidate(type){
-        //type==0 ==>新增 type==1 ==>编辑
-        let _userName = $.trim($("#_userName").val());
-        if(_userName=="") {
-            layer.msg("用户姓名不可为空");
-            return false;
-        }
-        let _phonenumber = $.trim($("#_phonenumber").val());
-        if(_phonenumber=="") {
-            layer.msg("手机号码不可为空");
-            return false;
-        }
-        let _loginName = $.trim($("#_loginName").val());
-        if(_loginName=="") {
-            layer.msg("登录名称不可为空");
-            return false;
-        }
-        if(type==0) {
-            let _password = $.trim($("#_password").val());
-            if (_password == "") {
-                layer.msg("密码不可为空");
-                return false;
-            }
-        }
-        let _email = $.trim($("#_email").val());
-        if(_email=="") {
-            layer.msg("邮箱不可为空");
-            return false;
-        }
-        return true;
-    }
-    /**
-     * 自动将form表单封装成json对象
-     */
-    $.fn.serializeObject = function() {
-        let o = {};
-        let a = this.serializeArray();
-        $.each(a, function() {
-            if (o[this.name]) {
-                if (!o[this.name].push) {
-                    o[this.name] = [ o[this.name] ];
-                }
-                o[this.name].push(this.value || '');
-            } else {
-                o[this.name] = this.value || '';
-            }
-        });
-        return o;
-    };
 </script>
 <script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="reset">重置</a>
+    <a class="layui-btn layui-btn-xs" lay-event="info">查看详情</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="lovePoint">爱心积分</a>
 </script>
 <script id="checkboxS" type="text/html">
     <!-- 这里的 checked 的状态只是演示 -->
-    <input type="checkbox" value="{{d.userId}}" lay-skin="switch" lay-text="开启|停用" lay-filter="release" {{ d.status == 0 ? 'checked' : '' }}>
+    <input type="checkbox" value="{{d.id+','+d.name}}" lay-skin="switch" lay-text="正常|禁用" lay-filter="release" {{ d.state== 0
+           ? 'checked' : '' }}    >
 </script>
 </body>

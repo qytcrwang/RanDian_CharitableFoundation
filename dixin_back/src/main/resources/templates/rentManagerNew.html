@@ -6,6 +6,7 @@
   <div class="layui-row">
     <div class="layui-col-md12">
       <div class="dTable" style="padding-top: 10px">
+        学校名称：
         <div class="layui-inline">
           <input class="layui-input" name="id" placeholder="学校名称" id="school" autocomplete="off"
                  style="width: 200px">
@@ -29,9 +30,10 @@
         <div class="layui-inline">
           <input type="text" class="layui-input" name="sentTime" id="sentTime" placeholder="发放时间" onfocus="noInput(this)">
         </div>
-        <div class="layui-inline" style="float:right;">
+        <div class="layui-inline" style="float:right;padding-right: 10px">
         <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
-          <button type="button" class="layui-btn" data-type="reload" id="clear">重置</button>
+          <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+          <button type="button" class="layui-btn" style="visibility: hidden" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>新增</button>
         </div>
       </div>
     </div>

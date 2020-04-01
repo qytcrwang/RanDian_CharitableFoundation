@@ -39,5 +39,49 @@
     order by create_time desc
     limit #{start} , #{pageSize}
   </select>
+  <select id="selectLovePointsCount" parameterType="com.fire.back.entity.LovePointsTb" resultType="Integer">
+    select
+    count(*)
+    from love_points_tb
+    where user_id = #{userId,jdbcType=BIGINT}
+    <if test="type != null" >
+      and type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="status != null" >
+      and status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="operatorId != null" >
+      and operator_id = #{operatorId,jdbcType=BIGINT}
+    </if>
+    <if test="isDelete != null" >
+      and is_delete = #{isDelete,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <update id="batchDeleteLovePoints" parameterType="java.util.List">
+        update  love_points_tb
+        set is_delete = 1
+        where
+        <foreach collection="list"  item="lp" separator="or" open="" close="">
+            id=lp.id
+        </foreach>
+  </update>
+
+  <insert id="batchInsertLvoePoints" parameterType="java.util.List">
+    insert into love_points_tb (id, user_id, love_points,`type`,activity_id,
+     description,operator_id, status, create_time,update_time, is_delete)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+    (
+        #{item.id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+        #{item.lovePoints,jdbcType=INTEGER},#{item.type,jdbcType=INTEGER},
+        #{item.activityId,jdbcType=BIGINT}, #{item.description,jdbcType=VARCHAR},
+        #{item.operatorId,jdbcType=BIGINT}, #{item.status,jdbcType=INTEGER},
+        #{item.createTime,jdbcType=BIGINT},#{item.updateTime,jdbcType=BIGINT},
+        #{item.isDelete,jdbcType=INTEGER}
+    )
+      </foreach>
+
+  </insert>
 
 </mapper>
