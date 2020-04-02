@@ -104,7 +104,7 @@ page{
     color:#454545;
 }
 .cs_circle{
-    padding:50rpx 0;
+    padding:10rpx 0;
 }
 .cs_incircle{
     width:225rpx;
@@ -146,7 +146,6 @@ page{
     left:0;
     right:0;
     bottom:0;
-    display:none;
 }
 .cs_bg{
     position:fixed;
@@ -165,22 +164,15 @@ page{
     padding:20rpx;
     box-sizing: border-box;
 }
-.canlendarBgView{
-    
-}
-.canlendarView{}
 .canlendarTopView{
     overflow:hidden;
-    padding:40rpx 20rpx;
+    padding:0rpx 10rpx;
     margin-left:20rpx;
 }
 .leftBgView{
     float:left;
     width:153rpx;
     text-align: center;
-}
-.leftView{
-   
 }
 .leftView image{
     width:60rpx;
@@ -216,7 +208,7 @@ page{
 }
 .dateBgView{
     overflow:hidden;
-    margin-bottom:20rpx;
+    margin-bottom:10rpx;
 }
 .dateEmptyView{
 }
@@ -234,29 +226,14 @@ page{
   background-color: #04BE02;
   color: #fff !important;
 }
-.del{
-    position:absolute;
-    top:-20rpx;
-    right:-20rpx;
-    width:50rpx;
-    height:50rpx;
-    background-color:#fff;
-    border-radius:50%;
-
-}
-.del image{
-    width:50rpx;
-    height:50rpx;
-    vertical-align: text-top;
-}
 .clocksucceed{
     position:absolute;
     top:-3rpx;
-    left:20rpx;
+    left:10rpx;
     background-color:#fff;
 }
 .clocksucceed image{
-    width:50rpx;
-    height:50rpx;
+    width:70rpx;
+    height:70rpx;
     vertical-align: middle;
 }
