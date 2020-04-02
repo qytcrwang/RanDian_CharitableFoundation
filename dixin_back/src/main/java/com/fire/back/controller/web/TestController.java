@@ -1,28 +1,16 @@
 package com.fire.back.controller.web;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import com.fire.back.dto.SysUserExtend;
-import com.fire.back.entity.SysUser;
-import com.fire.back.service.SysUserService;
 import com.fire.back.util.ShiroUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import com.fire.back.common.FireResult;
-import com.fire.back.util.ParamUtil;
 /**
  *
  * @author dragon
@@ -31,10 +19,6 @@ import com.fire.back.util.ParamUtil;
  */
 @Controller
 public class TestController {
-	private Logger logger = LoggerFactory.getLogger(TestController.class);
-
-	@Autowired
-	private SysUserService ss;
 
 	@GetMapping("/")
 	@RequiresAuthentication
@@ -45,12 +29,12 @@ public class TestController {
 	}
 
 	@GetMapping("/err403")
-	public String err403(ModelMap map){
+	public String err403(){
 		return "403";
 	}
 
 	@GetMapping("/error")
-	public String err(ModelMap map){
+	public String err(){
 		return "error";
 	}
 
@@ -129,23 +113,4 @@ public class TestController {
 		return "managerInfo";
 	}
 
-	@PostMapping("/getInfo")
-	@ResponseBody
-	public FireResult getInfo(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {
-		try {
-			Double param1 = ParamUtil.getDouble(paramMap, "param1", 0.00);
-			Long param2 = ParamUtil.getLong(paramMap, "param2", 0L);
-			Integer param3 = ParamUtil.getInteger(paramMap, "param3", 16);
-			String param4 = ParamUtil.getString(paramMap, "param4", "规范示例");
-			Map<String,Object> shili = new HashMap<>();
-			shili.put("a", param1);
-			shili.put("b", param2);
-			shili.put("c", param3);
-			shili.put("d", param4);
-			return FireResult.build(1, "数据获取成功", shili);
-		} catch (Exception e) {
-			logger.error("",e);
-			return FireResult.build(0, "获取信息失败，请稍后再试");
-		}
-	}
 }

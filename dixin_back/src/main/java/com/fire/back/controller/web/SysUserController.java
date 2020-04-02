@@ -8,10 +8,10 @@ import com.fire.back.util.ParamUtil;
 import com.fire.back.util.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Md5Hash;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +20,14 @@ import java.util.Map;
 @RequestMapping("/back/sysUser")
 public class SysUserController extends BaseController {
 
-    @Autowired
+    final
     SysUserService sysUserService;
+
+    private Logger logger = LoggerFactory.getLogger(BackUserController.class);
+
+    public SysUserController(SysUserService sysUserService) {
+        this.sysUserService = sysUserService;
+    }
 
     @GetMapping("/")
     @RequiresPermissions("system:sysUser:view")
@@ -36,10 +42,10 @@ public class SysUserController extends BaseController {
         try {
             List<SysUser> list = sysUserService.getSysUsersByParams(user);
             int count  = sysUserService.getSysUserCountByParams(user);
-            return FireResult.build(1,"查询用户列表成功",list,count);
+            return FireResult.build(1,"查询操作员列表成功",list,count);
         } catch (Exception e) {
-            e.printStackTrace();
-            return FireResult.build(0,"查询用户列表失败",null);
+            logger.error("获取操作员信息失败",e);
+            return FireResult.build(0,"查询操作员列表失败",null);
 
         }
     }
@@ -56,10 +62,10 @@ public class SysUserController extends BaseController {
             user.setUpdateBy(ShiroUtils.getUserId()+":"+ShiroUtils.getLoginName());
             sysUserService.updateSysUser(user);
             ShiroUtils.setSysUser(sysUserService.getSysUserMenusByLoginName(ShiroUtils.getLoginName()));
-            return FireResult.build(1,"修改管理员信息成功");
+            return FireResult.build(1,"修改操作员信息成功");
         } catch (Exception e) {
-            e.printStackTrace();
-            return FireResult.build(0,"修改管理员信息失败");
+            logger.error("修改操作员信息失败",e);
+            return FireResult.build(0,"修改操作员信息失败");
         }
     }
     @PostMapping("/reset")
@@ -81,7 +87,7 @@ public class SysUserController extends BaseController {
             ShiroUtils.setSysUser(sysUserService.getSysUserMenusByLoginName(ShiroUtils.getLoginName()));
             return FireResult.build(1,"重置密码成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("重置密码失败",e);
             return FireResult.build(0,"重置密码失败");
         }
     }
@@ -104,7 +110,7 @@ public class SysUserController extends BaseController {
             sysUserService.addSysUser(user);
             return FireResult.build(1,"添加管理员信息成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("添加管理员信息失败",e);
             return FireResult.build(0,"添加管理员信息失败");
         }
     }
@@ -117,7 +123,7 @@ public class SysUserController extends BaseController {
             Long userId = ParamUtil.getLong(paramMap,"userId",null);
             if(SysUserExtend.isAdmin(userId))
                 return FireResult.build(0,"不允许删除超级管理员");
-            if(userId ==ShiroUtils.getUserId())
+            if(userId.equals(ShiroUtils.getUserId()))
                 return FireResult.build(0,"无法删除当前用户");
             SysUser user = new SysUser();
             user.setUserId(userId);
@@ -126,7 +132,7 @@ public class SysUserController extends BaseController {
             sysUserService.updateSysUser(user);
             return FireResult.build(1,"删除管理员信息成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("删除管理员信息失败",e);
             return FireResult.build(0,"删除管理员信息失败");
         }
     }
@@ -141,7 +147,7 @@ public class SysUserController extends BaseController {
             SysUser user = sysUserService.getSysUserInfoById(userId);
             return FireResult.build(1,"获取管理员信息成功",user);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("获取管理员信息失败",e);
             return FireResult.build(0,"获取管理员信息失败");
         }
 

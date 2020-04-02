@@ -4,26 +4,31 @@ import com.fire.back.common.FireResult;
 import com.fire.back.entity.UserTb;
 import com.fire.back.service.SignInService;
 import com.fire.back.service.UserService;
-import com.fire.back.util.ParamUtil;
 import com.fire.back.util.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import static com.fire.back.util.ParamUtil.*;
+
 @Controller
 @RequestMapping("/back/user")
 public class BackUserController extends BaseController{
-    @Autowired
+    final
     UserService us;
-    @Autowired
+    final
     SignInService ss;
     private Logger logger = LoggerFactory.getLogger(BackUserController.class);
+
+    public BackUserController(UserService us, SignInService ss) {
+        this.us = us;
+        this.ss = ss;
+    }
 
 
     @GetMapping("/")
@@ -43,7 +48,7 @@ public class BackUserController extends BaseController{
     @RequiresPermissions("common:user:list")
     public FireResult getUserInfo(@RequestBody Map<String,Object> paramMap){
         try {
-            Long userId = ParamUtil.getLong(paramMap,"userId");
+            Long userId = getLong(paramMap,"userId");
             UserTb user =us.getUserInfobByPrimaryKey(userId);
             return FireResult.build(1,"用户信息获取成功",user);
         }catch(Exception e){
@@ -61,12 +66,12 @@ public class BackUserController extends BaseController{
     @RequiresPermissions("common:user:edit")
     public FireResult updateUserInfo(@RequestBody  Map<String, Object> paramMap){
         try {
-            Long id = ParamUtil.getLong(paramMap,"id");
-            String idCardNumber = ParamUtil.getString(paramMap,"idCardNumber",null);
-            String mobile = ParamUtil.getString(paramMap,"mobile",null);
-            String name = ParamUtil.getString(paramMap,"name",null);
-            Integer type = ParamUtil.getInteger(paramMap,"userType",null);
-            Integer state = ParamUtil.getInteger(paramMap,"state",null);
+            Long id = getLong(paramMap,"id");
+            String idCardNumber = getString(paramMap,"idCardNumber",null);
+            String mobile = getString(paramMap,"mobile",null);
+            String name = getString(paramMap,"name",null);
+            Integer type = getInteger(paramMap,"userType",null);
+            Integer state = getInteger(paramMap,"state",null);
 
             UserTb u = new UserTb();
             u.setId(id);
@@ -93,7 +98,7 @@ public class BackUserController extends BaseController{
     @RequiresPermissions("common:sign:list")
     public FireResult getSignDaysList(@RequestBody Map<String,Object> paramMap){
         try {
-            Long userId = ParamUtil.getLong(paramMap,"userId");
+            Long userId = getLong(paramMap,"userId");
             Calendar cal = Calendar.getInstance();
             int signYear = cal.get(Calendar.YEAR);
             int signMonth = cal.get(Calendar.MONTH) + 1;
@@ -106,8 +111,6 @@ public class BackUserController extends BaseController{
     }
     /**
      * 通过微信openid获取用户信息
-     * @param paramMap
-     * @return
      */
     @PostMapping("/getUserInfoByOpenid")
     @ResponseBody
@@ -115,7 +118,7 @@ public class BackUserController extends BaseController{
     public FireResult getUserInfoByOpenid(@RequestBody Map<String,Object> paramMap){
 
         try {
-            String openid = ParamUtil.getString(paramMap,"openid");
+            String openid = getString(paramMap,"openid");
             UserTb user = us.getUserInfoByOpenId(openid);
             return FireResult.build(1,"用户信息获取成功",user);
         }catch(Exception e){
@@ -149,18 +152,17 @@ public class BackUserController extends BaseController{
      * 查询指定年份或者指定年份至今的签到总天数
      * queryType 为 1查询当年签到从天数，为2则查询当年至今签到总天数
      * @param paramMap userId year month queryType
-     * @return
      */
     @PostMapping("/getYearSignedSum")
     @ResponseBody
     @RequiresPermissions("common:sign:list")
     public FireResult getYearSignedSum(@RequestBody Map<String,Object> paramMap){
         try {
-            Long userId = ParamUtil.getLong(paramMap, "userId");
+            Long userId = getLong(paramMap, "userId");
             if (userId == null) return FireResult.build(-1, "参数userId为空");
-            Integer year = ParamUtil.getInteger(paramMap,"year");
-            Integer month = ParamUtil.getInteger(paramMap,"month");
-            Integer queryType = ParamUtil.getInteger(paramMap,"queryType");
+            Integer year = getInteger(paramMap,"year");
+            Integer month = getInteger(paramMap,"month");
+            Integer queryType = getInteger(paramMap,"queryType");
             Integer sum = 0;
             if(queryType==1){
                 sum = ss.getYearSigned(year,month,userId);
@@ -173,21 +175,5 @@ public class BackUserController extends BaseController{
             logger.error("获取年签到天数异常",e);
             return FireResult.build(0,"获取年签到天数异常");
         }
-    }
-
-    private  void createUserTbParam(Map<String,Object> paramMap,UserTb user){
-        user.setName(ParamUtil.getString(paramMap,"name",null));
-        user.setIdCardNumber(ParamUtil.getString(paramMap,"idCardNumber",null));
-        user.setMobile(ParamUtil.getString(paramMap,"mobile",null));
-        user.setState(ParamUtil.getInteger(paramMap,"state",null));
-        user.setType(ParamUtil.getInteger(paramMap,"type",null));
-        user.setRoleId(ParamUtil.getLong(paramMap,"roleId",null));
-        user.setSex(ParamUtil.getInteger(paramMap,"sex",null));
-        user.setAddress(ParamUtil.getString(paramMap,"address",null));
-        user.setOrgName(ParamUtil.getString(paramMap,"orgName",null));
-        user.setOldName(ParamUtil.getString(paramMap,"oldName",null));
-        user.setOldMobile(ParamUtil.getString(paramMap,"oldMobile",null));
-        user.setSchool(ParamUtil.getString(paramMap,"school",null));
-        user.setIsDelete(ParamUtil.getInteger(paramMap,"isDelete",null));
     }
 }

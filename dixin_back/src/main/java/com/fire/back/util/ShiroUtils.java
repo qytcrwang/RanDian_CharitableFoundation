@@ -5,15 +5,11 @@ import com.fire.back.dto.SysUserExtend;
 import com.fire.back.entity.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
-
-import java.util.Date;
-
 /**
  * shiro 工具类
  * 
@@ -94,29 +90,5 @@ public class ShiroUtils
         SecureRandomNumberGenerator secureRandom = new SecureRandomNumberGenerator();
         String hex = secureRandom.nextBytes(3).toHex();
         return hex;
-    }
-
-    public static  void  createAdmin(){
-        SysUser user = new SysUser();
-        Date now = new Date();
-        user.setUserId(1l);
-        user.setLoginName("admin");
-        user.setCreateTime(now);
-        user.setUpdateTime(now);
-        user.setDelFlag("0");
-        user.setStatus("0");
-        user.setCreateBy("admin");
-        user.setEmail("fire@163.com");
-        user.setPhonenumber("18888888888");
-        user.setRemark("超级管理员系统创建，不可修改");
-        user.setUserName("超级管理员");
-        user.setSex("0");
-        user.setSalt(randomSalt());
-        user.setUserType("00");
-        user.setPassword(new Md5Hash("admin",user.getSalt(),2).toHex()
-        );
-        System.out.println(user.getSalt());
-        System.out.println(user.getPassword());
-
     }
 }

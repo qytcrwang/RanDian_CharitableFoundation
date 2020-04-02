@@ -6,6 +6,7 @@ import com.fire.back.service.LovePointsService;
 import com.fire.back.util.ParamUtil;
 import com.fire.back.util.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ public class BackLovePointController extends BaseController{
     }
 
 
-    private org.slf4j.Logger logger = LoggerFactory.getLogger(BackLovePointController.class);
+    private Logger logger = LoggerFactory.getLogger(BackUserController.class);
 
     @GetMapping("/love")
     @RequiresPermissions("common:integral:view")
@@ -44,8 +45,6 @@ public class BackLovePointController extends BaseController{
 
     /**
      * 获取用户的爱心积分变更列表
-     * @param paramMap
-     * @return
      */
     @PostMapping("/list")
     @ResponseBody
@@ -72,8 +71,6 @@ public class BackLovePointController extends BaseController{
 
     /**
      * 新增一条爱心积分
-     * @param  l
-     * @return
      */
     @PostMapping("/add")
     @ResponseBody
@@ -97,8 +94,6 @@ public class BackLovePointController extends BaseController{
     }
     /**
      * 批量添加爱心积分
-     * @param  list
-     * @return
      */
     @PostMapping("/batchAdd")
     @ResponseBody
@@ -123,8 +118,6 @@ public class BackLovePointController extends BaseController{
     }
     /**
      * 删除一条爱心积分
-     * @param
-     * @return
      */
     @PostMapping("/del")
     @ResponseBody
@@ -145,8 +138,6 @@ public class BackLovePointController extends BaseController{
 
     /**
      * 删除一条爱心积分
-     * @param
-     * @return
      */
     @PostMapping("/batchDel")
     @ResponseBody

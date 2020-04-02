@@ -3,12 +3,9 @@ package com.fire.back.controller.web;
 import com.alibaba.fastjson.JSONObject;
 import com.fire.back.common.FireResult;
 import com.fire.back.util.WebUtilsPro;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -45,9 +42,6 @@ public class BaseController {
 
     /**
      * 输出JSON
-     * @param response
-     * @author SHANHY
-     * @create 2017年4月4日
      */
     private void writeJson(Object o, HttpServletResponse response) {
         PrintWriter out = null;

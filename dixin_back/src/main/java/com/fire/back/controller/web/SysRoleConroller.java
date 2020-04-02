@@ -11,7 +11,8 @@ import com.fire.back.service.SysUserService;
 import com.fire.back.util.ParamUtil;
 import com.fire.back.util.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +25,17 @@ import java.util.Map;
 @RequestMapping("/back/sysRole")
 public class SysRoleConroller extends BaseController {
 
-    @Autowired
-    private SysRoleService sysRoleService;
+    private final SysRoleService sysRoleService;
 
-    @Autowired
-    private SysUserService sysUserService;
+    private final SysUserService sysUserService;
+
+    private Logger logger = LoggerFactory.getLogger(BackUserController.class);
+
+
+    public SysRoleConroller(SysRoleService sysRoleService, SysUserService sysUserService) {
+        this.sysRoleService = sysRoleService;
+        this.sysUserService = sysUserService;
+    }
 
     @GetMapping("/")
     public String rolePage(){
@@ -44,7 +51,7 @@ public class SysRoleConroller extends BaseController {
             int count = sysRoleService.getRoleCountByParams(role);
             return FireResult.build(1,"查询角色列表成功",list,count);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("查询角色列表失败",e);
             return FireResult.build(0,"查询角色列表失败");
         }
     }
@@ -67,7 +74,7 @@ public class SysRoleConroller extends BaseController {
             sysRoleService.addSysRole(role);
             return FireResult.build(1,"创建新角色成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("创建新角色失败",e);
             return  FireResult.build(0,"创建新角色失败");
         }
     }
@@ -88,7 +95,7 @@ public class SysRoleConroller extends BaseController {
             ShiroUtils.setSysUser(sysUserService.getSysUserMenusByLoginName(ShiroUtils.getLoginName()));
             return FireResult.build(1,"更新角色成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("更新角色失败",e);
             return  FireResult.build(0,"更新角色失败");
         }
     }
@@ -98,7 +105,7 @@ public class SysRoleConroller extends BaseController {
     public FireResult stopUsing(@RequestBody Map<String,Object> param){
         try {
 
-            Long roleId =ParamUtil.getLong(param,"roleId",0l);
+            Long roleId =ParamUtil.getLong(param,"roleId",-1L);
             if(SysRoleParamdto.isAdmin(roleId))
                 return FireResult.build(0,"不允许修改超级管理员角色");
             String status = ParamUtil.getString(param,"status",null);
@@ -110,7 +117,7 @@ public class SysRoleConroller extends BaseController {
             sysRoleService.updateSysRole(role);
             return FireResult.build(1,"更新角色状态成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("更新角色状态失败",e);
             return  FireResult.build(0,"更新角色状态失败");
         }
     }
@@ -129,7 +136,7 @@ public class SysRoleConroller extends BaseController {
             sysRoleService.deleteSysRole(roleId);
             return FireResult.build(1,"删除角色成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("删除角色失败",e);
             return FireResult.build(0,"删除角色失败");
         }
     }
@@ -143,7 +150,7 @@ public class SysRoleConroller extends BaseController {
             SysRole role = sysRoleService.getSysRoleById(roleId);
             return FireResult.build(1,"查询角色信息成功",role);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("查询角色信息失败",e);
             return FireResult.build(0,"查询角色信息失败");
 
         }
@@ -157,8 +164,7 @@ public class SysRoleConroller extends BaseController {
     public List<LayTree> roleMenuTreeData(Long roleId)
     {
         Long userId = ShiroUtils.getUserId();
-        List<LayTree> tress = sysRoleService.roleMenuTreeData(roleId,userId);
-        return tress;
+        return sysRoleService.roleMenuTreeData(roleId,userId);
     }
 
 
@@ -184,7 +190,7 @@ public class SysRoleConroller extends BaseController {
             int count = sysRoleService.getUsersCountBySysRole(roleId,loginName,phonenumber,status);
             return FireResult.build(1,"查询授权用户成功",list,count);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("查询授权用户失败",e);
             return FireResult.build(0,"查询授权用户失败");
         }
     }
@@ -203,7 +209,7 @@ public class SysRoleConroller extends BaseController {
             ShiroUtils.setSysUser(sysUserService.getSysUserMenusByLoginName(ShiroUtils.getLoginName()));
             return FireResult.build(1,"授予角色成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("授予角色失败",e);
             return FireResult.build(0,"授予角色失败");
         }
     }
@@ -221,7 +227,7 @@ public class SysRoleConroller extends BaseController {
             ShiroUtils.setSysUser(sysUserService.getSysUserMenusByLoginName(ShiroUtils.getLoginName()));
             return FireResult.build(1,"移除角色成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("移除角色失败",e);
             return FireResult.build(0,"移除角色失败");
         }
     }
