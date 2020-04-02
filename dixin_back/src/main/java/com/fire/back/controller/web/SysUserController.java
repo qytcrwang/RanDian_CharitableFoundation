@@ -6,6 +6,7 @@ import com.fire.back.entity.SysUser;
 import com.fire.back.service.SysUserService;
 import com.fire.back.util.ParamUtil;
 import com.fire.back.util.ShiroUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,17 +18,20 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/back/sysUser")
-public class SysUserController {
+public class SysUserController extends BaseController {
 
     @Autowired
     SysUserService sysUserService;
 
     @GetMapping("/")
+    @RequiresPermissions("system:sysUser:view")
     public String sysUserPage(){
         return "user/sysUser";
     }
+
     @PostMapping("/list")
     @ResponseBody
+    @RequiresPermissions("system:sysUser:list")
     public FireResult getSysUserList(@RequestBody SysUser user) {
         try {
             List<SysUser> list = sysUserService.getSysUsersByParams(user);
@@ -41,6 +45,7 @@ public class SysUserController {
     }
     @PostMapping("/update")
     @ResponseBody
+    @RequiresPermissions("system:sysUser:edit")
     public FireResult updateSysUser(@RequestBody SysUser user){
         try {
             if(SysUserExtend.isAdmin(user.getUserId()))
@@ -50,6 +55,7 @@ public class SysUserController {
             user.setPassword(null);
             user.setUpdateBy(ShiroUtils.getUserId()+":"+ShiroUtils.getLoginName());
             sysUserService.updateSysUser(user);
+            ShiroUtils.setSysUser(sysUserService.getSysUserMenusByLoginName(ShiroUtils.getLoginName()));
             return FireResult.build(1,"修改管理员信息成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,6 +64,7 @@ public class SysUserController {
     }
     @PostMapping("/reset")
     @ResponseBody
+    @RequiresPermissions("system:sysUser:reset")
     public FireResult resetPassword(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap,"userId",null);
@@ -71,6 +78,7 @@ public class SysUserController {
             user.setPassword(new Md5Hash(password,user.getSalt(),2).toHex());
             user.setUpdateBy(ShiroUtils.getUserId()+":"+ShiroUtils.getLoginName());
             sysUserService.updateSysUser(user);
+            ShiroUtils.setSysUser(sysUserService.getSysUserMenusByLoginName(ShiroUtils.getLoginName()));
             return FireResult.build(1,"重置密码成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,6 +88,7 @@ public class SysUserController {
 
     @PostMapping("/add")
     @ResponseBody
+    @RequiresPermissions("system:sysUser:add")
     public FireResult addSysUser(@RequestBody SysUser user){
         try {
             Date date = new Date();
@@ -102,11 +111,14 @@ public class SysUserController {
 
     @PostMapping("/del")
     @ResponseBody
+    @RequiresPermissions("system:sysUser:del")
     public FireResult delSysUser(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap,"userId",null);
             if(SysUserExtend.isAdmin(userId))
                 return FireResult.build(0,"不允许删除超级管理员");
+            if(userId ==ShiroUtils.getUserId())
+                return FireResult.build(0,"无法删除当前用户");
             SysUser user = new SysUser();
             user.setUserId(userId);
             user.setDelFlag("2");
@@ -121,6 +133,7 @@ public class SysUserController {
 
     @PostMapping("/getUserInfo")
     @ResponseBody
+    @RequiresPermissions("system:sysUser:list")
     public FireResult getUserInfo(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap,"userId",null);

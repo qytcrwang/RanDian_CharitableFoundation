@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head th:replace="include :: header">
 </head>
 <body>
@@ -33,9 +33,9 @@
                        onfocus="noInput(this)">
             </div>
             <div class="layui-inline" style="float:right;">
-                <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
-                <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
-                <button type="button" class="layui-btn" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>新增
+                <button shiro:hasPermission="system:role:list" type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+                <button shiro:hasPermission="system:role:list" type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+                <button shiro:hasPermission="system:role:add" type="button" class="layui-btn" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>新增
                 </button>
             </div>
         </div>
@@ -165,6 +165,7 @@
             let data = {roleId: obj.value, status: obj.elem.checked ? 0 : 1}
             saveData("/back/sysRole/stopUsing", data);
             layer.closeAll();
+            searchForm();
         });
 
         form.on('submit(formDemo)', function (data) {
@@ -223,11 +224,11 @@
                     if (result["status"] == 1) {
                         layer.closeAll();
                         layer.msg(result["msg"]);
-
+                        searchForm();
                     } else {
                         layer.alert(result["msg"]);
                     }
-                    searchForm();
+
                 }
             });
         }
@@ -391,9 +392,9 @@
     }
 </script>
 <script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="toAuthUser">分配用户</a>
+    <a shiro:hasPermission="system:role:edit" class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a shiro:hasPermission="system:role:del" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a shiro:hasPermission="system:role:edit" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="toAuthUser">分配用户</a>
 </script>
 <script id="checkboxS" type="text/html">
     <!-- 这里的 checked 的状态只是演示 -->

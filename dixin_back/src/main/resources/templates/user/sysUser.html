@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head th:replace="include :: header">
 </head>
 <body>
@@ -33,9 +33,9 @@
                        onfocus="noInput(this)">
             </div>
             <div class="layui-inline" style="float:right;">
-                <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
-                <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
-                <button type="button" class="layui-btn" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>新增
+                <button shiro:hasPermission="system:sysUser:list"  type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+                <button shiro:hasPermission="system:sysUser:list"  type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+                <button shiro:hasPermission="system:sysUser:add" type="button" class="layui-btn" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>新增
                 </button>
             </div>
         </div>
@@ -295,42 +295,6 @@
                 }
             });
         }
-
-        function resetPassword() {
-            let userId = $("#_resetUserId").val();
-            let password = $("#_newPassword").val();
-            let passwordRepeat = $("#_repeatPassword").val();
-            if (userId == "") {
-                layer.msg("参数异常，请刷新再试");
-                return;
-            }
-            if (password == "") {
-                layer.msg("请输入新密码");
-                return;
-            }
-            if (password != passwordRepeat) {
-                layer.msg("两次输入密码不一致")
-                return;
-            }
-            $.ajax({
-                type: "post",
-                url: "/back/sysUser/reset",
-                data: JSON.stringify({userId: userId, password, password}),
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                dataType: 'json',
-                success: function (data) {
-                    if (data["status"] == 1) {
-                        layer.msg(data["msg"]);
-                        layer.closeAll();
-                    } else {
-                        layer.alert(data['msg']);
-                    }
-                }
-            });
-        }
-
         function saveData(url, data) {
             $.ajax({
                 type: "post",
@@ -496,9 +460,9 @@
     }
 </script>
 <script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="reset">重置</a>
+    <a shiro:hasPermission="system:sysUser:edit" class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a shiro:hasPermission="system:sysUser:del" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a shiro:hasPermission="system:sysUser:reset" class="layui-btn layui-btn-warm layui-btn-xs" lay-event="reset">重置</a>
 </script>
 <script id="checkboxS" type="text/html">
     <!-- 这里的 checked 的状态只是演示 -->

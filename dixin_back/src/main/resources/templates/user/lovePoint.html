@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head th:replace="include :: header">
 </head>
 <body>
@@ -43,8 +43,8 @@
             </div>
         </div>
         <div class="layui-inline" style="float:right; right:20px;">
-            <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
-            <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+            <button shiro:hasPermission="common:integral:list" type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+            <button shiro:hasPermission="common:integral:list" type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
         </div>
     </div>
 </form>
@@ -423,7 +423,7 @@
 </script>
 <!-- table后的操作按钮 -->
 <script type="text/html" id="loveBar">
-    <a class="layui-btn layui-btn-xs" lay-event="insert">添加积分</a>
-    <a class="layui-btn layui-btn-xs" lay-event="detail">查看记录</a>
+    <a shiro:hasPermission="common:integral:add" class="layui-btn layui-btn-xs" lay-event="insert">添加积分</a>
+    <a shiro:hasPermission="common:integral:list" class="layui-btn layui-btn-xs" lay-event="detail">查看记录</a>
 </script>
 </body>

@@ -44,6 +44,16 @@ public class TestController {
 		return "index";
 	}
 
+	@GetMapping("/err403")
+	public String err403(ModelMap map){
+		return "403";
+	}
+
+	@GetMapping("/error")
+	public String err(ModelMap map){
+		return "error";
+	}
+
 	@RequestMapping("/login")
 	public String login(Model model, HttpServletRequest req){
 		// 登录失败从request中获取shiro处理的异常信息。

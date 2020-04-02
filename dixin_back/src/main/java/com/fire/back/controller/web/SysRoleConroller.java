@@ -7,8 +7,10 @@ import com.fire.back.dto.SysUserExtend;
 import com.fire.back.entity.SysRole;
 import com.fire.back.entity.SysUser;
 import com.fire.back.service.SysRoleService;
+import com.fire.back.service.SysUserService;
 import com.fire.back.util.ParamUtil;
 import com.fire.back.util.ShiroUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,10 +22,13 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/back/sysRole")
-public class SysRoleConroller {
+public class SysRoleConroller extends BaseController {
 
     @Autowired
     private SysRoleService sysRoleService;
+
+    @Autowired
+    private SysUserService sysUserService;
 
     @GetMapping("/")
     public String rolePage(){
@@ -32,6 +37,7 @@ public class SysRoleConroller {
 
     @PostMapping("/list")
     @ResponseBody
+    @RequiresPermissions("system:role:list")
     public FireResult getRoleList(@RequestBody SysRole role){
         try {
             List<SysRole> list =sysRoleService.getRoleListByParams(role);
@@ -45,6 +51,7 @@ public class SysRoleConroller {
 
     @PostMapping("/add")
     @ResponseBody
+    @RequiresPermissions("system:role:add")
     public FireResult addRole(@RequestBody SysRoleParamdto role){
         Date date = new Date();
         try {
@@ -66,6 +73,7 @@ public class SysRoleConroller {
     }
     @PostMapping("/update")
     @ResponseBody
+    @RequiresPermissions("system:role:edit")
     public FireResult updateRole(@RequestBody SysRoleParamdto role){
         try {
             if(role.isAdmin())
@@ -77,6 +85,7 @@ public class SysRoleConroller {
             if(sysRoleService.checkRoleByRoleName(role.getRoleName(),role.getRoleId()))
                 return FireResult.build(0,"角色名称:"+role.getRoleName()+" 已存在");
             sysRoleService.updateSysRoleMenu(role);
+            ShiroUtils.setSysUser(sysUserService.getSysUserMenusByLoginName(ShiroUtils.getLoginName()));
             return FireResult.build(1,"更新角色成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,6 +94,7 @@ public class SysRoleConroller {
     }
     @PostMapping("/stopUsing")
     @ResponseBody
+    @RequiresPermissions("system:role:edit")
     public FireResult stopUsing(@RequestBody Map<String,Object> param){
         try {
 
@@ -108,6 +118,7 @@ public class SysRoleConroller {
 
     @PostMapping("/del")
     @ResponseBody
+    @RequiresPermissions("system:role:del")
     public FireResult deleteRole(@RequestBody Map<String,Object> paramMap){
         try {
             Long roleId = ParamUtil.getLong(paramMap,"roleId",null);
@@ -125,6 +136,7 @@ public class SysRoleConroller {
 
     @PostMapping("/getById")
     @ResponseBody
+    @RequiresPermissions("system:role:list")
     public FireResult getRoleMenusById(@RequestBody  Map<String,Object> paramMap){
         try {
             Long roleId = ParamUtil.getLong(paramMap,"roleId",null);
@@ -151,6 +163,7 @@ public class SysRoleConroller {
 
 
     @GetMapping("/toAuthUser")
+    @RequiresPermissions("system:role:view")
     public String toAuthUser(Long roleId, ModelMap map){
         map.put("roleId",roleId);
         return "/user/userRole";
@@ -158,6 +171,7 @@ public class SysRoleConroller {
 
     @PostMapping("/getRoleUsers")
     @ResponseBody
+    @RequiresPermissions("system:role:list")
     public FireResult getRoleUsers(@RequestBody Map<String,Object> paramMap){
         try {
             Long roleId = ParamUtil.getLong(paramMap,"roleId",null);
@@ -177,6 +191,7 @@ public class SysRoleConroller {
 
     @PostMapping("/bindUser")
     @ResponseBody
+    @RequiresPermissions("system:role:edit")
     public FireResult bindRoleToUser(@RequestBody Map<String,Object> paramMap){
         try {
             Long roleId = ParamUtil.getLong(paramMap,"roleId");
@@ -185,6 +200,7 @@ public class SysRoleConroller {
                 return FireResult.build(0,"不允许授予超级管理员角色");
             }
             sysRoleService.insertUserRole(userId,roleId);
+            ShiroUtils.setSysUser(sysUserService.getSysUserMenusByLoginName(ShiroUtils.getLoginName()));
             return FireResult.build(1,"授予角色成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -193,6 +209,7 @@ public class SysRoleConroller {
     }
     @PostMapping("/removeUser")
     @ResponseBody
+    @RequiresPermissions("system:role:edit")
     public FireResult removeRoleFromUser(@RequestBody Map<String,Object> paramMap){
         try {
 
@@ -201,6 +218,7 @@ public class SysRoleConroller {
             if (SysUserExtend.isAdmin(userId)||SysRoleParamdto.isAdmin(roleId))
                 return FireResult.build(0,"不允许修改超级管理员信息");
             sysRoleService.deleteUserRole(userId,roleId);
+            ShiroUtils.setSysUser(sysUserService.getSysUserMenusByLoginName(ShiroUtils.getLoginName()));
             return FireResult.build(1,"移除角色成功");
         } catch (Exception e) {
             e.printStackTrace();

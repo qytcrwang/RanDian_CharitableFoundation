@@ -6,6 +6,7 @@ import com.fire.back.service.SignInService;
 import com.fire.back.service.UserService;
 import com.fire.back.util.ParamUtil;
 import com.fire.back.util.ShiroUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/back/user")
-public class BackUserController {
+public class BackUserController extends BaseController{
     @Autowired
     UserService us;
     @Autowired
@@ -26,6 +27,7 @@ public class BackUserController {
 
 
     @GetMapping("/")
+    @RequiresPermissions("common:user:view")
     public String index(){
         return "user/user";
     }
@@ -38,6 +40,7 @@ public class BackUserController {
      */
     @PostMapping("/info")
     @ResponseBody
+    @RequiresPermissions("common:user:list")
     public FireResult getUserInfo(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap,"userId");
@@ -55,6 +58,7 @@ public class BackUserController {
      */
     @PostMapping("/update")
     @ResponseBody
+    @RequiresPermissions("common:user:edit")
     public FireResult updateUserInfo(@RequestBody  Map<String, Object> paramMap){
         try {
             Long id = ParamUtil.getLong(paramMap,"id");
@@ -86,6 +90,7 @@ public class BackUserController {
      */
     @PostMapping("/getSignDaysList")
     @ResponseBody
+    @RequiresPermissions("common:sign:list")
     public FireResult getSignDaysList(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap,"userId");
@@ -106,6 +111,7 @@ public class BackUserController {
      */
     @PostMapping("/getUserInfoByOpenid")
     @ResponseBody
+    @RequiresPermissions("common:sign:list")
     public FireResult getUserInfoByOpenid(@RequestBody Map<String,Object> paramMap){
 
         try {
@@ -125,6 +131,7 @@ public class BackUserController {
      */
     @PostMapping("/list")
     @ResponseBody
+    @RequiresPermissions("common:user:list")
     public FireResult getUsersList(@RequestBody UserTb user){
         try {
             user.setIsDelete(0);
@@ -146,6 +153,7 @@ public class BackUserController {
      */
     @PostMapping("/getYearSignedSum")
     @ResponseBody
+    @RequiresPermissions("common:sign:list")
     public FireResult getYearSignedSum(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap, "userId");

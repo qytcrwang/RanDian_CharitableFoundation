@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head th:replace="include :: header">
 </head>
 <body>
@@ -75,9 +75,9 @@
             </div>
         </div>
         <div class="layui-inline" style="float:right; right:20px;">
-            <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
-            <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
-            <button type="button" style="visibility:hidden!important" class="layui-btn" id="add"><i class="layui-icon">&#xe608;</i>新增</button>
+            <button shiro:hasPermission="common:uer:list"  type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+            <button shiro:hasPermission="common:uer:list"  type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+            <button shiro:hasPermission="common:uer:add"  type="button" style="visibility:hidden!important" class="layui-btn" id="add"><i class="layui-icon">&#xe608;</i>新增</button>
         </div>
     </div>
 
@@ -465,8 +465,8 @@
 
 </script>
 <script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-xs" lay-event="info">查看详情</a>
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="lovePoint">爱心积分</a>
+    <a shiro:hasPermission="common:uer:list" class="layui-btn layui-btn-xs" lay-event="info">查看详情</a>
+    <a shiro:hasPermission="common:integral:list" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="lovePoint">爱心积分</a>
 </script>
 <script id="checkboxS" type="text/html">
     <!-- 这里的 checked 的状态只是演示 -->

@@ -5,6 +5,7 @@ import com.fire.back.entity.LovePointsTb;
 import com.fire.back.service.LovePointsService;
 import com.fire.back.util.ParamUtil;
 import com.fire.back.util.ShiroUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/back/lovePoint")
-public class BackLovePointController {
+public class BackLovePointController extends BaseController{
 
     private final
     LovePointsService lovePointsService;
@@ -29,12 +30,14 @@ public class BackLovePointController {
     private org.slf4j.Logger logger = LoggerFactory.getLogger(BackLovePointController.class);
 
     @GetMapping("/love")
+    @RequiresPermissions("common:integral:view")
     public String info(String name,String mobile, ModelMap map){
         map.put("name",name==null?"":name);
         map.put("mobile",mobile==null?"":mobile);
         return "/user/lovePoint";
     }
     @GetMapping("/")
+    @RequiresPermissions("common:integral:view")
     public String index(){
         return "user/lovePoint";
     }
@@ -46,6 +49,7 @@ public class BackLovePointController {
      */
     @PostMapping("/list")
     @ResponseBody
+    @RequiresPermissions("common:integral:list")
     public FireResult getLovedPointsListByUserId(@RequestBody Map<String,Object> paramMap){
         try {
             LovePointsTb l = new LovePointsTb();
@@ -73,6 +77,7 @@ public class BackLovePointController {
      */
     @PostMapping("/add")
     @ResponseBody
+    @RequiresPermissions("common:integral:add")
     public FireResult insertLovePoints(@RequestBody LovePointsTb l){
         try {
             l.setOperatorId(ShiroUtils.getUserId());
@@ -97,6 +102,7 @@ public class BackLovePointController {
      */
     @PostMapping("/batchAdd")
     @ResponseBody
+    @RequiresPermissions("common:integral:add")
     public FireResult batchInsertLovePoints(@RequestBody List<LovePointsTb> list){
         try {
             for(LovePointsTb l:list){
@@ -122,6 +128,7 @@ public class BackLovePointController {
      */
     @PostMapping("/del")
     @ResponseBody
+    @RequiresPermissions("common:integral:del")
     public FireResult deleteLovePoints(@RequestBody LovePointsTb l){
         try {
             l.setUpdateTime(System.currentTimeMillis()/1000);
@@ -143,6 +150,7 @@ public class BackLovePointController {
      */
     @PostMapping("/batchDel")
     @ResponseBody
+    @RequiresPermissions("common:integral:del")
     public FireResult batchDeleteLovePoints(@RequestBody List<LovePointsTb> list){
         try {
             for(LovePointsTb l :list){

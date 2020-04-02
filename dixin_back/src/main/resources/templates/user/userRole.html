@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head th:replace="include :: header">
 </head>
 <body>
@@ -23,8 +23,8 @@
                 </select>
             </div>
             <div class="layui-inline" style="float:right;">
-                <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
-                <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
+                <button shiro:hasPermission="system:role:list" type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+                <button shiro:hasPermission="system:role:list" type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
                 <button type="button" class="layui-btn" data-type="reload" id="back">返回</button>
             </div>
         </div>
@@ -148,10 +148,10 @@
     }
 </script>
 <script type="text/html" id="withRole">
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="remove">取消授权</a>
+        <a shiro:hasPermission="system:role:edit" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="remove">取消授权</a>
 </script>
 <script type="text/html" id="noRole">
-    <a class="layui-btn layui-btn-xs" lay-event="add">分配角色</a>
+    <a shiro:hasPermission="system:role:edit" class="layui-btn layui-btn-xs" lay-event="add">分配角色</a>
 </script>
 
 <script type="text/html" id="bar">

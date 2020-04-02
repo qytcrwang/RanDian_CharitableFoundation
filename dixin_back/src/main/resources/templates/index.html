@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
     <head th:replace="include :: header"></head>
     <body class="layui-layout-body">
             <div class="layui-layout layui-layout-admin">
@@ -47,46 +47,24 @@
                                     <dd><a href="">超链接</a></dd>
                                 </dl>
                             </li>-->
-                            <li class="layui-nav-item">
-                                <a href="javascript:;">系统管理</a>
+                            <li shiro:hasPermission="system:view" class="layui-nav-item layui-nav-itemed">
+                                <a  href="javascript:;">系统管理</a>
                                 <dl class="layui-nav-child">
-                                    <dd><a href="/back/sysUser/" target="main">管理员</a></dd>
-                                    <dd><a href="/back/sysRole/" target="main">角色管理</a></dd>
+                                    <dd><a shiro:hasPermission="system:sysUser:view"  href="/back/sysUser/" target="main">操作员管理</a></dd>
+                                    <dd><a shiro:hasPermission="system:role:view" href="/back/sysRole/" target="main">角色管理</a></dd>
                                 </dl>
                             </li>
-                            <li class="layui-nav-item">
-                                <a href="javascript:;">用户管理</a>
+                            <li shiro:hasPermission="common:view" class="layui-nav-item layui-nav-itemed">
+                                <a href="javascript:;">业务管理</a>
                                 <dl class="layui-nav-child">
-                                    <dd><a href="/back/user/" target="main">用户管理</a></dd>
-                                    <dd><a href="/back/lovePoint/" target="main">爱心积分管理</a></dd>
+                                    <dd><a shiro:hasPermission="common:user:view" href="/back/user/" target="main">用户管理</a></dd>
+                                    <dd><a shiro:hasPermission="common:integral:view" href="/back/lovePoint/" target="main">爱心积分管理</a></dd>
+                                    <dd><a href="/contriInfo" target="main">捐赠管理</a></dd>
+                                    <dd><a href="/rentManagerNew" target="main">租房申请管理</a></dd>
+                                    <dd><a href="/activityManage" target="main">活动管理</a></dd>
+                                    <dd><a href="/noticeManage" target="main">通知管理</a></dd>
                                 </dl>
                             </li>
-                            <li class="layui-nav-item">
-                                <a href="javascript:;">捐赠管理</a>
-                                <dl class="layui-nav-child">
-                                    <dd><a href="/contriInfo" target="main">捐赠列表</a></dd>
-                                </dl>
-                            </li>
-                            <li class="layui-nav-item">
-                                <a href="javascript:;">房租管理</a>
-                                <dl class="layui-nav-child">
-                                    <!--<dd><a href="/rentManager" target="main">申请列表</a></dd>-->
-                                    <dd><a href="/rentManagerNew" target="main">申请列表</a></dd>
-                                </dl>
-                            </li>
-                            <li class="layui-nav-item">
-                                <a href="javascript:;">活动管理</a>
-                                <dl class="layui-nav-child">
-                                    <dd><a href="/activityManage" target="main">活动列表</a></dd>
-                                </dl>
-                            </li>
-                            <li class="layui-nav-item">
-                                <a href="javascript:;">通知管理</a>
-                                <dl class="layui-nav-child">
-                                    <dd><a href="/noticeManage" target="main">通知列表</a></dd>
-                                </dl>
-                            </li>
-                            <!--<li class="layui-nav-item"><a href="">列表三</a></li>-->
                         </ul>
                     </div>
                 </div>
