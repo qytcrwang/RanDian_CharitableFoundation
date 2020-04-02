@@ -374,8 +374,6 @@ Page({
                 userId:this.data.userId
             },function(backResult){
                 if(backResult == null ||
-                    backResult.data == null ||
-                    backResult.data.length <= 0 ||
                     backResult.status != 1){
                     wx.showToast({
                         title:constant.REQUEST_TIMEOUT,
@@ -384,8 +382,15 @@ Page({
                     })
                     return;
                 }
+                wx.showToast({
+                    title:"签到成功",
+                    duration:2000,
+                })
                 _this.setData({
                     isTodaySigned:true
+                });
+                wx.reLaunch({
+                    url:"/pages/common_sign/common_sign"
                 })
             }
         )

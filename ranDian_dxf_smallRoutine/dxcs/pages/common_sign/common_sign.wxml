@@ -1,6 +1,5 @@
 <!--pages/common_sign/common_sign.wxml-->
 <view class='cs_banner'>
-    <image src='/img/banner.png'></image>
     <view class='cs_continue'>
         <view>每日坚持签到</view>
         <view>本月签到：<text>{{curMonthTotal}}</text>天</view>
@@ -27,36 +26,43 @@
             
         </view>
         <view class='cs_sign_day'>
-            <image bindtap='onshow' src='/img/mine_signin.png'></image>
+            <image src='/img/mine_signin.png'></image>
             <view>连续签到 <text>{{consecutive}}</text>天</view>
         </view>
         <view class='cs_sign_content'>
-            <view class='cs_week'>
-                <block wx:for="{{week}}" wx:key="index">
-                    <view class='cs_wook'>
-                        <view style='width: {{ sysW }}px; height: {{ sysW }}px; line-height: {{ sysW }}px;'>{{item.wook}}</view>
-                    </view>
-                </block>
+            <view class="canlendarTopView">
+                <view class="leftBgView"  data-handle="prev">
+                    <view class="leftView"><image src='/img/left.png'></image></view>
+                </view>
+                <view class="centerView">{{cur_year || "--"}} 年 {{cur_month || "--"}} 月</view>
+                <view class="rightBgView"  data-handle="next">
+                    <view class="rightView"><image src='/img/right.png'></image></view>
+                </view>
             </view>
             <view class='cs_week'>
-                <block wx:for="{{day}}" wx:key="index">
-                    <view class='cs_wook' style='width: {{ sysW }}px; height: {{ sysW }}px; line-height: {{ sysW }}px;'>
-                        <view  class="{{ item.wook ==  getDate ? 'dateOn' : ''}}}">{{item.wook}}</view>
-                        <view class='cs_clocksucceed' wx:if="{{item.src}}"><image src='{{item.src}}'></image></view>
-                    </view>
-                </block>
+                <view class="weekBgView">
+                    <view style='width: {{ sysW }}px; height: {{ sysW }}px; line-height: {{ sysW }}px;' class="weekView" wx:for="{{weeks_ch}}" wx:key="{{index}}" data-idx="{{index}}">{{item}}</view>
+                </view>
+            </view>
+            <view class="dateBgView">
+                <view wx:if="{{hasEmptyGrid}}" class="dateEmptyView" wx:for="{{empytGrids}}" wx:key="{{index}}" data-idx="{{index}}">
+                </view>
+                <view style='{{ index == 0 ? "margin-left:" + sysW * marLet + "px;" : "" }}width: {{ sysW }}px; height: {{ sysW }}px; line-height: {{ sysW }}px;' class="dateView" wx:for="{{days}}" wx:key="{{index}}" data-idx="{{index}}" bindtap="dateSelectAction">
+                    <view class="datesView {{ item.item ==  getDate && judge==1 && !item.src? 'dateOn' : ''}}}">{{item.item}}</view>
+                    <view class='clocksucceed' wx:if="{{item.src}}"><image src='{{item.src}}'></image></view>
+                </view>
             </view>
             <view class='cs_circle'>
                 <view class='cs_incircle'>
                     <view class='cs_excircle'>
                         <view class='cs_innercircle' wx:if="{{isTodaySigned}}">
                             <view class='cs_btn'>
-                                <text>已打卡</text>
+                                <text>已签到</text>
                             </view>
                         </view>
                         <view class='cs_innercircle' wx:if="{{!isTodaySigned}}" bindtap="bindSign">
                             <view class='cs_btn'>
-                                <text>打卡</text>
+                                <text>签到</text>
                             </view>
                         </view>
                     </view>
@@ -65,37 +71,3 @@
         </view>
     </view>
 </view>
-<view class='cs_calendar' style='display:{{display}}'>
-    <view class='cs_bg' bindtap='onhide'></view>
-    <view class='cs_cs_calendar_box'>
-        <view class="canlendarBgView">
-            <view class="canlendarView">
-                <view class="canlendarTopView">
-                    <view class="leftBgView"  data-handle="prev">
-                        <view class="leftView"><image src='/img/left.png'></image></view>
-                    </view>
-                    <view class="centerView">{{cur_year || "--"}} 年 {{cur_month || "--"}} 月</view>
-                    <view class="rightBgView"  data-handle="next">
-                        <view class="rightView"><image src='/img/right.png'></image></view>
-                    </view>
-                </view>
-                <view class="weekBgView">
-                    <view style='width: {{ sysW }}px; height: {{ sysW }}px; line-height: {{ sysW }}px;' class="weekView" wx:for="{{weeks_ch}}" wx:key="{{index}}" data-idx="{{index}}">{{item}}</view>
-                </view>
-                <view class="dateBgView">
-                    <view wx:if="{{hasEmptyGrid}}" class="dateEmptyView" wx:for="{{empytGrids}}" wx:key="{{index}}" data-idx="{{index}}">
-                    </view>
-                    <view style='{{ index == 0 ? "margin-left:" + sysW * marLet + "px;" : "" }}width: {{ sysW }}px; height: {{ sysW }}px; line-height: {{ sysW }}px;' class="dateView" wx:for="{{days}}" wx:key="{{index}}" data-idx="{{index}}" bindtap="dateSelectAction">
-                        <view   class="datesView {{ item.item ==  getDate && judge==1 ? 'dateOn' : ''}}}">{{item.item}}</view>
-                        <view class='clocksucceed' wx:if="{{item.src}}"><image src='{{item.src}}'></image></view>
-                    </view>
-                </view>
-            </view>
-        </view>
-        <view class='del' bindtap='onhide'>
-            <image src='/img/close.png'></image>
-        </view>
-    </view>
-</view>
-<import src="../copy/copy.wxml"/>
-<template is="item" data="{{text: 'forbar'}}"/>

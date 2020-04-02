@@ -1,6 +1,6 @@
 {
   "pages": [
-    
+    "pages/common_sign/common_sign",
     "pages/index/index",
     "pages/activities/activities",
     "pages/donation/donation",
@@ -15,7 +15,6 @@
     "pages/account_phone/account_phone",
     "pages/my_activities/my_activities",
     "pages/my_donations/my_donations",
-    "pages/common_sign/common_sign",
     "pages/activity_detail/activity_detail",
     "pages/message_detail/message_detail",
     "pages/universities/universities",
