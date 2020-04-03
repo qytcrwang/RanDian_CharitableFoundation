@@ -143,7 +143,8 @@ public class SysUserController extends BaseController {
     public FireResult getUserInfo(@RequestBody Map<String,Object> paramMap){
         try {
             Long userId = ParamUtil.getLong(paramMap,"userId",null);
-            if(userId == null) userId = ShiroUtils.getUserId();
+            if(userId == null)
+                return FireResult.build(0,"参数异常");
             SysUser user = sysUserService.getSysUserInfoById(userId);
             return FireResult.build(1,"获取管理员信息成功",user);
         } catch (Exception e) {
@@ -151,6 +152,15 @@ public class SysUserController extends BaseController {
             return FireResult.build(0,"获取管理员信息失败");
         }
 
+    }
+    @PostMapping("/myInfo")
+    @ResponseBody
+    public FireResult myInfo(){
+        try {
+            return FireResult.build(1,"获取管理员信息成功",ShiroUtils.getSysUser());
+        } catch (Exception e) {
+            logger.error("获取管理员信息失败",e);
+            return FireResult.build(0,"获取管理员信息失败");        }
     }
 
 }
