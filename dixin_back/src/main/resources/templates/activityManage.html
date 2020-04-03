@@ -29,9 +29,9 @@
 			</select> 
         </div>
         <div class="layui-inline" style="float:right;">
-	        <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+	        <button type="button" class="layui-btn" data-type="reload" id="search" shiro:hasPermission="common:activity:list">搜索</button>
 	        <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
-        	<button type="button" class="layui-btn" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>新增</button>
+        	<button type="button" class="layui-btn" data-type="reload" id="add"><i class="layui-icon" shiro:hasPermission="common:activity:add">&#xe608;</i>新增</button>
       	</div>
     </div>
   </div>
@@ -676,7 +676,7 @@ $.fn.serializeObject = function() {
 };  
   </script>
   <script type="text/html" id="bar">
-  <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delEvent">删除</a>
+  <a class="layui-btn layui-btn-xs" lay-event="detail" shiro:hasPermission="common:activity:edit">查看</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delEvent" shiro:hasPermission="common:activity:del">删除</a>
 </script>
 </body>

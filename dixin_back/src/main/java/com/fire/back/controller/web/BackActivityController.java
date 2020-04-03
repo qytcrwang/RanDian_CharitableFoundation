@@ -10,6 +10,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ import com.fire.back.util.ParamUtil;
  */
 @RequestMapping("back/activity/")
 @RestController
-public class BackActivityController {
+public class BackActivityController  extends BaseController{
 	
 	private Logger logger = LoggerFactory.getLogger(BackActivityController.class);
 	
@@ -48,6 +50,7 @@ public class BackActivityController {
 	
 	@PostMapping("getList")
 	@ResponseBody
+    @RequiresPermissions("common:activity:list")
 	public FireResult getList(@RequestBody Map<String, Object> paramMap) {
 		try {
 			Integer page = ParamUtil.getInteger(paramMap, "page", 1);
@@ -70,6 +73,7 @@ public class BackActivityController {
 
 	@PostMapping("getInfo")
 	@ResponseBody
+    @RequiresPermissions("common:activity:edit")
 	public FireResult getInfo(@RequestBody Map<String, Object> paramMap) {
 		try {
 			Long id = ParamUtil.getLong(paramMap, "id", -1L);
@@ -96,6 +100,7 @@ public class BackActivityController {
 
 	@PostMapping("insertOrUpdate")
 	@ResponseBody
+	@RequiresPermissions(value={"common:activity:add","common:activity:edit"},logical=Logical.OR)
 	public FireResult insertOrUpdate(@RequestBody ActivityTbWithBLOBs 
 			activeTb,HttpServletRequest request) {
 		try {
@@ -109,6 +114,7 @@ public class BackActivityController {
 
 	@PostMapping("del")
 	@ResponseBody
+    @RequiresPermissions("common:activity:del")
 	public FireResult del(@RequestBody Map<String, Object> paramMap) {
 		try {
 			service.del(paramMap.get("ids")+"");
