@@ -13,7 +13,7 @@
         <view class='stepMain'>
           <view class='dian'></view> 
           <view class='describe'>签到金额</view>
-          <view class='sum'>累计金额: <text class='points'>300</text></view>
+          <!--<view class='sum'>累计金额: <text class='points'>300</text></view>-->
         </view>
       </view>
       <view class='size'>

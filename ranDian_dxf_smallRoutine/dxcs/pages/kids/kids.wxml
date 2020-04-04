@@ -9,7 +9,7 @@
         <view class='stepMain'>
           <view class='dian'></view> 
           <view class='describe'>捐款金额</view>
-          <view class='sum'>预估爱心积分: <text class='points'>300</text></view>
+          <!--<view class='sum'>预估爱心积分: <text class='points'>300</text></view>-->
         </view>
       </view>
       <view class='size'>

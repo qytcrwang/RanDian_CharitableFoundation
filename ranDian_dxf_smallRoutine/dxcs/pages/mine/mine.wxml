@@ -61,13 +61,14 @@
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
   </view>-->
-  <view wx:if="{{isLogin}}" class='list' bindtap='view'>
+  <!--<view wx:if="{{isLogin}}" class='list' bindtap='view'>
     <view class='list_left'>
       <image class='listIcon' src='/img/mine_service.png'></image>
       <view class='listName'>意见反馈</view>
     </view>
     <image src='/img/right_jt.png' class='jiantou'></image>
   </view>
+  -->
   <view wx:if="{{isLogin == false}}" class="gotoLogin" bindtap='gotoLogin'>
     <text class="text_left">您还没有登陆，<text class="login_url">点击登陆</text></text>
   </view>
