@@ -60,8 +60,8 @@
                                     <dd><a shiro:hasPermission="common:user:view" href="/back/user/" target="main">用户管理</a></dd>
                                     <dd><a shiro:hasPermission="common:integral:view" href="/back/lovePoint/" target="main">爱心积分管理</a></dd>
                                     <dd><a href="/contriInfo" target="main">捐赠管理</a></dd>
-                                    <dd><a href="/rentManagerNew" target="main">租房申请管理</a></dd>
-                                    <dd><a href="/activityManage" target="main">活动管理</a></dd>
+                                    <dd><a shiro:hasPermission="common:rent:view" href="/rentManagerNew" target="main">租房申请管理</a></dd>
+                                    <dd><a shiro:hasPermission="common:activity:view" href="/activityManage" target="main">活动管理</a></dd>
                                     <dd><a href="/noticeManage" target="main">通知管理</a></dd>
                                 </dl>
                             </li>
