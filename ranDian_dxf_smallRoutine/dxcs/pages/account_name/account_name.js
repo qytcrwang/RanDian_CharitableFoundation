@@ -20,8 +20,8 @@ Page({
               backResult.status != 1){
                 wx.showToast({
                   title:constant.REQUEST_TIMEOUT,
-                  duration:2000,
-                  icon:'/img/close.png'
+                  icon:constant.TOAST_NONE,
+                  duration:constant.TOAST_CLOSE_MILLIONS,
                 })
               return;
             }
@@ -30,9 +30,9 @@ Page({
               realName:newRealName
             });
             wx.showToast({
-              title:constant.REQUEST_SUCCESS,
-              icon:'success',
-              duration:2000
+              title:constant.REQUEST_ALTER_SUCCESS,
+              icon:constant.TOAST_NONE,
+              duration:constant.TOAST_CLOSE_MILLIONS,
             });
             //跳转到我的信息页面
             
