@@ -7,6 +7,7 @@ import com.fire.back.entity.SyscodeTb;
 import com.fire.back.service.SyscodeService;
 import com.fire.back.service.impl.NoticeServiceImpl;
 import com.fire.back.util.ParamUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/back/notice")
-public class BackNoticeController {
+public class BackNoticeController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(TestController.class);
 
@@ -43,6 +44,7 @@ public class BackNoticeController {
      * @return com.fire.back.common.FireResult
      */
     @PostMapping("/addNotice")
+    @RequiresPermissions("common:notice:add")
     public FireResult addNotice(@RequestBody Map<String,Object> paramMap){
         try {
             MsgTb msgTb = new MsgTb();
@@ -69,6 +71,7 @@ public class BackNoticeController {
      * @return com.fire.back.common.FireResult
      */
     @PostMapping("/updateNoticeById")
+    @RequiresPermissions("common:notice:update")
     public FireResult updateNoticeById(@RequestBody Map<String,Object> paramMap){
         try {
             if (paramMap.get("id")==null) return FireResult.build(0,"修改公告通知失败",null);
@@ -99,6 +102,7 @@ public class BackNoticeController {
      * @return com.fire.back.common.FireResult
      */
     @PostMapping("/getNoticesWithOutContext")
+    @RequiresPermissions("common:notice:list")
     @ResponseBody
     public FireResult getNoticesWithOutContext(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {
         Long stime = null;
@@ -132,6 +136,7 @@ public class BackNoticeController {
     }
 
     @PostMapping("/getNoticeStateList")
+    @RequiresPermissions("common:notice:list")
     @ResponseBody
     public FireResult getSelectList() {
         try {

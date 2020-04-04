@@ -266,10 +266,10 @@ function createTime(v) {
 <script type="text/html" id="bar">
   {{#  if(d.contriState == '0'){ }}
     <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
-    <a class="layui-btn layui-btn-xs" shiro:hasPermission="common:rent:update" lay-event="edit">审核</a>
+    <a class="layui-btn layui-btn-xs" shiro:hasPermission="common:contri:update" lay-event="edit">审核</a>
   {{#  } else if(d.contriState == "1"){ }}
     <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
-    <a class="layui-btn layui-btn-xs layui-btn-disabled" shiro:hasPermission="common:rent:update" lay-event="edit">审核</a>
+    <a class="layui-btn layui-btn-xs layui-btn-disabled" shiro:hasPermission="common:contri:update" lay-event="edit">审核</a>
   {{#  } }}
 </script>
 

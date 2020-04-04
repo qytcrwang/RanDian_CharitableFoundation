@@ -74,7 +74,6 @@ public class BackContriInfoController extends BaseController {
    * @return null
    */
   @GetMapping(value = "/getContriInfoDetail")
-  @RequiresPermissions("common:contri:get")
   public FireResult getContriInfoDetail(@RequestParam Long contriInfoId) {
     if (CheckEmptyUtil.isEmpty(contriInfoId)) {
       return FireResult.build(0, "入参不能为空");
