@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @RequestMapping("/back/rent")
 @RestController
-public class BackRentController {
+public class BackRentController   extends BaseController{
 
     private Logger logger = LoggerFactory.getLogger(BackRentController.class);
 
