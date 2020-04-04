@@ -5,7 +5,7 @@
 </view>
 <view class='tab-items'>
   <view class='tab_item_blank'></view>  
-  <form class='{{donateMoneyTab?"show":"hidden"}}' bindsubmit='doncationSubmit'>
+  <form class='{{donateMoneyTab?"show":"hidden"}}' bindsubmit='donteMoney'>
     <!-- 第一步 -->
     <view class='step'>
       <view class='step_top'>
@@ -57,7 +57,7 @@
     </view>
     <button class='submit' form-type='submit'>提交订单</button>
   </form>
-  <form class='{{donateGoodsTab?"show":"hidden"}}' bindsubmit='doncationSubmit'>
+  <form class='{{donateGoodsTab?"show":"hidden"}}' bindsubmit='doncationGoods'>
     <!-- 第一步 -->
     <view class='step'>
       <view class='step_top'>
@@ -105,19 +105,19 @@
       <view class='list'>
         <image class='listPic' src='/img/deliver.png'></image>
         <!-- <view class='list_name'>快递公司</view> -->
-        <input class='list_name' placeholder='快递公司' placeholder-class='input'></input>
+        <input class='list_name' placeholder='快递公司' placeholder-class='input' name="delivery_name"></input>
       </view>
       <view class='list'>
         <image class='listPic' src='/img/form.png'></image>
-        <input class='list_name' placeholder='快递单号' placeholder-class='input'></input>
+        <input class='list_name' placeholder='快递单号' placeholder-class='input' name="delivery_order"></input>
       </view>
       <view class='list'>
         <image class='listPic' src='/img/people.png'></image>
-        <input class='list_name' placeholder='寄件人姓名' placeholder-class='input'></input>
+        <input class='list_name' placeholder='寄件人姓名' placeholder-class='input' name="delivery_people"></input>
       </view>
       <view class='lists'>
         <image class='listPic' src='/img/camera.png'></image>
-        <input class='list_name' placeholder='物品信息备注/照片(选填)' placeholder-class='input'></input>
+        <input class='list_name' placeholder='物品信息备注(选填)' placeholder-class='input' name="delivery_comment"></input>
       </view>
     </view>
     <!-- 同意协议 -->

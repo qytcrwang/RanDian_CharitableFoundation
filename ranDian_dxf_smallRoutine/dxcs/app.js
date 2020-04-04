@@ -45,7 +45,7 @@ App({
   },
   globalData:{
     //apiurl
-    apiurl:'http://localhost:8081/wx',
+    apiurl:'http://106.12.194.99:8082//wx',
     //登录状态
     isLogin:false,
     userInfo:null

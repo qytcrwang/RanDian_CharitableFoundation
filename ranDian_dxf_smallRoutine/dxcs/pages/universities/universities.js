@@ -73,7 +73,7 @@ Page({
           wx.showToast({
               title:backResult.msg,
               duration:2000,
-              icon:'/img/close.png'
+              icon:constant.TOAST_NONE
           })
           return;
         }
@@ -90,8 +90,8 @@ Page({
     if(applyAmount == ""){
       wx.showToast({
         title:"请输入申请金额",
-        image:'/img/close.png',
-        duration:2000
+        icon:constant.TOAST_NONE,
+        duration:constant.TOAST_CLOSE_MILLIONS
       })
       return;
     }
@@ -99,7 +99,8 @@ Page({
     if(university == ""){
       wx.showToast({
         title:"请输入毕业院校",
-        image:'/img/close.png'
+        icon:constant.TOAST_NONE,
+        duration:constant.TOAST_CLOSE_MILLIONS
       })
       return;
     }
@@ -107,7 +108,8 @@ Page({
     if(major == ""){
       wx.showToast({
         title:"请输入所属专业",
-        image:'/img/close.png'
+        icon:constant.TOAST_NONE,
+        duration:constant.TOAST_CLOSE_MILLIONS
       })
       return;
     }
@@ -115,7 +117,8 @@ Page({
     if(salary == ""){
       wx.showToast({
         title:"请输入期望薪资",
-        image:'/img/close.png'
+        icon:constant.TOAST_NONE,
+        duration:constant.TOAST_CLOSE_MILLIONS
       })
       return;
     }
@@ -123,7 +126,8 @@ Page({
     if(onjob != "在职" && onjob != "未就业"){
       wx.showToast({
         title:"请输入在职状态",
-        image:'/img/close.png'
+        icon:constant.TOAST_NONE,
+        duration:constant.TOAST_CLOSE_MILLIONS
       })
       return;
     }
@@ -149,17 +153,23 @@ Page({
             backResult.status == 0){
           wx.showToast({
             title:backResult.msg,
-            duration:2000,
-            image:'/img/close.png'
+            icon:constant.TOAST_NONE,
+            duration:constant.TOAST_CLOSE_MILLIONS
           })
         }
-        wx.showToast({
-          title:"房租申请已经提交，请等待平台回复",
-          duration:2000,
+        wx.showModal({
+          title:"申请成功",
+          content:"您已成功向滴信慈善申请房租补贴，请耐心等待管理员审核",
+          showCancel:false,
+          success(res){
+            if(res.confirm){
+              wx.reLaunch({
+                url:'../index/index',
+              })
+            }
+          }
         });
-        wx.reLaunch({
-          url:'../index/index',
-        })
+        
       }
     )
   },
