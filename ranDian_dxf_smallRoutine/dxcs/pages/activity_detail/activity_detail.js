@@ -90,7 +90,6 @@ Page({
   getActivityDetails(activityId){
     let that = this;
     var userId = wx.getStorageSync('userid');
-    console.log("userId:"+userId);
     wxb.wxPost(
       "/activity/getInfo",
       {
