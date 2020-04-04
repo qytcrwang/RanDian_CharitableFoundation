@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head th:replace="include :: header"></head>
 <body>
 <div class="layui-row">
@@ -25,7 +25,7 @@
         <input type="text" class="layui-input" name="eTime" id="eTime" placeholder="日期截止" onfocus="noInput(this)">
       </div>
       <div class="layui-inline" style="float:right;">
-        <button class="layui-btn" data-type="reload" >搜索</button>
+        <button shiro:hasPermission="common:contri:list" class="layui-btn" data-type="reload" >搜索</button>
         <button class="layui-btn layui-btn-primary" id="clear">重置</button>
         <button class="layui-btn layui-btn-primary" style="visibility: hidden">占位</button>
       </div>
@@ -266,10 +266,10 @@ function createTime(v) {
 <script type="text/html" id="bar">
   {{#  if(d.contriState == '0'){ }}
     <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+    <a class="layui-btn layui-btn-xs" shiro:hasPermission="common:rent:update" lay-event="edit">审核</a>
   {{#  } else if(d.contriState == "1"){ }}
     <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
-    <a class="layui-btn layui-btn-xs layui-btn-disabled" lay-event="edit">审核</a>
+    <a class="layui-btn layui-btn-xs layui-btn-disabled" shiro:hasPermission="common:rent:update" lay-event="edit">审核</a>
   {{#  } }}
 </script>
 

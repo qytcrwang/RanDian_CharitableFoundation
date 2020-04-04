@@ -9,6 +9,7 @@ import com.fire.back.entity.ContriInfoTb;
 import com.fire.back.service.ContriInfoService;
 import java.util.List;
 import javax.annotation.Resource;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("back/contriInfo")
-public class BackContriInfoController {
+public class BackContriInfoController extends BaseController {
   @Resource ContriInfoService contriInfoService;
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -36,6 +37,7 @@ public class BackContriInfoController {
    * @return null
    */
   @PostMapping(value = "/updateContriStatus")
+  @RequiresPermissions("common:contri:update")
   public FireResult updateContriStatus(@RequestBody ContriInfoTb contriInfoTb) {
     if (CheckEmptyUtil.isEmpty(contriInfoTb)) {
       return FireResult.build(0, "入参不能为空");
@@ -59,6 +61,7 @@ public class BackContriInfoController {
    * @return null
    */
   @PostMapping(value = "/contriInfoList")
+  @RequiresPermissions("common:contri:list")
   public FireResult contriInfoList(@RequestBody ContriInfoListParamsDto paramsDto) {
     paramsDto.setOffSet(paramsDto.getOffSet(paramsDto.getPage(),paramsDto.getLimit()));
     FireResult result = contriInfoService.getContriInfoList(paramsDto);
@@ -71,6 +74,7 @@ public class BackContriInfoController {
    * @return null
    */
   @GetMapping(value = "/getContriInfoDetail")
+  @RequiresPermissions("common:contri:get")
   public FireResult getContriInfoDetail(@RequestParam Long contriInfoId) {
     if (CheckEmptyUtil.isEmpty(contriInfoId)) {
       return FireResult.build(0, "入参不能为空");

@@ -55,6 +55,7 @@ public class ContriInfoServiceImpl implements ContriInfoService {
   public List<ContriInfoTb> getSelfContriInfoByStatus(Long userId, int status) {
     ContriInfoTbExample contriInfoTbExample = new ContriInfoTbExample();
     contriInfoTbExample.createCriteria().andUserIdEqualTo(userId).andContriTypeEqualTo(status);
+    contriInfoTbExample.setOrderByClause("update_time desc");
     return contriInfoTbMapper.selectByExample(contriInfoTbExample);
   }
 
