@@ -12,6 +12,14 @@ Page({
     isCheckDmProtocol:false,
     //是否勾选物品捐赠协议
     isCheckDgProtocol:false,
+    //是否显示协议
+    isShowAgreement:false,
+    //甲方企业性质
+    partyAUnit:"",
+    //捐赠用途
+    userFor:"",
+    todayDate:"",
+    todayMonth:"",
   },
   onLoad: function () {
     var _this = this;
@@ -108,7 +116,7 @@ Page({
       wx.showToast({
         title:"请输入捐赠金额",
         icon:constant.TOAST_NONE,
-        duration:2000
+        duration:constant.TOAST_CLOSE_MILLIONS
       })
       return;
     }
@@ -116,7 +124,7 @@ Page({
       wx.showToast({
         title:"请勾选同意捐赠协议",
         icon:constant.TOAST_NONE,
-        duration:2000
+        duration:TOAST_CLOSE_MILLIONS
       })
       return;
     }
@@ -173,6 +181,95 @@ Page({
     var isCheckDgProtocol = this.data.isCheckDgProtocol;
     this.setData({
       isCheckDgProtocol:!isCheckDgProtocol
+    })
+  },
+  //展示协议
+  showAgreement:function(){
+    //设置签署时间
+    var date = new Date();
+    var todayYear = date.getFullYear();
+    var todayMonth = (date.getMonth() + 1)<10? "0"+(date.getMonth()+1):date.getMonth()+1;
+    var todayDate = date.getDate()<10? "0"+date.getDate():date.getDate();
+    this.setData({
+      isShowAgreement:true,
+      todayYear:todayYear,
+      todayMonth:todayMonth,
+      todayDate:todayDate
+    })
+  },
+  modalCancel:function(){
+    this.setData({
+      isShowAgreement:false,
+      isCheckDmProtocol:false,
+      isCheckDgProtocol:false
+    })
+  },
+  partyAUnitChange:function(e){
+    var selectedValue = e.detail.value;
+    this.setData({
+      partyAUnit:selectedValue,
+    })
+  },
+  userForChange:function(e){
+    var selectedValue = e.detail.value;
+    this.setData({
+      userFor:selectedValue,
+    })
+  },
+  agreeProtocol:function(e){
+    wx.showToast({
+      title:"请完善协议中的甲方",
+      icon:constant.TOAST_NONE,
+      duration:constant.TOAST_CLOSE_MILLIONS
+    })
+    console.log("测试")
+    var partyA = e.detail.data.partyA;
+    var partyAPostion = e.detail.data.partyAPostion;
+    var partyALegal = e.detail.data.partyALegal;
+    var partyALink = e.detail.data.partyALink;
+    var partyALinkPhone = e.detail.data.partyALinkPhone;
+    if(partyA == ""){
+      wx.showToast({
+        title:"请完善协议中的甲方",
+        icon:constant.TOAST_NONE,
+        duration:constant.TOAST_CLOSE_MILLIONS
+      })
+      return;
+    }
+    if(partyAPostion == ""){
+      wx.showToast({
+        title:"请完善协议中的甲方住所",
+        icon:constant.TOAST_NONE,
+        duration:constant.TOAST_CLOSE_MILLIONS
+      })
+      return;
+    }
+    if(this.data.partyAUnit == ""){
+      wx.showToast({
+        title:"请选择甲方单位性质",
+        icon:constant.TOAST_NONE,
+        duration:constant.TOAST_CLOSE_MILLIONS
+      })
+      return;
+    }
+    if(partyALink == ""){
+      wx.showToast({
+        title:"请完善协议中的甲方联系人",
+        icon:constant.TOAST_NONE,
+        duration:constant.TOAST_CLOSE_MILLIONS
+      })
+      return;
+    }
+    if(partyALinkPhone == ""){
+      wx.showToast({
+        title:"请完善协议中的甲方联系方式",
+        icon:constant.TOAST_NONE,
+        duration:constant.TOAST_CLOSE_MILLIONS
+      })
+      return;
+    }
+    this.setData({
+      isCheckDmProtocol:true,  
     })
   }
 })
