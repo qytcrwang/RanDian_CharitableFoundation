@@ -61,8 +61,8 @@ public class ContriProtocolServiceImpl implements ContriProtocolService {
     contriProtocolTb.setPartyBLink(ProtocolConstant.PARTYB_LINK);
     contriProtocolTb.setPartyBLinkPhone(ProtocolConstant.PARTYB_LINK_PHONE);
     contriProtocolTb.setPartyBPosition(ProtocolConstant.PARTYB_POSTION);
-    contriProtocolTb.setPartyASignTime(DateUtil.parseDateToStr(new Date(),"DATE_TIME_FORMAT_YYYY年MM月DD日"));
-    contriProtocolTb.setPartyBSignTime(DateUtil.parseDateToStr(new Date(),"DATE_TIME_FORMAT_YYYY年MM月DD日"));
+    contriProtocolTb.setPartyASignTime(DateUtil.parseDateToStr(new Date(),DateUtil.DATE_TIME_FORMAT_YYYY年MM月DD日));
+    contriProtocolTb.setPartyBSignTime(DateUtil.parseDateToStr(new Date(),DateUtil.DATE_TIME_FORMAT_YYYY年MM月DD日));
     contriProtocolTb.setCreateTime(System.currentTimeMillis() / 1000);
     contriProtocolTb.setUpdateTime(System.currentTimeMillis() / 1000);
   }

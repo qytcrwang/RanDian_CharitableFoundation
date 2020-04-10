@@ -6,6 +6,7 @@ import com.fire.back.entity.ContriProtocolTb;
 import com.fire.back.service.ContriInfoService;
 import com.fire.back.common.CheckEmptyUtil;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,22 +40,49 @@ public class ContriInfoController {
    * @return null
    */
   @PostMapping(value = "/saveContriInfo")
-  public FireResult saveContriInfo(@RequestBody ContriInfoTb contriInfoTb) {
-    if (CheckEmptyUtil.isEmpty(contriInfoTb)) {
+  public FireResult saveContriInfo(@RequestBody Map<String,Object> paramMap) {
+    Long userId = ParamUtil.getLong(paramMap,"userId",null);
+    Integer contriType = ParamUtil.getInteger(paramMap,"contriType",-1);
+    Double contriAmount = ParamUtil.getDouble(paramMap,"contriAmount");
+    if (CheckEmptyUtil.isEmpty(userId)) {
       return FireResult.build(0, "入参不能为空");
     }
+    ContriInfoTb contriInfoTb = new ContriInfoTb();
+    contriInfoTb.setUserId(userId);
+    contriInfoTb.setContriType(contriType);
+    contriInfoTb.setContriAmount(new BigDecimal(contriAmount));
+    //获取协议数据
+    String partyA = ParamUtil.getString(paramMap,"partyA");
+    String partyAUnit = ParamUtil.getString(paramMap,"partyAUnit");
+    String partyALegal = ParamUtil.getString(paramMap,"partyALegal");
+    String partyALink = ParamUtil.getString(paramMap,"partyALink");
+    String partyAPosition = ParamUtil.getString(paramMap,"partyAPosition");
+    String partyALinkPhone = ParamUtil.getString(paramMap,"partyALinkPhone");
+    String userFor = ParamUtil.getString(paramMap,"userFor");
+    String partyASignTime = ParamUtil.getString(paramMap,"partyASignTime");
+    String partyBSignTime = ParamUtil.getString(paramMap,"partyBSignTime");
+    ContriProtocolTb contriProtocolTb = new ContriProtocolTb();
+    contriProtocolTb.setPartyA(partyA);
+    contriProtocolTb.setPartyALegal(partyALegal);
+    contriProtocolTb.setPartyAUnit(partyAUnit);
+    contriProtocolTb.setPartyALink(partyALink);
+    contriProtocolTb.setPartyALinkPhone(partyALinkPhone);
+    contriProtocolTb.setUserFor(userFor);
+    contriProtocolTb.setPartyASignTime(partyASignTime);
+    contriProtocolTb.setPartyBSignTime(partyBSignTime);
+    contriProtocolTb.setPartyAPosition(partyAPosition);
+
     try {
-      long infoId = contriInfoService.saveContriInfo(contriInfoTb);
-      if(infoId != 0){
-          logger.info("已新增捐赠信息，id:"+infoId);
+      boolean contriInfoResult = contriInfoService.saveContriInfo(contriInfoTb);
+      if(contriInfoResult){
+          contriProtocolTb.setInfoTbId(contriInfoTb.getId());
           //新增协议信息
-          /*boolean result = contriProtocolService.saveContriProtocolTb(contriProtocolTb);
+          boolean result = contriProtocolService.saveContriProtocolTb(contriProtocolTb);
           if(result){
               return FireResult.build(1, "捐赠成功", null);
           }else{
               return FireResult.build(0, "捐赠信息错误，请稍后再试");
-          }*/
-          return FireResult.build(0, "提交捐赠信息失败，请稍后再试");
+          }
       }else{
           return FireResult.build(0, "提交捐赠信息失败，请稍后再试");
       }
