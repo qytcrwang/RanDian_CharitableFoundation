@@ -45,9 +45,9 @@ public class ContriProtocolTb {
 
     private Integer isDelete;
 
-    private Date updateTime;
+    private Long updateTime;
 
-    private Date createTime;
+    private Long createTime;
 
     public Long getId() {
         return id;
@@ -217,19 +217,19 @@ public class ContriProtocolTb {
         this.isDelete = isDelete;
     }
 
-    public Date getUpdateTime() {
+    public Long getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
     }
 
-    public Date getCreateTime() {
+    public Long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Long createTime) {
         this.createTime = createTime;
     }
 }

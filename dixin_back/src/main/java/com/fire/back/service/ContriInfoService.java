@@ -20,7 +20,7 @@ public interface ContriInfoService {
    * @param contriInfoTb 入参
    * @return
    */
-  Boolean saveContriInfo(ContriInfoTb contriInfoTb);
+  long saveContriInfo(ContriInfoTb contriInfoTb);
 
   /**
    * 捐赠状态更新.

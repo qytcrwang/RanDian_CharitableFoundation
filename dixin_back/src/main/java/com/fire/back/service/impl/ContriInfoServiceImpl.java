@@ -28,10 +28,10 @@ public class ContriInfoServiceImpl implements ContriInfoService {
   ExtendContriInfoTbMapper extendContriInfoTbMapper;
 
   @Override
-  public Boolean saveContriInfo(ContriInfoTb contriInfoTb) {
+  public long saveContriInfo(ContriInfoTb contriInfoTb) {
     contriDefaultParamUtil(contriInfoTb);
-    int i = contriInfoTbMapper.insertSelective(contriInfoTb);
-    return i == 1;
+    long i = contriInfoTbMapper.insertSelective(contriInfoTb);
+    return i;
   }
 
   @Override
