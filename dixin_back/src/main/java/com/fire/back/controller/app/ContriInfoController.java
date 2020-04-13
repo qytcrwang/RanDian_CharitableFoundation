@@ -2,6 +2,7 @@ package com.fire.back.controller.app;
 
 import com.fire.back.common.FireResult;
 import com.fire.back.entity.ContriInfoTb;
+import com.fire.back.entity.ContriProtocolLastTb;
 import com.fire.back.entity.ContriProtocolTb;
 import com.fire.back.service.ContriInfoService;
 import com.fire.back.common.CheckEmptyUtil;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.fire.back.service.ContriProtocolLastService;
 import com.fire.back.service.impl.ContriProtocolServiceImpl;
 import com.fire.back.util.ParamUtil;
 import org.slf4j.Logger;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ContriInfoController {
   @Resource ContriInfoService contriInfoService;
   @Resource ContriProtocolServiceImpl contriProtocolService;
+  @Resource ContriProtocolLastService contriProtocolLastService;
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   /**
@@ -61,6 +64,8 @@ public class ContriInfoController {
     String userFor = ParamUtil.getString(paramMap,"userFor");
     String partyASignTime = ParamUtil.getString(paramMap,"partyASignTime");
     String partyBSignTime = ParamUtil.getString(paramMap,"partyBSignTime");
+    String content = ParamUtil.getString(paramMap,"content");
+    String contentComment = ParamUtil.getString(paramMap,"contentComment");
     ContriProtocolTb contriProtocolTb = new ContriProtocolTb();
     contriProtocolTb.setPartyA(partyA);
     contriProtocolTb.setPartyALegal(partyALegal);
@@ -71,14 +76,31 @@ public class ContriInfoController {
     contriProtocolTb.setPartyASignTime(partyASignTime);
     contriProtocolTb.setPartyBSignTime(partyBSignTime);
     contriProtocolTb.setPartyAPosition(partyAPosition);
-
+    contriProtocolTb.setContent(content);
+    contriProtocolTb.setContentComment(contentComment);
     try {
       boolean contriInfoResult = contriInfoService.saveContriInfo(contriInfoTb);
       if(contriInfoResult){
           contriProtocolTb.setInfoTbId(contriInfoTb.getId());
           //新增协议信息
           boolean result = contriProtocolService.saveContriProtocolTb(contriProtocolTb);
+          //保存最后一次捐赠协议信息
+          ContriProtocolLastTb contriProtocolLastTb = new ContriProtocolLastTb();
+          contriProtocolLastTb.setUserId(userId);
+          contriProtocolLastTb.setPartyA(partyA);
+          contriProtocolLastTb.setPartyAPosition(partyAPosition);
+          contriProtocolLastTb.setPartyALegal(partyALegal);
+          contriProtocolLastTb.setPartyAUnit(partyAUnit);
+          contriProtocolLastTb.setPartyALink(partyALink);
+          contriProtocolLastTb.setPartyALinkPhone(partyALinkPhone);
+          contriProtocolLastTb.setUserFor(userFor);
+          if(contriProtocolLastService.getLastInfoByUserId(userId) != null){
+              contriProtocolLastService.updateContriProtocolLast(contriProtocolLastTb);
+          }else{
+              contriProtocolLastService.saveContriProtocolLastTb(contriProtocolLastTb);
+          }
           if(result){
+
               return FireResult.build(1, "捐赠成功", null);
           }else{
               return FireResult.build(0, "捐赠信息错误，请稍后再试");
@@ -115,6 +137,26 @@ public class ContriInfoController {
     }
   }
 
+    /**
+     * 获取用户最后一次协议数据信息
+     * @param paramMap
+     * @return
+     */
+  @PostMapping(value = "/getLastProtocolInfo")
+  public FireResult getLastProtocolInfo(@RequestBody Map<String,Object> paramMap){
+      Long userId = ParamUtil.getLong(paramMap,"userId",-1L);
+      if(CheckEmptyUtil.isEmpty(userId)){
+          return FireResult.build(0,"入参不能为空");
+      }
+      ContriProtocolLastTb contriProtocolLastTb = null;
+      try {
+          contriProtocolLastTb = contriProtocolLastService.getLastInfoByUserId(userId);
+          return FireResult.build(1,"协议数据获取成功",contriProtocolLastTb);
+      }catch (Exception e){
+          logger.error("",e);
+          return FireResult.build(0,"获取信息失败，请稍后再试");
+      }
+  }
   /**
    * 我的捐赠信息查询.
    *
