@@ -122,7 +122,7 @@
     </view>
     <!-- 同意协议 -->
     <view class='agree'>
-      <radio catchtap="dgProtocolChecked" checked="{{isCheckDgProtocol}}">同意</radio>
+      <radio catchtap="dgProtocolChecked" checked="{{isCheckDgProtocol}}" disabled="true">同意</radio>
       <view class='protocol' bindtap="showGoodsAgreement">《用户捐赠协议》</view>
     </view>
     <!-- 温馨提示 -->
