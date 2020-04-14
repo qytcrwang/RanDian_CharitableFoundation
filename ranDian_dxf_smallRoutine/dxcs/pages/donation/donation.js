@@ -1,5 +1,6 @@
 var wxb = require('../../utils/wxb.js');
 var constant = require('../../utils/constant.js');
+var utils = require('../../utils/util.js');
 Page({
   /**
    * 页面的初始数据
@@ -13,15 +14,26 @@ Page({
     //是否勾选物品捐赠协议
     isCheckDgProtocol:false,
     //是否显示协议
-    isShowAgreement:false,
-    //甲方企业性质
+    isShowMoneyAgreement:false,
+    isShowGoodsAgreement:false,
+    //用户捐赠协议中甲方信息
+    partyA:"",
     partyAUnit:"",
+    partyAPosition:"",
+    partyALegal:"",
+    partyALink:"",
+    partyALinkPhone:"",
     //捐赠用途
     userFor:"",
     todayDate:"",
     todayMonth:"",
+    todayYear:"",
+    //捐赠金额
+    contriAmount:"",
+    contriThings:"",
+    contentComment:"",
   },
-  onLoad: function () {
+  onShow: function () {
     var _this = this;
     wx.getStorage({
       key:'userid',
@@ -29,6 +41,22 @@ Page({
         _this.setData({
           userid:res.data
         })
+        wxb.wxPost(
+          "/contriInfo/getLastProtocolInfo",
+          {
+            userId:res.data
+          },function(backResult){
+            _this.setData({
+              partyA:backResult.data.partyA,
+              partyAUnit:backResult.data.partyAUnit,
+              partyAPosition:backResult.data.partyAPosition,
+              partyALegal:backResult.data.partyALegal,
+              partyALink:backResult.data.partyALink,
+              partyALinkPhone:backResult.data.partyALinkPhone,
+              userFor:backResult.data.userFor
+            })
+          }
+        )
       }
     })
   },
@@ -122,9 +150,9 @@ Page({
     }
     if(!this.data.isCheckDmProtocol){
       wx.showToast({
-        title:"请勾选同意捐赠协议",
+        title:"请完善并同意捐赠协议",
         icon:constant.TOAST_NONE,
-        duration:TOAST_CLOSE_MILLIONS
+        duration:constant.TOAST_CLOSE_MILLIONS
       })
       return;
     }
@@ -140,6 +168,18 @@ Page({
               userId:_this.data.userid,
               contriType:1,
               contriAmount:amount,
+              content:_this.data.contriAmount,
+              contentComment:_this.data.contentComment,
+              protocolType:1,//捐钱
+              partyA:_this.data.partyA,
+              partyAUnit:_this.data.partyAUnit,
+              partyALegal:_this.data.partyALegal,
+              partyAPosition:_this.data.partyAPosition,
+              partyALink:_this.data.partyALink,
+              partyALinkPhone:_this.data.partyALinkPhone,
+              userFor:_this.data.userFor,
+              partyASignTime:_this.data.todayYear+"年"+_this.data.todayMonth+"月"+_this.data.todayDate+"日",
+              partyBSignTime:_this.data.todayYear+"年"+_this.data.todayMonth+"月"+_this.data.todayDate+"日"
             },function(backResult){
               if(backResult.status == 1){
                 wx.showModal({
@@ -156,7 +196,7 @@ Page({
                 });
               }else{
                 wx.showToast({
-                  title:backResult.msg,
+                  title:"捐赠异常，请稍后再试",
                   icon:constant.TOAST_NONE,
                   duration:2000
                 })
@@ -184,14 +224,27 @@ Page({
     })
   },
   //展示协议
-  showAgreement:function(){
+  showMoneyAgreement:function(){
     //设置签署时间
     var date = new Date();
     var todayYear = date.getFullYear();
     var todayMonth = (date.getMonth() + 1)<10? "0"+(date.getMonth()+1):date.getMonth()+1;
     var todayDate = date.getDate()<10? "0"+date.getDate():date.getDate();
     this.setData({
-      isShowAgreement:true,
+      isShowMoneyAgreement:true,
+      todayYear:todayYear,
+      todayMonth:todayMonth,
+      todayDate:todayDate
+    })
+  },
+  showGoodsAgreement:function(){
+    //设置签署时间
+    var date = new Date();
+    var todayYear = date.getFullYear();
+    var todayMonth = (date.getMonth() + 1)<10? "0"+(date.getMonth()+1):date.getMonth()+1;
+    var todayDate = date.getDate()<10? "0"+date.getDate():date.getDate();
+    this.setData({
+      isShowGoodsAgreement:true,
       todayYear:todayYear,
       todayMonth:todayMonth,
       todayDate:todayDate
@@ -199,7 +252,8 @@ Page({
   },
   modalCancel:function(){
     this.setData({
-      isShowAgreement:false,
+      isShowGoodsAgreement:false,
+      isShowMoneyAgreement:false,
       isCheckDmProtocol:false,
       isCheckDgProtocol:false
     })
@@ -216,18 +270,25 @@ Page({
       userFor:selectedValue,
     })
   },
-  agreeProtocol:function(e){
-    wx.showToast({
-      title:"请完善协议中的甲方",
-      icon:constant.TOAST_NONE,
-      duration:constant.TOAST_CLOSE_MILLIONS
+  getContriAmount:function(e){
+    var contriAmount = e.detail.value;
+    this.setData({
+      contriAmount:contriAmount,
+      contentComment:utils.rmbToCN(contriAmount),
     })
-    console.log("测试")
-    var partyA = e.detail.data.partyA;
-    var partyAPostion = e.detail.data.partyAPostion;
-    var partyALegal = e.detail.data.partyALegal;
-    var partyALink = e.detail.data.partyALink;
-    var partyALinkPhone = e.detail.data.partyALinkPhone;
+  },
+  getContriThings:function(e){
+    var contriThings = e.detail.value;
+    this.setData({
+      contriThings:contriThings
+    })
+  },
+  agreeProtocol:function(e){
+    var partyA = e.detail.value.partyA;
+    var partyAPosition = e.detail.value.partyAPosition;
+    var partyALegal = e.detail.value.partyALegal;
+    var partyALink = e.detail.value.partyALink;
+    var partyALinkPhone = e.detail.value.partyALinkPhone;
     if(partyA == ""){
       wx.showToast({
         title:"请完善协议中的甲方",
@@ -236,7 +297,7 @@ Page({
       })
       return;
     }
-    if(partyAPostion == ""){
+    if(partyAPosition == ""){
       wx.showToast({
         title:"请完善协议中的甲方住所",
         icon:constant.TOAST_NONE,
@@ -270,6 +331,13 @@ Page({
     }
     this.setData({
       isCheckDmProtocol:true,  
+      isShowMoneyAgreement:false,
+      isShowGoodsAgreement:false,
+      partyA:partyA,
+      partyALegal:partyALegal,
+      partyAPosition:partyAPosition,
+      partyALink:partyALink,
+      partyALinkPhone:partyALinkPhone,
     })
   }
 })

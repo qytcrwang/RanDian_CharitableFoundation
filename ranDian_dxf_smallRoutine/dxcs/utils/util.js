@@ -97,10 +97,73 @@ function getDateDiff(dateTime) {
   return result;
 };
 
+//将数字金额转成人民币大写格式
+function rmbToCN(rmb_number){
+  var rmb_number = parseFloat(rmb_number).toFixed(2);
+  var rmb_number = new String(Math.round(rmb_number * 100));
+  var chineseValue = ""; 
+  var String1 = "零壹贰叁肆伍陆柒捌玖"; 
+  var String2 = "万仟佰拾亿仟佰拾万仟佰拾元角分"; 
+  var len = rmb_number.length; 
+  var Ch1; 
+  var Ch2; 
+  var nZero = 0; 
+  var String3; 
+  if (rmb_number == 0 || len > 15) {
+    return "超出计算范围";
+  }
+
+  String2 = String2.substr(String2.length - len, len);  
+  for (var i = 0; i < len; i++) {
+    String3 = parseInt(rmb_number.substr(i, 1), 10); 
+    if (i != (len - 3) && i != (len - 7) && i != (len - 11) && i != (len - 15)) {
+      if (String3 == 0) {
+        Ch1 = "";
+        Ch2 = "";
+        nZero = nZero + 1;
+      } else if (String3 != 0 && nZero != 0) {
+        Ch1 = "零" + String1.substr(String3, 1);
+        Ch2 = String2.substr(i, 1);
+        nZero = 0;
+      } else {
+        Ch1 = String1.substr(String3, 1);
+        Ch2 = String2.substr(i, 1);
+        nZero = 0;
+      }
+    } else { 
+      if (String3 != 0 && nZero != 0) {
+        Ch1 = "零" + String1.substr(String3, 1);
+        Ch2 = String2.substr(i, 1);
+        nZero = 0;
+      } else if (String3 != 0 && nZero == 0) {
+        Ch1 = String1.substr(String3, 1);
+        Ch2 = String2.substr(i, 1);
+        nZero = 0;
+      } else if (String3 == 0 && nZero >= 3) {
+        Ch1 = "";
+        Ch2 = "";
+        nZero = nZero + 1;
+      } else {
+        Ch1 = "";
+        Ch2 = String2.substr(i, 1);
+        nZero = nZero + 1;
+      }
+      if (i == (len - 11) || i == (len - 3)) {
+        Ch2 = String2.substr(i, 1);
+      }
+    }
+    chineseValue = chineseValue + Ch1 + Ch2;
+  }
+  if (rmb_number.substr(len-2, 2) == "00") {
+    chineseValue = chineseValue + "整";
+  }
+  return chineseValue;
+}
 module.exports = {
   formatTime: formatTime,
   dateFormat: dateFormat,
   getCurYear:getCurYear,
   getCurMonth:getCurMonth,
-  getDateDiff:getDateDiff
+  getDateDiff:getDateDiff,
+  rmbToCN:rmbToCN,
 }
