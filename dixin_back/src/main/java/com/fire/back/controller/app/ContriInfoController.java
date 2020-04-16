@@ -78,6 +78,7 @@ public class ContriInfoController {
     contriProtocolTb.setPartyAPosition(partyAPosition);
     contriProtocolTb.setContent(content);
     contriProtocolTb.setContentComment(contentComment);
+
     try {
       boolean contriInfoResult = contriInfoService.saveContriInfo(contriInfoTb);
       if(contriInfoResult){
