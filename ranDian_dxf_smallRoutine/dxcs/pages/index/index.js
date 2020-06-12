@@ -4,10 +4,18 @@ var app = getApp();
 
 Page({
     data: {
-        imgUrls: [
-            '/img/activity1.png',
-            '/img/activity2.png',
-            '/img/activity2.png'
+        swiperArrays: [
+            {
+                "imgUrl":'/img/activity1.png',
+                "src":'www.baidu.com'
+            },
+            {
+                "imgUrl":'/img/activity2.png',
+                "src":'www.baidu.com'},
+            {
+                "imgUrl":'/img/activity2.png',
+                "src":'www.baidu.com'
+            },
         ],
         indicatorDots: true,
         vertical: false,
@@ -97,6 +105,11 @@ Page({
         console.log(e.currentTarget);
         wx.navigateTo({
             url:e.currentTarget.id
+        })
+    },
+    onSwiperClick:function(e){
+        wx.navigateTo({
+            url:'../web/web'
         })
     }
 })

@@ -163,6 +163,49 @@ Page({
         if (res.confirm) {
           //发起支付
           wxb.wxPost(
+            '/pay/createOrder',
+            {
+              userid:_this.data.userid,
+              contriAmount:amount
+            },function(backResult){
+              if(backResult == null ||
+                backResult.data == null ||
+                backResult.data.length <= 0 ||
+                backResult.status != 1){
+                    wx.showToast({
+                        icon:'/img/close.png',
+                        title:constant.REQUEST_TIMEOUT,
+                        duration:2000
+                    })
+                    return;
+              }
+              console.log(backResult);
+              console.log(backResult.data);
+              var nonceStr = backResult.data.nonceStr;
+              var timestamp = backResult.data.timestamp;
+              var package = backResult.data.package;
+              var appid = backResult.data.appid;
+              var paySign = backResult.data.ndSign;
+              //唤起微信支付接口
+              wx.requestPayment({
+                'timestamp':timestamp,
+                'nonceStr':nonceStr,
+                'package':package,
+                'signType':'MD5',
+                'paySign':paySign,
+                'success':function(res){
+
+                },
+                'fail':function(res){
+
+                },
+                'complete':function(res){
+                  
+                }
+              });
+            }
+          )
+          wxb.wxPost(
             '/contriInfo/saveContriInfo',
             {
               userId:_this.data.userid,

@@ -2,6 +2,7 @@
   "pages": [
     
     "pages/index/index",
+    "pages/web/web",
     "pages/activities/activities",
     "pages/donation/donation",
     "pages/logs/logs",
