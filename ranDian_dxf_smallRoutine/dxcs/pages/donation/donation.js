@@ -2,9 +2,6 @@ var wxb = require('../../utils/wxb.js');
 var constant = require('../../utils/constant.js');
 var utils = require('../../utils/util.js');
 Page({
-  /**
-   * 页面的初始数据
-   */
   data: {
     donateMoneyTab:true,
     donateGoodsTab:false,
@@ -46,6 +43,10 @@ Page({
           {
             userId:res.data
           },function(backResult){
+            if(backResult == null ||
+              backResult.data == null){
+                return;
+          }
             _this.setData({
               partyA:backResult.data.partyA,
               partyAUnit:backResult.data.partyAUnit,
@@ -183,14 +184,14 @@ Page({
               console.log(backResult.data);
               var nonceStr = backResult.data.nonceStr;
               var timestamp = backResult.data.timestamp;
-              var package = backResult.data.package;
+              var packages = backResult.data.packages;
               var appid = backResult.data.appid;
               var paySign = backResult.data.ndSign;
               //唤起微信支付接口
               wx.requestPayment({
                 'timestamp':timestamp,
                 'nonceStr':nonceStr,
-                'package':package,
+                'package':packages,
                 'signType':'MD5',
                 'paySign':paySign,
                 'success':function(res){

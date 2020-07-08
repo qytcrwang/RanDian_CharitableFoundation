@@ -41,6 +41,10 @@ Page({
           {
             userId:res.data
           },function(backResult){
+            if(backResult == null ||
+                backResult.data == null){
+                  return;
+            }
             _this.setData({
               partyA:backResult.data.partyA,
               partyAUnit:backResult.data.partyAUnit,

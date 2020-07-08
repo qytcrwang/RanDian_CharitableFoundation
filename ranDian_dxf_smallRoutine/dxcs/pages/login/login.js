@@ -2,6 +2,8 @@
 const app = getApp()
 //加载全局方法
 var wxUtils = require('../../utils/wxb.js');
+const wxb = require('../../utils/wxb.js');
+var log = require('../../utils/log.js');
 Page({
     data: {
         //判断小程序的API，回调，参数，组件等是否在当前版本可用。
@@ -17,6 +19,7 @@ Page({
                 success: function(res) {
                     if (res.authSetting['scope.userInfo']) {
                         app.globalData.userInfo = e.detail.userInfo;
+                        wxb.wxLogin();
                         wx.reLaunch({
                             url:'/pages/index/index'
                         });

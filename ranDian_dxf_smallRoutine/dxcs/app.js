@@ -2,23 +2,25 @@
 var wxb = require("/utils/wxb.js");
 App({
   onLaunch: function () {
-    // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
-    //检查登录状态
-    var _this = this;
-    wx.checkSession({
-      success:function(res){
-        _this.globalData.isLogin = true;
-      },
-      fail:function(res){
-        wxb.wxLogin();
+    wx.getSetting({
+      success:res =>{
+        if(res.authSetting['scope.userInfo']){
+          //用户已经授权了获取昵称
+          wxb.wxLogin();
+        }else{
+          wx.navigateTo({
+            url:'/pages/login/login'
+          })
+        }
       }
     })
+    // 展示本地存储能力
+    //var logs = wx.getStorageSync('logs') || []
+    //logs.unshift(Date.now())
+    //wx.setStorageSync('logs', logs)
+
     // 获取用户信息
-    wx.getSetting({
+    /*wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
@@ -32,6 +34,16 @@ App({
               if (this.userInfoReadyCallback) {
                 this.userInfoReadyCallback(res)
               }
+              //检查登录状态
+              var _this = this;
+              wx.checkSession({
+                success:function(res){
+                  _this.globalData.isLogin = true;
+                },
+                fail:function(res){
+                  wxb.wxLogin();
+                }
+              })
             }
           })
         }else{
@@ -41,11 +53,13 @@ App({
           })
         }
       }
-    })
+    })*/
+    
   },
   globalData:{
     //apiurl
-    apiurl:'http://localhost:8081/wx',
+    apiurl:'https://www.dixincs.com/wx',
+    //apiurl:'https://localhost:443/wx',
     //登录状态
     isLogin:false,
     userInfo:null

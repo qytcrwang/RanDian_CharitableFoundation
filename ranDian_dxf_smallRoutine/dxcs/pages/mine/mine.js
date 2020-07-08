@@ -36,8 +36,6 @@ Page({
             userId:res.data
           },function(backResult){
             if(backResult == null ||
-              backResult.data == null ||
-              backResult.data.length <= 0 ||
               backResult.status != 1){
               wx.showToast({
                   title:constant.REQUEST_TIMEOUT,
