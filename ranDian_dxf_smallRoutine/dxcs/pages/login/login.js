@@ -2,6 +2,8 @@
 const app = getApp()
 //加载全局方法
 var wxUtils = require('../../utils/wxb.js');
+const wxb = require('../../utils/wxb.js');
+var log = require('../../utils/log.js');
 Page({
     data: {
         //判断小程序的API，回调，参数，组件等是否在当前版本可用。
@@ -17,6 +19,7 @@ Page({
                 success: function(res) {
                     if (res.authSetting['scope.userInfo']) {
                         app.globalData.userInfo = e.detail.userInfo;
+                        wxb.wxLogin();
                         wx.reLaunch({
                             url:'/pages/index/index'
                         });
@@ -29,7 +32,7 @@ Page({
             //用户按了拒绝按钮
             wx.showModal({
                 title: '警告',
-                content: '您点击了拒绝授权，将无法进入小程序，请授权之后再进入!!!',
+                content: '拒绝授权，部分信息可能无法显示.',
                 showCancel: false,
                 confirmText: '返回授权',
                 success: function(res) {

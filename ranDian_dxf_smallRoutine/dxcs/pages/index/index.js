@@ -4,10 +4,18 @@ var app = getApp();
 
 Page({
     data: {
-        imgUrls: [
-            '/img/activity1.png',
-            '/img/activity2.png',
-            '/img/activity2.png'
+        swiperArrays: [
+            {
+                "imgUrl":'/img/activity1.png',
+                "src":'www.baidu.com'
+            },
+            {
+                "imgUrl":'/img/activity2.png',
+                "src":'www.baidu.com'},
+            {
+                "imgUrl":'/img/activity2.png',
+                "src":'www.baidu.com'
+            },
         ],
         indicatorDots: true,
         vertical: false,
@@ -45,9 +53,8 @@ Page({
         wxb.wxPost(
             "/img/getImgList",
             {},function(backResult){
+                console.log("backResult"+backResult)
                 if(backResult == null ||
-                    backResult.data == null ||
-                    backResult.data.length <= 0 ||
                     backResult.status != 1){
                         wx.showToast({
                             icon:'/img/close.png',
@@ -62,6 +69,7 @@ Page({
             }
         )
         //加载近期公益活动列表
+        
         wxb.wxPost(
             "/activity/getList",
             {
@@ -69,8 +77,6 @@ Page({
                 size:3,
             },function(backResult){
                 if(backResult == null ||
-                    backResult.data == null ||
-                    backResult.data.length <= 0 ||
                     backResult.status != 1){
                         wx.showToast({
                             icon:'/img/close.png',
@@ -98,6 +104,26 @@ Page({
         wx.navigateTo({
             url:e.currentTarget.id
         })
+    },
+    onSwiperClick:function(e){
+        wx.navigateTo({
+            url:'../web/web'
+        })
+    },
+    //右上角分享
+    onShareAppMessage:function(res){
+        var _this = this;
+    
+        return{
+            title:'滴信慈善基金会',
+            path:'pages/index/index',
+            success:function(res){
+                console.log(res);
+            },
+            fail:function(res){
+                console.log(res);
+            }
+        }
     }
 })
 function bindData(itemList,itemData){

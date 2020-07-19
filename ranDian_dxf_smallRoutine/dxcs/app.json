@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/common_sign/common_sign",
+    
     "pages/index/index",
+    "pages/web/web",
     "pages/activities/activities",
     "pages/donation/donation",
     "pages/logs/logs",
@@ -9,6 +10,7 @@
     "pages/notify/notify",
     "pages/mine/mine",
     "pages/feedback/feedback",
+    "pages/common_sign/common_sign",
     "pages/account/account",
     "pages/account_idCard/account_idCard",
     "pages/account_name/account_name",
@@ -18,8 +20,7 @@
     "pages/activity_detail/activity_detail",
     "pages/message_detail/message_detail",
     "pages/universities/universities",
-    "pages/kids/kids"
-    
+    "pages/kids/kids" 
   ],
   "window": {
     "backgroundTextStyle": "light",

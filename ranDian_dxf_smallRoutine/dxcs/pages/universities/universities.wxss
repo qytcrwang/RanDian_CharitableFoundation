@@ -264,6 +264,7 @@ radio .wx-radio-input.wx-radio-input-checked::before{
 .protocol{
   font-size: 22rpx;
   line-height:30rpx;
+  color: #09BB07;
 }
 .tip{
   width: 94%;
@@ -331,4 +332,102 @@ radio .wx-radio-input.wx-radio-input-checked::before{
 }
 .hidden{
   display: none;
+}
+
+.modal_mask_layer {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 999;
+  left:0;top:0;
+  background: #000;
+  opacity: 0.5;
+  overflow: hidden;
+}
+.modal_box {
+  width: 90%;
+  overflow: hidden;
+  position: fixed;
+  height: 85%;
+  top: 25%;
+  left: 0;
+  z-index: 1001;
+  background: #fafafa;
+  margin: -150px 5% 0 5%;
+  border-radius: 3px;
+}
+
+.modal_title {
+  padding: 15px;
+  text-align: center;
+  color:#09BB07;
+  background-color: gazure;
+  font-size:23rpx;
+}
+
+.modal_content {
+  height: 80%;
+}
+
+.modal_btn {
+  width: 100%;
+  margin-top: 35rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.modal_cancel {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  color: black;
+}
+
+.modal_sure {
+  width: 100%;
+  padding: 10px;
+  color: #04BE02;
+  background-color: white;
+  border-left: 1px solid #d0d0d0;
+  text-align: center;
+}
+
+.modal_msg {
+  font-size: 23rpx;
+  text-align: left;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+}
+.modal_msg_bold{
+  font-size: 23rpx;
+  text-align: left;
+  margin-left: 20rpx;
+  font-weight: bold;
+}
+.modal_radio_bold{
+  font-size: 23rpx;
+  text-align: left;
+  margin-left: 20rpx;
+  font-weight: bold;
+  width: 30%;
+}
+.modal_radio{
+  font-size: 23rpx;
+  text-align: left;
+  margin-left: 20rpx;
+  width: 30%;
+}
+.modal_radio_group{
+  margin-left: 20rpx;
+}
+.modal_input{
+  font-size: 26rpx;
+  text-align: left;
+  width: 40%;
+  font-weight: bold;
+  border-bottom: 1px solid;
 }

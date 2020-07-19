@@ -28,10 +28,10 @@ public class ContriInfoServiceImpl implements ContriInfoService {
   ExtendContriInfoTbMapper extendContriInfoTbMapper;
 
   @Override
-  public Boolean saveContriInfo(ContriInfoTb contriInfoTb) {
+  public boolean saveContriInfo(ContriInfoTb contriInfoTb) {
     contriDefaultParamUtil(contriInfoTb);
     int i = contriInfoTbMapper.insertSelective(contriInfoTb);
-    return i == 1;
+    return i==1;
   }
 
   @Override
@@ -55,6 +55,7 @@ public class ContriInfoServiceImpl implements ContriInfoService {
   public List<ContriInfoTb> getSelfContriInfoByStatus(Long userId, int status) {
     ContriInfoTbExample contriInfoTbExample = new ContriInfoTbExample();
     contriInfoTbExample.createCriteria().andUserIdEqualTo(userId).andContriTypeEqualTo(status);
+    contriInfoTbExample.setOrderByClause("update_time desc");
     return contriInfoTbMapper.selectByExample(contriInfoTbExample);
   }
 

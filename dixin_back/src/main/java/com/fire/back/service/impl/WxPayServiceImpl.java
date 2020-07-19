@@ -134,6 +134,7 @@ public class WxPayServiceImpl implements WxPayService {
                     String ndSign = WxUtils.sign(ndStr,WxConstant.mchkey,"utf-8").toUpperCase();
                     logger.info("============第二次签名：" + ndSign + "===============");
                     response.put("paySign",ndSign);
+                    response.put("appid",WxConstant.appid);
 
                     tradeInfo.setNdSign(ndSign);
                     tradeInfo.setPrepayId(prepayId);

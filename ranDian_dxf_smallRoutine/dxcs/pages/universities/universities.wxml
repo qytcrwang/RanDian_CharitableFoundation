@@ -13,14 +13,14 @@
         <view class='stepMain'>
           <view class='dian'></view> 
           <view class='describe'>签到金额</view>
-          <view class='sum'>累计金额: <text class='points'>300</text></view>
+          <!--<view class='sum'>累计金额: <text class='points'>300</text></view>-->
         </view>
       </view>
       <view class='size'>
         <view class='size_money'>(根据捐助金额获得捐助积分,1元=1点爱心积分)</view>
       </view>
       <view class='money_view'>
-        <input class="money_input" name="contriAmount" placeholder="请输入签到金额（单位：元）" placeholder-class="input"/>
+        <input class="money_input" name="contriAmount" placeholder="请输入签到金额（单位：元）" placeholder-class="input" bindblur="getContriAmount"/>
       </view>
     </view>
     <!-- 第二步 -->
@@ -45,8 +45,8 @@
     </view>
     <!-- 同意协议 -->
     <view class='agree'>
-      <radio catchtap="dmProtocolChecked" checked="{{isCheckDmProtocol}}">同意</radio>
-      <view class='protocol'>《用户捐赠协议协议》</view>
+      <radio catchtap="dmProtocolChecked" checked="{{isCheckDmProtocol}}" disabled="true">同意</radio>
+      <view class='protocol' bindtap="showMoneyAgreement">《用户捐赠协议》</view>
     </view>
     <!-- 温馨提示 -->
     <view class='tip'>
@@ -56,8 +56,72 @@
       <view class='content'>03 / 为了您的账户安全，请确认捐赠后再支付。</view>
     </view>
     <button class='submit' form-type='submit' wx:if="{{!isTodaySigned}}">签到</button>
-    <button class='submit' form-type='submit' wx:if="{{isTodaySigned}}">已签到</button>
+    <button class='submit' form-type='submit' wx:if="{{isTodaySigned}}" disabled="true">已签到</button>
   </form>
+  <!--用户金钱捐赠协议内容-->
+  <view wx:if='{{isShowMoneyAgreement}}' class="modal_view">
+    <form bindsubmit='agreeProtocol'>
+    <view class='modal_mask_layer' bindtap='modal_click_Hidden' />
+    <view class='modal_box'>
+      <view class="modal_title">《用户捐赠协议》</view>
+      <scroll-view scroll-y="true" class='modal_content'>
+        <view style="display:flex"><text class="modal_msg_bold">捐赠人(甲方)：</text><input class="modal_input" name="partyA" value="{{partyA}}">高俊</input></view>
+        <text class="modal_msg_bold"  style="display:block">单位性质：</text>
+        <radio-group class="modal_radio_group" bindchange="partyAUnitChange">
+          <radio class="modal_radio_bold" value="企业" checked="{{partyAUnit=='企业'}}">企业</radio>
+          <radio class="modal_radio_bold" value="事业单位" checked="{{partyAUnit=='事业单位'}}">事业单位</radio>
+          <radio class="modal_radio_bold" value="家庭" checked="{{partyAUnit=='家庭'}}">家庭</radio>
+          <radio class="modal_radio_bold" value="学生" checked="{{partyAUnit=='学生'}}">学生</radio>
+          <radio class="modal_radio_bold" value="自然人" checked="{{partyAUnit=='自然人'}}">自然人</radio>
+          <radio class="modal_radio_bold" value="社会团体" checked="{{partyAUnit=='社会团体'}}">社会团体</radio>
+          <radio class="modal_radio_bold" value="其他组织" checked="{{partyAUnit=='其他组织'}}">其他组织</radio>
+          <radio class="modal_radio_bold" style="width:40%" value="民办非企业单位" checked="{{partyAUnit=='民办非企业单位'}}">'民办非企业单位</radio>
+        </radio-group>
+        <text>\n</text>
+        <view style="display:flex"><text class="modal_msg_bold" style="display:block;width:20%">住      所：</text><input class="modal_input" name="partyAPosition" value="{{partyAPosition}}"></input></view>
+        <text>\n</text>
+        <view style="display:flex"><text class="modal_msg_bold" style="display:block;width:20%">法定代表人:</text><input class="modal_input" name="partyALegal" value="{{partyALegal}}"></input></view>
+        <text>\n</text>
+        <view style="display:flex"><text class="modal_msg_bold" style="display:block;width:20%">联  系  人：</text><input class="modal_input" name="partyALink" value="{{partyALink}}"></input></view>
+        <text>\n</text>
+        <view style="display:flex"><text class="modal_msg_bold" style="display:block;width:20%">电      话：</text><input class="modal_input" name="partyALinkPhone" value="{{partyALinkPhone}}"></input></view>
+        <text>\n</text>
+        <text class="modal_msg_bold" style="display:block">受赠人(乙方)： 山东省滴信慈善救助基金会</text>
+        <text class="modal_msg_bold" style="display:block">住所： 山东省济南市山大路157号华强E栋26层</text>
+        <text class="modal_msg_bold" style="display:block">法定代表人： 翟学梅</text>
+        <text class="modal_msg_bold">联系人：王华亮</text>
+        <text class="modal_msg_bold">电话：15905313688</text>
+        <text class="modal_msg" style="display:block">第一条： 根据<text style="color:#09BB07">《中华人民共和国公益事业捐赠法》</text>和<text style="color:#09BB07">《基金会管理条例》</text>等有关法律法规规定，甲乙双方就甲方向乙方提供捐赠事宜，本着白愿与诚信原则签订协议书。</text>
+        <text class="modal_msg" style="display:block">第二条： 甲方的捐赠是:人民币{{contriAmount}}元，大写{{contentComment}}元。</text>
+        <text class="modal_msg" style="display:block">第三条： 甲方的捐赠是甲方拥有完全所有权和处置权的合法资金，捐赠应当是自愿和无偿的。</text>
+        <text class="modal_msg" style="display:block">第四条： 甲方的捐赠用于:</text>
+        <radio-group class="modal_radio_group" bindchange="userForChange">
+          <radio class="modal_radio" style="width:50%" value="符合乙方宗旨的公益事业" checked="{{userFor=='符合乙方宗旨的公益事业'}}">符合乙方宗旨的公益事业</radio>
+          <radio class="modal_radio" style="width:50%" value="列为甲方的原始资金" checked="{{userFor=='列为甲方的原始资金'}}">列为甲方的原始资金</radio>
+          <radio class="modal_radio" style="width:50%" value="列为甲方设立的专项基金" checked="{{userFor=='列为甲方设立的专项基金'}}">列为甲方设立的专项基金</radio>
+          <radio class="modal_radio" style="width:50%" value="乙方安排" checked="{{userFor=='乙方安排'}}">乙方安排</radio>
+          <radio class="modal_radio" style="width:50%" value="甲方指定的公益项目" checked="{{userFor=='甲方指定的公益项目'}}">甲方指定的公益项目</radio>
+        </radio-group>
+        <text class="modal_msg" style="display:block">第五条： 捐赠人有权向基金会查询捐赠财产的使用、管理情况，并提出意见和建议。基金会违反捐赠协议使用捐赠财产的，捐赠人有权要求基金会遵守捐赠协议或者向人民法院申请撤销捐赠行为，解除捐赠协议。</text>
+        <text class="modal_msg" style="display:block">第六条： 乙方按规定程序及时接受甲方捐赠，依法出具有关手续。</text>
+        <text class="modal_msg" style="display:block">第七条： 甲乙双方的其他商定。</text>
+        <text class="modal_msg" style="display:block">第八条： 本捐赠协议书一式两份，甲乙双方各执一份。甲乙双方签字盖章后乙方足额收到捐赠时生效，未尽事宜另行协商，履行协议如有争议双方协商，协商无果时依法解决。</text>
+        <text class="modal_msg">甲方：</text><text class="modal_msg_bold">山东省滴信慈善救助基金会</text>
+        <text>\n</text>
+        <text class="modal_msg" style="">乙方：</text><text class="modal_msg_bold">{{partyA}}</text>
+        <text>\n</text>
+        <text class="modal_msg" style="">盖章(公章)：</text><text class="modal_msg" style="margin-left:120rpx">盖章(公章)：</text>
+        <text>\n</text>
+        <text class="modal_msg" style="margin-left:60rpx">{{todayYear}}年{{todayMonth}}月{{todayDate}}日</text><text class="modal_msg" style="margin-left:120rpx">{{todayYear}}年{{todayMonth}}月{{todayDate}}日</text>
+        <!--<textarea class='modal_textarea' bindinput='changeCancelReason' auto-height value='{{modalMsg}}' bindfocus='bindfocus' bindblur='bindblur' placeholder='{{modalMsg_placeholder}}'></textarea>-->
+      </scroll-view>
+      <view class='modal_btn'>
+        <button bindtap='modalCancel' class='modal_cancel'>拒绝</button>
+        <button class='modal_sure' form-type='submit'>同意</button>
+      </view>
+    </view>
+    </form>
+  </view>
   <!--申请房租页面-->
   <form class='{{applyForTab?"show":"hidden"}}' bindsubmit='applyRent'>
     <!-- 第一步 -->

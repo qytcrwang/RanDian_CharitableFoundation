@@ -2,6 +2,7 @@
 //api : 接口地址 /wx之后的部分
 //params : 参数
 //callback : 回调函数
+var log = require("../utils/log.js");
 function wxPost(api, params, callback) {
   PostMain(api, params, callback);
 }
@@ -35,6 +36,7 @@ function PostMain(api, params, callback) {
     },
     fail: function (data) {
       wx.hideLoading();
+      log.error(data);
       wx.showToast({
         title: '请求接口超时',
       })
@@ -52,7 +54,9 @@ function wxLogin(){
             code:res.code
           },function(backResult){
             console.log(backResult)
-            if(backResult.status == 1){
+            if(backResult.status == 1
+                && backResult.data.id != null 
+                && backResult.data.id != ''){
               wx.setStorage({
                 key:'userid',
                 data:backResult.data.id 
@@ -62,6 +66,13 @@ function wxLogin(){
             }
           })
         }
+      },
+      fail:res => {
+        wx.showToast({
+          title:'登陆失败',
+          duration:2000,
+          icon:'/img/close.png'
+      })
       }
     })
 }

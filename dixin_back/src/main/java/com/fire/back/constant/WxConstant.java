@@ -3,9 +3,9 @@ package com.fire.back.constant;
 public class WxConstant {
 
     //appid
-    public static String appid = "wxff90e7e036f52868";
+    public static String appid = "wxee3033690f06532a";
     //appsecret
-    public static String appSecret = "03bc5adc632d40feb9f74280e0ff8f93";
+    public static String appSecret = "2de1ba7120e1cc12920c9060ff30dd0c";
     //登陆请求地址
     public static String loginUrl = "https://api.weixin.qq.com/sns/jscode2session?appid="+appid+"&secret="+appSecret+"&grant_type=authorization_code&js_code=";
     //统一下单接口

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head th:replace="include :: header"></head>
 <body>
     <table class="layui-table" lay-skin="nob">
@@ -27,13 +27,13 @@
                         <input type="text" class="layui-input" name="noticeEtime" id="noticeEtime" placeholder="截止日期">
                     </div>
                     <div class="layui-input-inline" style="float:right;">
-                        <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+                        <button type="button" class="layui-btn" data-type="reload" shiro:hasPermission="common:notice:list" id="search">搜索</button>
                         <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
                     </div>
                 </form>
             </td>
             <td width="10%">
-                <button class="layui-btn" id="add"><i class="layui-icon">&#xe608;</i>添加</button>
+                <button class="layui-btn" shiro:hasPermission="common:notice:add" id="add"><i class="layui-icon">&#xe608;</i>添加</button>
             </td>
         </tr>
         </tbody>
@@ -58,7 +58,7 @@
     <!-- table后的操作按钮 -->
     <script type="text/html" id="noticeBar">
         <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" shiro:hasPermission="common:notice:update" lay-event="del">删除</a>
     </script>
     <script id="checkboxTpl" type="text/html">
         <!-- 这里的 checked 的状态只是演示 -->

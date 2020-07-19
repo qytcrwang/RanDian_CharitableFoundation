@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fire.back.dao.ContriProtocolTbMapper">
+  <resultMap id="BaseResultMap" type="com.fire.back.entity.ContriProtocolTb">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="info_tb_id" jdbcType="BIGINT" property="infoTbId" />
+    <result column="party_a" jdbcType="VARCHAR" property="partyA" />
+    <result column="party_a_unit" jdbcType="VARCHAR" property="partyAUnit" />
+    <result column="party_a_position" jdbcType="VARCHAR" property="partyAPosition" />
+    <result column="party_a_legal" jdbcType="VARCHAR" property="partyALegal" />
+    <result column="party_a_link" jdbcType="VARCHAR" property="partyALink" />
+    <result column="party_a_link_phone" jdbcType="VARCHAR" property="partyALinkPhone" />
+    <result column="party_b" jdbcType="VARCHAR" property="partyB" />
+    <result column="party_b_position" jdbcType="VARCHAR" property="partyBPosition" />
+    <result column="party_b_legal" jdbcType="VARCHAR" property="partyBLegal" />
+    <result column="party_b_link" jdbcType="VARCHAR" property="partyBLink" />
+    <result column="party_b_link_phone" jdbcType="VARCHAR" property="partyBLinkPhone" />
+    <result column="protocol_type" jdbcType="INTEGER" property="protocolType" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="content_comment" jdbcType="VARCHAR" property="contentComment" />
+    <result column="user_for" jdbcType="VARCHAR" property="userFor" />
+    <result column="party_b_sign_time" jdbcType="VARCHAR" property="partyBSignTime" />
+    <result column="party_a_sign_time" jdbcType="VARCHAR" property="partyASignTime" />
+    <result column="is_create_pdf" jdbcType="INTEGER" property="isCreatePdf" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, info_tb_id, party_a, party_a_unit, party_a_position, party_a_legal, party_a_link, 
+    party_a_link_phone, party_b, party_b_position, party_b_legal, party_b_link, party_b_link_phone, 
+    protocol_type, content, content_comment, user_for, party_b_sign_time, party_a_sign_time, 
+    is_create_pdf, is_delete, update_time, create_time
+  </sql>
+  <select id="selectByExample" parameterType="com.fire.back.entity.ContriProtocolTbExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from contri_protocol_tb
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contri_protocol_tb
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from contri_protocol_tb
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fire.back.entity.ContriProtocolTb">
+    insert into contri_protocol_tb (id, info_tb_id, party_a, 
+      party_a_unit, party_a_position, party_a_legal, 
+      party_a_link, party_a_link_phone, party_b, 
+      party_b_position, party_b_legal, party_b_link, 
+      party_b_link_phone, protocol_type, content, 
+      content_comment, user_for, party_b_sign_time, 
+      party_a_sign_time, is_create_pdf, is_delete, 
+      update_time, create_time)
+    values (#{id,jdbcType=BIGINT}, #{infoTbId,jdbcType=BIGINT}, #{partyA,jdbcType=VARCHAR}, 
+      #{partyAUnit,jdbcType=VARCHAR}, #{partyAPosition,jdbcType=VARCHAR}, #{partyALegal,jdbcType=VARCHAR}, 
+      #{partyALink,jdbcType=VARCHAR}, #{partyALinkPhone,jdbcType=VARCHAR}, #{partyB,jdbcType=VARCHAR}, 
+      #{partyBPosition,jdbcType=VARCHAR}, #{partyBLegal,jdbcType=VARCHAR}, #{partyBLink,jdbcType=VARCHAR}, 
+      #{partyBLinkPhone,jdbcType=VARCHAR}, #{protocolType,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{contentComment,jdbcType=VARCHAR}, #{userFor,jdbcType=VARCHAR}, #{partyBSignTime,jdbcType=VARCHAR}, 
+      #{partyASignTime,jdbcType=VARCHAR}, #{isCreatePdf,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=BIGINT}, #{createTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fire.back.entity.ContriProtocolTb">
+    insert into contri_protocol_tb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="infoTbId != null">
+        info_tb_id,
+      </if>
+      <if test="partyA != null">
+        party_a,
+      </if>
+      <if test="partyAUnit != null">
+        party_a_unit,
+      </if>
+      <if test="partyAPosition != null">
+        party_a_position,
+      </if>
+      <if test="partyALegal != null">
+        party_a_legal,
+      </if>
+      <if test="partyALink != null">
+        party_a_link,
+      </if>
+      <if test="partyALinkPhone != null">
+        party_a_link_phone,
+      </if>
+      <if test="partyB != null">
+        party_b,
+      </if>
+      <if test="partyBPosition != null">
+        party_b_position,
+      </if>
+      <if test="partyBLegal != null">
+        party_b_legal,
+      </if>
+      <if test="partyBLink != null">
+        party_b_link,
+      </if>
+      <if test="partyBLinkPhone != null">
+        party_b_link_phone,
+      </if>
+      <if test="protocolType != null">
+        protocol_type,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="contentComment != null">
+        content_comment,
+      </if>
+      <if test="userFor != null">
+        user_for,
+      </if>
+      <if test="partyBSignTime != null">
+        party_b_sign_time,
+      </if>
+      <if test="partyASignTime != null">
+        party_a_sign_time,
+      </if>
+      <if test="isCreatePdf != null">
+        is_create_pdf,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="infoTbId != null">
+        #{infoTbId,jdbcType=BIGINT},
+      </if>
+      <if test="partyA != null">
+        #{partyA,jdbcType=VARCHAR},
+      </if>
+      <if test="partyAUnit != null">
+        #{partyAUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="partyAPosition != null">
+        #{partyAPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="partyALegal != null">
+        #{partyALegal,jdbcType=VARCHAR},
+      </if>
+      <if test="partyALink != null">
+        #{partyALink,jdbcType=VARCHAR},
+      </if>
+      <if test="partyALinkPhone != null">
+        #{partyALinkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="partyB != null">
+        #{partyB,jdbcType=VARCHAR},
+      </if>
+      <if test="partyBPosition != null">
+        #{partyBPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="partyBLegal != null">
+        #{partyBLegal,jdbcType=VARCHAR},
+      </if>
+      <if test="partyBLink != null">
+        #{partyBLink,jdbcType=VARCHAR},
+      </if>
+      <if test="partyBLinkPhone != null">
+        #{partyBLinkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolType != null">
+        #{protocolType,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="contentComment != null">
+        #{contentComment,jdbcType=VARCHAR},
+      </if>
+      <if test="userFor != null">
+        #{userFor,jdbcType=VARCHAR},
+      </if>
+      <if test="partyBSignTime != null">
+        #{partyBSignTime,jdbcType=VARCHAR},
+      </if>
+      <if test="partyASignTime != null">
+        #{partyASignTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isCreatePdf != null">
+        #{isCreatePdf,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fire.back.entity.ContriProtocolTbExample" resultType="java.lang.Long">
+    select count(*) from contri_protocol_tb
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update contri_protocol_tb
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.infoTbId != null">
+        info_tb_id = #{record.infoTbId,jdbcType=BIGINT},
+      </if>
+      <if test="record.partyA != null">
+        party_a = #{record.partyA,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyAUnit != null">
+        party_a_unit = #{record.partyAUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyAPosition != null">
+        party_a_position = #{record.partyAPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyALegal != null">
+        party_a_legal = #{record.partyALegal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyALink != null">
+        party_a_link = #{record.partyALink,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyALinkPhone != null">
+        party_a_link_phone = #{record.partyALinkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyB != null">
+        party_b = #{record.partyB,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyBPosition != null">
+        party_b_position = #{record.partyBPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyBLegal != null">
+        party_b_legal = #{record.partyBLegal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyBLink != null">
+        party_b_link = #{record.partyBLink,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyBLinkPhone != null">
+        party_b_link_phone = #{record.partyBLinkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.protocolType != null">
+        protocol_type = #{record.protocolType,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contentComment != null">
+        content_comment = #{record.contentComment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userFor != null">
+        user_for = #{record.userFor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyBSignTime != null">
+        party_b_sign_time = #{record.partyBSignTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyASignTime != null">
+        party_a_sign_time = #{record.partyASignTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isCreatePdf != null">
+        is_create_pdf = #{record.isCreatePdf,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update contri_protocol_tb
+    set id = #{record.id,jdbcType=BIGINT},
+      info_tb_id = #{record.infoTbId,jdbcType=BIGINT},
+      party_a = #{record.partyA,jdbcType=VARCHAR},
+      party_a_unit = #{record.partyAUnit,jdbcType=VARCHAR},
+      party_a_position = #{record.partyAPosition,jdbcType=VARCHAR},
+      party_a_legal = #{record.partyALegal,jdbcType=VARCHAR},
+      party_a_link = #{record.partyALink,jdbcType=VARCHAR},
+      party_a_link_phone = #{record.partyALinkPhone,jdbcType=VARCHAR},
+      party_b = #{record.partyB,jdbcType=VARCHAR},
+      party_b_position = #{record.partyBPosition,jdbcType=VARCHAR},
+      party_b_legal = #{record.partyBLegal,jdbcType=VARCHAR},
+      party_b_link = #{record.partyBLink,jdbcType=VARCHAR},
+      party_b_link_phone = #{record.partyBLinkPhone,jdbcType=VARCHAR},
+      protocol_type = #{record.protocolType,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=VARCHAR},
+      content_comment = #{record.contentComment,jdbcType=VARCHAR},
+      user_for = #{record.userFor,jdbcType=VARCHAR},
+      party_b_sign_time = #{record.partyBSignTime,jdbcType=VARCHAR},
+      party_a_sign_time = #{record.partyASignTime,jdbcType=VARCHAR},
+      is_create_pdf = #{record.isCreatePdf,jdbcType=INTEGER},
+      is_delete = #{record.isDelete,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fire.back.entity.ContriProtocolTb">
+    update contri_protocol_tb
+    <set>
+      <if test="infoTbId != null">
+        info_tb_id = #{infoTbId,jdbcType=BIGINT},
+      </if>
+      <if test="partyA != null">
+        party_a = #{partyA,jdbcType=VARCHAR},
+      </if>
+      <if test="partyAUnit != null">
+        party_a_unit = #{partyAUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="partyAPosition != null">
+        party_a_position = #{partyAPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="partyALegal != null">
+        party_a_legal = #{partyALegal,jdbcType=VARCHAR},
+      </if>
+      <if test="partyALink != null">
+        party_a_link = #{partyALink,jdbcType=VARCHAR},
+      </if>
+      <if test="partyALinkPhone != null">
+        party_a_link_phone = #{partyALinkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="partyB != null">
+        party_b = #{partyB,jdbcType=VARCHAR},
+      </if>
+      <if test="partyBPosition != null">
+        party_b_position = #{partyBPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="partyBLegal != null">
+        party_b_legal = #{partyBLegal,jdbcType=VARCHAR},
+      </if>
+      <if test="partyBLink != null">
+        party_b_link = #{partyBLink,jdbcType=VARCHAR},
+      </if>
+      <if test="partyBLinkPhone != null">
+        party_b_link_phone = #{partyBLinkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolType != null">
+        protocol_type = #{protocolType,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="contentComment != null">
+        content_comment = #{contentComment,jdbcType=VARCHAR},
+      </if>
+      <if test="userFor != null">
+        user_for = #{userFor,jdbcType=VARCHAR},
+      </if>
+      <if test="partyBSignTime != null">
+        party_b_sign_time = #{partyBSignTime,jdbcType=VARCHAR},
+      </if>
+      <if test="partyASignTime != null">
+        party_a_sign_time = #{partyASignTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isCreatePdf != null">
+        is_create_pdf = #{isCreatePdf,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fire.back.entity.ContriProtocolTb">
+    update contri_protocol_tb
+    set info_tb_id = #{infoTbId,jdbcType=BIGINT},
+      party_a = #{partyA,jdbcType=VARCHAR},
+      party_a_unit = #{partyAUnit,jdbcType=VARCHAR},
+      party_a_position = #{partyAPosition,jdbcType=VARCHAR},
+      party_a_legal = #{partyALegal,jdbcType=VARCHAR},
+      party_a_link = #{partyALink,jdbcType=VARCHAR},
+      party_a_link_phone = #{partyALinkPhone,jdbcType=VARCHAR},
+      party_b = #{partyB,jdbcType=VARCHAR},
+      party_b_position = #{partyBPosition,jdbcType=VARCHAR},
+      party_b_legal = #{partyBLegal,jdbcType=VARCHAR},
+      party_b_link = #{partyBLink,jdbcType=VARCHAR},
+      party_b_link_phone = #{partyBLinkPhone,jdbcType=VARCHAR},
+      protocol_type = #{protocolType,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      content_comment = #{contentComment,jdbcType=VARCHAR},
+      user_for = #{userFor,jdbcType=VARCHAR},
+      party_b_sign_time = #{partyBSignTime,jdbcType=VARCHAR},
+      party_a_sign_time = #{partyASignTime,jdbcType=VARCHAR},
+      is_create_pdf = #{isCreatePdf,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

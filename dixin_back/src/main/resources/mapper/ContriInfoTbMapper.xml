@@ -126,7 +126,7 @@
       #{contriState,jdbcType=INTEGER}, #{ifStamp,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
       #{contriValue,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.fire.back.entity.ContriInfoTb" >
+  <insert id="insertSelective" parameterType="com.fire.back.entity.ContriInfoTb" useGeneratedKeys="true" keyProperty="id">
     insert into contri_info_tb
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

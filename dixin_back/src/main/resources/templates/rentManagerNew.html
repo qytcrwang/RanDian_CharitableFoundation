@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head th:replace="include :: header"></head>
 <body>
 <form class="layui-form" id="searchForm">
@@ -31,7 +31,7 @@
           <input type="text" class="layui-input" name="sentTime" id="sentTime" placeholder="发放时间" onfocus="noInput(this)">
         </div>
         <div class="layui-inline" style="float:right;padding-right: 10px">
-        <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+        <button type="button" class="layui-btn" data-type="reload"  shiro:hasPermission="common:rent:list" id="search">搜索</button>
           <button type="button" class="layui-btn layui-btn-primary" data-type="reload" id="clear">重置</button>
           <button type="button" class="layui-btn" style="visibility: hidden" data-type="reload" id="add"><i class="layui-icon">&#xe608;</i>新增</button>
         </div>
@@ -404,9 +404,9 @@
 </script>
 <script type="text/html" id="bar">
   <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">详情</a>-->
-  <a class="layui-btn layui-btn-xs" lay-event="edit">证实</a>
-  <a class="layui-btn layui-btn-xs" lay-event="editHasSend">发放</a>
-  <a class="layui-btn layui-btn-xs" lay-event="editCencel">驳回</a>
+  <a class="layui-btn layui-btn-xs" shiro:hasPermission="common:rent:update" lay-event="edit">证实</a>
+  <a class="layui-btn layui-btn-xs" shiro:hasPermission="common:rent:update" lay-event="editHasSend">发放</a>
+  <a class="layui-btn layui-btn-xs" shiro:hasPermission="common:rent:update" lay-event="editCencel">驳回</a>
 </script>
 
 <script type="text/html" id="titleTpl">

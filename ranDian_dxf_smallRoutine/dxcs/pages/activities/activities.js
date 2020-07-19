@@ -8,6 +8,7 @@ Page({
       mTitles : [],
       mSrcs : [],
       mTimes : [],
+      mIds : [],
       mCurrentPage : 0
     },
 
@@ -59,7 +60,8 @@ Page({
           itemList.push({
             title: titles[i],
             src: _this.data.mSrcs[i],
-            time: _this.data.mTimes[i]
+            time: _this.data.mTimes[i],
+            id:_this.data.mIds[i]
           })
         }
         _this.setData({
@@ -80,6 +82,7 @@ bindData:function(itemData) {
     _this.data.mTitles.push(itemData.title);
     _this.data.mTimes.push(wxUtils.dateFormat(itemData.activity_start_time));
     _this.data.mSrcs.push(itemData.cover_url);
+    _this.data.mIds.push(itemData.id);
   }
     
 });

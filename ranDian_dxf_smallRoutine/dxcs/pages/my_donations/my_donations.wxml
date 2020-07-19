@@ -20,7 +20,7 @@
             <image class='numPic' wx:if="{{item.contriType == 0}}" src='/img/donations_goods.png'></image>
             <view  class='numInfo'>
               <view class='num' wx:if="{{item.contriType == 0}}">物品捐赠</view>
-              <view class='num' wx:if="{{item.contriType == 1}}">捐款</view>
+              <view class='num' wx:if="{{item.contriType == 1}}">捐款{{item.contriAmount}}元</view>
               <view class='time'>{{wxUtils.dateFormat(item.createTime,"yyyy-MM-dd")}}</view>
             </view>
           </view>
@@ -46,7 +46,7 @@
             <image class='numPic' wx:if="{{item.contriType == 0}}" src='/img/donations_goods.png'></image>
             <view  class='numInfo'>
               <view class='num' wx:if="{{item.contriType == 0}}">物品捐赠</view>
-              <view class='num' wx:if="{{item.contriType == 1}}">捐款</view>
+              <view class='num' wx:if="{{item.contriType == 1}}">捐款{{item.contriAmount}}元</view>
               <view class='time'>{{wxUtils.dateFormat(item.createTime,"yyyy-MM-dd")}}</view>
             </view>
           </view>
