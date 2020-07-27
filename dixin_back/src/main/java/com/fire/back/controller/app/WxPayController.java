@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class WxPayController {
 
 
     @PostMapping("/notify")
-    public void notify(HttpServletRequest request) throws Exception{
+    public void notify(HttpServletRequest request, HttpServletResponse response) throws Exception{
         InputStream inputStream =  request.getInputStream();
         //获取请求输入流
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -64,6 +65,9 @@ public class WxPayController {
         inputStream.close();
 
         Map<String,String> map = WxUtils.xmlToMap(new String(outputStream.toByteArray(),"utf-8"));
-        logger.info("微信支付回调" + map);
+        logger.info("【小程序支付】支付回调参数：" + map);
+        //业务处理逻辑
+        String resXml = wxPayService.wxNotify(map);
+        response.getWriter().println(resXml);
     }
 }

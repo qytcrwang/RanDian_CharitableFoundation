@@ -25,4 +25,8 @@ public interface WxPayTradeMapper {
     int updateByPrimaryKeySelective(WxPayTrade record);
 
     int updateByPrimaryKey(WxPayTrade record);
+
+    WxPayTrade selectByOrderNo(String orderNo);
+
+    int updateResultCode(String resultCode , String orderNo);
 }

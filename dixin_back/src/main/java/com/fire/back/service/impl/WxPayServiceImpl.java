@@ -51,11 +51,9 @@ public class WxPayServiceImpl implements WxPayService {
         String openid = user.getOpenId();
         try{
             //调用微信统一下单接口
-            Map<String,String> resMap = wxUnifieldOrder(amount,openid,orderNo);
+            Map<String,String> resMap = wxUnifieldOrder(amount,openid,orderNo,userId);
             //获取请求结果
             String returnCode = (String)resMap.get("return_code");
-            //保存请求记录
-            this.addTradeInfo(orderNo,amount,userId,openid,returnCode);
 
             //给移动端返回参数
             SortedMap<String,String> response = new TreeMap<>();
@@ -89,7 +87,7 @@ public class WxPayServiceImpl implements WxPayService {
      * @return
      * @throws Exception
      */
-    private Map<String,String> wxUnifieldOrder(String payAmount,String openid,String orderNo) throws Exception{
+    private Map<String,String> wxUnifieldOrder(String payAmount,String openid,String orderNo,Long userId) throws Exception{
         //封装参数
         SortedMap<String,String> paramMap = new TreeMap<>();
         paramMap.put("appid",WxConstant.appid);
@@ -109,27 +107,76 @@ public class WxPayServiceImpl implements WxPayService {
         //请求微信后台  获取预支付id
         String result = WxUtils.httpRequest(WxConstant.payUrl,"POST",xmlParam);
         logger.info("【微信支付】 统一下单请求结果：" + result);
+        //转换请求结果为map
+        Map<String,String> resultMap = WxUtils.xmlToMap(result);
+        //保存请求记录
+        this.addTradeInfo(paramMap,userId,resultMap);
         //返回map结果
-        return WxUtils.xmlToMap(result);
+        return resultMap;
     }
 
     /**
      * 保存微信支付下单记录
-     * @param orderNo
-     * @param payAmount
+     * @param paramMap
      * @param userId
-     * @param openid
-     * @param returnCode
      * @return
      */
-    private int addTradeInfo(String orderNo,String payAmount,Long userId,String openid,String returnCode){
+    private int addTradeInfo(SortedMap<String,String> paramMap,Long userId,Map<String,String> result){
         WxPayTrade tradeInfo = new WxPayTrade();
         tradeInfo.setUserId(userId);
-        tradeInfo.setOutTradeNo(orderNo);
-        tradeInfo.setOpenId(openid);
-        tradeInfo.setTotalFee(payAmount);
-        tradeInfo.setStatus(returnCode);
+        tradeInfo.setOutTradeNo(paramMap.get("out_trade_no"));
+        tradeInfo.setOpenId(paramMap.get("openid"));
+        tradeInfo.setSpbillCreateIp(paramMap.get("spbill_create_ip"));
+        tradeInfo.setNonceStr(paramMap.get("nonce_str"));
+        tradeInfo.setTotalFee(paramMap.get("total_fee"));
+        tradeInfo.setStatus(result.get("return_code"));
+        tradeInfo.setReturnMsg(result.get("return_msg"));
         tradeInfo.setCreateTime(System.currentTimeMillis()/1000);
         return wxPayTradeMapper.insertSelective(tradeInfo);
+    }
+
+    /**
+     * 微信支付回调
+     * @param param
+     */
+    public String wxNotify(Map<String,String> param){
+        //定义返回结果xml
+        String resXml = "";
+
+        String orderNo = (String)param.get("out_trade_no");
+        //获取返回结果
+        String returnCode = (String)param.get("return_code");
+        if(WxConstant.SUCCESS.equalsIgnoreCase(returnCode)){
+            String resultCode = (String)param.get("result_code");
+            if(WxConstant.SUCCESS.equalsIgnoreCase(resultCode)){
+                //查询本地订单数据
+                WxPayTrade localTradeInfo = wxPayTradeMapper.selectByOrderNo(orderNo);
+                if(WxConstant.SUCCESS.equalsIgnoreCase(localTradeInfo.getResultCode())
+                    ||WxConstant.FAIL.equalsIgnoreCase(localTradeInfo.getResultCode())){
+                    //订单已经处理过 无需处理直接返回成功
+                    resXml = WxConstant.successResXml;
+                    return resXml;
+                }else{
+                    //更新本地结果
+                    wxPayTradeMapper.updateResultCode(WxConstant.SUCCESS,orderNo);
+                    resXml = WxConstant.successResXml;
+                    return resXml;
+                }
+            }else{
+                String errorCode = (String)param.get("err_code");
+                String errorCodeDes = (String)param.get("err_code_des");
+                logger.info("【小程序支付】支付失败：err_code " + errorCode + ",err_code_des " + errorCodeDes);
+                wxPayTradeMapper.updateResultCode(WxConstant.FAIL,orderNo);
+                resXml = WxConstant.successResXml;
+                return resXml;
+            }
+        }else{
+            String errorCode = (String)param.get("err_code");
+            String errorCodeDes = (String)param.get("err_code_des");
+            logger.info("【小程序支付】支付失败：err_code " + errorCode + ",err_code_des " + errorCodeDes);
+            wxPayTradeMapper.updateResultCode(WxConstant.FAIL,orderNo);
+            resXml = WxConstant.successResXml;
+            return resXml;
+        }
     }
 }

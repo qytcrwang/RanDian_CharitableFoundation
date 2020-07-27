@@ -105,6 +105,12 @@
     from wx_pay_trade
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByOrderNo" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wx_pay_trade
+    where out_trade_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from wx_pay_trade
     where id = #{id,jdbcType=BIGINT}
@@ -331,6 +337,9 @@
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateResultCode">
+    update wx_pay_trade set result_code = #{resultCode,jdbcType=VARCHAR} where out_trade_no = #{orderNo,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.fire.back.entity.WxPayTrade">
     update wx_pay_trade
