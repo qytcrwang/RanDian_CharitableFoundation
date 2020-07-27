@@ -1,7 +1,6 @@
 package com.fire.back.entity;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class WxPayTradeExample {
@@ -855,6 +854,76 @@ public class WxPayTradeExample {
             return (Criteria) this;
         }
 
+        public Criteria andReturnMsgIsNull() {
+            addCriterion("return_msg is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgIsNotNull() {
+            addCriterion("return_msg is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgEqualTo(String value) {
+            addCriterion("return_msg =", value, "returnMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgNotEqualTo(String value) {
+            addCriterion("return_msg <>", value, "returnMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgGreaterThan(String value) {
+            addCriterion("return_msg >", value, "returnMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgGreaterThanOrEqualTo(String value) {
+            addCriterion("return_msg >=", value, "returnMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgLessThan(String value) {
+            addCriterion("return_msg <", value, "returnMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgLessThanOrEqualTo(String value) {
+            addCriterion("return_msg <=", value, "returnMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgLike(String value) {
+            addCriterion("return_msg like", value, "returnMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgNotLike(String value) {
+            addCriterion("return_msg not like", value, "returnMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgIn(List<String> values) {
+            addCriterion("return_msg in", values, "returnMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgNotIn(List<String> values) {
+            addCriterion("return_msg not in", values, "returnMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgBetween(String value1, String value2) {
+            addCriterion("return_msg between", value1, value2, "returnMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnMsgNotBetween(String value1, String value2) {
+            addCriterion("return_msg not between", value1, value2, "returnMsg");
+            return (Criteria) this;
+        }
+
         public Criteria andErrorCodeIsNull() {
             addCriterion("error_code is null");
             return (Criteria) this;
@@ -1065,76 +1134,6 @@ public class WxPayTradeExample {
             return (Criteria) this;
         }
 
-        public Criteria andResultMsgIsNull() {
-            addCriterion("result_msg is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgIsNotNull() {
-            addCriterion("result_msg is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgEqualTo(String value) {
-            addCriterion("result_msg =", value, "resultMsg");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgNotEqualTo(String value) {
-            addCriterion("result_msg <>", value, "resultMsg");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgGreaterThan(String value) {
-            addCriterion("result_msg >", value, "resultMsg");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgGreaterThanOrEqualTo(String value) {
-            addCriterion("result_msg >=", value, "resultMsg");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgLessThan(String value) {
-            addCriterion("result_msg <", value, "resultMsg");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgLessThanOrEqualTo(String value) {
-            addCriterion("result_msg <=", value, "resultMsg");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgLike(String value) {
-            addCriterion("result_msg like", value, "resultMsg");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgNotLike(String value) {
-            addCriterion("result_msg not like", value, "resultMsg");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgIn(List<String> values) {
-            addCriterion("result_msg in", values, "resultMsg");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgNotIn(List<String> values) {
-            addCriterion("result_msg not in", values, "resultMsg");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgBetween(String value1, String value2) {
-            addCriterion("result_msg between", value1, value2, "resultMsg");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultMsgNotBetween(String value1, String value2) {
-            addCriterion("result_msg not between", value1, value2, "resultMsg");
-            return (Criteria) this;
-        }
-
         public Criteria andPrepayIdIsNull() {
             addCriterion("prepay_id is null");
             return (Criteria) this;
@@ -1145,52 +1144,62 @@ public class WxPayTradeExample {
             return (Criteria) this;
         }
 
-        public Criteria andPrepayIdEqualTo(Integer value) {
+        public Criteria andPrepayIdEqualTo(String value) {
             addCriterion("prepay_id =", value, "prepayId");
             return (Criteria) this;
         }
 
-        public Criteria andPrepayIdNotEqualTo(Integer value) {
+        public Criteria andPrepayIdNotEqualTo(String value) {
             addCriterion("prepay_id <>", value, "prepayId");
             return (Criteria) this;
         }
 
-        public Criteria andPrepayIdGreaterThan(Integer value) {
+        public Criteria andPrepayIdGreaterThan(String value) {
             addCriterion("prepay_id >", value, "prepayId");
             return (Criteria) this;
         }
 
-        public Criteria andPrepayIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andPrepayIdGreaterThanOrEqualTo(String value) {
             addCriterion("prepay_id >=", value, "prepayId");
             return (Criteria) this;
         }
 
-        public Criteria andPrepayIdLessThan(Integer value) {
+        public Criteria andPrepayIdLessThan(String value) {
             addCriterion("prepay_id <", value, "prepayId");
             return (Criteria) this;
         }
 
-        public Criteria andPrepayIdLessThanOrEqualTo(Integer value) {
+        public Criteria andPrepayIdLessThanOrEqualTo(String value) {
             addCriterion("prepay_id <=", value, "prepayId");
             return (Criteria) this;
         }
 
-        public Criteria andPrepayIdIn(List<Integer> values) {
+        public Criteria andPrepayIdLike(String value) {
+            addCriterion("prepay_id like", value, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdNotLike(String value) {
+            addCriterion("prepay_id not like", value, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdIn(List<String> values) {
             addCriterion("prepay_id in", values, "prepayId");
             return (Criteria) this;
         }
 
-        public Criteria andPrepayIdNotIn(List<Integer> values) {
+        public Criteria andPrepayIdNotIn(List<String> values) {
             addCriterion("prepay_id not in", values, "prepayId");
             return (Criteria) this;
         }
 
-        public Criteria andPrepayIdBetween(Integer value1, Integer value2) {
+        public Criteria andPrepayIdBetween(String value1, String value2) {
             addCriterion("prepay_id between", value1, value2, "prepayId");
             return (Criteria) this;
         }
 
-        public Criteria andPrepayIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andPrepayIdNotBetween(String value1, String value2) {
             addCriterion("prepay_id not between", value1, value2, "prepayId");
             return (Criteria) this;
         }
@@ -1205,52 +1214,52 @@ public class WxPayTradeExample {
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeEqualTo(Date value) {
+        public Criteria andCreateTimeEqualTo(Long value) {
             addCriterion("create_time =", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeNotEqualTo(Date value) {
+        public Criteria andCreateTimeNotEqualTo(Long value) {
             addCriterion("create_time <>", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeGreaterThan(Date value) {
+        public Criteria andCreateTimeGreaterThan(Long value) {
             addCriterion("create_time >", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
+        public Criteria andCreateTimeGreaterThanOrEqualTo(Long value) {
             addCriterion("create_time >=", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeLessThan(Date value) {
+        public Criteria andCreateTimeLessThan(Long value) {
             addCriterion("create_time <", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
+        public Criteria andCreateTimeLessThanOrEqualTo(Long value) {
             addCriterion("create_time <=", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeIn(List<Date> values) {
+        public Criteria andCreateTimeIn(List<Long> values) {
             addCriterion("create_time in", values, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeNotIn(List<Date> values) {
+        public Criteria andCreateTimeNotIn(List<Long> values) {
             addCriterion("create_time not in", values, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeBetween(Date value1, Date value2) {
+        public Criteria andCreateTimeBetween(Long value1, Long value2) {
             addCriterion("create_time between", value1, value2, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
+        public Criteria andCreateTimeNotBetween(Long value1, Long value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
@@ -1265,52 +1274,52 @@ public class WxPayTradeExample {
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeEqualTo(Date value) {
+        public Criteria andUpdateTimeEqualTo(Long value) {
             addCriterion("update_time =", value, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeNotEqualTo(Date value) {
+        public Criteria andUpdateTimeNotEqualTo(Long value) {
             addCriterion("update_time <>", value, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeGreaterThan(Date value) {
+        public Criteria andUpdateTimeGreaterThan(Long value) {
             addCriterion("update_time >", value, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeGreaterThanOrEqualTo(Date value) {
+        public Criteria andUpdateTimeGreaterThanOrEqualTo(Long value) {
             addCriterion("update_time >=", value, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeLessThan(Date value) {
+        public Criteria andUpdateTimeLessThan(Long value) {
             addCriterion("update_time <", value, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeLessThanOrEqualTo(Date value) {
+        public Criteria andUpdateTimeLessThanOrEqualTo(Long value) {
             addCriterion("update_time <=", value, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeIn(List<Date> values) {
+        public Criteria andUpdateTimeIn(List<Long> values) {
             addCriterion("update_time in", values, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeNotIn(List<Date> values) {
+        public Criteria andUpdateTimeNotIn(List<Long> values) {
             addCriterion("update_time not in", values, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeBetween(Date value1, Date value2) {
+        public Criteria andUpdateTimeBetween(Long value1, Long value2) {
             addCriterion("update_time between", value1, value2, "updateTime");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateTimeNotBetween(Date value1, Date value2) {
+        public Criteria andUpdateTimeNotBetween(Long value1, Long value2) {
             addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }

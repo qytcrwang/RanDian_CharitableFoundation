@@ -56,7 +56,7 @@ public class TestController {
 		}
 		// 此方法不处理登录成功,由shiro进行处理
 		//shiro 将记录将要登录前要前往的地址
-		return "/login/login";
+		return "login/login";
 	}
 
 
