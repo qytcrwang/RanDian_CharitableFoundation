@@ -24,4 +24,6 @@ public interface VolunteerApplyService {
    */
   boolean saveVolunteerApply(VolunteerApplyTb volunteerApplyTb);
 
+  VolunteerApplyTb getVolunteerInfoByUserId(Long userId);
+
 }

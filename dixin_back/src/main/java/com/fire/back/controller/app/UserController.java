@@ -6,6 +6,7 @@ import com.fire.back.entity.UserTb;
 import com.fire.back.service.SignInService;
 import com.fire.back.service.UserService;
 import com.fire.back.util.ParamUtil;
+import com.fire.back.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,12 +162,42 @@ public class UserController {
 
         try {
             Long userId = ParamUtil.getLong(paramMap, "userId");
-            if (userId == null) return FireResult.build(0, "用户id为为空");
+            if (userId == null) return FireResult.build(0, "用户id为空");
             Boolean result = ss.isTodaySigned(userId);
             return result ? FireResult.build(1, "已签到",true) : FireResult.build(1, "未签到",false);
         } catch (Exception e) {
             logger.error("查询当日是否签到异常", e);
             return FireResult.build(0, "查询当日是否签到异常");
+        }
+    }
+
+    /**
+     * 检查用户 姓名、身份证号、联系方式是否已经完善
+     * @param paramMap
+     * @return
+     */
+    @PostMapping("/isFullUserInfo")
+    public FireResult isFullUserInfo(@RequestBody Map<String,Object> paramMap){
+        try{
+            Long userId = ParamUtil.getLong(paramMap,"userId");
+            if(userId == null){
+                return FireResult.build(0,"用户id为空");
+            }
+            UserTb user = us.getUserInfobByPrimaryKey(userId);
+            if(user != null){
+                String name = user.getName();
+                String mobile = user.getMobile();
+                String idCard = user.getIdCardNumber();
+                //如果真实姓名、联系方式、身份证号有一个为空，则返回false
+                if(StringUtils.isEmpty(name) || StringUtils.isEmpty(mobile) || StringUtils.isEmpty(idCard)){
+                    return FireResult.build(1,"用户信息未完善",false);
+                }
+                return FireResult.build(1,"用户信息已完善",true);
+            }
+            return FireResult.build(0,"检查用户信息异常",null);
+        }catch (Exception e){
+            logger.info("检查用户信息异常",e);
+            return FireResult.build(0,"检查用户信息异常",null);
         }
     }
 
