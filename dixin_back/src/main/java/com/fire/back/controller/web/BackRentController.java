@@ -4,6 +4,7 @@ import com.fire.back.common.CheckEmptyUtil;
 import com.fire.back.common.ExecuteResult;
 import com.fire.back.common.FireResult;
 import com.fire.back.dto.RentListParamsDto;
+import com.fire.back.entity.ContriInfoTb;
 import com.fire.back.entity.RentApplyTb;
 import com.fire.back.service.impl.RentServiceImpl;
 import com.fire.back.util.ParamUtil;
@@ -126,21 +127,74 @@ public class BackRentController   extends BaseController{
         rentServiceImpl.delete(Long.parseLong(id+""));
         return res;
     }
-    @PostMapping(value = "/updateStatus")
+    @PostMapping(value = "/verifyRent")
     @RequiresPermissions("common:rent:update")
-    public FireResult updateContriStatus(@RequestBody RentApplyTb contriInfoTb) {
-        if (CheckEmptyUtil.isEmpty(contriInfoTb)) {
+    public FireResult verify(@RequestBody Map<String,Object> paramMap) {
+        try {
+        Long id = ParamUtil.getLong(paramMap,"id");
+        if (id==null) {
             return FireResult.build(0, "入参不能为空");
         }
-        try {
-            Boolean b = rentServiceImpl.updateStatus(contriInfoTb);
+        RentApplyTb rentApplyTb =new RentApplyTb();
+        rentApplyTb.setId(id);
+        rentApplyTb.setState(1);
+
+            Boolean b = rentServiceImpl.updateStatus(rentApplyTb);
             if (b) {
                 return FireResult.build(1, "更新成功", null);
             } else {
                 return FireResult.build(0, "更新失败，请稍后再试");
             }
         } catch (Exception e) {
-            logger.error("", e);
+            logger.error("租房证实异常", e);
+            return FireResult.build(0, "更新失败，请稍后再试");
+        }
+    }
+    @PostMapping(value = "/grantRent")
+    @RequiresPermissions("common:rent:update")
+    public FireResult grant(@RequestBody Map<String,Object> paramMap) {
+        try {
+
+            Long id = ParamUtil.getLong(paramMap,"id");
+
+            if (id==null) {
+                return FireResult.build(0, "入参不能为空");
+            }
+            RentApplyTb rentApplyTb =new RentApplyTb();
+            rentApplyTb.setId(id);
+            rentApplyTb.setState(2);
+            rentApplyTb.setSentTime(System.currentTimeMillis() / 1000);
+            Boolean b = rentServiceImpl.updateStatus(rentApplyTb);
+            if (b) {
+                return FireResult.build(1, "更新成功", null);
+            } else {
+                return FireResult.build(0, "更新失败，请稍后再试");
+            }
+        } catch (Exception e) {
+            logger.error("房租申请发放异常", e);
+            return FireResult.build(0, "更新失败，请稍后再试");
+        }
+    }
+    @PostMapping(value = "/rejectRent")
+    @RequiresPermissions("common:rent:update")
+    public FireResult reject(@RequestBody Map<String,Object> paramMap) {
+        try{
+            Long id = ParamUtil.getLong(paramMap,"id");
+
+            if (id==null) {
+                return FireResult.build(0, "入参不能为空");
+            }
+            RentApplyTb rentApplyTb =new RentApplyTb();
+            rentApplyTb.setId(id);
+            rentApplyTb.setState(3);
+            Boolean b = rentServiceImpl.updateStatus(rentApplyTb);
+            if (b) {
+                return FireResult.build(1, "更新成功", null);
+            } else {
+                return FireResult.build(0, "更新失败，请稍后再试");
+            }
+        } catch (Exception e) {
+            logger.error("拒绝租房申请失败", e);
             return FireResult.build(0, "更新失败，请稍后再试");
         }
     }
