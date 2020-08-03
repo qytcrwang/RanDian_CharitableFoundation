@@ -176,7 +176,7 @@
                     ,{field:'applyTime', title: '申请时间', align: 'center',templet: function (row) {
                         return createTime(row.applyTime)}}
                     ,{field:'sentTime', title: '发放时间', align: 'center',templet: function (row) {
-                        return createTime(row.sentTime)}}
+                        return row.sentTime==null?"":createTime(row.sentTime)}}
                     ,{field:'sentAmount', title: '发放金额', align: 'center'}
                     ,{field:'sentProof', title: '发放凭证', align: 'center'}
                     ,{field:'jobState', title: '是否在职', align: 'center', templet: function (row) {
