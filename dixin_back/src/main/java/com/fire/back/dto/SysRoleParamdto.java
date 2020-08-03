@@ -9,6 +9,8 @@ public class SysRoleParamdto extends SysRole {
 
     private long[] menuIds;
 
+    private List<SysMenu> sysMenuList;
+
     public long[] getMenuIds() {
         return menuIds;
     }
@@ -16,8 +18,6 @@ public class SysRoleParamdto extends SysRole {
     public void setMenuIds(long[] menuIds) {
         this.menuIds = menuIds;
     }
-
-    private List<SysMenu> sysMenuList;
 
     public List<SysMenu> getSysMenuList() {
         return sysMenuList;
@@ -30,6 +30,7 @@ public class SysRoleParamdto extends SysRole {
     public boolean isAdmin(){
         return isAdmin(getRoleId());
     }
+
     public static boolean isAdmin(Long roleId)
     {
         return roleId != null && 1L == roleId;

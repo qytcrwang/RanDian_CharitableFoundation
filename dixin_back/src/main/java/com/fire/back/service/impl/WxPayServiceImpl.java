@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 @Service
 public class WxPayServiceImpl implements WxPayService {
@@ -36,6 +38,11 @@ public class WxPayServiceImpl implements WxPayService {
      */
     @Override
     public FireResult createUnifiedOrder(HttpServletRequest request, Long userId, String amount) {
+        //生成订单号
+        String orderNo = WxUtils.createOrderNo();
+
+        logger.info("【小程序支付】统一下单开始，订单编号:"+orderNo);
+
         //查询用户信息
         UserTb user = userTbMapper.selectByPrimaryKey(userId);
         if(null == user || StringUtils.isEmpty(user.getOpenId())){
@@ -43,118 +50,133 @@ public class WxPayServiceImpl implements WxPayService {
         }
         String openid = user.getOpenId();
         try{
-            //生成32位随机字符串
-            String nonceStr = WxUtils.getRandomStringByLength(32);
-            //设置商品名称
-            String body = new String(WxConstant.title.getBytes("ISO-8859-1"),"UTF-8");
-            //获取本机ip地址
-            String spbillCreateIp = WxUtils.getLocalIp(request);
-            //创建订单号
-            String orderNo = WxUtils.createOrderNo();
-            //转换订单金额单位为分
-            String totalFee = WxUtils.changeY2F(amount);
-
-            Map<String,String> stParam = new HashMap<>();
-            stParam.put("appid",WxConstant.appid);
-            stParam.put("mchid",WxConstant.mchid);
-            stParam.put("nonce_str",nonceStr);
-            stParam.put("body",body);
-            stParam.put("out_trade_no",orderNo);
-            stParam.put("total_fee",amount);
-            stParam.put("spbill_create_ip",spbillCreateIp);
-            stParam.put("notify_url",WxConstant.notifyUrl);
-            stParam.put("trade_type",WxConstant.tradeType);
-            stParam.put("openid",openid);
-
-            //出去数组中的空参数和签名参数
-            stParam = WxUtils.paramFilter(stParam);
-            String preStr = WxUtils.createLinkString(stParam);
-
-            //运用MD5生成签名
-            String stSign = WxUtils.sign(preStr,WxConstant.mchkey,"utf-8").toUpperCase();
-            logger.info("============第一次签名：" + stSign + "===============");
-            //拼接统一下单接口使用的xml数据，要将上一步生成的签名一起拼接进去
-            String xml = "<xml version='1.0' encoding='gbk'>" + "<appid>" + WxConstant.appid + "</appid>"
-                    + "<body><![CDATA[" + body + "]]></body>"
-                    + "<mch_id>" + WxConstant.mchid + "</mch_id>"
-                    + "<nonce_str>" + nonceStr + "</nonce_str>"
-                    + "<notify_url>" + WxConstant.notifyUrl + "</notify_url>"
-                    + "<openid>" + openid + "</openid>"
-                    + "<out_trade_no>" + orderNo + "</out_trade_no>"
-                    + "<spill_create_ip>" + spbillCreateIp+ "</spill_create_ip>"
-                    + "<total_fee>" + totalFee + "</total_fee>"
-                    + "<trade_type>" + WxConstant.tradeType+ "</trade_type>"
-                    + "<sign>" + stSign + "</sign>"
-                    + "</xml>";
-            logger.info("调用统一下单接口，请求参数xml:" + xml);
-            //发起统一下单请求，并接受返回的结果
-            String result = WxUtils.httpRequest(WxConstant.payUrl,"POST",xml);
-            logger.info("调用统一下单接口，返回结果xml:" + result);
-            //将返回结果存在map中
-            Map map = WxUtils.xmlToMap(result);
+            //调用微信统一下单接口
+            Map<String,String> resMap = wxUnifieldOrder(amount,openid,orderNo,userId);
             //获取请求结果
-            String returnCode = (String)map.get("return_code");
-            //保存请求结果
-            WxPayTrade tradeInfo = new WxPayTrade();
-            tradeInfo.setUserId(userId);
-            tradeInfo.setOutTradeNo(orderNo);
-            tradeInfo.setOpenId(openid);
-            tradeInfo.setSpbillCreateIp(spbillCreateIp);
-            tradeInfo.setTotalFee(totalFee);
-            tradeInfo.setStSign(stSign);
-            tradeInfo.setNonceStr(nonceStr);
-            tradeInfo.setStatus(returnCode);
-            tradeInfo.setCreateTime(System.currentTimeMillis()/1000);
+            String returnCode = (String)resMap.get("return_code");
 
             //给移动端返回参数
-            Map<String,Object> response = new HashMap<>();
-            if(WxConstant.SUCCESS.equals(returnCode)){
-                //获取交易结果
-                String resultCode = (String)map.get("result_code");
-                tradeInfo.setResultCode(resultCode);
-                if(WxConstant.SUCCESS.equals(resultCode)){
-                    //获取预订单信息
-                    String prepayId = (String)map.get("prepay_id");
-                    response.put("nonceStr",nonceStr);
-                    response.put("package","prepay_id="+prepayId);
-                    //需使用String类型的时间戳，否则前端会报错
-                    String timestamp = System.currentTimeMillis()/1000 + "";
-                    response.put("tiemstamp",timestamp);
-
-                    Map<String,String> ndParam = new HashMap<>();
-                    ndParam.put("appid",WxConstant.appid);
-                    ndParam.put("nonceStr",nonceStr);
-                    ndParam.put("package","prepay_id=" + prepayId);
-                    ndParam.put("signType",WxConstant.signType);
-                    ndParam.put("timestamp",timestamp);
-
-                    ndParam = WxUtils.paramFilter(ndParam);
-                    String ndStr = WxUtils.createLinkString(ndParam);
-                    //再次签名
-                    String ndSign = WxUtils.sign(ndStr,WxConstant.mchkey,"utf-8").toUpperCase();
-                    logger.info("============第二次签名：" + ndSign + "===============");
-                    response.put("paySign",ndSign);
-                    response.put("appid",WxConstant.appid);
-
-                    tradeInfo.setNdSign(ndSign);
-                    tradeInfo.setPrepayId(prepayId);
-                    return FireResult.build(1,"订单已提交",response);
-                }else{
-                    //交易错误
-                    String errorCode = (String)map.get("error_code");
-                    String errorCodeDes = (String)map.get("error_code_des");
-                    tradeInfo.setErrorCode(errorCode);
-                    tradeInfo.setErrorMsg(errorCodeDes);
-                }
+            SortedMap<String,String> response = new TreeMap<>();
+            if(WxConstant.SUCCESS.equals(returnCode) && WxConstant.SUCCESS.equals(resMap.get("result_code"))){
+                response.put("appId",WxConstant.appid);
+                response.put("timeStamp",new Long(System.currentTimeMillis()).toString());
+                response.put("nonceStr",WxUtils.getRandomStringByLength(32));
+                response.put("package","prepay_id="+resMap.get("prepay_id"));
+                response.put("signType","MD5");
+                response.put("sign",WxUtils.createSign(response,WxConstant.mchkey));
+                response.put("returnCode","SUCCESS");
+                response.put("returnMsg","OK");
+                logger.info("【小程序支付】统一下单成功，返回参数：" + response);
+                return FireResult.build(1,"统一下单成功",response);
             }else{
                 //请求失败
-                String returnMsg = (String)map.get("return_msg");
-                tradeInfo.setReturnMsg(returnMsg);
+                return FireResult.build(0,"统一下单失败",null);
             }
-            wxPayTradeMapper.insertSelective(tradeInfo);
+
         }catch (Exception e){
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 微信小程序支付-统一下单
+     * @param payAmount     支付金额
+     * @param openid        用户的openid
+     * @param orderNo       订单号
+     * @return
+     * @throws Exception
+     */
+    private Map<String,String> wxUnifieldOrder(String payAmount,String openid,String orderNo,Long userId) throws Exception{
+        //封装参数
+        SortedMap<String,String> paramMap = new TreeMap<>();
+        paramMap.put("appid",WxConstant.appid);
+        paramMap.put("mch_id",WxConstant.mchid);
+        paramMap.put("nonce_str",WxUtils.getRandomStringByLength(32));
+        paramMap.put("body",WxConstant.companyName);
+        paramMap.put("out_trade_no",orderNo);
+        paramMap.put("total_fee",WxUtils.changeY2F(payAmount));
+        paramMap.put("spbill_create_ip",WxUtils.getLocalIp());
+        paramMap.put("notify_url",WxConstant.notifyUrl);
+        paramMap.put("trade_type",WxConstant.tradeType);
+        paramMap.put("openid",openid);
+        //设置签名
+        paramMap.put("sign",WxUtils.createSign(paramMap,WxConstant.mchkey));
+        //将参数转化成xml格式
+        String xmlParam = WxUtils.mapToXml(paramMap);
+        //请求微信后台  获取预支付id
+        String result = WxUtils.httpRequest(WxConstant.payUrl,"POST",xmlParam);
+        logger.info("【微信支付】 统一下单请求结果：" + result);
+        //转换请求结果为map
+        Map<String,String> resultMap = WxUtils.xmlToMap(result);
+        //保存请求记录
+        this.addTradeInfo(paramMap,userId,resultMap);
+        //返回map结果
+        return resultMap;
+    }
+
+    /**
+     * 保存微信支付下单记录
+     * @param paramMap
+     * @param userId
+     * @return
+     */
+    private int addTradeInfo(SortedMap<String,String> paramMap,Long userId,Map<String,String> result){
+        WxPayTrade tradeInfo = new WxPayTrade();
+        tradeInfo.setUserId(userId);
+        tradeInfo.setOutTradeNo(paramMap.get("out_trade_no"));
+        tradeInfo.setOpenId(paramMap.get("openid"));
+        tradeInfo.setSpbillCreateIp(paramMap.get("spbill_create_ip"));
+        tradeInfo.setNonceStr(paramMap.get("nonce_str"));
+        tradeInfo.setTotalFee(paramMap.get("total_fee"));
+        tradeInfo.setStatus(result.get("return_code"));
+        tradeInfo.setReturnMsg(result.get("return_msg"));
+        tradeInfo.setCreateTime(System.currentTimeMillis()/1000);
+        return wxPayTradeMapper.insertSelective(tradeInfo);
+    }
+
+    /**
+     * 微信支付回调
+     * @param param
+     */
+    public String wxNotify(Map<String,String> param){
+        //定义返回结果xml
+        String resXml = "";
+
+        String orderNo = (String)param.get("out_trade_no");
+        //获取返回结果
+        String returnCode = (String)param.get("return_code");
+        if(WxConstant.SUCCESS.equalsIgnoreCase(returnCode)){
+            String resultCode = (String)param.get("result_code");
+            if(WxConstant.SUCCESS.equalsIgnoreCase(resultCode)){
+                //查询本地订单数据
+                WxPayTrade localTradeInfo = wxPayTradeMapper.selectByOrderNo(orderNo);
+                if(WxConstant.SUCCESS.equalsIgnoreCase(localTradeInfo.getResultCode())
+                    ||WxConstant.FAIL.equalsIgnoreCase(localTradeInfo.getResultCode())){
+                    //订单已经处理过 无需处理直接返回成功
+                    resXml = WxConstant.successResXml;
+                    return resXml;
+                }else{
+                    //更新本地结果
+                    wxPayTradeMapper.updateResultCode(WxConstant.SUCCESS,orderNo);
+                    resXml = WxConstant.successResXml;
+                    return resXml;
+                }
+            }else{
+                String errorCode = (String)param.get("err_code");
+                String errorCodeDes = (String)param.get("err_code_des");
+                logger.info("【小程序支付】支付失败：err_code " + errorCode + ",err_code_des " + errorCodeDes);
+                wxPayTradeMapper.updateResultCode(WxConstant.FAIL,orderNo);
+                resXml = WxConstant.successResXml;
+                return resXml;
+            }
+        }else{
+            String errorCode = (String)param.get("err_code");
+            String errorCodeDes = (String)param.get("err_code_des");
+            logger.info("【小程序支付】支付失败：err_code " + errorCode + ",err_code_des " + errorCodeDes);
+            wxPayTradeMapper.updateResultCode(WxConstant.FAIL,orderNo);
+            resXml = WxConstant.successResXml;
+            return resXml;
+        }
     }
 }

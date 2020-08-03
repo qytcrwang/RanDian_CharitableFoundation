@@ -104,9 +104,9 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public Boolean updateStatus(RentApplyTb contriInfoTb) {
-        contriInfoTb.setUpdateTime(System.currentTimeMillis() / 1000);
-        int i = rentApplyTbMapper.updateByPrimaryKeySelective(contriInfoTb);
+    public Boolean updateStatus(RentApplyTb rentApplyTb) {
+        rentApplyTb.setUpdateTime(System.currentTimeMillis() / 1000);
+        int i = rentApplyTbMapper.updateByPrimaryKeySelective(rentApplyTb);
         return i == 1;
     }
 
@@ -122,6 +122,7 @@ public class RentServiceImpl implements RentService {
         rentApplyTb.setState(0);
         rentApplyTb.setIsDelete(0);
         rentApplyTb.setCreateTime(System.currentTimeMillis()/1000);
+        rentApplyTb.setApplyTime(System.currentTimeMillis()/1000);
     }
 
 

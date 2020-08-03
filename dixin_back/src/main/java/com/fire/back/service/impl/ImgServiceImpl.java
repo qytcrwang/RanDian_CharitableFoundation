@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
 
 @Service
@@ -24,7 +25,8 @@ public class ImgServiceImpl implements ImgService {
   @Override
   public List<String> getImgList() {
     try {
-      File cover = ResourceUtils.getFile(CLASS_PATH);
+      String picPath = ClassUtils.getDefaultClassLoader().getResource("static/images/first").getPath();
+      File cover = ResourceUtils.getFile(picPath);
       File[] files = cover.listFiles();
       List<String> imgList = new ArrayList<>();
       if (CheckEmptyUtil.isNotEmpty(files)) {

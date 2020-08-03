@@ -60,5 +60,5 @@ public interface RentService {
 
     int delete(Long id);
 
-    Boolean updateStatus(RentApplyTb contriInfoTb);
+    Boolean updateStatus(RentApplyTb rentApplyTb);
 }

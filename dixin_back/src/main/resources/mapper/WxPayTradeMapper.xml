@@ -13,10 +13,10 @@
     <result column="nonce_str" jdbcType="VARCHAR" property="nonceStr" />
     <result column="device_info" jdbcType="VARCHAR" property="deviceInfo" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="return_msg" jdbcType="VARCHAR" property="returnMsg" />
     <result column="error_code" jdbcType="VARCHAR" property="errorCode" />
     <result column="error_msg" jdbcType="VARCHAR" property="errorMsg" />
     <result column="result_code" jdbcType="VARCHAR" property="resultCode" />
-    <result column="return_msg" jdbcType="VARCHAR" property="resultMsg" />
     <result column="prepay_id" jdbcType="VARCHAR" property="prepayId" />
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
     <result column="update_time" jdbcType="BIGINT" property="updateTime" />
@@ -81,7 +81,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, out_trade_no, user_id, open_id, spbill_create_ip, total_fee, st_sign, nd_sign, 
-    nonce_str, device_info, status, error_code, error_msg, result_code, return_msg, prepay_id, 
+    nonce_str, device_info, status, return_msg, error_code, error_msg, result_code, prepay_id, 
     create_time, update_time
   </sql>
   <select id="selectByExample" parameterType="com.fire.back.entity.WxPayTradeExample" resultMap="BaseResultMap">
@@ -105,6 +105,12 @@
     from wx_pay_trade
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByOrderNo" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wx_pay_trade
+    where out_trade_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from wx_pay_trade
     where id = #{id,jdbcType=BIGINT}
@@ -113,15 +119,15 @@
     insert into wx_pay_trade (id, out_trade_no, user_id, 
       open_id, spbill_create_ip, total_fee, 
       st_sign, nd_sign, nonce_str, 
-      device_info, status, error_code, 
-      error_msg, result_code, return_msg, 
+      device_info, status, return_msg, 
+      error_code, error_msg, result_code, 
       prepay_id, create_time, update_time
       )
     values (#{id,jdbcType=BIGINT}, #{outTradeNo,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
       #{openId,jdbcType=VARCHAR}, #{spbillCreateIp,jdbcType=VARCHAR}, #{totalFee,jdbcType=VARCHAR}, 
       #{stSign,jdbcType=VARCHAR}, #{ndSign,jdbcType=VARCHAR}, #{nonceStr,jdbcType=VARCHAR}, 
-      #{deviceInfo,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{errorCode,jdbcType=VARCHAR}, 
-      #{errorMsg,jdbcType=VARCHAR}, #{resultCode,jdbcType=VARCHAR}, #{resultMsg,jdbcType=VARCHAR}, 
+      #{deviceInfo,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{returnMsg,jdbcType=VARCHAR}, 
+      #{errorCode,jdbcType=VARCHAR}, #{errorMsg,jdbcType=VARCHAR}, #{resultCode,jdbcType=VARCHAR}, 
       #{prepayId,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}
       )
   </insert>
@@ -161,6 +167,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="returnMsg != null">
+        return_msg,
+      </if>
       <if test="errorCode != null">
         error_code,
       </if>
@@ -169,9 +178,6 @@
       </if>
       <if test="resultCode != null">
         result_code,
-      </if>
-      <if test="resultMsg != null">
-        return_msg,
       </if>
       <if test="prepayId != null">
         prepay_id,
@@ -217,6 +223,9 @@
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
       </if>
+      <if test="returnMsg != null">
+        #{returnMsg,jdbcType=VARCHAR},
+      </if>
       <if test="errorCode != null">
         #{errorCode,jdbcType=VARCHAR},
       </if>
@@ -226,11 +235,8 @@
       <if test="resultCode != null">
         #{resultCode,jdbcType=VARCHAR},
       </if>
-      <if test="resultMsg != null">
-        #{resultMsg,jdbcType=VARCHAR},
-      </if>
       <if test="prepayId != null">
-        #{prepayId,jdbcType=INTEGER},
+        #{prepayId,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=BIGINT},
@@ -282,6 +288,9 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=VARCHAR},
       </if>
+      <if test="record.returnMsg != null">
+        return_msg = #{record.returnMsg,jdbcType=VARCHAR},
+      </if>
       <if test="record.errorCode != null">
         error_code = #{record.errorCode,jdbcType=VARCHAR},
       </if>
@@ -290,9 +299,6 @@
       </if>
       <if test="record.resultCode != null">
         result_code = #{record.resultCode,jdbcType=VARCHAR},
-      </if>
-      <if test="record.resultMsg != null">
-        return_msg = #{record.resultMsg,jdbcType=VARCHAR},
       </if>
       <if test="record.prepayId != null">
         prepay_id = #{record.prepayId,jdbcType=VARCHAR},
@@ -321,16 +327,19 @@
       nonce_str = #{record.nonceStr,jdbcType=VARCHAR},
       device_info = #{record.deviceInfo,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=VARCHAR},
+      return_msg = #{record.returnMsg,jdbcType=VARCHAR},
       error_code = #{record.errorCode,jdbcType=VARCHAR},
       error_msg = #{record.errorMsg,jdbcType=VARCHAR},
       result_code = #{record.resultCode,jdbcType=VARCHAR},
-      return_msg = #{record.resultMsg,jdbcType=VARCHAR},
       prepay_id = #{record.prepayId,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=BIGINT},
       update_time = #{record.updateTime,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateResultCode">
+    update wx_pay_trade set result_code = #{resultCode,jdbcType=VARCHAR} where out_trade_no = #{orderNo,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.fire.back.entity.WxPayTrade">
     update wx_pay_trade
@@ -365,6 +374,9 @@
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="returnMsg != null">
+        return_msg = #{returnMsg,jdbcType=VARCHAR},
+      </if>
       <if test="errorCode != null">
         error_code = #{errorCode,jdbcType=VARCHAR},
       </if>
@@ -373,9 +385,6 @@
       </if>
       <if test="resultCode != null">
         result_code = #{resultCode,jdbcType=VARCHAR},
-      </if>
-      <if test="resultMsg != null">
-        return_msg = #{resultMsg,jdbcType=VARCHAR},
       </if>
       <if test="prepayId != null">
         prepay_id = #{prepayId,jdbcType=VARCHAR},
@@ -401,10 +410,10 @@
       nonce_str = #{nonceStr,jdbcType=VARCHAR},
       device_info = #{deviceInfo,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
+      return_msg = #{returnMsg,jdbcType=VARCHAR},
       error_code = #{errorCode,jdbcType=VARCHAR},
       error_msg = #{errorMsg,jdbcType=VARCHAR},
       result_code = #{resultCode,jdbcType=VARCHAR},
-      return_msg = #{resultMsg,jdbcType=VARCHAR},
       prepay_id = #{prepayId,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=BIGINT}

@@ -30,6 +30,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.*;
 
@@ -108,43 +109,6 @@ public class WxUtils {
     }
 
     /**
-     * 将Map转换为XML格式的字符串
-     *
-     * @param data Map类型数据
-     * @return XML格式的字符串
-     * @throws Exception
-     */
-    public static String mapToXml(Map<String, String> data) throws Exception {
-        org.w3c.dom.Document document = WXPayXmlUtil.newDocument();
-        org.w3c.dom.Element root = document.createElement("xml");
-        document.appendChild(root);
-        for (String key: data.keySet()) {
-            String value = data.get(key);
-            if (value == null) {
-                value = "";
-            }
-            value = value.trim();
-            org.w3c.dom.Element filed = document.createElement(key);
-            filed.appendChild(document.createTextNode(value));
-            root.appendChild(filed);
-        }
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer();
-        DOMSource source = new DOMSource(document);
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        StringWriter writer = new StringWriter();
-        StreamResult result = new StreamResult(writer);
-        transformer.transform(source, result);
-        String output = writer.getBuffer().toString(); //.replaceAll("\n|\r", "");
-        try {
-            writer.close();
-        }
-        catch (Exception ex) {
-        }
-        return output;
-    }
-    /**
      * 获取指定长度的随机字符串 范围："a-z"+"0-9"
      * @param length 指定字符串长度
      * @return
@@ -183,6 +147,18 @@ public class WxUtils {
         return request.getRemoteAddr();
     }
 
+    //获取本机ip地址
+    public static String getLocalIp(){
+        InetAddress ia = null;
+        String localIp = null;
+        try {
+            ia = ia.getLocalHost();
+            localIp = ia.getHostAddress();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return localIp;
+    }
     /**
      * 创建32位订单号
      * @return
@@ -302,6 +278,74 @@ public class WxUtils {
      * @return
      */
     public static String changeY2F(String amount){
-        return new BigDecimal(amount).multiply(new BigDecimal(100)).toString();
+        return new BigDecimal(amount).multiply(new BigDecimal(100)).setScale(0).toString();
+    }
+
+    /**
+     * map转换成xml
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    public static String mapToXml(SortedMap<String,String> map) throws Exception{
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        //防止XXE攻击
+        documentBuilderFactory.setXIncludeAware(false);
+        documentBuilderFactory.setExpandEntityReferences(false);
+        DocumentBuilder documentBuilder= documentBuilderFactory.newDocumentBuilder();
+        org.w3c.dom.Document document = documentBuilder.newDocument();
+        org.w3c.dom.Element root = document.createElement("xml");
+        document.appendChild(root);
+        for (String key: map.keySet()) {
+            String value = map.get(key);
+            if (value == null) {
+                value = "";
+            }
+            value = value.trim();
+            org.w3c.dom.Element filed = document.createElement(key);
+            filed.appendChild(document.createTextNode(value));
+            root.appendChild(filed);
+        }
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        DOMSource source = new DOMSource(document);
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        StringWriter writer = new StringWriter();
+        StreamResult result = new StreamResult(writer);
+        transformer.transform(source, result);
+        String output = writer.getBuffer().toString();
+        try {
+            writer.close();
+        }
+        catch (Exception ex) {
+        }
+        return output;
+    }
+
+    /**
+     * 创建签名Sign
+     *
+     * @param key
+     * @param parameters
+     * @return
+     */
+    public static String createSign(SortedMap<String,String> parameters,String key){
+        StringBuffer sb = new StringBuffer();
+        Set es = parameters.entrySet();
+        Iterator<?> it = es.iterator();
+        while(it.hasNext()) {
+            Map.Entry entry = (Map.Entry)it.next();
+            String k = (String)entry.getKey();
+            if(entry.getValue() != null || !"".equals(entry.getValue())) {
+                String v = String.valueOf(entry.getValue());
+                if (null != v && !"".equals(v) && !"sign".equals(k) && !"key".equals(k)) {
+                    sb.append(k + "=" + v + "&");
+                }
+            }
+        }
+        sb.append("key=" + key);
+        String sign = DigestUtils.md5Hex(sb.toString()).toUpperCase();
+        return sign;
     }
 }

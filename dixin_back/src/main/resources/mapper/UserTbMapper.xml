@@ -106,7 +106,7 @@
       #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{isDelete,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.fire.back.entity.UserTb">
+  <insert id="insertSelective" parameterType="com.fire.back.entity.UserTb" useGeneratedKeys="true" keyProperty="id">
     insert into user_tb
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

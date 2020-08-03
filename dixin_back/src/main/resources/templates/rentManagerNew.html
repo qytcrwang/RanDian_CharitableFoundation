@@ -284,10 +284,10 @@
                         $.ajax({
                             type: "post",
                             contentType: 'application/json',
-                            url: "/back/rent/updateStatus",
+                            url: "/back/rent/verifyRent",
                             dataType: "json",
                             data: JSON.stringify({
-                                id: data.id, state: 1
+                                id: data.id
                             }),
                             // beforeSend: function () {
                             //   //禁用按钮防止重复提交
@@ -318,10 +318,10 @@
                         $.ajax({
                             type: "post",
                             contentType: 'application/json',
-                            url: "/back/rent/updateStatus",
+                            url: "/back/rent/grantRent",
                             dataType: "json",
                             data: JSON.stringify({
-                                id: data.id, state: 2
+                                id: data.id
                             }),
                             // beforeSend: function () {
                             //   //禁用按钮防止重复提交
@@ -352,10 +352,10 @@
                         $.ajax({
                             type: "post",
                             contentType: 'application/json',
-                            url: "/back/rent/updateStatus",
+                            url: "/back/rent/rejectRent",
                             dataType: "json",
                             data: JSON.stringify({
-                                id: data.id, state: 3
+                                id: data.id
                             }),
                             // beforeSend: function () {
                             //   //禁用按钮防止重复提交

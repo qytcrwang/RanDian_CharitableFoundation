@@ -1,7 +1,5 @@
 package com.fire.back.entity;
 
-import java.util.Date;
-
 public class WxPayTrade {
     private Long id;
 
@@ -127,6 +125,14 @@ public class WxPayTrade {
         this.status = status == null ? null : status.trim();
     }
 
+    public String getReturnMsg() {
+        return returnMsg;
+    }
+
+    public void setReturnMsg(String returnMsg) {
+        this.returnMsg = returnMsg == null ? null : returnMsg.trim();
+    }
+
     public String getErrorCode() {
         return errorCode;
     }
@@ -151,20 +157,12 @@ public class WxPayTrade {
         this.resultCode = resultCode == null ? null : resultCode.trim();
     }
 
-    public String getReturnMsg() {
-        return returnMsg;
-    }
-
-    public void setReturnMsg(String returnMsg) {
-        this.returnMsg = returnMsg == null ? null : returnMsg.trim();
-    }
-
     public String getPrepayId() {
         return prepayId;
     }
 
     public void setPrepayId(String prepayId) {
-        this.prepayId = prepayId;
+        this.prepayId = prepayId == null ? null : prepayId.trim();
     }
 
     public Long getCreateTime() {

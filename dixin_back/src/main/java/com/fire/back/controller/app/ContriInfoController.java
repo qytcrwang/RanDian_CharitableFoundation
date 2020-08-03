@@ -4,6 +4,7 @@ import com.fire.back.common.FireResult;
 import com.fire.back.entity.ContriInfoTb;
 import com.fire.back.entity.ContriProtocolLastTb;
 import com.fire.back.entity.ContriProtocolTb;
+import com.fire.back.entity.UserTb;
 import com.fire.back.service.ContriInfoService;
 import com.fire.back.common.CheckEmptyUtil;
 
@@ -14,10 +15,12 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.fire.back.service.ContriProtocolLastService;
+import com.fire.back.service.UserService;
 import com.fire.back.service.impl.ContriProtocolServiceImpl;
 import com.fire.back.util.ParamUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +38,8 @@ public class ContriInfoController {
   @Resource ContriInfoService contriInfoService;
   @Resource ContriProtocolServiceImpl contriProtocolService;
   @Resource ContriProtocolLastService contriProtocolLastService;
+  @Autowired
+    UserService userService;
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   /**
@@ -50,6 +55,10 @@ public class ContriInfoController {
     if (CheckEmptyUtil.isEmpty(userId)) {
       return FireResult.build(0, "入参不能为空");
     }
+    //更新用戶信息
+      UserTb userTb = userService.getUserInfobByPrimaryKey(userId);
+    userTb.setLoveFund(new BigDecimal(userTb.getLoveFund()).add(new BigDecimal(contriAmount)).doubleValue());
+    userService.UpdateUserInfo(userTb);
     ContriInfoTb contriInfoTb = new ContriInfoTb();
     contriInfoTb.setUserId(userId);
     contriInfoTb.setContriType(contriType);
