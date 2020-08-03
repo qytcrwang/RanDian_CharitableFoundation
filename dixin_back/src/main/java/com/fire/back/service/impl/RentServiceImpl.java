@@ -122,6 +122,7 @@ public class RentServiceImpl implements RentService {
         rentApplyTb.setState(0);
         rentApplyTb.setIsDelete(0);
         rentApplyTb.setCreateTime(System.currentTimeMillis()/1000);
+        rentApplyTb.setApplyTime(System.currentTimeMillis()/1000);
     }
 
 

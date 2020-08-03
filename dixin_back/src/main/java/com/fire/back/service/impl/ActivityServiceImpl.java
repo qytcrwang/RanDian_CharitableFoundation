@@ -311,6 +311,15 @@ public class ActivityServiceImpl implements ActivityService {
 			}
 			bodyStr = bodyStr.substring(p2Index+3);
 		}
+		if(!bodyStr.contains("<p>") && bodyStr.contains("<img")) {
+			while(bodyStr.contains("<img")) {
+				int img1Index = bodyStr.indexOf("<img");
+				int img2Index = bodyStr.indexOf(">");
+				String src = bodyStr.substring(img1Index+10,img2Index-8);
+				pics += src+",";
+				bodyStr = bodyStr.substring(img2Index+1);
+			}
+		}
 		if(pics.length()>0) pics = pics.substring(0,pics.length()-1);
 		return pics;
 	}
