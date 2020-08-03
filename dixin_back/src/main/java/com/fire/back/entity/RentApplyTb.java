@@ -7,10 +7,6 @@ public class RentApplyTb {
 
     private String school;
 
-    private String field;
-
-    private String sort;
-
     private String major;
 
     private String jobIntension;
@@ -24,6 +20,8 @@ public class RentApplyTb {
     private Long sentTime;
 
     private Double sentAmount;
+
+    private String city;
 
     private String sentProof;
 
@@ -39,44 +37,9 @@ public class RentApplyTb {
 
     private String rejectReason;
 
-    private String eTime;
-    private String sTime;
-
     private Long createTime;
 
     private Long updateTime;
-
-    public String geteTime() {
-        return eTime;
-    }
-
-    public void seteTime(String eTime) {
-        this.eTime = eTime;
-    }
-
-    public String getsTime() {
-        return sTime;
-    }
-
-    public void setsTime(String sTime) {
-        this.sTime = sTime;
-    }
-
-    public String getSort() {
-        return sort;
-    }
-
-    public void setSort(String sort) {
-        this.sort = sort;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
 
     public Long getId() {
         return id;
@@ -156,6 +119,14 @@ public class RentApplyTb {
 
     public void setSentAmount(Double sentAmount) {
         this.sentAmount = sentAmount;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
     }
 
     public String getSentProof() {

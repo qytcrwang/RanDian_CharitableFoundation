@@ -281,6 +281,12 @@ public class WxUtils {
         return new BigDecimal(amount).multiply(new BigDecimal(100)).setScale(0).toString();
     }
 
+    /**
+     * map转换成xml
+     * @param map
+     * @return
+     * @throws Exception
+     */
     public static String mapToXml(SortedMap<String,String> map) throws Exception{
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         //防止XXE攻击

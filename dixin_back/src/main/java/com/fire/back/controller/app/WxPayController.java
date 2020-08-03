@@ -40,6 +40,12 @@ public class WxPayController {
     @ResponseBody
     public FireResult createWxPayOrder(HttpServletRequest request, @RequestBody Map<String, Object> paramMap) {
         try {
+            String amount = ParamUtil.getString(paramMap,"contriAmount","0");
+            Double amountDouble = Double.parseDouble(amount);
+        }catch (Exception e){
+            return FireResult.build(0,"非法的金额数值");
+        }
+        try {
             Long userId = ParamUtil.getLong(paramMap, "userid", 0L);
             String amount = ParamUtil.getString(paramMap,"contriAmount","0");
             FireResult result = wxPayService.createUnifiedOrder(request,userId,amount);
@@ -50,7 +56,12 @@ public class WxPayController {
         }
     }
 
-
+    /**
+     * 微信支付回调
+     * @param request
+     * @param response
+     * @throws Exception
+     */
     @PostMapping("/notify")
     public void notify(HttpServletRequest request, HttpServletResponse response) throws Exception{
         InputStream inputStream =  request.getInputStream();
