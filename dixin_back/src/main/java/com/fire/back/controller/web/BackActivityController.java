@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -146,7 +147,9 @@ public class BackActivityController  extends BaseController{
 	public Map<String,Object> saveImage(@RequestParam("file") MultipartFile file,HttpServletRequest req) {
 		//后期换成配置文件中读取域名
 		String ip = req.getServerName();
-		int port = req.getServerPort();
+		if(isNumeric(ip.substring(ip.length()-1,ip.length()))) {
+			ip += ":" + req.getServerPort();
+		}
 		String uuid = UUID.randomUUID().toString().replace("-", "");
 		Map<String,Object> returnMap = new HashMap<>();
 		try {
@@ -161,7 +164,7 @@ public class BackActivityController  extends BaseController{
             out.write(file.getBytes());    
             out.flush();    
             out.close();   
-            String url = "http://"+ip+":"+port+"/images/body/"+newFile.getName();
+            String url = "http://"+ip+"/images/body/"+newFile.getName();
 //            System.out.println(newFile.getName());
 //            System.out.println(newFile.getAbsolutePath());
 
@@ -185,7 +188,10 @@ public class BackActivityController  extends BaseController{
 	public Map<String,Object> saveCoverImage(@RequestParam("file") MultipartFile file,HttpServletRequest req) {
 		//后期换成配置文件中读取域名
 		String ip = req.getServerName();
-		int port = req.getServerPort();String uuid = UUID.randomUUID().toString().replace("-", "");
+		if(isNumeric(ip.substring(ip.length()-1,ip.length()))) {
+			ip += ":" + req.getServerPort();
+		}
+		String uuid = UUID.randomUUID().toString().replace("-", "");
 		Map<String,Object> returnMap = new HashMap<>();
 		try {
 //			System.out.println(file.getOriginalFilename());
@@ -199,7 +205,7 @@ public class BackActivityController  extends BaseController{
             out.write(file.getBytes());    
             out.flush();    
             out.close();   
-            String url = "http://"+ip+":"+port+"/images/cover/"+newFile.getName();
+            String url = "http://"+ip+"/images/cover/"+newFile.getName();
 //            System.out.println(newFile.getName());
 //            System.out.println(newFile.getAbsolutePath());
 
@@ -216,5 +222,10 @@ public class BackActivityController  extends BaseController{
     		returnMap.put("msg", "图片过大");
 			return returnMap;
 		}
+	}
+	
+	public static boolean isNumeric(String str){
+	    Pattern pattern = Pattern.compile("[0-9]*");
+	    return pattern.matcher(str).matches();   
 	}
 }
