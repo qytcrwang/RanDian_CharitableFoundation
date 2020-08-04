@@ -231,7 +231,7 @@ public class ActivityServiceImpl implements ActivityService {
 		String body = activeTb.getBody();
 		String picUrls = getPicUrls(body);
 		body = body.replace("temp", "");
-		activeTb.setBody(body);
+		activeTb.setBody(getPicBody(body));
 		String coverPath = ClassUtils.getDefaultClassLoader().getResource("static/images/cover").getPath();
 		String bodyPath = ClassUtils.getDefaultClassLoader().getResource("static/images/body").getPath();
 		File coverDir = new File(coverPath);
@@ -323,6 +323,16 @@ public class ActivityServiceImpl implements ActivityService {
 		if(pics.length()>0) pics = pics.substring(0,pics.length()-1);
 		return pics;
 	}
+	//不写文字的话 纯图片在小程序里显示不出来
+	
+	private static String getPicBody(String bodyStr) {
+		if(!bodyStr.contains("<p>") && bodyStr.contains("<img")) {
+			bodyStr = bodyStr.replaceAll("<img", "<p><img")
+					.replaceAll("alt=\"\">", "alt=\"\"></p>");
+		}
+		return "<p> </p>"+bodyStr+"<p> </p>";
+	}
+	
 	
 	//转换富文本的内容
 	private static List<Map<String,Object>> getBodyList (String bodyStr){
