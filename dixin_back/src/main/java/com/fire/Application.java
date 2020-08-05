@@ -3,10 +3,7 @@ package com.fire;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.Context;
-import org.apache.catalina.connector.Connector;
-import org.apache.tomcat.util.descriptor.web.SecurityCollection;
-import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -47,29 +44,31 @@ public class Application {
 		return fastJsonHttpMessageConverter;
 	}
 	/*@Bean
-	public ServletWebServerFactory servletWebServerFactory(){
-		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory(){
+	public Connector redirectConnector() {
+		Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
+		connector.setScheme("http");
+		connector.setPort(8083);
+		connector.setSecure(false);
+		connector.setRedirectPort(443);
+		return connector;
+	}
+	@Bean
+	public TomcatServletWebServerFactory tomcatServletWebServerFactory(Connector connector){
+		TomcatServletWebServerFactory tomcat=new TomcatServletWebServerFactory(){
 			@Override
-			protected void postProcessContext(Context context){
-				SecurityConstraint securityConstraint = new SecurityConstraint();
+			protected void postProcessContext(Context context) {
+				SecurityConstraint securityConstraint=new SecurityConstraint();
 				securityConstraint.setUserConstraint("CONFIDENTIAL");
-				SecurityCollection collection = new SecurityCollection();
+				SecurityCollection collection=new SecurityCollection();
 				collection.addPattern("/*");
 				securityConstraint.addCollection(collection);
 				context.addConstraint(securityConstraint);
 			}
 		};
-		tomcat.addAdditionalTomcatConnectors(redirectConnector());
+		tomcat.addAdditionalTomcatConnectors(connector);
 		return tomcat;
-	}
-	private Connector redirectConnector() {
-		Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
-		connector.setScheme("http");
-		connector.setPort(80);
-		connector.setSecure(false);
-		connector.setRedirectPort(443);
-		return connector;
 	}*/
+
 	// 添加Filter注入过滤器，现修改为@WebFilter注解形式注入，见MyFilter
 	/*@Bean
 	public FilterRegistrationBean httpServletRequestReplacedRegistration() {
