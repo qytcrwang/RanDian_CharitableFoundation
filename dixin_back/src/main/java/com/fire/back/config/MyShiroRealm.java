@@ -55,7 +55,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         if(userInfo == null){
             return null;
         }
-        SecurityUtils.getSubject().getSession().setTimeout(1000*60*5);
+        //SecurityUtils.getSubject().getSession().setTimeout(1000*60*30);
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 userInfo, //用户名
                 userInfo.getPassword(), //密码

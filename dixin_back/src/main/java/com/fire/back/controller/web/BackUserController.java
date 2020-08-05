@@ -137,6 +137,8 @@ public class BackUserController extends BaseController{
     @RequiresPermissions("common:user:list")
     public FireResult getUsersList(@RequestBody UserTb user){
         try {
+            user.setName(user.getName()==""?null:user.getName());
+            user.setMobile(user.getMobile()==""?null:user.getMobile());
             user.setIsDelete(0);
             List<UserTb> list = us.selectUsersByPage(user);
             int count = us.selectUsersCount(user);
