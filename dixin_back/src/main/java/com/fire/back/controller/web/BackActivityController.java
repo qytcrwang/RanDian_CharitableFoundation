@@ -147,7 +147,7 @@ public class BackActivityController  extends BaseController{
 	public Map<String,Object> saveImage(@RequestParam("file") MultipartFile file,HttpServletRequest req) {
 		//后期换成配置文件中读取域名
 		String ip = req.getServerName();
-		if(isNumeric(ip.substring(ip.length()-1,ip.length()))) {
+		if(isNumeric(ip.substring(ip.length()-1,ip.length()))||ip.equals("localhost")) {
 			ip += ":" + req.getServerPort();
 		}
 		String uuid = UUID.randomUUID().toString().replace("-", "");
@@ -188,7 +188,7 @@ public class BackActivityController  extends BaseController{
 	public Map<String,Object> saveCoverImage(@RequestParam("file") MultipartFile file,HttpServletRequest req) {
 		//后期换成配置文件中读取域名
 		String ip = req.getServerName();
-		if(isNumeric(ip.substring(ip.length()-1,ip.length()))) {
+		if(isNumeric(ip.substring(ip.length()-1,ip.length()))||ip.equals("localhost")) {
 			ip += ":" + req.getServerPort();
 		}
 		String uuid = UUID.randomUUID().toString().replace("-", "");
