@@ -4450,7 +4450,7 @@ layui.define("layer", function (e) {
             i++, d(e, t), u()
           },
           error: function () {
-            n++, a.msg("请求上传接口出现异常"), m(e), u()
+            n++, a.msg("图片过大，请重新选择！"), m(e), u()
           }
         };
         "function" == typeof l.progress && (c.xhr = function () {
